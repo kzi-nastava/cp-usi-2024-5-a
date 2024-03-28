@@ -10,16 +10,33 @@ namespace LangLang.Core.Model
     class Tutor
     {
         // Profile attribute of type Profile
-        private Profile Profile { get; set; }
+        private Profile _profile { get; set; }
+        private Dictionary<string, LanguageLevel> _languageSkills { get; set; }
 
         // Constructor
         public Tutor()
         {
-            Profile = new Profile();
+            // Initialize empty profile and language skills
+            _profile = new Profile();
+            _profile.Role = UserType.Tutor;
+            _languageSkills = new Dictionary<string, LanguageLevel>();
         }
-        public Tutor(Profile profile)
+        public Tutor(Profile profile, Dictionary<string, LanguageLevel> languageSkills)
         {
-            Profile = profile;
+            _profile = profile;
+            _languageSkills = languageSkills;
+        }
+
+        //Getters and setters
+        public Profile Profile
+        {
+            get { return _profile; }
+            private set { _profile = value; }
+        }
+        public Dictionary<string, LanguageLevel> LanguageSkills
+        {
+            get { return _languageSkills; }
+            private set { _languageSkills = value; }
         }
         /*
         public List<Course> GetCourses(ref Dictionary<int, Course> courses)
