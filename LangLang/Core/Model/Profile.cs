@@ -79,6 +79,7 @@ namespace LangLang.Core.Model
             Password = password;
             Role = role;
         }
+        public Profile() { }
 
     }
 }
