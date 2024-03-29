@@ -76,20 +76,88 @@ namespace LangLang.Core.Model
 
         // Constructors
 
-        public Course(string language, LanguageLevel level, int numberOfWeeks, List<WeekDays> days, bool online, int numberOfStudents, int maxStudents)
+        public Course(int id, string language, LanguageLevel level, int numberOfWeeks, List<WeekDays> days, bool online, int maxStudents)
         {
+            Id = id;
             Language = language;
             Level = level;
             NumberOfWeeks = numberOfWeeks;
             Days = days;
             Online = online;
-            NumberOfStudents = numberOfStudents;
+            NumberOfStudents = 0;
             MaxStudents = maxStudents;
             CreationDate = DateTime.Now;
         }
 
         public Course()
         { 
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sbDays = new StringBuilder();
+            foreach (WeekDays day in Days)
+            {
+                sbDays.Append(day.ToString() + " ");
+            }
+
+            // Deletes the last white space from stringbuilder
+            if (sbDays.Length > 0)
+            {
+                sbDays.Remove(sbDays.Length - 1, 1);
+            }
+
+            return $"ID: {Id,5} | Language: {Language,20} | Level: {Level,5} | NumberOfWeeks: {NumberOfWeeks,5} | Days: {sbDays, 10} | Online: {Online,5} | NumberOfStudents : {NumberOfStudents,5} | MaxStudents : {MaxStudents,5} | CreationDate : {CreationDate,10} |";
+        }
+
+        public string[] ToCSV()
+        {
+            StringBuilder sbDays = new StringBuilder();
+            foreach (WeekDays day in Days)
+            {
+                sbDays.Append(day.ToString() + " ");
+            }
+
+            // Deletes the last white space from stringbuilder
+            if (sbDays.Length > 0)
+            {
+                sbDays.Remove(sbDays.Length - 1, 1);
+            }
+
+            string[] csvValues =
+            {
+                Id.ToString(),
+                Language,
+                Level.ToString(),
+                NumberOfWeeks.ToString(),
+                sbDays.ToString(),
+                Online.ToString(),
+                NumberOfStudents.ToString(),
+                MaxStudents.ToString(),
+                CreationDate.ToString()
+            };
+            return csvValues;
+        }
+
+        public void FromCSV(string[] values)
+        {
+            Id = int.Parse(values[0]);
+            Language = values[1];
+            Level = (LanguageLevel)Enum.Parse(typeof(LanguageLevel), values[2]);
+            NumberOfWeeks = int.Parse(values[3]);
+
+            // Converting from string to list of WeekDays
+            string[] days = values[4].Split(' ');
+            Days = new List<WeekDays>();
+            foreach (string day in days)
+            {
+                Days.Add((WeekDays)Enum.Parse(typeof(WeekDays), day));
+            }
+
+            Online = bool.Parse(values[5]);
+            NumberOfStudents = int.Parse(values[6]);
+            MaxStudents = int.Parse(values[7]);
+            CreationDate = DateTime.Parse(values[8]);
         }
     }
 }
