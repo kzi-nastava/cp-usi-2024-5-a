@@ -1,6 +1,5 @@
 ﻿using LangLang.Core.Repository.Serialization;
 using System;
-using System.Text;
 
 namespace LangLang.Core.Model
 {
@@ -37,21 +36,9 @@ namespace LangLang.Core.Model
             CanModifyInfo = true;
         }
 
-        public void FromCSV(string[] values) // TODO: consider moving a portion of code into the Profile class
+        public void FromCSV(string[] values) 
         {
-            if (values.Length < 9)
-            {
-                throw new ArgumentException("Insufficient number of values provided.");
-            }
-
-            if (!Enum.TryParse(values[2], out UserGender gender)
-                || !Enum.TryParse(values[7], out UserType role)
-                || !DateTime.TryParseExact(values[3], "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateTime dateOfBirth))
-            {
-                throw new FormatException("One or more tokens are not in the correct format.");
-            }
-
-            Profile = new Profile(values[0], values[1], gender, dateOfBirth, values[4], values[5], values[6], role);
+            Profile = new Profile(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7]);
 
             ProfessionalQualification = values[8];
 
