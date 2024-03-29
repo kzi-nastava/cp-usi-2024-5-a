@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LangLang.Core.Model
 {
-    class Profile
+    public class Profile
     {
         // Attributes
+        private int _id;
         private string _name;
         private string _lastName;
         private UserGender _gender;
@@ -19,6 +16,12 @@ namespace LangLang.Core.Model
         private UserType _role;
 
         // Properties
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
         public string Name
         {
             get { return _name; }
@@ -68,8 +71,9 @@ namespace LangLang.Core.Model
         }
 
         // Constructor
-        public Profile(string name, string lastName, UserGender gender, DateTime dateOfBirth, string phoneNumber, string email, string password, UserType role)
+        public Profile(int id, string name, string lastName, UserGender gender, DateTime dateOfBirth, string phoneNumber, string email, string password, UserType role)
         {
+            Id = id;
             Name = name;
             LastName = lastName;
             Gender = gender;
@@ -79,14 +83,21 @@ namespace LangLang.Core.Model
             Password = password;
             Role = role;
         }
+
         public Profile() { }
 
-        /// <summary>
         /// Constructor for initializing after parsing data loaded from file.
-        /// </summary>
         /// <exception cref="FormatException">Thrown when one or more tokens (date, role or gender) are not in the correct format.</exception>
-        public Profile(string name, string lastName, string gender, string dateOfBirth, string phoneNumber, string email, string password, string role)
+        public Profile(string id, string name, string lastName, string gender, string dateOfBirth, string phoneNumber, string email, string password, string role)
         {
+            try
+            {
+                Id = int.Parse(id);
+            }
+            catch (FormatException ex)
+            {
+                throw new FormatException("Unable to convert the Id to integer. ", ex);
+            }
 
             if (!Enum.TryParse(gender, out _gender)
                 || !Enum.TryParse(role, out _role)
@@ -104,7 +115,7 @@ namespace LangLang.Core.Model
 
         public override string ToString()
         {
-            return string.Join("|", new object[] { Name, LastName, Gender, DateOfBirth.ToString("yyyy-MM-dd"), PhoneNumber, Email, Password, Role });
+            return string.Join("|", new object[] { Id, Name, LastName, Gender, DateOfBirth.ToString("yyyy-MM-dd"), PhoneNumber, Email, Password, Role });
         }
 
     }
