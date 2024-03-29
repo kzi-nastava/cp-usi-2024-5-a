@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using LangLang.Core.Repository.Serialization;
 
 namespace LangLang.Core.Model
 {
-    class Course
+    public class Course : ISerializable
     {
         // Attributes
         private int _id;
