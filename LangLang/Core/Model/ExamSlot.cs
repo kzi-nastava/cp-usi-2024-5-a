@@ -23,7 +23,7 @@ namespace LangLang.Core.Model
             set { _id = value; }
         }
 
-        public int Course
+        public int CourseId
         {
             get { return _courseId; }
             set { _courseId = value; }
