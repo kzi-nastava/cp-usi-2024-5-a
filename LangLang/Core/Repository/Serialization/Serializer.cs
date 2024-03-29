@@ -11,11 +11,11 @@ namespace LangLang.Core.Repository.Serialization
     {
         private const char Delimiter = '|';
 
-        public string ToCSV(List<T> objects)
+        public string ToCSV(Dictionary<int,T> objects)
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (ISerializable obj in objects)
+            foreach (ISerializable obj in objects.Values)
             {
                 string line = string.Join(Delimiter.ToString(), obj.ToCSV());
                 sb.AppendLine(line);
@@ -24,16 +24,16 @@ namespace LangLang.Core.Repository.Serialization
             return sb.ToString();
         }
 
-        public List<T> FromCSV(IEnumerable<string> lines)
+        public Dictionary<int,T> FromCSV(IEnumerable<string> lines)
         {
-            List<T> objects = new List<T>();
+            Dictionary<int,T> objects = new Dictionary<int, T>();
 
             foreach (string line in lines)
             {
                 string[] csvValues = line.Split(Delimiter);
                 T obj = new T();
                 obj.FromCSV(csvValues);
-                objects.Add(obj);
+                objects.Add(obj.Id,obj);
             }
 
             return objects;
