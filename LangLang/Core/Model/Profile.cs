@@ -80,6 +80,27 @@ namespace LangLang.Core.Model
             Role = role;
         }
 
+        /// <summary>
+        /// Constructor for initializing after parsing data loaded from file.
+        /// </summary>
+        /// <exception cref="FormatException">Thrown when one or more tokens (date, role or gender) are not in the correct format.</exception>
+        public Profile(string name, string lastName, string gender, string dateOfBirth, string phoneNumber, string email, string password, string role)
+        {
+
+            if (!Enum.TryParse(gender, out _gender)
+                || !Enum.TryParse(role, out _role)
+                || !DateTime.TryParseExact(dateOfBirth, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out _dateOfBirth))
+            {
+                throw new FormatException("One or more tokens are not in the correct format.");
+            }
+
+            Name = name; 
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+            Email = email; 
+            Password = password;
+        }
+
         public override string ToString()
         {
             return string.Join("|", new object[] { Name, LastName, Gender, DateOfBirth.ToString("yyyy-MM-dd"), PhoneNumber, Email, Password, Role });
