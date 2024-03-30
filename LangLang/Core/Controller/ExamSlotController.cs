@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace LangLang.Core.Controller
 {
@@ -27,12 +28,28 @@ namespace LangLang.Core.Controller
         {
             _examSlots.AddExamSlot(examSlot);
         }
-
+        /*
         public void Delete(int examSlotId)
         {
             _examSlots.RemoveExamSlot(examSlotId);
         }
+        */
 
+        //returns true if removal was allowed (succesful) or false if removal wasn't allowed (unsuccesful)
+        public bool Delete(int examSlotId)
+        {
+            ExamSlot examSlot = _examSlots.GetAllExamSlots()[examSlotId];
+            //should use const variable instead of 14
+            if ((examSlot.ExamDateTime - DateTime.Now).TotalDays >= 14)
+            {
+                _examSlots.RemoveExamSlot(examSlotId);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public void Subscribe(IObserver observer)
         {
             _examSlots.Subscribe(observer);
@@ -76,6 +93,22 @@ namespace LangLang.Core.Controller
             }
 
             return true;
+        }
+
+        // Method to search exam slots by tutor and criteria
+        public List<ExamSlot> SearchExamSlots(int tutorId, CourseController courses, DateTime examDate, string courseLanguage, LanguageLevel languageLevel)
+        {
+            // Retrieve all exam slots created by the specified tutor
+            List<ExamSlot> examSlotsByTutor = this.GetExamSlotsByTutor(tutorId, courses);
+
+            // Apply search criteria if they are not null
+            List<ExamSlot> filteredExamSlots = examSlotsByTutor.Where(exam =>
+                (examDate == null || exam.ExamDateTime.Date == examDate.Date) && 
+                (courseLanguage == null || courses.GetAllCourses()[exam.CourseId].Language == courseLanguage) && 
+                (languageLevel == null || courses.GetAllCourses()[exam.CourseId].Level == languageLevel)
+            ).ToList();
+
+            return filteredExamSlots;
         }
 
     }
