@@ -5,13 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LangLang.Core.Observer;
+using System.Collections;
+using System.Windows.Input;
 
 
 namespace LangLang.Core.Model.DAO
 {
     public class ExamSlotsDAO : Subject
     {
-        private readonly List<ExamSlot> _examSlots;
+        private readonly Dictionary<int, ExamSlot> _examSlots;
         private readonly Repository<ExamSlot> _repository;
 
         public ExamSlotsDAO()
@@ -22,25 +24,25 @@ namespace LangLang.Core.Model.DAO
         private int GenerateId()
         {
             if (_examSlots.Count == 0) return 0;
-            return _examSlots.Last().Id + 1;
+            return _examSlots.Keys.Max() + 1;
         }
 
-        private ExamSlot GetExamSlotById(int id)
+        private ExamSlot? GetExamSlotById(int id)
         {
-            return _examSlots.Find(v => v.Id == id);
+            return _examSlots[id];
         }
 
-        public List<ExamSlot> GetAllExamSlots()
+        public Dictionary<int,ExamSlot> GetAllExamSlots()
         {
             return _examSlots;
         }
 
-        //function takes examslot and adds it to list of examslots
+        //function takes examslot and adds it to dictionary of examslots
         //function saves changes and returns added examslot
         public ExamSlot AddExamSlot(ExamSlot examSlot)
         {
             examSlot.Id = GenerateId();
-            _examSlots.Add(examSlot);
+            _examSlots[examSlot.Id] = examSlot;
             _repository.Save(_examSlots);
             NotifyObservers();
             return examSlot;
@@ -53,7 +55,7 @@ namespace LangLang.Core.Model.DAO
             ExamSlot examSlot = GetExamSlotById(id);
             if (examSlot == null) return null;
 
-            _examSlots.Remove(examSlot);
+            _examSlots.Remove(id);
             _repository.Save(_examSlots);
             NotifyObservers();
             return examSlot;
