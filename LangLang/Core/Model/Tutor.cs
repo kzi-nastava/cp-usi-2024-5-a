@@ -46,6 +46,11 @@ namespace LangLang.Core.Model
             _profile = new();
         }
 
+        public int Id
+        {
+            get { return Profile.Id; }
+        }
+
         public void FromCSV(string[] values)
         {
             _profile = new Profile(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);

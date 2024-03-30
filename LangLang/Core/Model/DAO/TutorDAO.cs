@@ -8,7 +8,7 @@ namespace LangLang.Core.DAO
 {
     public class TutorDAO : Subject
     {
-        private readonly List<Tutor> _tutors;
+        private readonly Dictionary<int, Tutor> _tutors;
         private readonly Repository<Tutor> _repository;
 
         public TutorDAO()
@@ -24,13 +24,13 @@ namespace LangLang.Core.DAO
 
         private Tutor? Get(int id)
         {
-            return _tutors.Find(t => t.Profile.Id == id);
+            return _tutors[id];
         }
 
         public Tutor Add(Tutor tutor)
         {
             tutor.Profile.Id = GenerateId();
-            _tutors.Add(tutor);
+            _tutors.Add(tutor.Profile.Id, tutor);
             _repository.Save(_tutors);
             NotifyObservers();
             return tutor;
@@ -55,7 +55,7 @@ namespace LangLang.Core.DAO
             return oldTutor;
         }
 
-        public List<Tutor> GetAllTutors()
+        public Dictionary<int, Tutor> GetAllTutors()
         {
             return _tutors;
         }
@@ -65,7 +65,7 @@ namespace LangLang.Core.DAO
             Tutor tutor = Get(id);
             if (tutor == null) return null;
 
-            _tutors.Remove(tutor);
+            _tutors.Remove(tutor.Profile.Id);
             _repository.Save(_tutors);
             NotifyObservers();
             return tutor;
