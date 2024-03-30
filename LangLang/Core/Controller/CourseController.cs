@@ -14,7 +14,7 @@ namespace LangLang.Core.Controller
             _courses = new CoursesDAO();
         }
 
-        public Dictionary<Course> GetAllCourses()
+        public Dictionary<int, Course> GetAllCourses()
         {
             return _courses.GetAllCourses();
         }
@@ -37,7 +37,7 @@ namespace LangLang.Core.Controller
         // Method checks if a certain course is available for the student
         public bool isCourseAvailable(int id)
         {
-            Course course = _courses.GetAllCourses()[id];
+            Course course = GetAllCourses()[id];
             TimeSpan difference = course.StartDate - DateTime.Now;
             if (difference.TotalDays < 7)
             {
@@ -55,7 +55,22 @@ namespace LangLang.Core.Controller
                 return false;
             }
         }
-        
+
+        // Returns all courses made by a certain tutor
+        public Dictonary<int, Course> GetCoursesByTutor(Tutor tutor)
+        {
+            Dictonary<int, Course> coursesByTutor = new Dictonary<int, Course>();
+
+            foreach (Course course in GetAllCourses())
+            {
+                if (course.TutorId == tutor.Id)
+                {
+                    coursesByTutor[course.Id] = course;
+                }
+            }
+
+            return coursesByTutor;
+        }
 
     }   
 }
