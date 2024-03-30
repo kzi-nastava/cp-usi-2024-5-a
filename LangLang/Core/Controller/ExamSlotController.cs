@@ -38,5 +38,25 @@ namespace LangLang.Core.Controller
             _examSlots.Subscribe(observer);
         }
 
+        // Method to get all exam slots by tutor ID
+        //function takes tutor id and CourseController and returns list of examslots
+        public List<ExamSlot> GetExamSlotsByTutor(int tutorId, CourseController courses)
+        {
+            List<ExamSlot> examSlotsByTutor = new List<ExamSlot>();
+
+            foreach (ExamSlot examSlot in _examSlots.GetAllExamSlots().Values)
+            {
+                // Check if the exam slot's tutor ID matches the provided tutor ID
+                int courseId = examSlot.CourseId;
+                int courseTutorId = courses.GetAllCourses()[courseId].TutorId;
+                if (tutorId == courseTutorId)
+                {
+                    examSlotsByTutor.Add(examSlot);
+                }
+            }
+
+            return examSlotsByTutor;
+        }
+
     }
 }
