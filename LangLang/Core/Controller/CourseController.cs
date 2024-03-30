@@ -1,6 +1,7 @@
 using LangLang.Core.Model;
 using LangLang.Core.Model.DAO;
 using LangLang.Core.Observer;
+using System;
 using System.Collections.Generic;
 
 namespace LangLang.Core.Controller
@@ -57,11 +58,11 @@ namespace LangLang.Core.Controller
         }
 
         // Returns all courses made by a certain tutor
-        public Dictonary<int, Course> GetCoursesByTutor(Tutor tutor)
+        public Dictionary<int, Course> GetCoursesByTutor(Tutor tutor)
         {
-            Dictonary<int, Course> coursesByTutor = new Dictonary<int, Course>();
+            Dictionary<int, Course> coursesByTutor = new Dictionary<int, Course>();
 
-            foreach (Course course in GetAllCourses())
+            foreach (Course course in GetAllCourses().Values)
             {
                 if (course.TutorId == tutor.Id)
                 {
