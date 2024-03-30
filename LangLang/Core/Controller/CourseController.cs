@@ -34,5 +34,28 @@ namespace LangLang.Core.Controller
             _courses.Subscribe(observer);
         }
 
+        // Method checks if a certain course is available for the student
+        public bool isCourseAvailable(int id)
+        {
+            Course course = _courses.GetAllCourses()[id];
+            TimeSpan difference = course.StartDate - DateTime.Now;
+            if (difference.TotalDays < 7)
+            {
+                if (course.Online)
+                {
+                    return true;
+                }
+                else
+                {
+                    return course.NumberOfStudents <= course.MaxStudents;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+
     }   
 }
