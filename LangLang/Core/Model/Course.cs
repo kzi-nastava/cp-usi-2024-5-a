@@ -12,6 +12,7 @@ namespace LangLang.Core.Model
     {
         // Attributes
         private int _id;
+        private int _tutorId;
         private string _language;
         private LanguageLevel _level;
         private int _numberOfWeeks;
@@ -19,7 +20,7 @@ namespace LangLang.Core.Model
         private bool _online;
         private int _numberOfStudents;
         private int _maxStudents;
-        private DateTime _creationDate;
+        private DateTime _startDate;
 
         // Properties
 
@@ -28,6 +29,13 @@ namespace LangLang.Core.Model
             get { return _id; }
             set { _id = value; }
         }
+
+        public int TutorId
+        {
+            get { return _tutorId; }
+            set { _tutorId = value; }
+        }
+
         public string Language
         {
             get { return _language; }
@@ -69,17 +77,19 @@ namespace LangLang.Core.Model
             set { _maxStudents = value; }
         }
 
-        public DateTime CreationDate 
+        public DateTime StartDate 
         {
-            get { return _creationDate; }
-            set { _creationDate = value; }
+            get { return _startDate; }
+            set { _startDate = value; }
         }
 
         // Constructors
 
-        public Course(int id, string language, LanguageLevel level, int numberOfWeeks, List<WeekDays> days, bool online, int maxStudents)
+        public Course(int id, int tutorId, string language, LanguageLevel level, int numberOfWeeks, List<WeekDays> days,
+            bool online, int maxStudents, DateTime startDate)
         {
             Id = id;
+            TutorId = tutorId;
             Language = language;
             Level = level;
             NumberOfWeeks = numberOfWeeks;
@@ -87,14 +97,14 @@ namespace LangLang.Core.Model
             Online = online;
             NumberOfStudents = 0;
             MaxStudents = maxStudents;
-            CreationDate = DateTime.Now;
+            StartDate = startDate;
         }
-
+        
         public Course()
         { 
         }
 
-        public override string ToString()
+        public string ToString()
         {
             StringBuilder sbDays = new StringBuilder();
             foreach (WeekDays day in Days)
@@ -108,7 +118,7 @@ namespace LangLang.Core.Model
                 sbDays.Remove(sbDays.Length - 1, 1);
             }
 
-            return $"ID: {Id,5} | Language: {Language,20} | Level: {Level,5} | NumberOfWeeks: {NumberOfWeeks,5} | Days: {sbDays, 10} | Online: {Online,5} | NumberOfStudents : {NumberOfStudents,5} | MaxStudents : {MaxStudents,5} | CreationDate : {CreationDate,10} |";
+            return $"ID: {Id,5} | Language: {Language,20} | Level: {Level,5} | NumberOfWeeks: {NumberOfWeeks,5} | Days: {sbDays, 10} | Online: {Online,5} | NumberOfStudents : {NumberOfStudents,5} | MaxStudents : {MaxStudents,5} | CreationDate : {StartDate,10} |";
         }
 
         public string[] ToCSV()
@@ -135,7 +145,7 @@ namespace LangLang.Core.Model
                 Online.ToString(),
                 NumberOfStudents.ToString(),
                 MaxStudents.ToString(),
-                CreationDate.ToString()
+                StartDate.ToString()
             };
             return csvValues;
         }
@@ -158,7 +168,7 @@ namespace LangLang.Core.Model
             Online = bool.Parse(values[5]);
             NumberOfStudents = int.Parse(values[6]);
             MaxStudents = int.Parse(values[7]);
-            CreationDate = DateTime.Parse(values[8]);
+            StartDate = DateTime.Parse(values[8]);
         }
     }
 }
