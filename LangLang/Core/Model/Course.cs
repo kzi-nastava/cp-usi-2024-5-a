@@ -118,7 +118,7 @@ namespace LangLang.Core.Model
                 sbDays.Remove(sbDays.Length - 1, 1);
             }
 
-            return $"ID: {Id,5} | Language: {Language,20} | Level: {Level,5} | NumberOfWeeks: {NumberOfWeeks,5} | Days: {sbDays, 10} | Online: {Online,5} | NumberOfStudents : {NumberOfStudents,5} | MaxStudents : {MaxStudents,5} | CreationDate : {CreationDate,10} |";
+            return $"ID: {Id,5} | Language: {Language,20} | Level: {Level,5} | NumberOfWeeks: {NumberOfWeeks,5} | Days: {sbDays, 10} | Online: {Online,5} | NumberOfStudents : {NumberOfStudents,5} | MaxStudents : {MaxStudents,5} | CreationDate : {StartDate,10} |";
         }
 
         public string[] ToCSV()
@@ -145,7 +145,7 @@ namespace LangLang.Core.Model
                 Online.ToString(),
                 NumberOfStudents.ToString(),
                 MaxStudents.ToString(),
-                CreationDate.ToString()
+                StartDate.ToString()
             };
             return csvValues;
         }
@@ -168,7 +168,7 @@ namespace LangLang.Core.Model
             Online = bool.Parse(values[5]);
             NumberOfStudents = int.Parse(values[6]);
             MaxStudents = int.Parse(values[7]);
-            CreationDate = DateTime.Parse(values[8]);
+            StartDate = DateTime.Parse(values[8]);
         }
     }
 }
