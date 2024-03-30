@@ -1,5 +1,7 @@
 using LangLang.Core.Model;
 using LangLang.Core.Model.DAO;
+using LangLang.Core.Observer;
+using System.Collections.Generic;
 
 namespace LangLang.Core.Controller
 {
