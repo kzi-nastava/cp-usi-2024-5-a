@@ -14,7 +14,7 @@ namespace LangLang.Core.Controller
             _courses = new CoursesDAO();
         }
 
-        public List<Course> GetAllVehicles()
+        public Dictionary<Course> GetAllCourses()
         {
             return _courses.GetAllCourses();
         }

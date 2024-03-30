@@ -8,7 +8,7 @@ namespace LangLang.Core.Model.DAO;
 
 public class CoursesDAO : Subject
 {
-    private readonly List<Course> _courses;
+    private readonly Dictionary<int, Course> _courses;
     private readonly Repository<Course> _repository;
 
     public CoursesDAO()
@@ -20,30 +20,30 @@ public class CoursesDAO : Subject
     private int GenerateId()
     {
         if (_courses.Count == 0) return 0;
-        return _courses.Last().Id + 1;
+        return _courses.Keys.Max() + 1;
     }
 
-    public Course AddCourse(Course Course)
+    public Course AddCourse(Course course)
     {
-        Course.Id = GenerateId();
-        _courses.Add(Course);
+        course.Id = GenerateId();
+        _courses[course.Id] = course;
         _repository.Save(_courses);
         NotifyObservers();
-        return Course;
+        return course;
     }
 
-    public Course UpdateCourse(Course Course)
+    public Course UpdateCourse(Course course)
     {
-        Course oldCourse = GetCourseById(Course.Id);
+        Course oldCourse = GetCourseById(course.Id);
         if (oldCourse == null) return null;
 
-        oldCourse.Language = Course.Language;
-        oldCourse.Level = Course.Level;
-        oldCourse.NumberOfWeeks = Course.NumberOfWeeks;
-        oldCourse.Days = Course.Days;
-        oldCourse.Online = Course.Online;
-        oldCourse.NumberOfStudents = Course.NumberOfStudents;
-        oldCourse.MaxStudents = Course.MaxStudents;
+        oldCourse.Language = course.Language;
+        oldCourse.Level = course.Level;
+        oldCourse.NumberOfWeeks = course.NumberOfWeeks;
+        oldCourse.Days = course.Days;
+        oldCourse.Online = course.Online;
+        oldCourse.NumberOfStudents = course.NumberOfStudents;
+        oldCourse.MaxStudents = course.MaxStudents;
         
         _repository.Save(_courses);
         NotifyObservers();
@@ -55,7 +55,7 @@ public class CoursesDAO : Subject
         Course course = GetCourseById(id);
         if (course == null) return null;
 
-        _courses.Remove(course);
+        _courses.Remove(id);
         _repository.Save(_courses);
         NotifyObservers();
         return course;
@@ -63,10 +63,10 @@ public class CoursesDAO : Subject
 
     private Course GetCourseById(int id)
     {
-        return _courses.Find(v => v.Id == id);
+        return _courses[id];
     }
 
-    public List<Course> GetAllCourses()
+    public Dictionary<int, Course> GetAllCourses()
     {
         return _courses;
     }
