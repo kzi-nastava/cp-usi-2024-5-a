@@ -10,5 +10,6 @@ namespace LangLang.Core.Repository.Serialization
     {
         void FromCSV(string[] values);
         string[] ToCSV();
+        int Id { get; }
     }
 }

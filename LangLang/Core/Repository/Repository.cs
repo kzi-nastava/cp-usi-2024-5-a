@@ -17,7 +17,7 @@ namespace LangLang.Core.Repository
         {
             _fileName = string.Format(_fileName, fileName);
         }
-        public List<T> Load()
+        public Dictionary<int,T> Load()
         {
             if (!File.Exists(_fileName))
             {
@@ -26,12 +26,12 @@ namespace LangLang.Core.Repository
             }
 
             IEnumerable<string> lines = File.ReadLines(_fileName);
-            List<T> objects = _serializer.FromCSV(lines);
+            Dictionary<int,T> objects = _serializer.FromCSV(lines);
 
             return objects;
         }
 
-        public void Save(List<T> objects)
+        public void Save(Dictionary<int,T> objects)
         {
             string serializedObjects = _serializer.ToCSV(objects);
             using (StreamWriter streamWriter = new StreamWriter(_fileName))
