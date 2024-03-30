@@ -28,7 +28,7 @@ namespace LangLang.Core.Model.DAO
             return _students.Count + 1;
         }
 
-        public Student GetStudentById(int id)
+        public Student? GetStudentById(int id)
         {
             return _students[id];
         }
