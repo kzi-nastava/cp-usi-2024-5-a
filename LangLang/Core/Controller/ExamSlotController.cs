@@ -58,5 +58,25 @@ namespace LangLang.Core.Controller
             return examSlotsByTutor;
         }
 
+        // Method to check if an exam slot is available
+        // takes exam slot, returns true if it is availbale or false if it isn't available
+        public bool IsExamSlotAvailable(ExamSlot examSlot)
+        {
+            // Check if the maximum number of students has been reached
+            if (examSlot.NumberOfStudents == examSlot.MaxStudents)
+            {
+                return false;
+            }
+
+            // Check if there is less than a month before the exam slot starts
+            TimeSpan timeUntilStart = examSlot.ExamDateTime - DateTime.Now;
+            if (timeUntilStart < TimeSpan.FromDays(30))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
     }
 }
