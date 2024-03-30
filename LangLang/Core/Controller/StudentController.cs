@@ -14,7 +14,7 @@ namespace LangLang.Core.Controller
             _students = new StudentDAO();
         }
 
-        public List<Student> GetAllStudents()
+        public Dictionary<int, Student> GetAllStudents()
         {
             return _students.GetAllStudents();
         }
