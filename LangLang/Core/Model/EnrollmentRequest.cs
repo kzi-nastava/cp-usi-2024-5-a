@@ -6,11 +6,17 @@ namespace LangLang.Core.Model
 {
     public class EnrollmentRequest : ISerializable
     {
+        private int _id;
         private int _studentId;
         private int _courseId;
         private ERStatus _erStatus;
         private DateTime _requestSentAt;
 
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
 
         public int StudentId
         {
@@ -38,8 +44,9 @@ namespace LangLang.Core.Model
 
         public EnrollmentRequest() {}
 
-        public EnrollmentRequest(int studentId, int courseId, ERStatus erStatus, DateTime requestSentAt)
+        public EnrollmentRequest(int id, int studentId, int courseId, ERStatus erStatus, DateTime requestSentAt)
         {
+            Id = id;
             StudentId = studentId;
             CourseId = courseId;
             ERStatus = erStatus;
@@ -48,10 +55,11 @@ namespace LangLang.Core.Model
 
         public void FromCSV(string[] values)
         {
-            if (!int.TryParse(values[0], out _studentId)
-                || !int.TryParse(values[1], out _courseId)
-                || !Enum.TryParse(values[2], out _erStatus)
-                || !DateTime.TryParseExact(values[3], "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out _requestSentAt))
+            if (!int.TryParse(values[0], out _id)
+                || !int.TryParse(values[1], out _studentId)
+                || !int.TryParse(values[2], out _courseId)
+                || !Enum.TryParse(values[3], out _erStatus)
+                || !DateTime.TryParseExact(values[4], "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out _requestSentAt))
                 {
                     throw new FormatException("Error during parsing while reading from file");  
                 }
@@ -61,6 +69,7 @@ namespace LangLang.Core.Model
         {
             string[] values =
             {
+                Id.ToString(),
                 StudentId.ToString(),
                 CourseId.ToString(),
                 ERStatus.ToString(),
