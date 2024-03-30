@@ -18,7 +18,7 @@ namespace LangLang.Core.Model.DAO
     
         public StudentDAO()
         {
-            _repository = new Repository<Student>("student.csv");
+            _repository = new Repository<Student>("students.csv");
             _students = _repository.Load();
         }
 
@@ -26,6 +26,16 @@ namespace LangLang.Core.Model.DAO
         {
             if (_students.Count == 0) return 0;
             return _students.Last().Profile.Id + 1;
+        }
+
+        public Student GetStudentById(int id)
+        {
+            return _students.Find(s => s.Profile.Id == id);
+        }
+
+        public List<Student> GetAllStudents()
+        {
+            return _students;
         }
 
         public Student AddStudent(Student student)
@@ -51,12 +61,15 @@ namespace LangLang.Core.Model.DAO
             return oldStudent;
         }
      
-        public Student GetStudentById(int id)
+        public Student? RemoveStudent(int id)
         {
-            return _students.Find(s => s.Profile.Id == id);
+            Student student = GetStudentById(id);
+            if (student == null) return null;
+
+            _students.Remove(student);
+            _repository.Save(_students);
+            NotifyObservers();
+            return student;
         }
-
-        // TODO: implement RemoveStudent(int id), GetAllStudent()
     }
-
 }
