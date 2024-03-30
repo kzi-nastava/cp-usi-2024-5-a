@@ -22,7 +22,7 @@ namespace LangLang.Core.DAO
             return _tutors.Count + 1;
         }
 
-        private Tutor Get(int id)
+        private Tutor? Get(int id)
         {
             return _tutors.Find(t => t.Profile.Id == id);
         }
@@ -36,7 +36,7 @@ namespace LangLang.Core.DAO
             return tutor;
         }
 
-        public Tutor Update(Tutor tutor)
+        public Tutor? Update(Tutor tutor)
         {
             Tutor oldTutor = Get(tutor.Profile.Id);
             if (oldTutor == null) { return null; }
@@ -55,8 +55,21 @@ namespace LangLang.Core.DAO
             return oldTutor;
         }
 
-        // TODO: implement GetAllTutors and Remove method
+        public List<Tutor> GetAllTutors()
+        {
+            return _tutors;
+        }
 
+        public Tutor? Remove(int id)
+        {
+            Tutor tutor = Get(id);
+            if (tutor == null) return null;
+
+            _tutors.Remove(tutor);
+            _repository.Save(_tutors);
+            NotifyObservers();
+            return tutor;
+        }
     }
 }
 
