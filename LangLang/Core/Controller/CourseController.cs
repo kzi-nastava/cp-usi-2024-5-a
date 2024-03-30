@@ -35,6 +35,14 @@ namespace LangLang.Core.Controller
             _courses.Subscribe(observer);
         }
 
+        // Method checks if the course is valid for updating or canceling
+        public bool IsCourseValid(int courseId)
+        {
+            Course course = GetAllCourses()[id];
+            TimeSpan difference = course.StartDate - DateTime.Now;
+            return difference.TotalDays < 7;
+        }
+
         // Method checks if a certain course is available for the student
         public bool isCourseAvailable(int id)
         {
