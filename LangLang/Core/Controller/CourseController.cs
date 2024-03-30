@@ -44,9 +44,9 @@ namespace LangLang.Core.Controller
         }
 
         // Method checks if a certain course is available for the student
-        public bool isCourseAvailable(int id)
+        public bool IsCourseAvailable(int courseId)
         {
-            Course course = GetAllCourses()[id];
+            Course course = GetAllCourses()[courseId];
             TimeSpan difference = course.StartDate - DateTime.Now;
             if (difference.TotalDays < 7)
             {
