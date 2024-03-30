@@ -27,6 +27,12 @@ namespace LangLang.Core.Model
             get { return _canModifyInfo; }
             set { _canModifyInfo = value; }
         }
+
+        public int Id
+        {
+            get { return Profile.Id; }
+        }
+
         public Student() { }
 
         public Student(int id, string name, string lastName, UserGender gender, DateTime dateOfBirth, string phoneNumber, string email, string password, UserType role, string professionalQualification)

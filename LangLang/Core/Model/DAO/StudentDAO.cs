@@ -12,26 +12,36 @@ namespace LangLang.Core.Model.DAO
     **/
     public class StudentDAO : Subject
     {
-        private readonly List<Student> _students;
+        private readonly Dictionary<int, Student> _students;
         private readonly Repository<Student> _repository;
     
     
         public StudentDAO()
         {
-            _repository = new Repository<Student>("student.csv");
+            _repository = new Repository<Student>("students.csv");
             _students = _repository.Load();
         }
 
         private int GenerateId()
         {
             if (_students.Count == 0) return 0;
-            return _students.Last().Profile.Id + 1;
+            return _students.Count + 1;
+        }
+
+        public Student? GetStudentById(int id)
+        {
+            return _students[id];
+        }
+
+        public Dictionary<int, Student> GetAllStudents()
+        {
+            return _students;
         }
 
         public Student AddStudent(Student student)
         {
             student.Profile.Id = GenerateId();
-            _students.Add(student);
+            _students.Add(student.Profile.Id, student);
             _repository.Save(_students);
             NotifyObservers();
             return student;
@@ -42,7 +52,14 @@ namespace LangLang.Core.Model.DAO
             Student oldStudent = GetStudentById(student.Profile.Id);
             if (oldStudent == null) return null;
 
-            oldStudent.Profile = student.Profile;
+            oldStudent.Profile.Name = student.Profile.Name;
+            oldStudent.Profile.LastName = student.Profile.LastName;
+            oldStudent.Profile.Gender = student.Profile.Gender;
+            oldStudent.Profile.DateOfBirth = student.Profile.DateOfBirth;
+            oldStudent.Profile.PhoneNumber = student.Profile.PhoneNumber;
+            oldStudent.Profile.Email = student.Profile.Email;
+            oldStudent.Profile.Role = student.Profile.Role;
+            oldStudent.Profile.Password = student.Profile.Password;
             oldStudent.CanModifyInfo = student.CanModifyInfo;
             oldStudent.ProfessionalQualification = student.ProfessionalQualification;
 
@@ -51,12 +68,15 @@ namespace LangLang.Core.Model.DAO
             return oldStudent;
         }
      
-        public Student GetStudentById(int id)
+        public Student? RemoveStudent(int id)
         {
-            return _students.Find(s => s.Profile.Id == id);
+            Student student = GetStudentById(id);
+            if (student == null) return null;
+
+            _students.Remove(student.Profile.Id);
+            _repository.Save(_students);
+            NotifyObservers();
+            return student;
         }
-
-        // TODO: implement RemoveStudent(int id), GetAllStudent()
     }
-
 }
