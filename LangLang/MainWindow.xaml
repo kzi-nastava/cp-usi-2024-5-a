@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LangLang"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="LangSchool" Height="450" Width="800">
     <Grid>
-        <Button Content="Student" HorizontalAlignment="Center" Margin="0,146,0,0" VerticalAlignment="Top" Width="72"/>
-        <Button Content="Tutor" HorizontalAlignment="Center" Margin="0,197,0,0" VerticalAlignment="Top" Width="71" Click="Tutor_Click"/>
-        <Button Content="Director" HorizontalAlignment="Center" Margin="0,252,0,0" VerticalAlignment="Top" Width="71"/>
+        <Button Content="Director" HorizontalAlignment="Left" Height="82" Margin="86,217,0,0" VerticalAlignment="Top" Width="606" Click="DirectorWindow"/>
+        <Button Content="Tutor" HorizontalAlignment="Left" Height="79" Margin="86,115,0,0" VerticalAlignment="Top" Width="314" Click="Tutor_Click"/>
+        <Button Content="Student" HorizontalAlignment="Left" Height="79" Margin="405,115,0,0" VerticalAlignment="Top" Width="280"/>
+        <Button Content="Register" HorizontalAlignment="Left" Height="70" Margin="186,336,0,0" VerticalAlignment="Top" Width="380"/>
 
     </Grid>
 </Window>
