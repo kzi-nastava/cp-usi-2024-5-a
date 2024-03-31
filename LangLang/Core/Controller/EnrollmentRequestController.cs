@@ -39,5 +39,16 @@ namespace LangLang.Core.Controller
         {
             _enrollmentRequests.Subscribe(observer);
         }
+
+        public Dictionary<int, EnrollmentRequest> GetStudentRequests(int studentId)
+        {
+            Dictionary<int, EnrollmentRequest> studentRequests = new();
+            foreach (EnrollmentRequest enrollmentRequest in  _enrollmentRequests.GetAllEnrollmentRequests().Values)
+            {
+                if (enrollmentRequest.StudentId == studentId) studentRequests.Add(enrollmentRequest.Id, enrollmentRequest);
+
+            }
+            return studentRequests;
+        }
     }
 }
