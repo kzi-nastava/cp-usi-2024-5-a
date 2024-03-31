@@ -28,7 +28,10 @@ namespace LangLang.Core.Controller
         {
             _tutors.Remove(tutorId);
         }
-
+        public void Update(Tutor tutor)
+        {
+            _tutors.Update(tutor);
+        }
         public void Subscribe(IObserver observer)
         {
             _tutors.Subscribe(observer);
