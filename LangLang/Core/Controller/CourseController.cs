@@ -104,5 +104,10 @@ namespace LangLang.Core.Controller
             DayOfWeek endDay = course.Days[course.Days.Count - 1];
             return end.AddDays((int)endDay - (int)end.DayOfWeek);
         }
+
+        public Course GetById(int courseId)
+        {
+            return _courses.GetAllCourses()[courseId];
+        }
     }   
 }
