@@ -35,11 +35,12 @@ namespace LangLang.Core.Controller
             _courses.Subscribe(observer);
         }
 
+
         // Method checks if the course is valid for updating or canceling
         public bool IsCourseValid(int courseId)
         {
             Course course = GetAllCourses()[courseId];
-            TimeSpan difference = course.StartDate - DateTime.Now;
+            TimeSpan difference = course.StartDateTime - DateTime.Now;
             return difference.TotalDays < 7;
         }
 
@@ -47,7 +48,7 @@ namespace LangLang.Core.Controller
         public bool IsCourseAvailable(int courseId)
         {
             Course course = GetAllCourses()[courseId];
-            TimeSpan difference = course.StartDate - DateTime.Now;
+            TimeSpan difference = course.StartDateTime - DateTime.Now;
             if (difference.TotalDays < 7)
             {
                 if (course.Online)
@@ -73,6 +74,21 @@ namespace LangLang.Core.Controller
             foreach (Course course in GetAllCourses().Values)
             {
                 if (course.TutorId == tutor.Id)
+                {
+                    coursesByTutor[course.Id] = course;
+                }
+            }
+
+            return coursesByTutor;
+        }
+
+        public Dictionary<int, Course> GetCoursesByTutor(int tutorId)
+        {
+            Dictionary<int, Course> coursesByTutor = new Dictionary<int, Course>();
+
+            foreach (Course course in GetAllCourses().Values)
+            {
+                if (course.TutorId == tutorId)
                 {
                     coursesByTutor[course.Id] = course;
                 }
