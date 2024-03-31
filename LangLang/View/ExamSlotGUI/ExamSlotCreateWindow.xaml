@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LangLang.View"
         mc:Ignorable="d"
-        Title="ExamSlotCreateWindow" Height="450" Width="800">
+        Title="ExamSlotCreateWindow" Height="480" Width="800">
     <!--validation-->
     <Window.Resources>
         <ControlTemplate x:Name="controltpl" x:Key="ValidationTemplate">
@@ -48,19 +48,23 @@
         <Border Grid.Column="0">
             <!-- Your content here -->
             <!-- Example: <TextBlock Text="Left Column Content" /> -->
-            
+
         </Border>
 
         <!-- Content for the right column -->
         <Border Grid.Column="1">
             <!-- Your content here -->
             <!-- Paste the provided XAML code snippet here -->
-            
-            <Grid Margin="10,10,10,0" Height="710" VerticalAlignment="Top">
+
+            <Grid Margin="10,10,10,0" Height="440" VerticalAlignment="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="91*"/>
+                    <ColumnDefinition Width="36*"/>
+                </Grid.ColumnDefinitions>
                 <!-- Your provided XAML code snippet goes here -->
                 <!-- Make sure to adjust the margins, if necessary -->
                 <!--title registation-->
-                <TextBlock x:Name="schoolNametb" Height="40" Margin="0,10,0,0" TextWrapping="Wrap" Text="Create exam slot" VerticalAlignment="Top" Width="240" FontFamily="Gill Sans Ultra Bold" Padding="8,0,0,0" HorizontalAlignment="Center" Foreground="#FF302A2A" FontSize="22" RenderTransformOrigin="0.5,0.5" FlowDirection="RightToLeft" TextAlignment="Center">
+                <TextBlock x:Name="schoolNametb" Height="34" Margin="70,10,0,0" TextWrapping="Wrap" Text="Create exam slot" VerticalAlignment="Top" Width="240" FontFamily="Gill Sans Ultra Bold" Padding="8,0,0,0" HorizontalAlignment="Left" Foreground="#FF302A2A" FontSize="18" RenderTransformOrigin="0.5,0.5" FlowDirection="RightToLeft" TextAlignment="Center" Grid.ColumnSpan="2">
                     <TextBlock.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" MappingMode="RelativeToBoundingBox" SpreadMethod="Repeat" Opacity="0.99">
                             <LinearGradientBrush.RelativeTransform>
@@ -78,7 +82,7 @@
                 </TextBlock>
 
                 <!--label name and box for name-->
-                <Label x:Name="maxNumOfStudentsLbl" Content="Max number of students" HorizontalAlignment="Center" Height="24" Margin="0,77,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+                <Label x:Name="maxNumOfStudentsLbl" Content="Max number of students" HorizontalAlignment="Left" Height="24" Margin="35,63,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2">
                     <Label.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -95,10 +99,10 @@
                         </LinearGradientBrush>
                     </Label.Background>
                 </Label>
-                <TextBox x:Name="nametb" HorizontalAlignment="Center" Height="24" Margin="0,101,0,0" TextWrapping="Wrap" 
+                <TextBox x:Name="nametb" HorizontalAlignment="Left" Height="24" Margin="35,87,0,0" TextWrapping="Wrap" 
          Text="{Binding Path=Student.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
          Validation.ErrorTemplate="{StaticResource ValidationTemplate}" 
-         VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
+         VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.ColumnSpan="2" >
                     <TextBox.OpacityMask>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="Black"/>
@@ -108,7 +112,7 @@
                 </TextBox>
 
                 <!--label lastname and box for lastname-->
-                <Label x:Name="languageLbl" Content="Language" HorizontalAlignment="Center" Height="26" Margin="0,150,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+                <Label x:Name="languageLbl" Content="Language" HorizontalAlignment="Left" Height="26" Margin="35,126,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2">
                     <Label.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -125,11 +129,11 @@
                         </LinearGradientBrush>
                     </Label.Background>
                 </Label>
-                <TextBox x:Name="lastnametb" HorizontalAlignment="Center" Height="24" Margin="0,176,0,0" TextWrapping="Wrap" 
+                <TextBox x:Name="lastnametb" HorizontalAlignment="Left" Height="24" Margin="35,152,0,0" TextWrapping="Wrap" 
          Text="{Binding Path=Student.LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
          Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
          VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3"
-         BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
+         BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.ColumnSpan="2" >
                     <TextBox.OpacityMask>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="Black"/>
@@ -139,7 +143,7 @@
                 </TextBox>
 
                 <!--label and box for email-->
-                <Label x:Name="languageLevelLbl" Content="Language level" HorizontalAlignment="Center" Height="26" Margin="0,225,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+                <Label x:Name="languageLevelLbl" Content="Language level" HorizontalAlignment="Left" Height="26" Margin="35,194,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2">
                     <Label.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -156,10 +160,10 @@
                         </LinearGradientBrush>
                     </Label.Background>
                 </Label>
-                <TextBox x:Name="emailtb" HorizontalAlignment="Center" Height="24" Margin="0,251,0,0" TextWrapping="Wrap" 
+                <TextBox x:Name="emailtb" HorizontalAlignment="Left" Height="24" Margin="35,217,0,0" TextWrapping="Wrap" 
          Text="{Binding Path=Student.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
          Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
-         VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
+         VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.ColumnSpan="2" >
                     <TextBox.OpacityMask>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="Black"/>
@@ -168,13 +172,13 @@
                     </TextBox.OpacityMask>
                 </TextBox>
 
-             
+
                 <!--label and box for password-->
 
-               
+
 
                 <!--label and datepicker for birth-->
-                <Label x:Name="examDateLbl" Content="Exam Date" HorizontalAlignment="Center" Height="26" Margin="0,300,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+                <Label x:Name="examDateLbl" Content="Exam Date" HorizontalAlignment="Left" Height="26" Margin="35,257,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2">
                     <Label.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -191,12 +195,41 @@
                         </LinearGradientBrush>
                     </Label.Background>
                 </Label>
-                <DatePicker x:Name="birthdp" HorizontalAlignment="Center" Height="24" Margin="0,326,0,0" VerticalAlignment="Top" Width="310" Background="#FFFFDDDD"
+                <DatePicker x:Name="birthdp" HorizontalAlignment="Left" Height="24" Margin="35,283,0,0" VerticalAlignment="Top" Width="310" Background="#FFFFDDDD"
             SelectedDate="{Binding Path=Student.BirthDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Validation.ErrorTemplate="{StaticResource ValidationTemplate}" />
+            Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Grid.ColumnSpan="2" />
 
+                <Label x:Name="examTimeLbl" Content="Exam time" HorizontalAlignment="Left" Height="24" Margin="35,321,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleX="0"/>
+                            <RotateTransform/>
+                            <TranslateTransform X="0"/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="1"/>
+                            <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                            <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                        </LinearGradientBrush>
+                    </Label.Background>
+                </Label>
+                <TextBox x:Name="examTimeTb" HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" 
+                    Text="{Binding Student.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                    Validation.ErrorTemplate="{StaticResource ValidationTemplate}" 
+                    VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.ColumnSpan="2" Margin="35,345,0,0" >
+                    <TextBox.OpacityMask>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black"/>
+                            <GradientStop Color="White" Offset="1"/>
+                        </LinearGradientBrush>
+                    </TextBox.OpacityMask>
+                </TextBox>
                 <!--button for create-->
-                <Button x:Name="examSlotCreateBtn" Content="Create" HorizontalAlignment="Center" Height="33" Margin="0,365,0,0" VerticalAlignment="Top" Width="144" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="examSlotCreateBtn_Click"/>
+                <Button x:Name="examSlotCreateBtn" Content="Create" HorizontalAlignment="Left" Height="30" Margin="130,387,0,0" VerticalAlignment="Top" Width="120" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="examSlotCreateBtn_Click"/>
+
 
             </Grid>
         </Border>
