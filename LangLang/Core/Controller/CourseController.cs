@@ -38,7 +38,7 @@ namespace LangLang.Core.Controller
         // Method checks if the course is valid for updating or canceling
         public bool IsCourseValid(int courseId)
         {
-            Course course = GetAllCourses()[id];
+            Course course = GetAllCourses()[courseId];
             TimeSpan difference = course.StartDate - DateTime.Now;
             return difference.TotalDays < 7;
         }
