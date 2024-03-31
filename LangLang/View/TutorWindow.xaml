@@ -80,9 +80,9 @@
             <!-- Example: <TextBlock Text="Content 4" /> -->
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-40,0,0" Orientation="Horizontal">
                 <!-- Four Buttons -->
-                <Button Name="examSlotCreateWindowBtn" Content="Create exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black"  Click="examSlotCreateWindowBtn_Click" />
+                <Button Name="examSlotCreateWindowBtn" Content="Create exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black"  Click="ExamSlotCreateWindowBtn_Click" />
                 <Button Content="Delete exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
-                <Button Content="Update exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                <Button Content="Update exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotUpdateWindowBtn_Click" />
                 <Button Content="Search exams" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
             </StackPanel>
         </Border>

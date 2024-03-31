@@ -1,4 +1,5 @@
 ﻿using LangLang.View;
+using LangLang.View.ExamSlotGUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,10 +26,16 @@ namespace LangLang
             InitializeComponent();
         }
 
-        private void examSlotCreateWindowBtn_Click(object sender, RoutedEventArgs e)
+        private void ExamSlotCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
             ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow();
             examSlotCreateWindow.Show();
+        }
+
+        private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow();
+            examSlotUpdateWindow.Show();
         }
     }
 }
