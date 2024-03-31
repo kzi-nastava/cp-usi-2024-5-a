@@ -16,7 +16,7 @@ namespace LangLang.Core.Model
         private string _language;
         private LanguageLevel _level;
         private int _numberOfWeeks;
-        private List<WeekDays> _days;
+        private List<DayOfWeek> _days;
         private bool _online;
         private int _numberOfStudents;
         private int _maxStudents;
@@ -53,7 +53,7 @@ namespace LangLang.Core.Model
             get { return _numberOfWeeks; }
             set { _numberOfWeeks = value; }
         }
-        public List<WeekDays> Days
+        public List<DayOfWeek> Days
         {
             get { return _days; }
             set { _days = value; }
@@ -85,7 +85,7 @@ namespace LangLang.Core.Model
 
         // Constructors
 
-        public Course(int id, int tutorId, string language, LanguageLevel level, int numberOfWeeks, List<WeekDays> days,
+        public Course(int id, int tutorId, string language, LanguageLevel level, int numberOfWeeks, List<DayOfWeek> days,
             bool online, int maxStudents, DateTime startDateTime)
         {
             Id = id;
@@ -107,7 +107,7 @@ namespace LangLang.Core.Model
         public string ToString()
         {
             StringBuilder sbDays = new StringBuilder();
-            foreach (WeekDays day in Days)
+            foreach (DayOfWeek day in Days)
             {
                 sbDays.Append(day.ToString() + " ");
             }
@@ -124,7 +124,7 @@ namespace LangLang.Core.Model
         public string[] ToCSV()
         {
             StringBuilder sbDays = new StringBuilder();
-            foreach (WeekDays day in Days)
+            foreach (DayOfWeek day in Days)
             {
                 sbDays.Append(day.ToString() + " ");
             }
@@ -159,10 +159,10 @@ namespace LangLang.Core.Model
 
             // Converting from string to list of WeekDays
             string[] days = values[4].Split(' ');
-            Days = new List<WeekDays>();
+            Days = new List<DayOfWeek>();
             foreach (string day in days)
             {
-                Days.Add((WeekDays)Enum.Parse(typeof(WeekDays), day));
+                Days.Add((DayOfWeek)Enum.Parse(typeof(DayOfWeek), day));
             }
 
             Online = bool.Parse(values[5]);

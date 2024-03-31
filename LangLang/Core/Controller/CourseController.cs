@@ -97,5 +97,17 @@ namespace LangLang.Core.Controller
             return coursesByTutor;
         }
 
+        // Method returns DateTime of the beginning of the last class of the course
+        public DateTime GetCourseEnd(Course course)
+        {
+            DateTime end = course.StartDateTime.AddDays(7 * course.NumberOfWeeks);
+            DayOfWeek endDay = course.Days[course.Days.Count - 1];
+            return end.AddDays((int)endDay - (int)end.DayOfWeek);
+        }
+
+        public Course GetById(int courseId)
+        {
+            return _courses.GetAllCourses()[courseId];
+        }
     }   
 }
