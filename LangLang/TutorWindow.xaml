@@ -1,0 +1,57 @@
+﻿<Window x:Class="LangLang.TutorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LangLang"
+        mc:Ignorable="d"
+        Title="TutorWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- First Row, First Column Text Box -->
+        <TextBox Grid.Row="0" Grid.Column="0" Text="Vasi kursevi" HorizontalAlignment="Center" Margin="20" IsReadOnly="True" BorderThickness="0" Background="Transparent" />
+
+        <!-- First Row, Second Column Text Box -->
+        <TextBox Grid.Row="0" Grid.Column="1" Text="Vasi ispiti" HorizontalAlignment="Center" Margin="20" IsReadOnly="True" BorderThickness="0" Background="Transparent" />
+
+        <!-- First Row, First Column Content -->
+        <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1">
+            <!-- Your content here -->
+            <!-- Example: <TextBlock Text="Content 1" /> -->
+        </Border>
+        
+        <!-- First Row, Second Column Content -->
+        <Border Grid.Row="0" Grid.Column="1">
+            <!-- Your content here -->
+            <!-- Example: <TextBlock Text="Content 2" /> -->
+        </Border>
+
+        <!-- Second Row, First Column Content -->
+        <Border Grid.Row="1" Grid.Column="0">
+            <!-- Your content here -->
+            <!-- Example: <TextBlock Text="Content 3" /> -->
+        </Border>
+
+        <!-- Second Row, Second Column Content -->
+        <Border Grid.Row="1" Grid.Column="1">
+            <!-- Your content here -->
+            <!-- Example: <TextBlock Text="Content 4" /> -->
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-40,0,0" Orientation="Horizontal">
+                <!-- Four Buttons -->
+                <Button Content="Kreiraj ispit" Padding="5" Margin="10"/>
+                <Button Content="Obrisi ispit" Padding="5" Margin="10"/>
+                <Button Content="Izmeni ispit" Padding="5" Margin="10"/>
+                <Button Content="Pretrazi ispite" Padding="5" Margin="10"/>
+            </StackPanel>
+        </Border>
+        <DataGrid Grid.Column="1" Margin="15,45,15,0" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+    </Grid>
+</Window>
