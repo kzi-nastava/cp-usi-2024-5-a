@@ -24,5 +24,12 @@ namespace LangLang
         {
             InitializeComponent();
         }
+
+        private void Tutor_Click(object sender, RoutedEventArgs e)
+        {
+            TutorWindow tutorWindow = new TutorWindow();
+            this.Visibility = Visibility.Hidden;
+            tutorWindow.Show();
+        }
     }
 }
