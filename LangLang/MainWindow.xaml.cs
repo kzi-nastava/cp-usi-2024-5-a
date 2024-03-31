@@ -1,4 +1,13 @@
-﻿using System;
+﻿using LangLang.Core.Controller;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using LangLang.Core.Controller;
+using LangLang.View;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +29,18 @@ namespace LangLang
     /// </summary>
     public partial class MainWindow : Window
     {
+        private TutorController tutorController { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
         }
+
+        private void DirectorWindow(object sender, RoutedEventArgs e)
+        {
+            //DirectorWindow window = new DirectorWindow();
+            //window.Show();
+        }
+
     }
 }
