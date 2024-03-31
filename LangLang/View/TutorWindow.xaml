@@ -17,10 +17,10 @@
         </Grid.ColumnDefinitions>
 
         <!-- First Row, First Column Text Box -->
-        <TextBox Grid.Row="0" Grid.Column="0" Text="Vasi kursevi" HorizontalAlignment="Center" Margin="20" IsReadOnly="True" BorderThickness="0" Background="Transparent" />
+        <TextBox Grid.Row="0" Grid.Column="0" Text="Your courses" HorizontalAlignment="Center" Margin="20" IsReadOnly="True" BorderThickness="0" Background="Transparent" />
 
         <!-- First Row, Second Column Text Box -->
-        <TextBox Grid.Row="0" Grid.Column="1" Text="Vasi ispiti" HorizontalAlignment="Center" Margin="20" IsReadOnly="True" BorderThickness="0" Background="Transparent" />
+        <TextBox Grid.Row="0" Grid.Column="1" Text="Your exam slots" HorizontalAlignment="Center" Margin="20" IsReadOnly="True" BorderThickness="0" Background="Transparent" />
 
         <!-- First Row, First Column Content -->
         <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1">
@@ -46,10 +46,10 @@
             <!-- Example: <TextBlock Text="Content 4" /> -->
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-40,0,0" Orientation="Horizontal">
                 <!-- Four Buttons -->
-                <Button Content="Kreiraj ispit" Padding="5" Margin="10"/>
-                <Button Content="Obrisi ispit" Padding="5" Margin="10"/>
-                <Button Content="Izmeni ispit" Padding="5" Margin="10"/>
-                <Button Content="Pretrazi ispite" Padding="5" Margin="10"/>
+                <Button Name="examSlotCreateWindowBtn" Content="Create exam" Padding="5" Margin="10" Click="examSlotCreateWindowBtn_Click" />
+                <Button Content="Delete exam" Padding="5" Margin="10"/>
+                <Button Content="Update exam" Padding="5" Margin="10"/>
+                <Button Content="Search exams" Padding="5" Margin="10"/>
             </StackPanel>
         </Border>
         <DataGrid Grid.Column="1" Margin="15,45,15,0" d:ItemsSource="{d:SampleData ItemCount=5}"/>

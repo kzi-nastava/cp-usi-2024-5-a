@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LangLang.View;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,12 @@ namespace LangLang
         public TutorWindow()
         {
             InitializeComponent();
+        }
+
+        private void examSlotCreateWindowBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow();
+            examSlotCreateWindow.Show();
         }
     }
 }
