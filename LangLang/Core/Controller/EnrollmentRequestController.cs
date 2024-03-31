@@ -30,6 +30,11 @@ namespace LangLang.Core.Controller
             _enrollmentRequests.Remove(id);
         }
 
+        public void Update(EnrollmentRequest enrollmentRequest)
+        {
+            _enrollmentRequests.Update(enrollmentRequest);
+        }
+
         public void Subscribe(IObserver observer)
         {
             _enrollmentRequests.Subscribe(observer);
