@@ -21,7 +21,7 @@ namespace LangLang.DTO
         private string language;
         private LanguageLevel level;
         private int numberOfWeeks;
-        private List<DayOfWeek> days = new List<DayOfWeek>();
+        private List<DayOfWeek> days;
         private bool online;
         private int maxStudents;
         private DateTime startDateTime;
@@ -319,6 +319,7 @@ namespace LangLang.DTO
         {
             get
             {
+                days = new List<DayOfWeek>();
                 if (mon)
                 {
                     days.Add(DayOfWeek.Monday);
@@ -343,7 +344,7 @@ namespace LangLang.DTO
                 {
                     return false;
                 }
-                    foreach (var property in _validatedProperties)
+                foreach (var property in _validatedProperties)
                 {
                     if (this[property] != "")
                         return false;
@@ -357,6 +358,13 @@ namespace LangLang.DTO
 
         public CourseDTO()
         {
+            days = new List<DayOfWeek>();
+            online = true;
+            mon = false;
+            tue = false;
+            fri = false;
+            wed = false;
+            thu = false;
         }
 
         public Course ToCourse()
@@ -376,6 +384,46 @@ namespace LangLang.DTO
             CreatedByDirector = course.CreatedByDirector;
             TutorId = course.TutorId;
             Days = course.Days;
+            if (Days.Contains(DayOfWeek.Monday))
+            {
+                Mon = true;
+            }
+            else
+            {
+                Mon = false;
+            }
+            if (Days.Contains(DayOfWeek.Tuesday))
+            {
+                Tue = true;
+            }
+            else
+            {
+                Tue = false;
+            }
+            if (Days.Contains(DayOfWeek.Wednesday))
+            {
+                Wed = true;
+            }
+            else
+            {
+                Wed = false;
+            }
+            if (Days.Contains(DayOfWeek.Thursday))
+            {
+                Thu = true;
+            }
+            else
+            {
+                Thu = false;
+            }
+            if (Days.Contains(DayOfWeek.Friday))
+            {
+                Fri = true;
+            }
+            else
+            {
+                Fri = false;
+            }
             StartDateTime = course.StartDateTime;
             NumberOfWeeks = course.NumberOfWeeks.ToString();
             MaxStudents = course.MaxStudents.ToString();
