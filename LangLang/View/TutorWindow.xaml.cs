@@ -24,9 +24,9 @@ namespace LangLang
     public partial class TutorWindow : Window
     {
         public Tutor tutor { get; set; }
-        public TutorWindow(Tutor t)
+        public TutorWindow()
         {
-            tutor = t;
+            //tutor = t;
             InitializeComponent();
         }
 
