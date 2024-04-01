@@ -100,6 +100,7 @@ namespace LangLang.Core.Controller
 
         // Method returns true if a new live course can be added
         // or false if there are time overlaps and the course cannot be created
+        // The parameter exams is a list of ExamSlots of all the exams
         public bool CanCreateLiveCourse(Course course, List<ExamSlot> exams)
         {
             // Get the time and the date of the beginning and of the end of the new couse
@@ -109,9 +110,13 @@ namespace LangLang.Core.Controller
 
             bool firstClassroomTaken = false;
             bool secondClassromTaken = false;
-            // Go through each course with the same tutor and check if there is time overlapping 
-            foreach (Course cour in GetLiveCourses().Values)
+            // Go through each course with the same tutor or held in a classroom and check if there is time overlapping 
+            foreach (Course cour in _courses.GetAllCourses().Values)
             {
+                if(cour.TutorId != course.TutorId && cour.Online)
+                {
+                    continue;
+                }
                 // Check if the courses are overlapping
                 DateTime courStartDate = cour.StartDateTime.Date;
                 DateTime courEndDate = GetCourseEnd(cour);
