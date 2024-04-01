@@ -3,6 +3,7 @@ using LangLang.Core.Model;
 using System.Collections.Generic;
 using LangLang.Core.Observer;
 using LangLang.Core.Model.Enums;
+using System;
 
 namespace LangLang.Core.Controller
 {
@@ -40,13 +41,14 @@ namespace LangLang.Core.Controller
             _students.Subscribe(observer);
         }
 
-        public Dictionary<int, Course>? GetAvailableCourses(CourseController courseController) 
+
+        public List<Course> GetAvailableCourses(CourseController courseController) 
         {
-            Dictionary<int, Course> availableCourses = new();
+            List<Course> availableCourses = new();
             foreach (Course course in courseController.GetAllCourses().Values)
             {
                 if (courseController.IsCourseAvailable(course.Id)) {
-                        availableCourses.Add(course.Id, course);
+                        availableCourses.Add(course);
                 }
             }
             return availableCourses;
@@ -65,14 +67,15 @@ namespace LangLang.Core.Controller
             return false;
         }
 
-        public Dictionary<int, ExamSlot>? GetAvailableExamSlots(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController enrollmentRequestController)
+        public List<ExamSlot> GetAvailableExamSlots(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController enrollmentRequestController)
         {
-            Dictionary<int, ExamSlot> availableExamSlots = new();
+            List<ExamSlot> availableExamSlots = new();
+            if (student == null) return availableExamSlots; 
             foreach (ExamSlot examSlot in examSlotController.GetAllExamSlots().Values)
             {
                 foreach (EnrollmentRequest enrollmentRequest in enrollmentRequestController.GetStudentRequests(student.Id).Values) {
                     if (HasStudentAttendedCourse(student, courseController.GetById(examSlot.CourseId), enrollmentRequest)) {
-                        availableExamSlots.Add(examSlot.Id, examSlot);
+                        availableExamSlots.Add(examSlot);
                     }
                 }
             }
@@ -84,6 +87,19 @@ namespace LangLang.Core.Controller
         {
             Dictionary<int, EnrollmentRequest> studentRequests = erc.GetStudentRequests(studentId);
             return studentRequests.Count == 0;
+        }
+
+        public List<ExamSlot> SearchExamSlotsByStudent(ExamSlotController examSlotController, CourseController courseController, EnrollmentRequestController enrollmentRequestController, int studentId, DateTime examDate, string courseLanguage, LanguageLevel languageLevel)
+        {
+            List<ExamSlot> availableExamSlots = GetAvailableExamSlots(_students.GetStudentById(studentId), courseController, examSlotController, enrollmentRequestController);
+            return examSlotController.SearchExamSlots(availableExamSlots, courseController, examDate, courseLanguage, languageLevel);
+        }
+
+        public List<Course> SearchCoursesByStudent(CourseController courseController, string langugage, LanguageLevel level, DateTime startDate, int duration, bool online) 
+        {
+            List<Course> availableCourses = GetAvailableCourses(courseController);
+            courseController.SearchCourses(availableCourses, langugage, level, startDate, duration, online);
+            return availableCourses;
         }
     }
 }
