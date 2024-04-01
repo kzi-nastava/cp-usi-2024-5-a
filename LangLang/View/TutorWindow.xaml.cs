@@ -1,5 +1,6 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
+
 using LangLang.DTO;
 using LangLang.View;
 using LangLang.View.CourseGUI;
@@ -36,7 +37,7 @@ namespace LangLang
         public ExamSlotDTO SelectedExamSlot { get; set; }
         private ExamSlotController examSlotsController { get; set; }
         public Tutor tutor { get; set; }
-
+        private CourseController courseController;
         public TutorWindow()
         {
             //tutor = t;
@@ -77,7 +78,7 @@ namespace LangLang
 
         private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            CourseCreateWindow courseCreateWindow = new CourseCreateWindow(tutor);
+            CourseCreateWindow courseCreateWindow = new CourseCreateWindow(courseController);
             courseCreateWindow.Show();
         }
 
