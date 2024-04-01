@@ -1,4 +1,6 @@
-﻿using LangLang.View;
+﻿using LangLang.Core.Model;
+using LangLang.View;
+using LangLang.View.CourseGUI;
 using LangLang.View.ExamSlotGUI;
 using System;
 using System.Collections.Generic;
@@ -21,8 +23,10 @@ namespace LangLang
     /// </summary>
     public partial class TutorWindow : Window
     {
-        public TutorWindow()
+        public Tutor tutor { get; set; }
+        public TutorWindow(Tutor t)
         {
+            tutor = t;
             InitializeComponent();
         }
 
@@ -37,5 +41,12 @@ namespace LangLang
             ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow();
             examSlotUpdateWindow.Show();
         }
+
+        private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
+        {
+            CourseCreateWindow courseCreateWindow = new CourseCreateWindow(tutor);
+            courseCreateWindow.Show();
+        }
+
     }
 }
