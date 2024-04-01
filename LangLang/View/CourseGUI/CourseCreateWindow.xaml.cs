@@ -31,50 +31,25 @@ namespace LangLang.View.CourseGUI
             InitializeComponent();
             DataContext = this;
             languageLvlCb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
-            maxNumOfStudentsTb.IsEnabled = false;
+            classsroomCb.IsChecked = false;
+            mon.IsChecked = false;
+            tue.IsChecked = false;
+            wed.IsChecked = false;
+            thu.IsChecked = false;
+            fri.IsChecked = false;
         }
 
         private void CourseCreateBtn_Click(object sender, RoutedEventArgs e)
         {
-            List<DayOfWeek> days = new List<DayOfWeek>();
-            if (mon.IsChecked == true)
+            if (Course.IsValid)
             {
-                days.Add(DayOfWeek.Monday);
-            }
-            if (tue.IsChecked == true)
-            {
-                days.Add(DayOfWeek.Tuesday);
-            }
-            if (wed.IsChecked == true)
-            {
-                days.Add(DayOfWeek.Wednesday);
-            }
-            if (thu.IsChecked == true)
-            {
-                days.Add(DayOfWeek.Thursday);
-            }
-            if (fri.IsChecked == true)
-            {
-                days.Add(DayOfWeek.Friday);
-            }
-            if (days.Count != 0)
-            {
-                Course.Days = days;
-                Course.Online = classsroomCb.IsChecked == false;
-                if (Course.IsValid)
-                {
-                    courseController.Add(Course.ToCourse());
-                    MessageBox.Show("Success!");
-                    Close();
-                }
-                else
-                {
-                    MessageBox.Show("Something went wrong. Please check all fields in registration form.");
-                }
+                courseController.Add(Course.ToCourse());
+                MessageBox.Show("Success!");
+                Close();
             }
             else
             {
-                MessageBox.Show("At least one day must be checked.");
+                MessageBox.Show("Something went wrong. Please check all fields in registration form.");
             }
 
         }
@@ -84,13 +59,11 @@ namespace LangLang.View.CourseGUI
         private void ClasssroomCb_Checked(object sender, RoutedEventArgs e)
         {
             maxNumOfStudentsTb.IsEnabled = true;
-            Course.ErrorStringForMaxStudents = "";
         }
 
         private void ClasssroomCb_Unchecked(object sender, RoutedEventArgs e)
         {
             maxNumOfStudentsTb.IsEnabled = false;
-            Course.ErrorStringForMaxStudents = "Maximal number of students must be a positive number";
         }
     }
 }

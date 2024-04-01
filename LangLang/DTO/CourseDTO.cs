@@ -17,18 +17,99 @@ namespace LangLang.DTO
     {
 
         public int Id { get; set; }
-        public string ErrorStringForMaxStudents = "";
         private int tutorId;
         private string language;
         private LanguageLevel level;
         private int numberOfWeeks;
-        private List<DayOfWeek> days;
+        private List<DayOfWeek> days = new List<DayOfWeek>();
         private bool online;
         private int maxStudents;
         private DateTime startDateTime;
         private bool createdByDirector;
         private string time;
+        private bool mon;
+        private bool tue;
+        private bool wed;
+        private bool thu;
+        private bool fri;
 
+
+        public bool Mon
+        {
+            get
+            {
+                return mon;
+            }
+            set
+            {
+                if (value != mon)
+                {
+                    mon = value;
+                    OnPropertyChanged("Mon");
+                }
+            }
+        }
+        public bool Tue
+        {
+            get
+            {
+                return tue;
+            }
+            set
+            {
+                if (value != tue)
+                {
+                    tue = value;
+                    OnPropertyChanged("Tue");
+                }
+            }
+        }
+        public bool Wed
+        {
+            get
+            {
+                return wed;
+            }
+            set
+            {
+                if (value != wed)
+                {
+                    wed = value;
+                    OnPropertyChanged("Wed");
+                }
+            }
+        }
+
+        public bool Thu
+        {
+            get
+            {
+                return thu;
+            }
+            set
+            {
+                if (value != thu)
+                {
+                    thu = value;
+                    OnPropertyChanged("Thu");
+                }
+            }
+        }
+        public bool Fri
+        {
+            get
+            {
+                return fri;
+            }
+            set
+            {
+                if (value != fri)
+                {
+                    fri = value;
+                    OnPropertyChanged("Fri");
+                }
+            }
+        }
         public string Language
         {
             get
@@ -160,17 +241,17 @@ namespace LangLang.DTO
             }
         }
 
-        public bool Online
+        public bool NotOnline
         {
             get
             {
-                return online;
+                return !online;
             }
             set
             {
-                if (value != online)
+                if (value == online)
                 {
-                    online = value;
+                    online = !value;
                     OnPropertyChanged("Online");
                 }
             }
@@ -224,7 +305,7 @@ namespace LangLang.DTO
                 }
                 if (columnName == "MaxStudents")
                 {
-                    if (!int.TryParse(MaxStudents, out int _maxStudents) || _maxStudents <= 0) return ErrorStringForMaxStudents;
+                    if (!int.TryParse(MaxStudents, out int _maxStudents) || _maxStudents <= 0) return "Maximal number of students must be a positive number";
                     else return "";
                 }
                 return "";
@@ -238,7 +319,31 @@ namespace LangLang.DTO
         {
             get
             {
-                foreach (var property in _validatedProperties)
+                if (mon)
+                {
+                    days.Add(DayOfWeek.Monday);
+                }
+                if (tue)
+                {
+                    days.Add(DayOfWeek.Tuesday);
+                }
+                if (wed)
+                {
+                    days.Add(DayOfWeek.Wednesday);
+                }
+                if (thu)
+                {
+                    days.Add(DayOfWeek.Thursday);
+                }
+                if (fri)
+                {
+                    days.Add(DayOfWeek.Friday);
+                }
+                if (days.Count == 0)
+                {
+                    return false;
+                }
+                    foreach (var property in _validatedProperties)
                 {
                     if (this[property] != "")
                         return false;
@@ -252,7 +357,6 @@ namespace LangLang.DTO
 
         public CourseDTO()
         {
-            days = new List<DayOfWeek>();
         }
 
         public Course ToCourse()
@@ -268,7 +372,7 @@ namespace LangLang.DTO
             this.Id = course.Id;
             Language = course.Language;
             Level = course.Level;
-            Online = course.Online;
+            NotOnline = !course.Online;
             CreatedByDirector = course.CreatedByDirector;
             TutorId = course.TutorId;
             Days = course.Days;
