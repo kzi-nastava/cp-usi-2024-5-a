@@ -34,17 +34,24 @@ namespace LangLang
     {
         //for exam slots
         public ObservableCollection<ExamSlotDTO> ExamSlots { get; set; }
+        public ObservableCollection<CourseDTO> Courses { get; set; }
         public ExamSlotDTO SelectedExamSlot { get; set; }
+        public CourseDTO SelectedCourse { get; set; }
         private ExamSlotController examSlotsController { get; set; }
-        public Tutor tutor { get; set; }
         private CourseController courseController;
+        public Tutor tutor { get; set; }
         public TutorWindow()
         {
             //tutor = t;
+            tutor = new Tutor();
+            tutor.Profile.Id = 1;
             InitializeComponent();
             DataContext = this;
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             examSlotsController = new ExamSlotController();
+            Courses = new ObservableCollection<CourseDTO>();
+            courseController = new CourseController();
+
 
             /*
             ExamSlot es = new ExamSlot(1, 1, 10, DateTime.Now, 0);
@@ -52,7 +59,13 @@ namespace LangLang
             ExamSlots.Add(dto);
             examSlotsController.Add(es);
             */
-
+            List<DayOfWeek> days = new List<DayOfWeek>();
+            days.Add(DayOfWeek.Monday);
+            Course c = new Course(1, 1, "eng", LanguageLevel.A1, 4,days, true, 0, DateTime.Now, false);
+            courseController.Add(c);
+            Course e = new Course(2, 1, "spanish", LanguageLevel.A1, 4, days, true, 0, DateTime.Now, false);
+            courseController.Add(e);
+            courseController.Subscribe(this);
             examSlotsController.Subscribe(this);
             Update();
         }
@@ -62,6 +75,10 @@ namespace LangLang
             ExamSlots.Clear();
             foreach (ExamSlot exam in examSlotsController.GetAllExamSlots().Values)
                 ExamSlots.Add(new ExamSlotDTO(exam));
+            Courses.Clear();
+            foreach (Course course in courseController.GetCoursesByTutor(tutor).Values)
+                Courses.Add(new CourseDTO(course));
+            coursesTable.ItemsSource = Courses;
         }
 
         private void ExamSlotCreateWindowBtn_Click(object sender, RoutedEventArgs e)
@@ -82,5 +99,15 @@ namespace LangLang
             courseCreateWindow.Show();
         }
 
+        private void CourseUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
+        {
+           // CourseUpdateWindow courseUpdateWindow = new CourseUpdateWindow(courseController);
+            //courseUpdateWindow.Show();
+        }
+
+        private void coursesTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
