@@ -25,9 +25,9 @@ namespace LangLang.Core.Controller
             _students.AddStudent(student);
         }
 
-        public void Delete(int studentId)
+        public void Delete(int studentId, EnrollmentRequestController enrollmentRequestController)
         {
-            _students.RemoveStudent(studentId);
+            _students.RemoveStudent(studentId, enrollmentRequestController);
         }
 
         public void Update(Student student)

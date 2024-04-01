@@ -2,6 +2,7 @@
 using System.Linq;
 using LangLang.Core.Repository;
 using LangLang.Core.Observer;
+using LangLang.Core.Controller;
 
 namespace LangLang.Core.Model.DAO
 {
@@ -25,7 +26,7 @@ namespace LangLang.Core.Model.DAO
         private int GenerateId()
         {
             if (_students.Count == 0) return 0;
-            return _students.Count + 1;
+            return _students.Keys.Max() + 1;
         }
 
         public Student? GetStudentById(int id)
@@ -67,10 +68,15 @@ namespace LangLang.Core.Model.DAO
             return oldStudent;
         }
      
-        public Student? RemoveStudent(int id)
+        public Student? RemoveStudent(int id, EnrollmentRequestController enrollmentRequestController)
         {
             Student student = GetStudentById(id);
             if (student == null) return null;
+
+            foreach (EnrollmentRequest er in enrollmentRequestController.GetStudentRequests(id).Values)
+            {
+                enrollmentRequestController.Delete(er.Id);
+            }
 
             _students.Remove(student.Profile.Id);
             _repository.Save(_students);
