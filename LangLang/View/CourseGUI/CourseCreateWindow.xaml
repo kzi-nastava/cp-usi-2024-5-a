@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LangLang.View.CourseGUI"
         mc:Ignorable="d"
-        Title="CourseCreateWindow" Height="650" Width="500">
+        Title="CourseCreateWindow" Height="700" Width="500">
     <Window.Resources>
         <ControlTemplate x:Name="controltpl" x:Key="ValidationTemplate">
             <StackPanel>
@@ -22,7 +22,7 @@
             <RowDefinition Height="107*"/>
             <RowDefinition Height="110*"/>
         </Grid.RowDefinitions>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical" Width="400" Height="600" Margin="0,20,0,0" Grid.RowSpan="2">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical" Width="400" Height="650" Margin="0,20,0,0" Grid.RowSpan="2">
             <TextBlock x:Name="schoolNametb" Height="35"  TextWrapping="Wrap" Text="Create course" FontFamily="Gill Sans Ultra Bold" Padding="8,0,0,0" Foreground="#FF302A2A" FontSize="18" RenderTransformOrigin="0.5,0.5" FlowDirection="RightToLeft" TextAlignment="Center" >
                 <TextBlock.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" MappingMode="RelativeToBoundingBox" SpreadMethod="Repeat" Opacity="0.99">
@@ -41,7 +41,7 @@
             </TextBlock>
 
             <!--label lastname and box for lastname-->
-            <Label x:Name="languageLbl"  Margin="5,10,5,0" Content="Language" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+            <Label x:Name="languageLbl"  Margin="5,15,5,0" Content="Language" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
                 <Label.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -59,7 +59,7 @@
                 </Label.Background>
             </Label>
             <TextBox x:Name="languageTb" TextWrapping="Wrap"  Margin="5,0,5,0" Height="20"
-            Text="{Binding Path=Student.LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Text="{Binding Path=Course.Language, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
             VerticalContentAlignment="Center" Background="#FFFFF3F3"
             BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.ColumnSpan="2" >
@@ -72,7 +72,7 @@
             </TextBox>
 
             <!--label and box for language level-->
-            <Label x:Name="languageLevelLbl" Margin="5,10,5,0" Content="Language level" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2">
+            <Label x:Name="languageLevelLbl" Margin="5,20,5,0" Content="Language level" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2">
                 <Label.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -90,8 +90,7 @@
                 </Label.Background>
             </Label>
             <ComboBox x:Name="languageLvlCb" Margin="5,0,5,0" Height="20"
-            Text="{Binding Path=Student.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-            Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+            Text="{Binding Path=Course.Level}" 
             VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" Foreground ="#FFF3B0B0" >
                 <ComboBox.OpacityMask>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -102,7 +101,7 @@
             </ComboBox>
 
             <!--label name and box for max number of students-->
-            <Label x:Name="numOfWeeksLbl" Margin="5,10,5,0" Content="Number of weeks"  FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2">
+            <Label x:Name="numOfWeeksLbl" Margin="5,15,5,0" Content="Number of weeks"  FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2">
                 <Label.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -120,7 +119,7 @@
                 </Label.Background>
             </Label>
             <TextBox x:Name="numOfWeeksTb" TextWrapping="Wrap"  Margin="5,0,5,0" Height="20"
-            Text="{Binding Path=Student.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+            Text="{Binding Path=Course.NumberOfWeeks, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" 
             VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB"  >
                 <TextBox.OpacityMask>
@@ -132,7 +131,7 @@
             </TextBox>
 
             <!--label name and box for days-->
-            <Label x:Name="daysLbl" Margin="5,10,5,0" Content="Days"  FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2">
+            <Label x:Name="daysLbl" Margin="5,20,5,0" Content="Days"  FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2">
                 <Label.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -176,7 +175,7 @@
                 </Label.Background>
             </Label>
             <TextBox IsEnabled="False" x:Name="maxNumOfStudentsTb" TextWrapping="Wrap"  Margin="5,0,5,0" Height="20"
-        Text="{Binding Path=Student.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+        Text="{Binding Path=Course.MaxStudents, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
         Validation.ErrorTemplate="{StaticResource ValidationTemplate}" 
          VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB"  >
                 <TextBox.OpacityMask>
@@ -189,7 +188,7 @@
 
 
             <!--label and datepicker for start date-->
-            <Label x:Name="startDateLbl" Margin="5,10,5,0" Content="Start date" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+            <Label x:Name="startDateLbl" Margin="5,20,5,0" Content="Start date" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
                 <Label.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -207,10 +206,10 @@
                 </Label.Background>
             </Label>
             <DatePicker Margin="5,0,5,0" x:Name="startDateDp" Background="#FFFFDDDD"
-             SelectedDate="{Binding Path=Student.BirthDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+             SelectedDate="{Binding Path=Course.StartDateTime, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
              Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Grid.ColumnSpan="2" />
 
-            <Label Margin="5,10,5,0" x:Name="classTimeLbl" Content="Class time" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+            <Label Margin="5,20,5,0" x:Name="classTimeLbl" Content="Class time" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
                 <Label.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -228,7 +227,7 @@
                 </Label.Background>
             </Label>
             <TextBox x:Name="classTimeTb" TextWrapping="Wrap" 
-           Text="{Binding Student.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+           Text="{Binding Course.Time, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
            Validation.ErrorTemplate="{StaticResource ValidationTemplate}" 
            VerticalContentAlignment="Center" Height="20" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.ColumnSpan="2" Margin="5,0,5,0" >
                 <TextBox.OpacityMask>
@@ -240,7 +239,7 @@
             </TextBox>
 
             <!--label and box for online/live-->
-            <CheckBox Unchecked="ClasssroomCb_Unchecked" Checked="ClasssroomCb_Checked" x:Name="classsroomCb" Margin="5,10,5,0" Content="In Classroom" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" />
+            <CheckBox Unchecked="ClasssroomCb_Unchecked" Checked="ClasssroomCb_Checked" x:Name="classsroomCb" Margin="5,20,5,0" Content="In Classroom" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" />
 
             <!--button for create-->
             <Button Click="CourseCreateBtn_Click" Margin="0,10,0,0" Height="30" Width="60" x:Name="courseCreateBtn" Content="Create" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black"/>
