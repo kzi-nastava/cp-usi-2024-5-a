@@ -123,9 +123,16 @@ namespace LangLang.View.CourseGUI
             }
         }
 
-        private void classsroomCb_Checked(object sender, RoutedEventArgs e)
+        // Method enables textbox for maxNumOfStudents when the course is to be held in a classroom
+
+        private void ClasssroomCb_Checked(object sender, RoutedEventArgs e)
         {
-            classsroomCb.IsEnabled = true;
+            maxNumOfStudentsTb.IsEnabled = true;
+        }
+
+        private void ClasssroomCb_Unchecked(object sender, RoutedEventArgs e)
+        {
+            maxNumOfStudentsTb.IsEnabled = false;
         }
     }
 }
