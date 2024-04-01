@@ -21,6 +21,7 @@ namespace LangLang.Core.Model
         private int _numberOfStudents;
         private int _maxStudents;
         private DateTime _startDateTime;
+        private bool _createdByDirector;
 
         // Properties
 
@@ -83,10 +84,16 @@ namespace LangLang.Core.Model
             set { _startDateTime = value; }
         }
 
+        public bool CreatedByDirector
+        {
+            get { return _createdByDirector; }
+            set { _createdByDirector = value; }
+        }
+
         // Constructors
 
         public Course(int id, int tutorId, string language, LanguageLevel level, int numberOfWeeks, List<DayOfWeek> days,
-            bool online, int maxStudents, DateTime startDateTime)
+            bool online, int maxStudents, DateTime startDateTime, bool createdByDirector)
         {
             Id = id;
             TutorId = tutorId;
@@ -98,6 +105,7 @@ namespace LangLang.Core.Model
             NumberOfStudents = 0;
             MaxStudents = maxStudents;
             StartDateTime = startDateTime;
+            CreatedByDirector = createdByDirector;
         }
         
         public Course()
