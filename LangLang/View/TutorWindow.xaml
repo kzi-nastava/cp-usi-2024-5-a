@@ -72,11 +72,13 @@
         <Border Grid.Row="1" Grid.Column="0">
             <!-- Your content here -->
             <!-- Example: <TextBlock Text="Content 3" /> -->
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-40,0,0" Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
                 <!-- Four Buttons -->
-                <Button Content="New course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
-                <Button Content="Erase course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
-                <Button Content="Update course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                    <Button Content="Create course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                    <Button Content="Delete course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                    <Button Content="Update course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                </StackPanel>
                 <Button Content="Search courses" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
             </StackPanel>
         </Border>
@@ -85,11 +87,13 @@
         <Border Grid.Row="1" Grid.Column="1">
             <!-- Your content here -->
             <!-- Example: <TextBlock Text="Content 4" /> -->
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-40,0,0" Orientation="Horizontal">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
                 <!-- Four Buttons -->
-                <Button Name="examSlotCreateWindowBtn" Content="New exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black"  Click="ExamSlotCreateWindowBtn_Click" />
-                <Button Content="Erase exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
-                <Button Content="Update exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotUpdateWindowBtn_Click" />
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"  Orientation="Horizontal">
+                    <Button Name="examSlotCreateWindowBtn" Content="Create exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black"  Click="ExamSlotCreateWindowBtn_Click" />
+                    <Button Content="Delete exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                    <Button Content="Update exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotUpdateWindowBtn_Click" />
+                </StackPanel>
                 <Button Content="Search exams" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
             </StackPanel>
         </Border>
