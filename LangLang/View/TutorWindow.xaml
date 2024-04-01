@@ -36,7 +36,7 @@
         </Label>
 
         <!--label for exam slots table-->
-        <Label x:Name="courseLbl" Content="Select course" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Height="24" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
+        <Label x:Name="examSlotsLbl" Content="Your Exam Slots" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Height="24" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -97,7 +97,18 @@
                 <Button Content="Search exams" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
             </StackPanel>
         </Border>
-        <DataGrid Grid.Column="1" Margin="15,45,15,0" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+        <DataGrid Grid.Column="1" Margin="15,45,15,0" AutoGenerateColumns="False"
+                          x:Name="ExamSlotsDataGrid"
+                          ItemsSource="{Binding ExamSlots, UpdateSourceTrigger=PropertyChanged}"
+                          SelectedItem="{Binding SelectedExamSlot, UpdateSourceTrigger=PropertyChanged}"
+                          SelectionMode="Single" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Course ID" Binding="{Binding CourseId}"/>
+                <DataGridTextColumn Header="Max Students" Binding="{Binding MaxStudents}"/>
+                <DataGridTextColumn Header="Number of Students" Binding="{Binding NumberOfStudents}"/>
+                <DataGridTextColumn Header="Date and Time" Binding="{Binding ExamDateTime, StringFormat={}{0:MM/dd/yyyy HH:mm}}"/>
+            </DataGrid.Columns>
+        </DataGrid>
         <DataGrid Grid.Column="0"  Margin="15,45,15,0" d:ItemsSource="{d:SampleData ItemCount=5}"/>
     </Grid>
 </Window>
