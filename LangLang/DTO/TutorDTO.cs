@@ -244,12 +244,17 @@ namespace LangLang.View.DTO
                     if (employmentDate == default) return "Birth date is required";
                     else return "";
                 }
+                if (columnName == "LanguageSkills")
+                {
+                    if (languageSkills.Count == 0) return "You must enter at least one skill";
+                    else return "";
+                }
 
                 return "";
             }
         }
 
-        private readonly string[] _validatedProperties = { "Name", "LastName", "Email", "Profession", "Password", "PhoneNumber", "Gender", "BirthDate" };
+        private readonly string[] _validatedProperties = { "Name", "LastName", "Email", "Password", "PhoneNumber", "BirthDate", "EmploymentDate", "LanguageSkills" };
 
         // checks if all properties are valid
         public bool IsValid
@@ -259,7 +264,7 @@ namespace LangLang.View.DTO
                 foreach (var property in _validatedProperties)
                 {
                     if (this[property] != null)
-                        return true;
+                        return false;
                 }
 
                 return true;
