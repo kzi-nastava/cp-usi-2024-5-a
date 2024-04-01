@@ -8,7 +8,7 @@
         Title="LangSchool" Height="450" Width="800">
     <Grid>
         <Button Content="Director" HorizontalAlignment="Left" Height="82" Margin="86,217,0,0" VerticalAlignment="Top" Width="606" Click="DirectorWindow"/>
-        <Button Content="Tutor" HorizontalAlignment="Left" Height="79" Margin="86,115,0,0" VerticalAlignment="Top" Width="314"/>
+        <Button Content="Tutor" HorizontalAlignment="Left" Height="79" Margin="86,115,0,0" VerticalAlignment="Top" Width="314" Click="Tutor_Click"/>
         <Button Content="Student" HorizontalAlignment="Left" Height="79" Margin="405,115,0,0" VerticalAlignment="Top" Width="280"/>
         <Button Content="Register" HorizontalAlignment="Left" Height="70" Margin="186,336,0,0" VerticalAlignment="Top" Width="380"/>
 

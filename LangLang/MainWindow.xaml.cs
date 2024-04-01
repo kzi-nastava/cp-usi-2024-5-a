@@ -1,4 +1,4 @@
-﻿using LangLang.Core.Controller;
+using LangLang.Core.Controller;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +36,12 @@ namespace LangLang
             InitializeComponent();
         }
 
+        private void Tutor_Click(object sender, RoutedEventArgs e)
+        {
+            TutorWindow tutorWindow = new TutorWindow();
+            this.Visibility = Visibility.Hidden;
+            tutorWindow.Show();
+        }
         private void DirectorWindow(object sender, RoutedEventArgs e)
         {
             //DirectorWindow window = new DirectorWindow();
