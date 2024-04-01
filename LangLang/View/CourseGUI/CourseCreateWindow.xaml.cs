@@ -23,11 +23,11 @@ namespace LangLang.View.CourseGUI
     public partial class CourseCreateWindow : Window
     {
         public CourseDTO Course { get; set; }
-        private CourseController courseController;
+        private CourseController courseController = new CourseController();
         public CourseCreateWindow(CourseController courseController)
         {
             Course = new CourseDTO();
-            this.courseController = courseController;
+            //this.courseController = courseController;
             InitializeComponent();
             DataContext = this;
             languageLvlCb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));

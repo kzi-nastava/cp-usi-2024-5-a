@@ -206,7 +206,7 @@
                 </Label.Background>
             </Label>
             <DatePicker Margin="5,0,5,0" x:Name="startDateDp" Background="#FFFFDDDD"
-             SelectedDate="{Binding Path=Course.StartDateTime, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+             SelectedDate="{Binding Path=Course.StartDateTime, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, StringFormat={}{0:MM/dd/yyyy}}"
              Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Grid.ColumnSpan="2" />
 
             <Label Margin="5,20,5,0" x:Name="classTimeLbl" Content="Class time" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
