@@ -36,7 +36,7 @@
         </Label>
 
         <!--label for exam slots table-->
-        <Label x:Name="courseLbl" Content="Select course" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Height="24" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
+        <Label x:Name="examSlotsLbl" Content="Your Exam Slots" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Height="24" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>

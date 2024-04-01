@@ -19,6 +19,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Data;
+using System.Reflection;
+using System.Xml.Linq;
+using System.Reflection.Emit;
 
 namespace LangLang
 {
@@ -40,6 +44,14 @@ namespace LangLang
             DataContext = this;
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             examSlotsController = new ExamSlotController();
+
+            /*
+            ExamSlot es = new ExamSlot(1, 1, 10, DateTime.Now, 0);
+            ExamSlotDTO dto = new ExamSlotDTO(es);
+            ExamSlots.Add(dto);
+            examSlotsController.Add(es);
+            */
+
             examSlotsController.Subscribe(this);
             Update();
         }
