@@ -312,13 +312,33 @@ namespace LangLang.DTO
             }
         }
 
-        private readonly string[] _validatedProperties = { "Language", "Level", "StartDateTime", "NumberOfWeeks", "Time" };
+        private string[] _validatedProperties = { "Language", "Level", "StartDateTime", "NumberOfWeeks", "Time" };
 
         // checks if all properties are valid
         public bool IsValid
         {
             get
             {
+                if (online == false)
+                {
+                    _validatedProperties = _validatedProperties.Append("MaxStudents").ToArray();
+                }
+                else
+                {
+                    int index = Array.IndexOf(_validatedProperties, "MaxStudents");
+                    if (index != -1)
+                    {
+                        // Create a new array with one less element
+                        string[] newArray = new string[_validatedProperties.Length - 1];
+
+                        // Copy elements from the original array to the new array, excluding the element to delete
+                        Array.Copy(_validatedProperties, 0, newArray, 0, index);
+                        Array.Copy(_validatedProperties, index + 1, newArray, index, _validatedProperties.Length - index - 1);
+
+                        // Replace the original array with the new array
+                        _validatedProperties = newArray;
+                    }
+                }
                 days = new List<DayOfWeek>();
                 if (mon)
                 {
