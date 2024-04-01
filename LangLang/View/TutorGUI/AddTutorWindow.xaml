@@ -1,0 +1,332 @@
+﻿<Window x:Class="LangLang.View.AddTutorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LangLang.View"
+        mc:Ignorable="d"
+        Title="AddTutorWindow" Height="580" Width="800">
+
+    <!--validation-->
+    <Window.Resources>
+        <ControlTemplate x:Name="controltpl" x:Key="ValidationTemplate">
+            <StackPanel>
+                <TextBlock x:Name="errorTextBlock"
+                       Text="{Binding [0].ErrorContent}" 
+                       Foreground="IndianRed"
+                       Margin="0,23,0,0"
+                       HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            </StackPanel>
+        </ControlTemplate>
+    </Window.Resources>
+
+    <Grid HorizontalAlignment="Center" Width="800" Margin="0,0,0,-6">
+        <StackPanel HorizontalAlignment="Left" Height="465" Margin="10,18,0,0" VerticalAlignment="Top" Width="376">
+            <!--label for name -->
+            <Label x:Name="nameLB" Content="Name" Height="24" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.491,0.897" FontFamily="Arial" FontWeight="Bold">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleX="0"/>
+                        <RotateTransform/>
+                        <TranslateTransform X="0"/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+                <Label.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="1"/>
+                        <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                        <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                    </LinearGradientBrush>
+                </Label.Background>
+            </Label>
+        </StackPanel>
+        <!--text box for last name-->
+        <TextBox x:Name="nameTB" HorizontalAlignment="Left" Height="24" Margin="43,42,0,0" TextWrapping="Wrap"
+                 Text="{Binding Path = Tutor.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                 VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" RenderTransformOrigin="0.432,0.439" >
+            <TextBox.OpacityMask>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </TextBox.OpacityMask>
+        </TextBox>
+        <!--label for lastname -->
+        <Label x:Name="lastNameLB" Content="Lastname" HorizontalAlignment="Left" Height="26" Margin="43,89,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                </LinearGradientBrush>
+            </Label.Background>
+        </Label>
+        <!--text box name-->
+        <TextBox x:Name="lastNameTB" HorizontalAlignment="Left" Height="24" Margin="43,115,0,0" TextWrapping="Wrap"
+                 Text="{Binding Path = Tutor.LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                  Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                 VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
+            <TextBox.OpacityMask>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </TextBox.OpacityMask>
+        </TextBox>
+        <!--label for email-->
+        <Label x:Name="emailLB" Content="Email" HorizontalAlignment="Left" Height="26" Margin="43,158,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                </LinearGradientBrush>
+            </Label.Background>
+        </Label>
+        <!--text box for email-->
+        <TextBox x:Name="emailTB" HorizontalAlignment="Left" Height="24" Margin="43,184,0,0" TextWrapping="Wrap"
+                 Text="{Binding Path = Tutor.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                 VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
+            <TextBox.OpacityMask>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </TextBox.OpacityMask>
+        </TextBox>
+
+        <!--label for number-->
+        <Label x:Name="numberLB" Content="Phone number" HorizontalAlignment="Left" Height="26" Margin="43,217,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                </LinearGradientBrush>
+            </Label.Background>
+        </Label>
+        <!--number text box-->
+        <TextBox x:Name="phonenumbertb" HorizontalAlignment="Left" Height="24" Margin="43,243,0,0" TextWrapping="Wrap"
+                 Text="{Binding Path = Tutor.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                 VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
+            <TextBox.OpacityMask>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </TextBox.OpacityMask>
+        </TextBox>
+
+        <!--label for password and box for it-->
+        <Label x:Name="passwordLB" Content="Password" HorizontalAlignment="Left" Height="26" Margin="43,285,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                </LinearGradientBrush>
+            </Label.Background>
+        </Label>
+        <TextBox x:Name="passwordtb" HorizontalAlignment="Left" Margin="43,311,0,0" VerticalAlignment="Top" Width="310" Height="24"
+                Text="{Binding Path=Tutor.Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                SelectionBrush="#FFFFDFDF" BorderBrush="#FF724879" Background="#FFFFF3F3" SelectionTextBrush="#FFFFF3F3" Foreground="#FFFFF3F3"/>
+        <!--label for gender and combo box for it-->
+        <Label x:Name="genderLB" Content="gender" HorizontalAlignment="Left" Height="26" Margin="43,357,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.566,-1.929" FontFamily="Arial" FontWeight="Bold">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                </LinearGradientBrush>
+            </Label.Background>
+        </Label>
+
+        <ComboBox x:Name="genderCB"
+                  SelectedItem = "{Binding Path = Tutor.Gender}"
+                  Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                  HorizontalAlignment="Left" Height="24" Margin="43,383,0,0" VerticalAlignment="Top" Width="310">
+            <ComboBox.Background>
+                <LinearGradientBrush EndPoint="0,1">
+                    <GradientStop Color="#FFF0F0F0"/>
+                    <GradientStop Color="#FFFFE1E1" Offset="1"/>
+                </LinearGradientBrush>
+            </ComboBox.Background>
+        </ComboBox>
+
+        <!--label for birthday date -->
+        <Label x:Name="birthLB" Content="Date of birth" HorizontalAlignment="Left" Height="26" Margin="43,424,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                </LinearGradientBrush>
+            </Label.Background>
+        </Label>
+        <!--picker for birthday-->
+        <DatePicker x:Name="BirthDatePicker" HorizontalAlignment="Left"
+                    SelectedDate="{Binding Path = Tutor.BirthDate}"
+                    Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                    Height="24" Margin="43,450,0,0" VerticalAlignment="Top" Width="310" Background="#FFFFDDDD"/>
+        <Button Content="Add tutor" HorizontalAlignment="Left" Height="32" Margin="217,488,0,0" VerticalAlignment="Top" Width="375" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="AddTutor_Click"/>
+        <Label x:Name="genderlbl_Copy" Content="Gender" HorizontalAlignment="Left" Height="26" Margin="43,357,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.566,-1.929" FontFamily="Arial" FontWeight="Bold">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                </LinearGradientBrush>
+            </Label.Background>
+        </Label>
+
+        <StackPanel HorizontalAlignment="Left" Height="452" Margin="386,9,0,0" VerticalAlignment="Top" Width="404">
+            <StackPanel Height="155" Width="356">
+                <!--label for language-->
+                <Label x:Name="languageLB" Content="Language" Height="24" Width="238" Margin="10,18,0,0"
+                       FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.491,0.897" FontFamily="Arial" FontWeight="Bold">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleX="0"/>
+                            <RotateTransform/>
+                            <TranslateTransform X="0"/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="1"/>
+                            <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                            <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                        </LinearGradientBrush>
+                    </Label.Background>
+                </Label>
+                <!--text box for language-->
+                <TextBox x:Name="languageTB" Height="24" TextWrapping="Wrap" 
+                    Text="{Binding CurrentKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="10,0,0,0" Width="236" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" RenderTransformOrigin="0.432,0.439" >
+                    <TextBox.OpacityMask>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black"/>
+                            <GradientStop Color="White" Offset="1"/>
+                        </LinearGradientBrush>
+                    </TextBox.OpacityMask>
+                </TextBox>
+                <!--level label-->
+                <Label x:Name="LevelLB" Content="Level" Height="26" Width="239" Margin="10,18,0,0" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleX="0"/>
+                            <RotateTransform/>
+                            <TranslateTransform X="0"/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="1"/>
+                            <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                            <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                        </LinearGradientBrush>
+                    </Label.Background>
+                </Label>
+                <!--level combo box-->
+                <ComboBox x:Name="levelCB" HorizontalAlignment="Left" Height="24" Margin="67,0,0,0" Width="235"
+                           SelectedItem = "{Binding Path = CurrentValue}"
+                           Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
+                    <ComboBox.Background>
+                        <LinearGradientBrush EndPoint="0,1">
+                            <GradientStop Color="#FFF0F0F0"/>
+                            <GradientStop Color="#FFFFE1E1" Offset="1"/>
+                        </LinearGradientBrush>
+                    </ComboBox.Background>
+                </ComboBox>
+            </StackPanel>
+            <!--table-->
+            <DataGrid Height="100"
+                              AutoGenerateColumns="False"
+                              x:Name="LLDataGrid"
+                              ItemsSource="{Binding Skills, UpdateSourceTrigger=PropertyChanged}"
+                              SelectionMode="Single" IsReadOnly="True" Margin="50,0,0,0" RenderTransformOrigin="0.502,0.513" HorizontalAlignment="Left" Width="318">
+                <DataGrid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleY="-0.101"/>
+                        <RotateTransform/>
+                        <TranslateTransform Y="-0.525"/>
+                    </TransformGroup>
+                </DataGrid.RenderTransform>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Language" Width =" 200" Binding="{Binding Key}" />
+                    <DataGridTextColumn Header="Level" Width="120" Binding="{Binding Value}" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!--button add-->
+            <Button x:Name="addLL" Content="Add skill" HorizontalAlignment="Center" Height="33" Margin="0,25,0,0" Width="229" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="addLL_Click"/>
+            <!--button delete-->
+            <Button x:Name="deleteLL" Content="Delete skill" HorizontalAlignment="Center" Height="33" Margin="0,25,0,0" Width="220" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="deleteLL_Click"/>
+
+        </StackPanel>
+    </Grid>
+</Window>
