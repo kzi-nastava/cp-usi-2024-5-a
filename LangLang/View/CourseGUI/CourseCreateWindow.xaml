@@ -92,7 +92,7 @@
             <ComboBox x:Name="languageLvlCb" Margin="5,0,5,0" Height="20"
             Text="{Binding Path=Student.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
             Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
-            VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" Foreground ="#FFF3B0B0" SelectionChanged="ComboBox_SelectionChanged" >
+            VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" Foreground ="#FFF3B0B0" >
                 <ComboBox.OpacityMask>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black"/>
