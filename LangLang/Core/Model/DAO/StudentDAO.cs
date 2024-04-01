@@ -60,7 +60,6 @@ namespace LangLang.Core.Model.DAO
             oldStudent.Profile.Email = student.Profile.Email;
             oldStudent.Profile.Role = student.Profile.Role;
             oldStudent.Profile.Password = student.Profile.Password;
-            oldStudent.CanModifyInfo = student.CanModifyInfo;
             oldStudent.ProfessionalQualification = student.ProfessionalQualification;
 
             _repository.Save(_students);

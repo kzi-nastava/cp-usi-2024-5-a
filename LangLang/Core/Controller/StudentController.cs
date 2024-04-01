@@ -79,5 +79,11 @@ namespace LangLang.Core.Controller
 
             return availableExamSlots;
         }
+
+        public bool CanModifyInfo(int studentId, EnrollmentRequestController erc)
+        {
+            Dictionary<int, EnrollmentRequest> studentRequests = erc.GetStudentRequests(studentId);
+            return studentRequests.Count == 0;
+        }
     }
 }
