@@ -97,7 +97,7 @@
                 <Button Content="Search exams" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
             </StackPanel>
         </Border>
-        <DataGrid Grid.Column="1" Margin="15,45,15,0" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="DataGrid_SelectionChanged"/>
-        <DataGrid Grid.Column="0"  Margin="15,45,15,0" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="DataGrid_SelectionChanged_1"/>
+        <DataGrid Grid.Column="1" Margin="15,45,15,0" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+        <DataGrid Grid.Column="0"  Margin="15,45,15,0" d:ItemsSource="{d:SampleData ItemCount=5}"/>
     </Grid>
 </Window>
