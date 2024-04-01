@@ -78,14 +78,19 @@ namespace LangLang.Core.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues =
-             {
-                _profile.ToString(),
-                _employmentDate.ToString("yyyy-MM-dd"),
-                DictToCSV(_languageSkills)
-            };
-
-            return csvValues;
+            if (_languageSkills.Count > 0)
+            {
+                return new string[] {
+            _profile.ToString(),
+            _employmentDate.ToString("yyyy-MM-dd"),
+            DictToCSV(_languageSkills) };
+            }
+            else
+            {
+                return new string[] {
+            _profile.ToString(),
+            _employmentDate.ToString("yyyy-MM-dd") };
+            }
         }
 
         public string DictToCSV(Dictionary<string, LanguageLevel> skills)
