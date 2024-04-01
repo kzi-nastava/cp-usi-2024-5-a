@@ -15,6 +15,7 @@ namespace LangLang.DTO
 {
     public class CourseDTO : INotifyPropertyChanged, IDataErrorInfo
     {
+        public string StringDays { get; }
 
         public int Id { get; set; }
         private int tutorId;
@@ -404,9 +405,12 @@ namespace LangLang.DTO
             CreatedByDirector = course.CreatedByDirector;
             TutorId = course.TutorId;
             Days = course.Days;
+
+            StringBuilder sbDays = new StringBuilder(); 
             if (Days.Contains(DayOfWeek.Monday))
             {
                 Mon = true;
+                sbDays.Append("Mon ");
             }
             else
             {
@@ -415,6 +419,7 @@ namespace LangLang.DTO
             if (Days.Contains(DayOfWeek.Tuesday))
             {
                 Tue = true;
+                sbDays.Append("Tue ");
             }
             else
             {
@@ -423,6 +428,7 @@ namespace LangLang.DTO
             if (Days.Contains(DayOfWeek.Wednesday))
             {
                 Wed = true;
+                sbDays.Append("Wed ");
             }
             else
             {
@@ -431,6 +437,7 @@ namespace LangLang.DTO
             if (Days.Contains(DayOfWeek.Thursday))
             {
                 Thu = true;
+                sbDays.Append("Thu ");
             }
             else
             {
@@ -439,11 +446,18 @@ namespace LangLang.DTO
             if (Days.Contains(DayOfWeek.Friday))
             {
                 Fri = true;
+                sbDays.Append("Fri ");
             }
             else
             {
                 Fri = false;
             }
+            // Deletes the last white space from stringbuilder
+            if (sbDays.Length > 0)
+            {
+                sbDays.Remove(sbDays.Length - 1, 1);
+            }
+            StringDays = sbDays.ToString();
             StartDateTime = course.StartDateTime;
             NumberOfWeeks = course.NumberOfWeeks.ToString();
             MaxStudents = course.MaxStudents.ToString();
