@@ -44,6 +44,7 @@ namespace LangLang.View
 
         private void examSlotCreateBtn_Click(object sender, RoutedEventArgs e)
         {
+            CourseController courseController = new CourseController();
             if (ExamSlot.IsValid)
             {
 
@@ -54,9 +55,22 @@ namespace LangLang.View
                 }
                 else
                 {
+                    
                     ExamSlot.CourseId = SelectedCourse.Id;
-                    examSlotsController.Add(ExamSlot.ToExamSlot());
-                    Close();
+                    bool added = examSlotsController.Add(ExamSlot.ToExamSlot(), courseController);
+                    if (!added)
+                    {
+                        examSlotsController.Add(ExamSlot.ToExamSlot(), courseController);
+
+                        MessageBox.Show("Choose another exam date or time.");
+                    }
+                    else
+                    {
+                        //check this
+                        examSlotsController.Add(ExamSlot.ToExamSlot(), courseController);
+
+                        Close();
+                    }
                 }
                 
             }

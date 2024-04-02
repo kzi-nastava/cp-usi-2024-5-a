@@ -34,7 +34,7 @@ namespace LangLang.View.ExamSlotGUI
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             examSlotsForReview = new List<ExamSlot>();
             //fix to get only by this tutor
-            examSlotsForReview = examSlotController.GetAllExamSlots().Values.ToList();
+            examSlotsForReview = examSlotController.GetExamSlotsByTutor(tutorId,courseController);
 
             foreach(ExamSlot exam in examSlotsForReview)
             {
@@ -77,7 +77,7 @@ namespace LangLang.View.ExamSlotGUI
         {
             //fix to show all exam slots for current tutor
             //examSlotsForReview = examSlotController.GetExamSlotsByTutor(tutorId, courseController);
-            examSlotsForReview = examSlotController.GetAllExamSlots().Values.ToList();
+            examSlotsForReview = examSlotController.GetExamSlotsByTutor(tutorId,courseController);
             Update();
         }
     }
