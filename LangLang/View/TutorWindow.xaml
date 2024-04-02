@@ -109,7 +109,7 @@
                 <DataGridTextColumn Header="Date and Time" Binding="{Binding ExamDateTime, StringFormat={}{0:MM/dd/yyyy HH:mm}}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Grid.Column="0"  Margin="15,45,15,0" SelectionChanged="coursesTable_SelectionChanged">
+        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Grid.Column="0"  Margin="15,45,15,0"  SelectionChanged="coursesTable_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}"/>
                 <DataGridTextColumn IsReadOnly="True" Header="Language" Binding="{Binding Language}"/>

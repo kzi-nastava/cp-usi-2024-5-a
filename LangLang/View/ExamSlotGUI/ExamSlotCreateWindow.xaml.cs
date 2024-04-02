@@ -32,6 +32,7 @@ namespace LangLang.View
         public ExamSlotCreateWindow(Dictionary<int,Course> courses,ExamSlotController controller)
         {
             Courses = courses.Values.ToList<Course>();
+            Trace.WriteLine("U create " + Courses.Count);
             SelectedCourse = new Course();
             examSlotsController = controller;
             ExamSlot = new ExamSlotDTO();
@@ -43,7 +44,6 @@ namespace LangLang.View
 
         private void examSlotCreateBtn_Click(object sender, RoutedEventArgs e)
         {
-            Trace.WriteLine("Mas "+ExamSlot.MaxStudents);
             if (ExamSlot.IsValid)
             {
                 examSlotsController.Add(ExamSlot.ToExamSlot());
@@ -64,6 +64,7 @@ namespace LangLang.View
                 ExamSlot.Language = SelectedCourse.Language;
                 levelTb.Text = SelectedCourse.Level.ToString();
                 ExamSlot.Level = SelectedCourse.Level;
+                ExamSlot.CourseId = SelectedCourse.Id;
                 //CoursesDataGrid.SelectedItem = null;
             }
         }
