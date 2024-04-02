@@ -23,6 +23,7 @@ using System.Data;
 using System.Reflection;
 using System.Xml.Linq;
 using System.Reflection.Emit;
+using System.Diagnostics;
 
 namespace LangLang
 {
@@ -35,6 +36,12 @@ namespace LangLang
         public ObservableCollection<ExamSlotDTO> ExamSlots { get; set; }
         public ExamSlotDTO SelectedExamSlot { get; set; }
         private ExamSlotController examSlotsController { get; set; }
+
+        //for courses
+        public ObservableCollection<CourseDTO> Courses { get; set; }
+        public CourseDTO SelectedCourse { get; set; }
+        private CourseController coursesController { get; set; }
+
         public Tutor tutor { get; set; }
 
         public TutorWindow()
@@ -44,14 +51,35 @@ namespace LangLang
             DataContext = this;
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             examSlotsController = new ExamSlotController();
+            coursesController = new CourseController();
 
-            /*
-            ExamSlot es = new ExamSlot(1, 1, 10, DateTime.Now, 0);
-            ExamSlotDTO dto = new ExamSlotDTO(es);
+            Course c = new Course();
+            c.Days = new List<DayOfWeek>();
+            c.Language = "engleski";
+
+            c.Level = LanguageLevel.A2;
+            Course c1 = new Course();
+            c1.Language = "ruski";
+            c1.Level = LanguageLevel.C2;
+            c1.Days = new List<DayOfWeek>();
+            Trace.WriteLine(c.Id);
+
+            coursesController.Add(c);
+            coursesController.Add(c1);
+
+            Trace.WriteLine("Posle "+c.Id);
+
+            if (coursesController.GetAllCourses().Values.Count == 1)
+            {
+                Trace.WriteLine("IMAAAA");
+
+            }
+            ExamSlot es = new ExamSlot(1, c.Id, 10, DateTime.Now, 0);
+            ExamSlotDTO dto = new ExamSlotDTO(es, c);
             ExamSlots.Add(dto);
             examSlotsController.Add(es);
-            */
-
+            
+            //filter exam slots for this tutor
             examSlotsController.Subscribe(this);
             Update();
         }
@@ -59,13 +87,23 @@ namespace LangLang
         public void Update()
         {
             ExamSlots.Clear();
+            Trace.WriteLine("POSLE");
+
             foreach (ExamSlot exam in examSlotsController.GetAllExamSlots().Values)
-                ExamSlots.Add(new ExamSlotDTO(exam));
+            {
+                
+                Trace.WriteLine(exam.MaxStudents);
+
+                Course c = coursesController.GetAllCourses()[exam.CourseId];
+                ExamSlots.Add(new ExamSlotDTO(exam, c));
+            }
         }
 
         private void ExamSlotCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow();
+            ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow(coursesController.GetAllCourses(), examSlotsController);
+            //ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow(examSlotsController);
+
             examSlotCreateWindow.Show();
         }
 
@@ -81,5 +119,15 @@ namespace LangLang
             courseCreateWindow.Show();
         }
 
+        private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Trace.WriteLine("IDDDDD "+SelectedExamSlot.MaxStudents);
+            if (!examSlotsController.Delete(SelectedExamSlot.Id))
+            {
+                MessageBox.Show("Can't delete exam, there is less than 14 days before exam.");
+            }
+            
+            Update();
+        }
     }
 }

@@ -40,6 +40,7 @@ namespace LangLang.Core.Controller
         {
             ExamSlot examSlot = _examSlots.GetAllExamSlots()[examSlotId];
             //should use const variable instead of 14
+            
             if ((examSlot.ExamDateTime - DateTime.Now).TotalDays >= 14)
             {
                 _examSlots.RemoveExamSlot(examSlotId);
