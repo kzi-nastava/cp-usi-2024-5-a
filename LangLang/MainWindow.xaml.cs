@@ -31,8 +31,8 @@ namespace LangLang
 
         private void Tutor_Click(object sender, RoutedEventArgs e)
         {
-            //PAZITI DA MORA DA POSTOJI SA KLJUCEM 7
-            TutorWindow tutorWindow = new TutorWindow(tutorController.GetAllTutors()[7]);
+            //PAZITI DA MORA DA POSTOJI SA KLJUCEM 0
+            TutorWindow tutorWindow = new TutorWindow(tutorController.GetAllTutors()[0]);
             this.Visibility = Visibility.Hidden;
             tutorWindow.Show();
         }
