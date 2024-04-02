@@ -11,17 +11,18 @@ namespace LangLang.Core.Model
 {
     public class Tutor : ISerializable
     {
-        private Dictionary<string, LanguageLevel> _languageSkills;
+        private Skill _skill;
 
         private DateTime _employmentDate;
 
         private Profile _profile;
 
-        public Dictionary<string, LanguageLevel> LanguageSkills
+        public Skill Skill
         {
-            get { return _languageSkills; }
-            set { _languageSkills = value; }
+            get { return _skill; }
+            set { _skill = value; }
         }
+
         public DateTime EmploymentDate
         {
             get { return _employmentDate; }
@@ -33,15 +34,15 @@ namespace LangLang.Core.Model
             private set { _profile = value; }
         }
 
-        public Tutor(int id, string name, string lastName, UserGender gender, DateTime dateOfBirth, string phoneNumber, string email, string password, UserType role, DateTime employmentDate, Dictionary<string, LanguageLevel> languageSkills) {
+        public Tutor(int id, string name, string lastName, UserGender gender, DateTime dateOfBirth, string phoneNumber, string email, string password, UserType role, DateTime employmentDate, List<string> languages, List<LanguageLevel>levels) {
             _profile = new Profile(id, name, lastName, gender, dateOfBirth, phoneNumber, email, password, role);
             _employmentDate = employmentDate;
-            _languageSkills = languageSkills;
+            _skill = new(languages, levels);
             }
 
         public Tutor()
         {
-            _languageSkills = new Dictionary<string, LanguageLevel>();
+            _skill = new();
             _employmentDate = DateTime.MinValue;
             _profile = new();
         }
@@ -71,19 +72,20 @@ namespace LangLang.Core.Model
                 LanguageLevel level;
                 if (Enum.TryParse(languageSkill[1], out level))
                 {
-                    _languageSkills.Add(languageSkill[0], level);
+                    _skill.Language.Add(languageSkill[0]);
+                    _skill.Level.Add(level);
                 }
             }
         }
 
         public string[] ToCSV()
         {
-            if (_languageSkills.Count > 0)
+            if (_skill.Language.Count > 0)
             {
                 return new string[] {
             _profile.ToString(),
             _employmentDate.ToString("yyyy-MM-dd"),
-            DictToCSV(_languageSkills) };
+            ListsToCSV(_skill) };
             }
             else
             {
@@ -91,45 +93,27 @@ namespace LangLang.Core.Model
             _profile.ToString(),
             _employmentDate.ToString("yyyy-MM-dd") };
             }
+
         }
 
-        public string DictToCSV(Dictionary<string, LanguageLevel> skills)
+        public string ListsToCSV(Skill skill)
         {
             StringBuilder sb = new StringBuilder();
-            var length = skills.Count();
-            foreach (var skill in skills)
+            var length = skill.Language.Count();
+
+            while (length > 0)
             {
-                sb.Append(skill.Key).Append(",").Append(skill.Value);
-                if (--length > 0) sb.Append("|");
-            }
-            return sb.ToString();
-        }
-
-
-
-        /*
-        public List<Course> GetCourses(ref Dictionary<int, Course> courses)
-        {
-        }
-        */
-        //GetExamSlots takes hashmap of all examslots and returns list of examslots that this tutor created
-        /*
-        public List<ExamSlot> GetExamSlots(ref Dictionary<int, ExamSlot> examSlots)
-        {
-            List<ExamSlot> examSlotList = new List<ExamSlot>();
-
-            foreach (KeyValuePair<int, ExamSlot> pair in examSlots)
-            {
-                if (pair.Value.Course.Tutor.Profile.Email == Profile.Email)
+                sb.Append(skill.Language[length - 1]).Append(",").Append(skill.Level[length - 1]);
+                length--;
+                if (length > 0)
                 {
-                    examSlotList.Add(pair.Value);
+                    sb.Append("|");
                 }
             }
 
-            return examSlotList;
+            return sb.ToString();
         }
-        */
-        //add searchCourses and searchExamSlots
+
     }
 }
  
