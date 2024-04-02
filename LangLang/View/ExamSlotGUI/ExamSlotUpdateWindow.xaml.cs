@@ -56,12 +56,14 @@ namespace LangLang.View.ExamSlotGUI
         {
             if (ExamSlot.IsValid)
             {
+                Trace.WriteLine(canBeUpdated);
                 if (!canBeUpdated)
                 {
                     MessageBox.Show("Exam can not be updated. There is less than 2 weeks left before the exam.");
                 }
                 else
                 {
+                    Trace.WriteLine("aaaaa "+ ExamSlot.ToExamSlot().CourseId);
                     examSlotsController.Update(ExamSlot.ToExamSlot());
                 }
                 Close();
@@ -70,7 +72,7 @@ namespace LangLang.View.ExamSlotGUI
             }
             else
             {
-                MessageBox.Show("Exam slot can not be created. Not all fields are valid.");
+                MessageBox.Show("Exam slot can not be updated. Not all fields are valid.");
             }
 
         }
@@ -84,6 +86,7 @@ namespace LangLang.View.ExamSlotGUI
                 ExamSlot.Language = SelectedCourse.Language;
                 levelTb.Text = SelectedCourse.Level.ToString();
                 ExamSlot.Level = SelectedCourse.Level;
+                ExamSlot.CourseId = SelectedCourse.Id;
                 //CoursesDataGrid.SelectedItem = null;
             }
         }
