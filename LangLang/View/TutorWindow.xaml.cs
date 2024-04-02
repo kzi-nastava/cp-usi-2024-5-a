@@ -64,7 +64,6 @@ namespace LangLang
             coursesController.Add(c);
             Course e = new Course(2, 1, "spanish", LanguageLevel.A2, 4, days, true, 0, DateTime.Now, false);
            
-            coursesController.Add(c);
             coursesController.Add(e);
 
             Trace.WriteLine("Posle "+c.Id);
@@ -81,7 +80,6 @@ namespace LangLang
             examSlotsController.Add(es);
             
             
-            coursesController.Add(e);
             coursesController.Subscribe(this);
             examSlotsController.Subscribe(this);
             Update();
@@ -116,8 +114,15 @@ namespace LangLang
 
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow();
-            examSlotUpdateWindow.Show();
+            if (SelectedExamSlot == null)
+            {
+                MessageBox.Show("No exam slot selected. Please select an exam slot.");
+            }else
+            {
+                ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetAllCourses(), examSlotsController);
+                examSlotUpdateWindow.Show();
+            }
+            
         }
 
         private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)

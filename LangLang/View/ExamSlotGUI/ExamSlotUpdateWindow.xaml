@@ -99,8 +99,8 @@
                         </LinearGradientBrush>
                     </Label.Background>
                 </Label>
-                <TextBox x:Name="nametb" HorizontalAlignment="Left" Height="24" Margin="35,87,0,0" TextWrapping="Wrap" 
-     Text="{Binding Path=Student.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                <TextBox x:Name="MaxStudentsTb" HorizontalAlignment="Left" Height="24" Margin="35,87,0,0" TextWrapping="Wrap" 
+     Text="{Binding Path=ExamSlot.MaxStudents, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
      Validation.ErrorTemplate="{StaticResource ValidationTemplate}" 
      VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.ColumnSpan="2" >
                     <TextBox.OpacityMask>
@@ -129,8 +129,8 @@
                         </LinearGradientBrush>
                     </Label.Background>
                 </Label>
-                <TextBox x:Name="lastnametb" HorizontalAlignment="Left" Height="24" Margin="35,152,0,0" TextWrapping="Wrap" 
-     Text="{Binding Path=Student.LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                <TextBox x:Name="languageTb" HorizontalAlignment="Left" IsReadOnly="True" Height="24" Margin="35,152,0,0" TextWrapping="Wrap" 
+     Text="{Binding Path=SelectedCourse.Language, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
      Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
      VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3"
      BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.ColumnSpan="2" >
@@ -160,8 +160,8 @@
                         </LinearGradientBrush>
                     </Label.Background>
                 </Label>
-                <TextBox x:Name="emailtb" HorizontalAlignment="Left" Height="24" Margin="35,217,0,0" TextWrapping="Wrap" 
-     Text="{Binding Path=Student.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                <TextBox x:Name="levelTb" HorizontalAlignment="Left" IsReadOnly="True" Height="24" Margin="35,217,0,0" TextWrapping="Wrap" 
+     Text="{Binding Path=SelectedCourse.Level, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
      Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
      VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.ColumnSpan="2" >
                     <TextBox.OpacityMask>
@@ -195,8 +195,8 @@
                         </LinearGradientBrush>
                     </Label.Background>
                 </Label>
-                <DatePicker x:Name="birthdp" HorizontalAlignment="Left" Height="24" Margin="35,283,0,0" VerticalAlignment="Top" Width="310" Background="#FFFFDDDD"
-        SelectedDate="{Binding Path=Student.BirthDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                <DatePicker x:Name="ExamDateTb" HorizontalAlignment="Left" Height="24" Margin="35,283,0,0" VerticalAlignment="Top" Width="310" Background="#FFFFDDDD"
+        SelectedDate="{Binding Path=ExamSlot.ExamDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
         Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Grid.ColumnSpan="2" />
 
                 <Label x:Name="examTimeLbl" Content="Exam time" HorizontalAlignment="Left" Height="24" Margin="35,321,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2">
@@ -216,8 +216,8 @@
                         </LinearGradientBrush>
                     </Label.Background>
                 </Label>
-                <TextBox x:Name="examTimeTb" HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" 
-                Text="{Binding Student.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                <TextBox x:Name="ExamTimeTb" HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" 
+                Text="{Binding ExamSlot.Time, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}" 
                 VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.ColumnSpan="2" Margin="35,345,0,0" >
                     <TextBox.OpacityMask>
@@ -233,7 +233,15 @@
 
             </Grid>
         </Border>
-        <DataGrid Grid.Column="0" Margin="15,45,15,50" d:ItemsSource="{d:SampleData ItemCount=5}"/>
-
+        <DataGrid Grid.Column="0" Margin="15,45,15,50"  AutoGenerateColumns="False"
+                  x:Name="CoursesDataGrid"
+                  ItemsSource="{Binding Courses, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}"
+                  SelectionMode="Single" IsReadOnly="True" SelectionChanged="CoursesDataGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Language" Binding="{Binding Language}"/>
+                <DataGridTextColumn Header="Language level" Binding="{Binding Level}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
