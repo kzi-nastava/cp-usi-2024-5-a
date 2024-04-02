@@ -200,6 +200,7 @@ namespace LangLang.DTO
 
         public StudentDTO(Student student)
         {
+            Id = student.Id;
             name = student.Profile.Name;
             lastName = student.Profile.LastName;
             gender = student.Profile.Gender;

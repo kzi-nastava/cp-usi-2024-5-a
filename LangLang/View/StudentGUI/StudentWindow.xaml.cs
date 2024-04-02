@@ -18,13 +18,14 @@ namespace LangLang.View.StudentGUI
         private EnrollmentRequestController enrollmentRequestController;
         private CourseController courseController;
         private ExamSlotController examSlotController;
+        private AppController appController;
         private Student currentlyLoggedIn;
         private ObservableCollection<CourseDTO> courses;
         private ObservableCollection<ExamSlotDTO> examSlots;
         private List<Course> coursesForReview;
         private List<ExamSlot> examSlotsForReview;
 
-        public StudentWindow(StudentController studentController, Student currentlyLoggedIn, EnrollmentRequestController enrollmentRequestController, CourseController courseController, ExamSlotController examSlotController)
+        public StudentWindow(AppController appController, StudentController studentController, Student currentlyLoggedIn, EnrollmentRequestController enrollmentRequestController, CourseController courseController, ExamSlotController examSlotController)
         {
             InitializeComponent();
             DataContext = this;
@@ -34,6 +35,7 @@ namespace LangLang.View.StudentGUI
             this.courseController = courseController;
             this.enrollmentRequestController = enrollmentRequestController;
             this.examSlotController = examSlotController;
+            this.appController = appController;
 
             this.courses = new ObservableCollection<CourseDTO>();
             this.examSlots = new ObservableCollection<ExamSlotDTO>();
@@ -154,12 +156,17 @@ namespace LangLang.View.StudentGUI
         }
 
         private void save_Click(object sender, RoutedEventArgs e)
-        {
+        {     
             if (Student.IsValid)
             {
-                MessageBox.Show("Success.");
-                NormalMode();
-                DisableAll();
+                if (appController.EmailExists(Student.Email, Student.Id, UserType.Student)) MessageBox.Show("Email already exists. Try with a different email address.");
+                else
+                {
+                    studentController.Update(Student.ToStudent());
+                    MessageBox.Show("Success.");
+                    NormalMode();
+                    DisableAll();
+                }
             } else
             {
                 MessageBox.Show("Something went wrong. Please check all fields in registration form.");

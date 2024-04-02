@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LangLang.Core.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LangLang.Core.Controller
 {
-    class AppController
+    public class AppController
     {
         private TutorController _tutorController;
         private CourseController _courseController;
@@ -50,6 +51,45 @@ namespace LangLang.Core.Controller
         {
             get { return this._examSlotController; }
             set { this._examSlotController = value; }
+        }
+
+        public bool EmailExists(string email)
+        {
+
+            foreach (Student student in StudentController.GetAllStudents().Values)
+            {
+                if (student.Profile.Email == email) return true;
+            }
+
+            foreach (Tutor tutor in TutorController.GetAllTutors().Values)
+            {
+                if (tutor.Profile.Email == email) return true;
+            }
+
+            // TODO: check if it is the same as directors
+            
+            return false;
+        }
+
+        public bool EmailExists(string email, int id, UserType role)
+        {
+            if (role == UserType.Student)
+            {
+                foreach (Student student in StudentController.GetAllStudents().Values)
+                {
+                    if ((student.Profile.Email == email) && (student.Profile.Id != id)) return true;
+                }
+            }
+            else
+            {
+                foreach (Tutor tutor in TutorController.GetAllTutors().Values)
+                {
+                    if ((tutor.Profile.Email == email) && (tutor.Profile.Id != id)) return true;
+                }
+            }
+
+            // TODO: check if it is the same as directors
+            return false;
         }
     }
 }

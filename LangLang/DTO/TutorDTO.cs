@@ -20,7 +20,9 @@ namespace LangLang.View.DTO
         private string password;
         private UserType role;
         private DateTime employmentDate;
-        private Dictionary<string, LanguageLevel> languageSkills;
+        private List<string> languages;
+        private List<LanguageLevel> levels;
+        private List<string>  languagelevel;
 
         public string Name
         {
@@ -172,19 +174,56 @@ namespace LangLang.View.DTO
             }
         }
 
-        public Dictionary<string, LanguageLevel> LanguageSkills
+       public List<String> Language
         {
             get
             {
-                return languageSkills;
+                return languages;
             }
 
             set
             {
-                if (languageSkills != value)
+                if (languages != value)
                 {
-                    languageSkills = value;
-                    OnPropertyChanged("LanguageSkills");
+                    languages = value;
+                    OnPropertyChanged("Language");
+                }
+            }
+        }
+
+        public List<LanguageLevel> Level
+        {
+            get
+            {
+                return levels;
+            }
+
+            set
+            {
+                if (levels != value)
+                {
+                    levels = value;
+                    OnPropertyChanged("Level");
+                }
+            }
+        }
+
+        public List<string> LanguageLevel
+        {
+            get
+            {
+                languagelevel.Clear();
+                for (int i = 0; i < levels.Count; i++)
+                {
+                    languagelevel.Add(languages[i] + " " + levels[i].ToString());
+                }
+                return languagelevel;
+            }
+            set
+            {
+                if (languagelevel != null)
+                {
+                    languagelevel = value;
                 }
             }
         }
@@ -244,12 +283,6 @@ namespace LangLang.View.DTO
                     if (employmentDate == default) return "Birth date is required";
                     else return "";
                 }
-                if (columnName == "LanguageSkills")
-                {
-                    if (languageSkills.Count == 0) return "You must enter at least one skill";
-                    else return "";
-                }
-
                 return "";
             }
         }
@@ -263,7 +296,7 @@ namespace LangLang.View.DTO
             {
                 foreach (var property in _validatedProperties)
                 {
-                    if (this[property] != null)
+                    if (this[property] != "")
                         return false;
                 }
 
@@ -275,7 +308,9 @@ namespace LangLang.View.DTO
 
         public TutorDTO()
         {
-            languageSkills = new Dictionary<string, LanguageLevel>();
+            languages = new List<string>();
+            levels = new List<LanguageLevel>();
+            languagelevel = new List<string>();
         }
 
         public TutorDTO(Tutor tutor)
@@ -290,13 +325,14 @@ namespace LangLang.View.DTO
             Password = tutor.Profile.Password;
             this.role = tutor.Profile.Role;
             this.employmentDate = tutor.EmploymentDate;
-            this.languageSkills = tutor.LanguageSkills;
-
+            this.languages = tutor.Skill.Language;
+            this.levels = tutor.Skill.Level;
+            this.languagelevel = new List<string>();
         }
 
         public Tutor ToTutor()
         {
-            return new Tutor(Id, name, lastName, gender, birthDate, phoneNumber, email, password, role, employmentDate, languageSkills);
+            return new Tutor(Id, name, lastName, gender, birthDate, phoneNumber, email, password, role, employmentDate, languages, levels);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
