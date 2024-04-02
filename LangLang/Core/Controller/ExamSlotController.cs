@@ -24,36 +24,39 @@ namespace LangLang.Core.Controller
             return _examSlots.GetAllExamSlots();
         }
 
-        public void Add(ExamSlot examSlot)
+        public bool Add(ExamSlot examSlot, CourseController courses)
         {
-            _examSlots.AddExamSlot(examSlot);
+            if (CanCreateExamSlot(examSlot,courses))
+            {
+                _examSlots.AddExamSlot(examSlot);
+                return true;
+            }
+            
+            return false;
         }
 
-        public void Update(ExamSlot examSlot)
+        public bool Update(ExamSlot examSlot)
         {
-            //add condition 14 days
-            _examSlots.UpdateExamSlot(examSlot);
-            /*
-            ExamSlot examSlot = _examSlots.GetAllExamSlots()[examSlotId];
+            
             //should use const variable instead of 14
 
             if ((examSlot.ExamDateTime - DateTime.Now).TotalDays >= 14)
             {
-                _examSlots.UpdateExamSlot(examSlotId);
+                _examSlots.UpdateExamSlot(examSlot);
                 return true;
             }
             else
             {
                 return false;
             }
-            */
+            
         }
         //returns true if removal was allowed (succesful) or false if removal wasn't allowed (unsuccesful)
         public bool Delete(int examSlotId)
         {
             ExamSlot examSlot = _examSlots.GetAllExamSlots()[examSlotId];
+
             //should use const variable instead of 14
-            
             if ((examSlot.ExamDateTime - DateTime.Now).TotalDays >= 14)
             {
                 _examSlots.RemoveExamSlot(examSlotId);

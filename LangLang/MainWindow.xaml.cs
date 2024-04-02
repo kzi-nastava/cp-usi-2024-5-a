@@ -26,11 +26,13 @@ namespace LangLang
             examSlotController = new();
             courseController = new();   
             appController = new();
+            tutorController = new();
         }
 
         private void Tutor_Click(object sender, RoutedEventArgs e)
         {
-            TutorWindow tutorWindow = new TutorWindow();
+            //PAZITI DA MORA DA POSTOJI SA KLJUCEM 7
+            TutorWindow tutorWindow = new TutorWindow(tutorController.GetAllTutors()[7]);
             this.Visibility = Visibility.Hidden;
             tutorWindow.Show();
         }
