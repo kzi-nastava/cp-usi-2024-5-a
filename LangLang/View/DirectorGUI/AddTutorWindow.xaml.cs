@@ -11,15 +11,17 @@ namespace LangLang.View
     public partial class AddTutorWindow : Window, INotifyPropertyChanged
     {
         private TutorController tutorController;
+        private AppController appController;
         public TutorDTO Tutor { get; set; }
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public AddTutorWindow(TutorController tutorController)
+        public AddTutorWindow(TutorController tutorController, AppController appController)
         {
             InitializeComponent();
             this.tutorController = tutorController;
+            this.appController = appController;
             Tutor = new TutorDTO();
             DataContext = this;
 
@@ -34,8 +36,11 @@ namespace LangLang.View
             Tutor.Role = UserType.Tutor;
             if (Tutor.IsValid)
             {
-                tutorController.Add(Tutor.ToTutor());
-                this.Close();
+                if (appController.EmailExists(Tutor.Email)) MessageBox.Show("Email already exists. Try with a different email address.");
+                else {
+                    tutorController.Add(Tutor.ToTutor());
+                    this.Close();
+                }
             }
             else
             {
