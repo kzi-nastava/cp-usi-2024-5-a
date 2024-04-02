@@ -130,7 +130,7 @@
                     </Label.Background>
                 </Label>
                 <TextBox x:Name="languageTb" HorizontalAlignment="Left" IsReadOnly="True" Height="24" Margin="35,152,0,0" TextWrapping="Wrap" 
-     Text="{Binding Path=SelectedCourse.Language, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+     Text="{Binding Path=ExamSlot.Language, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
      Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
      VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3"
      BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.ColumnSpan="2" >
@@ -161,7 +161,7 @@
                     </Label.Background>
                 </Label>
                 <TextBox x:Name="levelTb" HorizontalAlignment="Left" IsReadOnly="True" Height="24" Margin="35,217,0,0" TextWrapping="Wrap" 
-     Text="{Binding Path=SelectedCourse.Level, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+     Text="{Binding Path=ExamSlot.Level, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
      Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
      VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.ColumnSpan="2" >
                     <TextBox.OpacityMask>
