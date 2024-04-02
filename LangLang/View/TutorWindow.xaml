@@ -76,10 +76,10 @@
                 <!-- Four Buttons -->
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
                     <Button Name="courseCreateWindowBtn" Content="Create course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="CourseCreateWindowBtn_Click" />
-                    <Button Content="Delete course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
-                    <Button Click="CourseUpdateWindowBtn_Click" Content="Update course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                    <Button Click="CourseDeleteBtn_Click" x:Name="courseDeleteBtn" Content="Delete course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                    <Button x:Name="courseUpdateBtn" Click="CourseUpdateWindowBtn_Click" Content="Update course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
                 </StackPanel>
-                <Button Content="Search courses" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                <Button x:Name="courseSearchBtn" Content="Search courses" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
             </StackPanel>
         </Border>
 
@@ -109,9 +109,9 @@
                 <DataGridTextColumn Header="Date and Time" Binding="{Binding ExamDateTime, StringFormat={}{0:MM/dd/yyyy HH:mm}}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Grid.Column="0"  Margin="15,45,15,0"  SelectionChanged="coursesTable_SelectionChanged">
+        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Grid.Column="0"  Margin="15,45,15,0" SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="coursesTable_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}"/>
+                <DataGridTextColumn x:Name="idColumn" IsReadOnly="True" Header="Id" Binding="{Binding Id}"/>
                 <DataGridTextColumn IsReadOnly="True" Header="Language" Binding="{Binding Language}"/>
                 <DataGridTextColumn IsReadOnly="True" Header="Level" Binding="{Binding Level}"/>
                 <DataGridTextColumn IsReadOnly="True" Header="Students" Binding="{Binding NumberOfStudents}"/>

@@ -49,9 +49,10 @@ namespace LangLang
             //tutor = t;
             tutor = new Tutor();
             tutor.Profile.Id = 1;
-
             InitializeComponent();
             DataContext = this;
+            courseDeleteBtn.IsEnabled = false;
+            courseUpdateBtn.IsEnabled = false;
 
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             examSlotsController = new ExamSlotController();
@@ -72,7 +73,6 @@ namespace LangLang
                 Course c = coursesController.GetAllCourses()[exam.CourseId];
                 ExamSlots.Add(new ExamSlotDTO(exam, c));
             }
-
 
             Courses.Clear();
             foreach (Course course in coursesController.GetCoursesByTutor(tutor).Values)
@@ -104,8 +104,9 @@ namespace LangLang
 
         private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            CourseCreateWindow courseCreateWindow = new CourseCreateWindow(coursesController);
-            courseCreateWindow.Show();
+            CourseCreateWindow courseCreateWindow = new CourseCreateWindow(coursesController, tutor.Id);
+            courseCreateWindow.ShowDialog();
+            Update();
         }
 
         private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
@@ -120,13 +121,35 @@ namespace LangLang
          }
         private void CourseUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-           // CourseUpdateWindow courseUpdateWindow = new CourseUpdateWindow(courseController);
-            //courseUpdateWindow.Show();
+            if (coursesController.IsCourseValid(SelectedCourse.Id))
+            {
+                CourseUpdateWindow courseUpdateWindow = new CourseUpdateWindow(coursesController, SelectedCourse.Id);
+                courseUpdateWindow.Show();
+                Update();
+            }
+            else
+            {
+                MessageBox.Show("Selected course cannot be updated, it has already started or there are less than 7 days before course start.");
+            }
         }
 
+        private void CourseDeleteBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (coursesController.IsCourseValid(SelectedCourse.Id))
+            {
+                coursesController.Delete(SelectedCourse.Id);
+                Update();
+                MessageBox.Show("The course has successfully been deleted.");
+            }
+            else
+            {
+                MessageBox.Show("Selected course cannot be deleted, it has already started or there are less than 7 days before course start.");
+            }
+        }
         private void coursesTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            courseUpdateBtn.IsEnabled = true;
+            courseDeleteBtn.IsEnabled = true;
         }
 
         private void ExamSlotSearchBtn_Click(object sender, RoutedEventArgs e)
