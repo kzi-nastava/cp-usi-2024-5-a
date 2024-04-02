@@ -2,7 +2,9 @@
 using LangLang.Core.Repository;
 using LangLang.Core.Observer;
 using System.Collections.Generic;
-
+using System.Linq;
+using LangLang.Core.Controller;
+using System;
 
 namespace LangLang.Core.DAO
 {
@@ -19,7 +21,7 @@ namespace LangLang.Core.DAO
         private int GenerateId()
         {
             if (_tutors.Count == 0) return 0;
-            return _tutors.Count + 1;
+            return _tutors.Keys.Max() + 1;
         }
 
         private Tutor? Get(int id)
@@ -36,6 +38,18 @@ namespace LangLang.Core.DAO
             return tutor;
         }
 
+        public Dictionary<int, Tutor> Search(TutorController tutorController, DateTime date, string language, LanguageLevel? level)
+        {
+            Dictionary<int, Tutor> allTutors = tutorController.GetAllTutors();
+
+            Dictionary<int, Tutor> filteredTutors = allTutors.Where(tutor =>
+            (date == default || tutor.Value.EmploymentDate == date) &&
+             (language == "" || tutor.Value.Skill.Language.Any(skill => skill == language)) &&
+             (level == null || tutor.Value.Skill.Level.Any(skilll => skilll == level))).ToDictionary(x => x.Key, x => x.Value);
+
+
+            return filteredTutors;
+        }
         public Tutor? Update(Tutor tutor)
         {
             Tutor oldTutor = Get(tutor.Profile.Id);
@@ -49,6 +63,7 @@ namespace LangLang.Core.DAO
             oldTutor.Profile.Email = tutor.Profile.Email;
             oldTutor.Profile.Password = tutor.Profile.Password;
             oldTutor.Profile.Role = tutor.Profile.Role;
+            oldTutor.EmploymentDate = tutor.EmploymentDate;
 
             _repository.Save(_tutors);
             NotifyObservers();

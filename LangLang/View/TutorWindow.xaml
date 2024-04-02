@@ -94,7 +94,7 @@
                     <Button Content="Delete exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotDeleteBtn_Click" />
                     <Button Content="Update exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotUpdateWindowBtn_Click" />
                 </StackPanel>
-                <Button Content="Search exams" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                <Button Content="Search exams" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotSearchBtn_Click" />
             </StackPanel>
         </Border>
         <DataGrid Grid.Column="1" Margin="15,45,15,0" AutoGenerateColumns="False"

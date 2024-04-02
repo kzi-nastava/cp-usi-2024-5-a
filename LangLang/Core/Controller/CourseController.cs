@@ -3,6 +3,7 @@ using LangLang.Core.Model.DAO;
 using LangLang.Core.Observer;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LangLang.Core.Controller
 {
@@ -290,6 +291,24 @@ namespace LangLang.Core.Controller
         public Course GetById(int courseId)
         {
             return _courses.GetAllCourses()[courseId];
+        }
+
+        public List<Course> SearchCoursesByTutor(int tutorId, string language, LanguageLevel level, DateTime startDate, int duration, bool online)
+        {
+            List<Course> tutorsCourses = GetCoursesByTutor(tutorId).Values.ToList();
+            return SearchCourses(tutorsCourses, language, level, startDate, duration, online);
+        }
+
+        public List<Course> SearchCourses(List<Course> searchableCourses, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
+        {
+            List<Course> filteredCourses = searchableCourses.Where(course =>
+            (language == "" || course.Language == language) && 
+            (level == null || course.Level == level) &&
+            (startDate == default || course.StartDateTime == startDate) &&
+            (duration == 0 || course.NumberOfWeeks == duration) &&
+            (online == false || course.Online == online)).ToList();
+
+            return filteredCourses;
         }
     }   
 }

@@ -174,7 +174,7 @@
                     </LinearGradientBrush>
                 </Label.Background>
             </Label>
-            <TextBox IsEnabled="False" x:Name="maxNumOfStudentsTb" TextWrapping="Wrap"  Margin="5,0,5,0" Height="20"
+            <TextBox  x:Name="maxNumOfStudentsTb" TextWrapping="Wrap"  Margin="5,0,5,0" Height="20"
         Text="{Binding Path=Course.MaxStudents, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
         Validation.ErrorTemplate="{StaticResource ValidationTemplate}" 
          VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB"  >

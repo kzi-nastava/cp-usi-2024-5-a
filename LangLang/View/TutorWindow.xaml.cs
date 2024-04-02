@@ -58,27 +58,7 @@ namespace LangLang
             examSlotsController = new ExamSlotController();
             coursesController = new CourseController();
             Courses = new ObservableCollection<CourseDTO>();
-
-            List<DayOfWeek> days = new List<DayOfWeek>();
-            days.Add(DayOfWeek.Monday);
-            Course c = new Course(1, tutor.Id, "eng", LanguageLevel.A1, 4, days, true, 0, DateTime.Now, false);
-            coursesController.Add(c);
-            Course e = new Course(2, tutor.Id, "spanish", LanguageLevel.A2, 4, days, true, 0, DateTime.Now, false);
-            coursesController.Add(e);
-
-            Trace.WriteLine("Posle "+coursesController.GetAllCourses().Values.Count);
-
-            if (coursesController.GetAllCourses().Values.Count == 1)
-            {
-                Trace.WriteLine("IMAAAA");
-            Courses = new ObservableCollection<CourseDTO>();
-
-            }
-            ExamSlot es = new ExamSlot(1, c.Id, 10, DateTime.Now, 0);
-            ExamSlotDTO dto = new ExamSlotDTO(es, c);
-            ExamSlots.Add(dto);
-            examSlotsController.Add(es);
-           
+            
             coursesController.Subscribe(this);
             examSlotsController.Subscribe(this);
             Update();
@@ -87,13 +67,9 @@ namespace LangLang
         public void Update()
         {
             ExamSlots.Clear();
-            Trace.WriteLine("POSLE");
             //filter exam slots for this tutor
             foreach (ExamSlot exam in examSlotsController.GetAllExamSlots().Values)
             {
-                
-                Trace.WriteLine(exam.MaxStudents);
-
                 Course c = coursesController.GetAllCourses()[exam.CourseId];
                 ExamSlots.Add(new ExamSlotDTO(exam, c));
             }
@@ -106,16 +82,24 @@ namespace LangLang
 
         private void ExamSlotCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow(coursesController.GetAllCourses(), examSlotsController);
-            //ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow(examSlotsController);
+            //fix to courses by tutor
+            Trace.WriteLine("U tutorwindow " + coursesController.GetAllCourses().Count);
 
+            ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow(coursesController.GetAllCourses(), examSlotsController);
             examSlotCreateWindow.Show();
         }
 
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow();
-            examSlotUpdateWindow.Show();
+            if (SelectedExamSlot == null)
+            {
+                MessageBox.Show("No exam slot selected. Please select an exam slot.");
+            }else
+            {
+                ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetAllCourses(), examSlotsController);
+                examSlotUpdateWindow.Show();
+            }
+            
         }
 
         private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
@@ -168,5 +152,10 @@ namespace LangLang
             courseDeleteBtn.IsEnabled = true;
         }
 
+        private void ExamSlotSearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ExamSlotSearchWindow examSlotSearchWindow = new ExamSlotSearchWindow(coursesController, examSlotsController, tutor.Id);
+            examSlotSearchWindow.Show();
+        }
     }
 }

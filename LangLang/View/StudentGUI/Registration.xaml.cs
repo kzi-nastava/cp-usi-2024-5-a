@@ -9,15 +9,15 @@ namespace LangLang.View
     {
         public StudentDTO Student { get; set; }
         private StudentController studentController;
+        private AppController appController;
 
-
-
-        public Registration(StudentController studentController)
+        public Registration(AppController appController, StudentController studentController)
         {
             InitializeComponent();
             DataContext = this;
             Student = new StudentDTO();
             this.studentController = studentController;
+            this.appController = appController;
             gendercb.ItemsSource = Enum.GetValues(typeof(UserGender));
         }
 
@@ -25,9 +25,13 @@ namespace LangLang.View
         {
             if (Student.IsValid)
             {
-                studentController.Add(Student.ToStudent());
-                MessageBox.Show("Success!");
-                Close();
+                if (appController.EmailExists(Student.Email)) MessageBox.Show("Email already exists. Try with a different email address.");
+                else
+                {
+                    studentController.Add(Student.ToStudent());
+                    MessageBox.Show("Success!");
+                    Close();
+                }
             }
             else
             {

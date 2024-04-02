@@ -2,6 +2,7 @@
 using System.Linq;
 using LangLang.Core.Repository;
 using LangLang.Core.Observer;
+using LangLang.Core.Controller;
 
 namespace LangLang.Core.Model.DAO
 {
@@ -25,7 +26,7 @@ namespace LangLang.Core.Model.DAO
         private int GenerateId()
         {
             if (_students.Count == 0) return 0;
-            return _students.Count + 1;
+            return _students.Keys.Max() + 1;
         }
 
         public Student? GetStudentById(int id)
@@ -52,6 +53,7 @@ namespace LangLang.Core.Model.DAO
             Student oldStudent = GetStudentById(student.Profile.Id);
             if (oldStudent == null) return null;
 
+            oldStudent.Profile.Id = student.Profile.Id;
             oldStudent.Profile.Name = student.Profile.Name;
             oldStudent.Profile.LastName = student.Profile.LastName;
             oldStudent.Profile.Gender = student.Profile.Gender;
@@ -60,7 +62,6 @@ namespace LangLang.Core.Model.DAO
             oldStudent.Profile.Email = student.Profile.Email;
             oldStudent.Profile.Role = student.Profile.Role;
             oldStudent.Profile.Password = student.Profile.Password;
-            oldStudent.CanModifyInfo = student.CanModifyInfo;
             oldStudent.ProfessionalQualification = student.ProfessionalQualification;
 
             _repository.Save(_students);
@@ -68,10 +69,15 @@ namespace LangLang.Core.Model.DAO
             return oldStudent;
         }
      
-        public Student? RemoveStudent(int id)
+        public Student? RemoveStudent(int id, EnrollmentRequestController enrollmentRequestController)
         {
             Student student = GetStudentById(id);
             if (student == null) return null;
+
+            foreach (EnrollmentRequest er in enrollmentRequestController.GetStudentRequests(id).Values)
+            {
+                enrollmentRequestController.Delete(er.Id);
+            }
 
             _students.Remove(student.Profile.Id);
             _repository.Save(_students);
