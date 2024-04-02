@@ -14,22 +14,23 @@ namespace LangLang.View
     {
         public ObservableCollection<TutorDTO> Tutors { get; set; }
         public TutorDTO SelectedTutor { get; set; }
-
         private TutorController tutorsController { get; set; }
-
+        private AppController appController;
         private Director currentyLoggedIn;
-
         private Dictionary<int, Tutor> data;
 
-        public DirectorWindow(TutorController tutorController, Director currentyLoggedIn)
+        public DirectorWindow(AppController appController,TutorController tutorController, Director currentyLoggedIn)
         {
             InitializeComponent();
             DataContext = this;
             Tutors = new ObservableCollection<TutorDTO>();
+
             this.tutorsController = tutorController;
-            tutorsController.Subscribe(this);
             this.currentyLoggedIn = currentyLoggedIn;
             this.data = tutorController.GetAllTutors();
+            this.appController = appController;
+
+            tutorsController.Subscribe(this);
             Update();
             SetUpWindow();
         }
@@ -56,7 +57,7 @@ namespace LangLang.View
         // open add new tutor window 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            AddTutorWindow window = new AddTutorWindow(tutorsController);
+            AddTutorWindow window = new AddTutorWindow(tutorsController, appController);
             window.Show();
         }
 
@@ -65,33 +66,38 @@ namespace LangLang.View
         {
             if (SelectedTutor != null)
             {
-                SelectedTutor.Name = nameTB.Text;
-                SelectedTutor.LastName = lastNameTB.Text;
-                SelectedTutor.Email = emailtb.Text;
-                SelectedTutor.BirthDate = BirthDatePicker.SelectedDate.Value;
-                SelectedTutor.PhoneNumber = phonenumbertb.Text;
-                SelectedTutor.Gender = (UserGender)gendercb.SelectedItem;
-                SelectedTutor.Password = passwordTB.Text;
-                SelectedTutor.EmploymentDate = EmploymentDatePicker.SelectedDate.Value;
-
-                if (SelectedTutor.IsValid)
+                if (appController.EmailExists(emailtb.Text, SelectedTutor.Id, UserType.Tutor))
                 {
-                    tutorsController.Update(SelectedTutor.ToTutor());
-                    MessageBox.Show("Successfully completed!");
-                    ClearFields();
-                    DisableForm();
+                    MessageBox.Show("Email already exists. Try with a different email address.");
                 }
                 else
                 {
-                    MessageBox.Show("Data is not valid");
-                }
+                    SelectedTutor.Name = nameTB.Text;
+                    SelectedTutor.LastName = lastNameTB.Text;
+                    SelectedTutor.Email = emailtb.Text;
+                    SelectedTutor.BirthDate = BirthDatePicker.SelectedDate.Value;
+                    SelectedTutor.PhoneNumber = phonenumbertb.Text;
+                    SelectedTutor.Gender = (UserGender)gendercb.SelectedItem;
+                    SelectedTutor.Password = passwordTB.Text;
+                    SelectedTutor.EmploymentDate = EmploymentDatePicker.SelectedDate.Value;
 
+                    if (SelectedTutor.IsValid)
+                    {
+                        tutorsController.Update(SelectedTutor.ToTutor());
+                        MessageBox.Show("Successfully completed!");
+                        ClearFields();
+                        DisableForm();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Data is not valid");
+                    }
+                }
             }
             else
             {
                 MessageBox.Show("Please choose a tutor to update!");
             }
-
         }
 
         // Delete tutor
@@ -166,8 +172,6 @@ namespace LangLang.View
                 data = tutorsController.Search(languagetb.Text, date, level);
                 Update();
             }
-
-
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
