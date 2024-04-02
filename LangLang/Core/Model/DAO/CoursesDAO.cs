@@ -44,7 +44,9 @@ public class CoursesDAO : Subject
         oldCourse.Online = course.Online;
         oldCourse.NumberOfStudents = course.NumberOfStudents;
         oldCourse.MaxStudents = course.MaxStudents;
-        
+        oldCourse.StartDateTime = course.StartDateTime;
+        oldCourse.TutorId = course.TutorId;
+
         _repository.Save(_courses);
         NotifyObservers();
         return oldCourse;
