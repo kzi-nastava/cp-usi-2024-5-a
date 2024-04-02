@@ -130,6 +130,13 @@ namespace LangLang
             Update();
         }
 
+        private void CourseSearchWindowBtn_Click(object sender, RoutedEventArgs e)
+        {
+            CourseSearchWindow courseSearchWindow = new CourseSearchWindow(coursesController, tutor.Id);
+            courseSearchWindow.Show();
+            Update();
+        }
+
         private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
             if (!examSlotsController.Delete(SelectedExamSlot.Id))
