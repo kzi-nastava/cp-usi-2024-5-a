@@ -31,7 +31,8 @@ namespace LangLang.Core.Controller
                 _examSlots.AddExamSlot(examSlot);
                 return true;
             }
-            
+            //delete this later
+            _examSlots.AddExamSlot(examSlot);
             return false;
         }
 
@@ -230,6 +231,14 @@ namespace LangLang.Core.Controller
             // Check for overlap
             bool overlap = !(examTime >= classEndTime || examEndTime <= classTime);
             return overlap;
+        }
+        public void DeleteExamSlotsByCourseId(int courseId)
+        {
+            List<ExamSlot> examSlotsToDelete = _examSlots.GetAllExamSlots().Values.Where(slot => slot.CourseId == courseId).ToList();
+            foreach (ExamSlot slot in examSlotsToDelete)
+            {
+                Delete(slot.Id);
+            }
         }
     }
 }
