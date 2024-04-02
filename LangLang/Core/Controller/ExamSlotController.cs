@@ -114,7 +114,7 @@ namespace LangLang.Core.Controller
             // Apply search criteria if they are not null
             List<ExamSlot> filteredExamSlots = searchableExamSlots.Where(exam =>
                 (examDate == default || exam.ExamDateTime.Date == examDate.Date) &&
-                (courseLanguage == "" || courses.GetAllCourses()[exam.CourseId].Language == courseLanguage) &&
+                (courseLanguage == "" || courses.GetAllCourses()[exam.CourseId].Language.Contains(courseLanguage)) &&
                 (languageLevel == null || courses.GetAllCourses()[exam.CourseId].Level == languageLevel)
             ).ToList();
 

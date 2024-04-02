@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:LangLang.View"
         mc:Ignorable="d"
         Title="Student" Height="700" Width="1000">
-    
+
     <Window.Resources>
         <ControlTemplate x:Name="controltpl" x:Key="ValidationTemplate">
             <StackPanel>
@@ -18,7 +18,7 @@
             </StackPanel>
         </ControlTemplate>
     </Window.Resources>
-    
+
     <Grid VerticalAlignment="Center">
         <TabControl x:Name="tabControl" HorizontalAlignment="Center" Height="674" VerticalAlignment="Center" Width="1000">
             <TabItem Header="Student data" Margin="-2,-2,1,0">
@@ -27,10 +27,10 @@
                         <ColumnDefinition Width="110*"/>
                         <ColumnDefinition Width="887*"/>
                     </Grid.ColumnDefinitions>
-                    
+
                     <!--student name-->
                     <TextBlock x:Name="currenttb" Text="" Focusable="True" Width="495" Height="142" MinHeight="9" FontFamily="Broadway" FontSize="40" Margin="0,291,0,0" VerticalAlignment="Top" TextAlignment="Center" IsEnabled="False" HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="#FFD28383" Grid.ColumnSpan="2"/>
-                    
+
                     <!--edit form-->
                     <ScrollViewer HorizontalAlignment="Left" Height="499" Margin="337,0,0,0" VerticalAlignment="Center" Width="540" BorderBrush="Black" Grid.Column="1">
                         <Grid>
@@ -264,7 +264,7 @@
                                         Validation.ErrorTemplate="{StaticResource ValidationTemplate}" />
                         </Grid>
                     </ScrollViewer>
-                    
+
                     <Button x:Name="signoutbtn" Content="Checkout" HorizontalAlignment="Left" Height="33" Margin="442,24,0,0" VerticalAlignment="Top" Width="310" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="signoutbtn_Click" Grid.Column="1"/>
                     <Button x:Name="editbtn" Content="Edit data" HorizontalAlignment="Left" Height="33" Margin="442,599,0,0" VerticalAlignment="Top" Width="140" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="editbtn_Click" Grid.Column="1"/>
                     <Button x:Name="savebtn" Content="Save changes" HorizontalAlignment="Left" Height="33" Margin="442,599,0,0" VerticalAlignment="Top" Width="140" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="save_Click" Grid.Column="1"/>
@@ -295,10 +295,10 @@
                     <GroupBox x:Name="searchgb" HorizontalAlignment="Left" Height="222" Header="Search" Margin="254,409,0,0" VerticalAlignment="Top" Width="516" RenderTransformOrigin="0.501,0.513">
                         <Grid>
                             <GroupBox x:Name="languagegb" HorizontalAlignment="Left" Height="53" Header="Language" Margin="20,20,0,0" VerticalAlignment="Top" Width="249">
-                                <TextBox x:Name="languagetb" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="" Width="209" Background="White" SelectionBrush="#FFFAE0E0" BorderBrush="#FFFAE0E0" Margin="10,0,0,0"/>
+                                <TextBox x:Name="languagetb" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="" Width="209" Background="White" SelectionBrush="#FFFAE0E0" BorderBrush="#FFFAE0E0" Margin="10,0,0,0" TextChanged="SearchCourses"/>
                             </GroupBox>
                             <GroupBox x:Name="startdategb" HorizontalAlignment="Left" Height="53" Header="Start date" Margin="20,90,0,0" VerticalAlignment="Top" Width="249">
-                                <DatePicker x:Name="courseStartdp" HorizontalAlignment="Left" Height="24" Width="209" Background="#FFFAE0E0" Margin="10,0,0,0">
+                                <DatePicker x:Name="courseStartdp" HorizontalAlignment="Left" Height="24" Width="209" Background="#FFFAE0E0" Margin="10,0,0,0" SelectedDateChanged="SearchCourses">
                                     <DatePicker.BorderBrush>
                                         <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1">
                                             <GradientStop Color="#FFFAE0E0"/>
@@ -308,22 +308,21 @@
                                 </DatePicker>
                             </GroupBox>
                             <GroupBox x:Name="durationgb" HorizontalAlignment="Left" Height="53" Header="Duration" Margin="300,90,0,0" VerticalAlignment="Top" Width="100">
-                                <TextBox x:Name="durationtb" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Width="70" Margin="10,0,0,0" BorderBrush="#FFFAE0E0"/>
+                                <TextBox x:Name="durationtb" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Width="70" Margin="10,0,0,0" BorderBrush="#FFFAE0E0" TextChanged="SearchCourses"/>
                             </GroupBox>
                             <GroupBox x:Name="levelgb" HorizontalAlignment="Left" Height="53" Header="Level" Margin="300,20,0,0" VerticalAlignment="Top" Width="100">
-                                <ComboBox x:Name="levelCoursecb" HorizontalAlignment="Left" Height="22" Width="71" Margin="10,0,0,0" BorderBrush="#FFE8E8E8"/>
+                                <ComboBox x:Name="levelCoursecb" HorizontalAlignment="Left" Height="22" Width="71" Margin="10,0,0,0" BorderBrush="#FFE8E8E8" SelectionChanged="SearchCourses"/>
                             </GroupBox>
-                            <GroupBox x:Name="onlinegb" HorizontalAlignment="Left" Height="53" Header="Online" Margin="420,20,0,0" VerticalAlignment="Top" Width="69">
-                                <CheckBox x:Name="onlinecb" Content="&#xD;&#xA;" HorizontalAlignment="Left" Height="16" Margin="20,5,0,0" VerticalAlignment="Top" Width="22" RenderTransformOrigin="1.162,1.554"/>
+                            <GroupBox x:Name="onlinegb" HorizontalAlignment="Left" Height="53" Header="Online" Margin="425,59,0,0" VerticalAlignment="Top" Width="69">
+                                <CheckBox x:Name="onlinecb" Content="&#xD;&#xA;" HorizontalAlignment="Left" Height="16" Margin="20,5,0,0" VerticalAlignment="Top" Width="22" RenderTransformOrigin="1.162,1.554" Checked="SearchCourses"/>
                             </GroupBox>
-                            <Button x:Name="searchbtn" Content="Search" HorizontalAlignment="Center" Height="29" Margin="0,162,0,0" VerticalAlignment="Top" Width="296" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="Search_Click"/>
-                            <Button x:Name="clearhbtn" Content="Clear" HorizontalAlignment="Left" Height="47" Margin="420,96,0,0" VerticalAlignment="Top" Width="69" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="Clear_Click"/>
+                            <Button x:Name="clearhbtn" Content="Clear filters" HorizontalAlignment="Left" Height="26" Margin="171,163,0,0" VerticalAlignment="Top" Width="179" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="Clear_Click"/>
 
                         </Grid>
                     </GroupBox>
                 </Grid>
             </TabItem>
-            
+
             <!--tab for exams preview and search-->
             <TabItem Header="Available exams">
                 <Grid Margin="0,0,-3,-9" Background="#FFFAE0E0">
@@ -332,7 +331,7 @@
                           AutoGenerateColumns="False"
                           x:Name="ExamSlotsDataGrid"
                           ItemsSource="{Binding ExamSlots, UpdateSourceTrigger=PropertyChanged}"
-                          SelectionMode="Single" IsReadOnly="True" Margin="326,40,326,267"> 
+                          SelectionMode="Single" IsReadOnly="True" Margin="326,40,326,267">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Language" Binding="{Binding Language}"/>
                             <DataGridTextColumn Header="Language level" Binding="{Binding Level}"/>
@@ -342,10 +341,10 @@
                     <GroupBox x:Name="searchExamgb" HorizontalAlignment="Center" Height="222" Header="Search" Margin="0,409,0,0" VerticalAlignment="Top" Width="498" RenderTransformOrigin="0.501,0.513">
                         <Grid>
                             <GroupBox x:Name="languageExamgb" HorizontalAlignment="Left" Height="53" Header="Language" Margin="54,20,0,0" VerticalAlignment="Top" Width="249">
-                                <TextBox x:Name="languageExamtb" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="" Width="209" Background="White" SelectionBrush="#FFFAE0E0" BorderBrush="#FFFAE0E0" Margin="10,0,0,0"/>
+                                <TextBox x:Name="languageExamtb" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="" Width="209" Background="White" SelectionBrush="#FFFAE0E0" BorderBrush="#FFFAE0E0" Margin="10,0,0,0" TextChanged="SearchExams"/>
                             </GroupBox>
                             <GroupBox x:Name="examdategb" HorizontalAlignment="Left" Height="53" Header="Start date" Margin="134,86,0,0" VerticalAlignment="Top" Width="255">
-                                <DatePicker x:Name="examdatePicker" HorizontalAlignment="Left" Height="24" Width="209" Background="#FFFAE0E0" Margin="10,0,0,0">
+                                <DatePicker x:Name="examdatePicker" HorizontalAlignment="Left" Height="24" Width="209" Background="#FFFAE0E0" Margin="10,0,0,0" SelectedDateChanged="SearchExams">
                                     <DatePicker.BorderBrush>
                                         <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1">
                                             <GradientStop Color="#FFFAE0E0"/>
@@ -355,10 +354,9 @@
                                 </DatePicker>
                             </GroupBox>
                             <GroupBox x:Name="levelExamgb" HorizontalAlignment="Left" Height="53" Header="Level" Margin="330,20,0,0" VerticalAlignment="Top" Width="100">
-                                <ComboBox x:Name="levelExamcb" HorizontalAlignment="Left" Height="28" Width="71" Margin="10,0,0,0" BorderBrush="#FFE8E8E8"/>
+                                <ComboBox x:Name="levelExamcb" HorizontalAlignment="Left" Height="28" Width="71" Margin="10,0,0,0" BorderBrush="#FFE8E8E8" SelectionChanged="SearchExams"/>
                             </GroupBox>
-                            <Button x:Name="searchExambtn" Content="Search" HorizontalAlignment="Left" Height="29" Margin="134,160,0,0" VerticalAlignment="Top" Width="118" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="SearchExam_Click"/>
-                            <Button x:Name="clearExamhbtn" Content="Clear" HorizontalAlignment="Left" Height="29" Margin="271,160,0,0" VerticalAlignment="Top" Width="118" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ClearExam_Click"/>
+                            <Button x:Name="clearExamhbtn" Content="Clear filters" HorizontalAlignment="Center" Height="29" Margin="0,160,0,0" VerticalAlignment="Top" Width="118" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ClearExam_Click"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
