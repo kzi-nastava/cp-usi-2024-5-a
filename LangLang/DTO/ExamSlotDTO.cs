@@ -15,7 +15,9 @@ namespace LangLang.DTO
 {
     public class ExamSlotDTO : INotifyPropertyChanged, IDataErrorInfo
     {
-        public ExamSlotDTO() { }
+        public ExamSlotDTO() {
+            _courseId = -1;
+        }
         public int Id { get; set; }
 
         private int _courseId;

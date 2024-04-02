@@ -57,7 +57,6 @@ namespace LangLang
             examSlotsController = new ExamSlotController();
             coursesController = new CourseController();
             Courses = new ObservableCollection<CourseDTO>();
-
             
             coursesController.Subscribe(this);
             examSlotsController.Subscribe(this);
@@ -92,8 +91,15 @@ namespace LangLang
 
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow();
-            examSlotUpdateWindow.Show();
+            if (SelectedExamSlot == null)
+            {
+                MessageBox.Show("No exam slot selected. Please select an exam slot.");
+            }else
+            {
+                ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetAllCourses(), examSlotsController);
+                examSlotUpdateWindow.Show();
+            }
+            
         }
 
         private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)

@@ -34,7 +34,11 @@ namespace LangLang.Core.Controller
             _examSlots.RemoveExamSlot(examSlotId);
         }
         */
-
+        public void Update(ExamSlot examSlot)
+        {
+            //add condition 14 days
+            _examSlots.UpdateExamSlot(examSlot);
+        }
         //returns true if removal was allowed (succesful) or false if removal wasn't allowed (unsuccesful)
         public bool Delete(int examSlotId)
         {
