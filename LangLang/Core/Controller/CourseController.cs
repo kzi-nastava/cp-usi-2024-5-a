@@ -195,7 +195,7 @@ namespace LangLang.Core.Controller
         {
             Course course = GetAllCourses()[courseId];
             TimeSpan difference = course.StartDateTime - DateTime.Now;
-            if (difference.TotalDays < 7)
+            if (difference.TotalDays > 7)
             {
                 if (course.Online)
                 {
@@ -262,14 +262,14 @@ namespace LangLang.Core.Controller
             return SearchCourses(tutorsCourses, language, level, startDate, duration, online);
         }
 
-        public List<Course> SearchCourses(List<Course> searchableCourses, string language, LanguageLevel level, DateTime startDate, int duration, bool online)
+        public List<Course> SearchCourses(List<Course> searchableCourses, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
         {
             List<Course> filteredCourses = searchableCourses.Where(course =>
-            (language == null || course.Language == language) && 
+            (language == "" || course.Language == language) && 
             (level == null || course.Level == level) &&
-            (startDate == null || course.StartDateTime == startDate) &&
-            (duration == null || course.NumberOfWeeks == duration) &&
-            (online == null || course.Online == online)).ToList();
+            (startDate == default || course.StartDateTime == startDate) &&
+            (duration == 0 || course.NumberOfWeeks == duration) &&
+            (online == false || course.Online == online)).ToList();
 
             return filteredCourses;
         }

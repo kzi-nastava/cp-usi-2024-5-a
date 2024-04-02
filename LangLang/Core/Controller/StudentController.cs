@@ -89,17 +89,17 @@ namespace LangLang.Core.Controller
             return studentRequests.Count == 0;
         }
 
-        public List<ExamSlot> SearchExamSlotsByStudent(ExamSlotController examSlotController, CourseController courseController, EnrollmentRequestController enrollmentRequestController, int studentId, DateTime examDate, string courseLanguage, LanguageLevel languageLevel)
+        public List<ExamSlot> SearchExamSlotsByStudent(ExamSlotController examSlotController, CourseController courseController, EnrollmentRequestController enrollmentRequestController, int studentId, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
         {
             List<ExamSlot> availableExamSlots = GetAvailableExamSlots(_students.GetStudentById(studentId), courseController, examSlotController, enrollmentRequestController);
             return examSlotController.SearchExamSlots(availableExamSlots, courseController, examDate, courseLanguage, languageLevel);
         }
 
-        public List<Course> SearchCoursesByStudent(CourseController courseController, string langugage, LanguageLevel level, DateTime startDate, int duration, bool online) 
+        public List<Course> SearchCoursesByStudent(CourseController courseController, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online) 
         {
             List<Course> availableCourses = GetAvailableCourses(courseController);
-            courseController.SearchCourses(availableCourses, langugage, level, startDate, duration, online);
-            return availableCourses;
+            List<Course> filteredCourses = courseController.SearchCourses(availableCourses, language, level, startDate, duration, online);
+            return filteredCourses;
         }
     }
 }

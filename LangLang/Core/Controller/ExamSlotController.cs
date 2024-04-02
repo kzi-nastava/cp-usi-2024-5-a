@@ -104,12 +104,12 @@ namespace LangLang.Core.Controller
         }
         
         // Method to search ExamSlot list by criteria
-        public List<ExamSlot> SearchExamSlots(List<ExamSlot> searchableExamSlots, CourseController courses, DateTime examDate, string courseLanguage, LanguageLevel languageLevel)
+        public List<ExamSlot> SearchExamSlots(List<ExamSlot> searchableExamSlots, CourseController courses, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
         {
             // Apply search criteria if they are not null
             List<ExamSlot> filteredExamSlots = searchableExamSlots.Where(exam =>
-                (examDate == null || exam.ExamDateTime.Date == examDate.Date) &&
-                (courseLanguage == null || courses.GetAllCourses()[exam.CourseId].Language == courseLanguage) &&
+                (examDate == default || exam.ExamDateTime.Date == examDate.Date) &&
+                (courseLanguage == "" || courses.GetAllCourses()[exam.CourseId].Language == courseLanguage) &&
                 (languageLevel == null || courses.GetAllCourses()[exam.CourseId].Level == languageLevel)
             ).ToList();
 

@@ -7,45 +7,79 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 
-namespace LangLang.View
+namespace LangLang.View.StudentGUI
 {
     public partial class StudentWindow : Window, IObserver
     {
         public StudentDTO Student { get; set; }
-        public CoursesDTO Course {  get; set; }
         private StudentController studentController;
         private EnrollmentRequestController enrollmentRequestController;
         private CourseController courseController;
+        private ExamSlotController examSlotController;
         private Student currentlyLoggedIn;
-        private ObservableCollection<CoursesDTO> Courses;
-        private ObservableCollection<ExamSlotDTO> ExamSlots;
-        private Dictionary<int, Course> coursesForReview;
+        private ObservableCollection<CourseDTO> courses;
+        private ObservableCollection<ExamSlotDTO> examSlots;
+        private List<Course> coursesForReview;
+        private List<ExamSlot> examSlotsForReview;
 
-        public StudentWindow(StudentController studentController, Student currentlyLoggedIn, EnrollmentRequestController enrollmentRequestController, CourseController courseController)
+        public StudentWindow(StudentController studentController, Student currentlyLoggedIn, EnrollmentRequestController enrollmentRequestController, CourseController courseController, ExamSlotController examSlotController)
         {
             InitializeComponent();
             DataContext = this;
+
             this.studentController = studentController;
             this.currentlyLoggedIn = currentlyLoggedIn;
             this.courseController = courseController;
             this.enrollmentRequestController = enrollmentRequestController;
-            this.Courses = new ObservableCollection<CoursesDTO>();
-            this.ExamSlots = new ObservableCollection<ExamSlotDTO>();
-            Student = new(this.currentlyLoggedIn);
-            coursesForReview = this.studentController.GetAvailableCourses(this.courseController);
-            gendercb.ItemsSource = Enum.GetValues(typeof(UserGender));
-            FillData();
+            this.examSlotController = examSlotController;
 
-            this.enrollmentRequestController = enrollmentRequestController;
+            this.courses = new ObservableCollection<CourseDTO>();
+            this.examSlots = new ObservableCollection<ExamSlotDTO>();
+
+            Student = new(this.currentlyLoggedIn);
+            examSlotsForReview = this.studentController.GetAvailableExamSlots(currentlyLoggedIn, courseController, examSlotController, enrollmentRequestController);
+            coursesForReview = this.studentController.GetAvailableCourses(courseController);
+
+            gendercb.ItemsSource = Enum.GetValues(typeof(UserGender));
+            levelExamcb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
+            levelCoursecb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
+            
+            this.studentController.Subscribe(this);
+            this.courseController.Subscribe(this);
+            this.enrollmentRequestController.Subscribe(this);
+            this.examSlotController.Subscribe(this);
+
+            FillData();
+            Update();
         }
+
+        public ObservableCollection<CourseDTO> Courses
+        {
+            get { return courses; }
+            set { courses = value; }
+        }
+
+        public ObservableCollection<ExamSlotDTO> ExamSlots
+        {
+            get { return examSlots; }
+            set { examSlots = value; }
+        }
+
 
         public void Update()
         {
             Courses.Clear();
-            foreach (Course course in coursesForReview.Values)
+            foreach (Course course in coursesForReview)
             {
-                Courses.Add(new CoursesDTO(course));
+                Courses.Add(new CourseDTO(course));
+            }
+            ExamSlots.Clear();
+            foreach (ExamSlot exam in examSlotsForReview)
+            {
+                Course c = courseController.GetAllCourses()[exam.CourseId];
+                ExamSlots.Add(new ExamSlotDTO(exam, c));
             }
         }
 
@@ -149,27 +183,44 @@ namespace LangLang.View
                 MessageBox.Show("Account is deactivated. All exams and courses have been canceled.");
                 this.Close();
             }
-
         }
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-            //coursesForReview = this.studentController.Search(); 
+            string? language = languagetb.Text;
+            LanguageLevel? level = null;
+            if (levelCoursecb.SelectedValue != null)
+                level = (LanguageLevel)levelCoursecb.SelectedValue;
+            DateTime courseStartDate = courseStartdp.SelectedDate ?? default;
+            int duration = 0;
+            int.TryParse(durationtb.Text, out duration);
+            coursesForReview = this.studentController.SearchCoursesByStudent(courseController, language, level, courseStartDate, duration, onlinecb.IsChecked);
+            Update();
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             coursesForReview = this.studentController.GetAvailableCourses(this.courseController);
+            Update();
         }
 
         private void SearchExam_Click(object sender, RoutedEventArgs e)
         {
+            string? language = languageExamtb.Text;
+            LanguageLevel? level = null;
+            if (levelExamcb.SelectedValue != null)
+                level = (LanguageLevel)levelExamcb.SelectedValue;
+            DateTime examDate = examdatePicker.SelectedDate ?? default;
+            
 
+            examSlotsForReview = this.studentController.SearchExamSlotsByStudent(examSlotController, courseController, enrollmentRequestController, currentlyLoggedIn.Id, examDate, language, level); ;
+            Update();
         }
 
         private void ClearExam_Click(object sender, RoutedEventArgs e)
         {
-
+            examSlotsForReview = this.studentController.GetAvailableExamSlots(currentlyLoggedIn, this.courseController, examSlotController, enrollmentRequestController);
+            Update();
         }
     }
 }
