@@ -192,7 +192,20 @@ namespace LangLang.View.StudentGUI
             }
         }
 
-        private void Search_Click(object sender, RoutedEventArgs e)
+        private void SearchExams(object sender, RoutedEventArgs e)
+        {
+            string? language = languageExamtb.Text;
+            LanguageLevel? level = null;
+            if (levelExamcb.SelectedValue != null)
+                level = (LanguageLevel)levelExamcb.SelectedValue;
+            DateTime examDate = examdatePicker.SelectedDate ?? default;
+
+
+            examSlotsForReview = this.studentController.SearchExamSlotsByStudent(examSlotController, courseController, enrollmentRequestController, currentlyLoggedIn.Id, examDate, language, level); ;
+            Update();
+        }
+
+        private void SearchCourses(object sender, RoutedEventArgs e)
         {
             string? language = languagetb.Text;
             LanguageLevel? level = null;
@@ -201,33 +214,22 @@ namespace LangLang.View.StudentGUI
             DateTime courseStartDate = courseStartdp.SelectedDate ?? default;
             int duration = 0;
             int.TryParse(durationtb.Text, out duration);
-            coursesForReview = this.studentController.SearchCoursesByStudent(courseController, language, level, courseStartDate, duration, onlinecb.IsChecked);
-            Update();
-        }
-
-        private void Clear_Click(object sender, RoutedEventArgs e)
-        {
-            coursesForReview = this.studentController.GetAvailableCourses(this.courseController);
-            Update();
-        }
-
-        private void SearchExam_Click(object sender, RoutedEventArgs e)
-        {
-            string? language = languageExamtb.Text;
-            LanguageLevel? level = null;
-            if (levelExamcb.SelectedValue != null)
-                level = (LanguageLevel)levelExamcb.SelectedValue;
-            DateTime examDate = examdatePicker.SelectedDate ?? default;
-            
-
-            examSlotsForReview = this.studentController.SearchExamSlotsByStudent(examSlotController, courseController, enrollmentRequestController, currentlyLoggedIn.Id, examDate, language, level); ;
+            coursesForReview = this.studentController.SearchCoursesByStudent(courseController, language, level, courseStartDate, duration, !onlinecb.IsChecked);
             Update();
         }
 
         private void ClearExam_Click(object sender, RoutedEventArgs e)
         {
             examSlotsForReview = this.studentController.GetAvailableExamSlots(currentlyLoggedIn, this.courseController, examSlotController, enrollmentRequestController);
+            levelExamcb.SelectedItem = null;
             Update();
         }
+        private void Clear_Click(object sender, RoutedEventArgs e)
+        {
+            coursesForReview = this.studentController.GetAvailableCourses(this.courseController);
+            levelCoursecb.SelectedItem = null;
+            Update();
+        }
+
     }
 }

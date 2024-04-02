@@ -321,9 +321,9 @@ namespace LangLang.Core.Controller
         public List<Course> SearchCourses(List<Course> searchableCourses, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
         {
             List<Course> filteredCourses = searchableCourses.Where(course =>
-            (language == "" || course.Language == language) && 
+            (language == "" || course.Language.Contains(language)) && 
             (level == null || course.Level == level) &&
-            (startDate == default || course.StartDateTime == startDate) &&
+            (startDate == default || course.StartDateTime.Date == startDate.Date) &&
             (duration == 0 || course.NumberOfWeeks == duration) &&
             (online == false || course.Online == online)).ToList();
 
