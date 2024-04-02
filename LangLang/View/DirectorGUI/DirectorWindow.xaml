@@ -3,13 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LangLang.View" xmlns:dto="clr-namespace:LangLang.View.DTO"
+        xmlns:local="clr-namespace:LangLang.View" xmlns:dto="clr-namespace:LangLang.View.DTO" d:DataContext="{d:DesignInstance Type=dto:TutorDTO}"
         mc:Ignorable="d"
-        Title="Director" Height="770" Width="1000">
+        Title="DirectorWindow" Height="770" Width="1000">
 
     <!--validation-->
     <Window.Resources>
         <ControlTemplate x:Name="controltpl" x:Key="ValidationTemplate">
+
             <StackPanel>
                 <TextBlock x:Name="errorTextBlock"
                        Text="{Binding [0].ErrorContent}" 
@@ -40,7 +41,7 @@
                               x:Name="TutorsDataGrid"
                               ItemsSource="{Binding Tutors, UpdateSourceTrigger=PropertyChanged}"
                               SelectedItem="{Binding SelectedTutor, UpdateSourceTrigger=PropertyChanged}"
-                              SelectionMode="Single" IsReadOnly="True" Margin="-9,0,-3,0" RenderTransformOrigin="0.502,0.513" SelectionChanged="TutorsDataGrid_SelectionChanged">
+                              SelectionMode="Extended" IsReadOnly="True" Margin="-9,0,-3,0" RenderTransformOrigin="0.502,0.513" SelectionChanged="TutorsDataGrid_SelectionChanged">
                         <DataGrid.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -64,49 +65,23 @@
 
             <Button Content="Add tutor" HorizontalAlignment="Left" Height="32" Margin="54,666,0,0" VerticalAlignment="Top" Width="455" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black"  Click="Button_Click"/>
             <!--table for levels and languages-->
-            <DataGrid
-                AutoGenerateColumns="False"
-                x:Name="TutorsDataGrid_Copy"
-                ItemsSource="{Binding SelectedTutor.LanguageSkills, UpdateSourceTrigger=PropertyChanged}"
-                SelectionMode="Single" IsReadOnly="True" Margin="51,287,0,335" RenderTransformOrigin="0.502,0.513" HorizontalAlignment="Left" Width="474" SelectionChanged="TutorsDataGrid_SelectionChanged">
-                <DataGrid.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform AngleY="-0.101"/>
-                        <RotateTransform/>
-                        <TranslateTransform Y="-0.525"/>
-                    </TransformGroup>
-                </DataGrid.RenderTransform>
+            <DataGrid x:Name="dataGrid" 
+                HorizontalAlignment="Left" 
+                Margin="164,268,0,0" 
+                VerticalAlignment="Top"
+                Width="250"
+                Height="121"
+                ItemsSource="{Binding SelectedTutor.LanguageLevel}"
+                AutoGenerateColumns="False">
                 <DataGrid.Columns>
+                    <DataGridTextColumn 
+                Header="Languages and levels for tutor" IsReadOnly="false" 
+                Binding="{Binding}" 
+                Foreground="Black" 
+                Width="250" />
                 </DataGrid.Columns>
             </DataGrid>
-
-            <TabItem Header="&#x9;&#x9;&#x9;Languages and level for selected tutor" Margin="0,255,0,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Center" Width="476" AutomationProperties.IsColumnHeader="True">
-                <DataGrid Height="653"
-                    AutoGenerateColumns="False"
-                    x:Name="TDataGrid"
-                    ItemsSource="{Binding Tutors, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedItem="{Binding SelectedTutor, UpdateSourceTrigger=PropertyChanged}"
-                    SelectionMode="Single" IsReadOnly="True" Margin="-6,0,0,0" RenderTransformOrigin="0.502,0.513" HorizontalAlignment="Left" Width="571" SelectionChanged="TutorsDataGrid_SelectionChanged">
-                    <DataGrid.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform/>
-                            <SkewTransform AngleY="-0.101"/>
-                            <RotateTransform/>
-                            <TranslateTransform Y="-0.525"/>
-                        </TransformGroup>
-                    </DataGrid.RenderTransform>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                        <DataGridTextColumn Header="Lastname" Binding="{Binding LastName}" />
-                        <DataGridTextColumn Header="Gender" Binding="{Binding Gender}" />
-                        <DataGridTextColumn Header="Date of birth" Binding="{Binding BirthDate, StringFormat=\{0:yyyy-MM-dd\}}" />
-                        <DataGridTextColumn Header="Phone number" Binding="{Binding PhoneNumber}" />
-                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" />
-                        <DataGridTextColumn Header="Date of employment" Binding="{Binding EmploymentDate, StringFormat=\{0:yyyy-MM-dd\}}" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </TabItem>
+            <!--end of table for LL-->
 
             <GroupBox x:Name="searchgb" HorizontalAlignment="Center"  Height="222" Header="Search" Margin="0,439,0,0" VerticalAlignment="Top" Width="455" RenderTransformOrigin="0.501,0.513">
                 <Grid Margin="5,0,-7,0" >
@@ -118,7 +93,7 @@
                         <TextBox x:Name="languagetb" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="" Width="209" Background="White" SelectionBrush="#FFFAE0E0" BorderBrush="#FFFAE0E0" Margin="10,0,0,0"/>
                     </GroupBox>
                     <GroupBox x:Name="startdategb" HorizontalAlignment="Left" Height="53" Header="Employment date" Margin="80,90,0,0" VerticalAlignment="Top" Width="266" Grid.Column="1">
-                        <DatePicker x:Name="datePicker" HorizontalAlignment="Center" Height="24" Width="233" Background="#FFFAE0E0">
+                        <DatePicker x:Name="datePickerEmployment" HorizontalAlignment="Center" Height="24" Width="233" Background="#FFFAE0E0">
                             <DatePicker.BorderBrush>
                                 <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1">
                                     <GradientStop Color="#FFFAE0E0"/>
@@ -128,7 +103,7 @@
                         </DatePicker>
                     </GroupBox>
                     <GroupBox x:Name="levelgb" HorizontalAlignment="Left" Height="53" Header="Level" Margin="296,20,0,0" VerticalAlignment="Top" Width="100" Grid.Column="1">
-                        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Height="17" Width="71" Margin="10,0,0,0" BorderBrush="#FFE8E8E8"/>
+                        <ComboBox x:Name="levelCB" HorizontalAlignment="Left" Height="17" Width="71" Margin="10,0,0,0" BorderBrush="#FFE8E8E8"/>
                     </GroupBox>
                     <Button x:Name="searchbtn" Content="Search" HorizontalAlignment="Left" Height="29" Margin="80,160,0,0" VerticalAlignment="Top" Width="101" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="Search_Click" Grid.Column="1"/>
                     <Button x:Name="clearhbtn" Content="Clear" HorizontalAlignment="Left" Height="29" Margin="218,160,0,0" VerticalAlignment="Top" Width="103" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="Clear_Click" Grid.Column="1"/>
@@ -175,6 +150,7 @@
                     </LinearGradientBrush>
                 </TextBox.OpacityMask>
             </TextBox>
+
             <!--lastname label-->
             <Label x:Name="lastNameLabel" Content="Lastname" HorizontalAlignment="Center" Height="26"
                    Margin="0,111,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" Grid.Row="2">
@@ -194,6 +170,7 @@
                     </LinearGradientBrush>
                 </Label.Background>
             </Label>
+
             <!--lastname text box-->
             <TextBox x:Name="lastNameTB" HorizontalAlignment="Center" Height="24" Margin="0,137,0,0" TextWrapping="Wrap"
                  Text="{Binding Path = SelectedTutor.LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
@@ -227,7 +204,8 @@
             </Label>
 
             <!--email text box-->
-            <TextBox x:Name="emailtb" HorizontalAlignment="Center" Height="24" Margin="0,217,0,0" TextWrapping="Wrap" Text=""
+            <TextBox x:Name="emailtb" HorizontalAlignment="Center" Height="24" Margin="0,217,0,0" TextWrapping="Wrap"
+              Text="{Binding Path = SelectedTutor.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                      Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                      VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.Row="2" >
                 <TextBox.OpacityMask>
@@ -259,7 +237,8 @@
             <!--phone text box-->
             <TextBox x:Name="phonenumbertb" HorizontalAlignment="Center" Height="24"
                      Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
-                     Margin="0,292,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.Row="2" >
+                    Text="{Binding Path = SelectedTutor.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                     Margin="0,292,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.Row="2" >
                 <TextBox.OpacityMask>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black"/>
@@ -288,7 +267,8 @@
             <!--password text box-->
             <TextBox x:Name="passwordTB" HorizontalAlignment="Center"
                      Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
-                     Height="24" Margin="0,367,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.Row="2" >
+                    Text="{Binding Path = SelectedTutor.Password, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                     Height="24" Margin="0,367,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.Row="2" >
                 <TextBox.OpacityMask>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black"/>
@@ -325,6 +305,7 @@
             </ComboBox>
             <!--birthday label-->
             <Label x:Name="birthlbl" Content="birth day" HorizontalAlignment="Center" Height="26" Margin="0,472,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" Grid.Row="2">
+                <Label.RenderTransform>
                 <Label.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
