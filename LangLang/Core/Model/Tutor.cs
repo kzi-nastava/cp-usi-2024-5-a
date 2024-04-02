@@ -11,19 +11,11 @@ namespace LangLang.Core.Model
 {
     public class Tutor : ISerializable
     {
-        //private Dictionary<string, LanguageLevel> _languageSkills;
-
         private Skill _skill;
 
         private DateTime _employmentDate;
 
         private Profile _profile;
-
-        //public Dictionary<string, LanguageLevel> LanguageSkills
-        //{
-        //    get { return _languageSkills; }
-        //    set { _languageSkills = value; }
-        //}
 
         public Skill Skill
         {
