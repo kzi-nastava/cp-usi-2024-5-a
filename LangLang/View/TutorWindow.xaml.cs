@@ -35,9 +35,7 @@ namespace LangLang
     {
         //for exam slots
         public ObservableCollection<ExamSlotDTO> ExamSlots { get; set; }
-        public ObservableCollection<CourseDTO> Courses { get; set; }
         public ExamSlotDTO SelectedExamSlot { get; set; }
-        public CourseDTO SelectedCourse { get; set; }
         private ExamSlotController examSlotsController { get; set; }
 
         //for courses
@@ -51,25 +49,23 @@ namespace LangLang
             //tutor = t;
             tutor = new Tutor();
             tutor.Profile.Id = 1;
+
             InitializeComponent();
             DataContext = this;
+
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             examSlotsController = new ExamSlotController();
             coursesController = new CourseController();
+            Courses = new ObservableCollection<CourseDTO>();
 
-            Course c = new Course();
-            c.Days = new List<DayOfWeek>();
-            c.Language = "engleski";
-
-            c.Level = LanguageLevel.A2;
-            Course c1 = new Course();
-            c1.Language = "ruski";
-            c1.Level = LanguageLevel.C2;
-            c1.Days = new List<DayOfWeek>();
-            Trace.WriteLine(c.Id);
-
+            List<DayOfWeek> days = new List<DayOfWeek>();
+            days.Add(DayOfWeek.Monday);
+            Course c = new Course(1, 1, "eng", LanguageLevel.A1, 4, days, true, 0, DateTime.Now, false);
             coursesController.Add(c);
-            coursesController.Add(c1);
+            Course e = new Course(2, 1, "spanish", LanguageLevel.A2, 4, days, true, 0, DateTime.Now, false);
+           
+            coursesController.Add(c);
+            coursesController.Add(e);
 
             Trace.WriteLine("Posle "+c.Id);
 
@@ -84,12 +80,7 @@ namespace LangLang
             ExamSlots.Add(dto);
             examSlotsController.Add(es);
             
-            //filter exam slots for this tutor
-            List<DayOfWeek> days = new List<DayOfWeek>();
-            days.Add(DayOfWeek.Monday);
-            Course c = new Course(1, 1, "eng", LanguageLevel.A1, 4,days, true, 0, DateTime.Now, false);
-            coursesController.Add(c);
-            Course e = new Course(2, 1, "spanish", LanguageLevel.A1, 4, days, true, 0, DateTime.Now, false);
+            
             coursesController.Add(e);
             coursesController.Subscribe(this);
             examSlotsController.Subscribe(this);
@@ -100,7 +91,7 @@ namespace LangLang
         {
             ExamSlots.Clear();
             Trace.WriteLine("POSLE");
-
+            //filter exam slots for this tutor
             foreach (ExamSlot exam in examSlotsController.GetAllExamSlots().Values)
             {
                 
@@ -109,9 +100,8 @@ namespace LangLang
                 Course c = coursesController.GetAllCourses()[exam.CourseId];
                 ExamSlots.Add(new ExamSlotDTO(exam, c));
             }
-                ExamSlots.Add(new ExamSlotDTO(exam));
             Courses.Clear();
-            foreach (Course course in courseController.GetCoursesByTutor(tutor).Values)
+            foreach (Course course in coursesController.GetCoursesByTutor(tutor).Values)
                 Courses.Add(new CourseDTO(course));
             coursesTable.ItemsSource = Courses;
         }
@@ -132,7 +122,7 @@ namespace LangLang
 
         private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            CourseCreateWindow courseCreateWindow = new CourseCreateWindow(courseController);
+            CourseCreateWindow courseCreateWindow = new CourseCreateWindow(coursesController);
             courseCreateWindow.Show();
         }
 
