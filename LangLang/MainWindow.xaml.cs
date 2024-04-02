@@ -50,7 +50,7 @@ namespace LangLang
         {
             
 
-            StudentWindow studentWindow = new(appController, appController.StudentController, appController.StudentController.GetAllStudents()[appController.StudentController.GetAllStudents().Keys.Max()], appController.EnrollmentRequestController, appController.CourseController, appController.ExamSlotController);
+            StudentWindow studentWindow = new(appController, appController.StudentController, appController.StudentController.GetAllStudents()[0], appController.EnrollmentRequestController, appController.CourseController, appController.ExamSlotController);
             studentWindow.Show();
         }
     }
