@@ -44,11 +44,9 @@ namespace LangLang
         private CourseController coursesController { get; set; }
 
         public Tutor tutor { get; set; }
-        public TutorWindow()
+        public TutorWindow( Tutor tutor)
         {
-            //tutor = t;
-            tutor = new Tutor();
-            tutor.Profile.Id = 1;
+            this.tutor = tutor;
             InitializeComponent();
             DataContext = this;
             courseDeleteBtn.IsEnabled = false;
@@ -68,7 +66,7 @@ namespace LangLang
         {
             ExamSlots.Clear();
             //filter exam slots for this tutor
-            foreach (ExamSlot exam in examSlotsController.GetAllExamSlots().Values)
+            foreach (ExamSlot exam in examSlotsController.GetExamSlotsByTutor(tutor.Id, coursesController))
             {
                 Course c = coursesController.GetAllCourses()[exam.CourseId];
                 ExamSlots.Add(new ExamSlotDTO(exam, c));
@@ -85,21 +83,44 @@ namespace LangLang
             //fix to courses by tutor
             Trace.WriteLine("U tutorwindow " + coursesController.GetAllCourses().Count);
 
-            ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow(coursesController.GetAllCourses(), examSlotsController);
+            ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow(coursesController.GetCoursesByTutor(tutor), examSlotsController);
             examSlotCreateWindow.Show();
         }
 
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
+
+            if (SelectedExamSlot == null)
+            {
+                MessageBox.Show("No exam slot selected. Please select an exam slot.");
+            }
+            else
+            {
+                
+                ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetCoursesByTutor(tutor), examSlotsController);
+                examSlotUpdateWindow.Show();
+                
+
+            }
+            /*
             if (SelectedExamSlot == null)
             {
                 MessageBox.Show("No exam slot selected. Please select an exam slot.");
             }else
             {
-                ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetAllCourses(), examSlotsController);
-                examSlotUpdateWindow.Show();
+                bool canBeUpdated = examSlotsController.Update(SelectedExamSlot.ToExamSlot());
+                if (!canBeUpdated)
+                {
+                    MessageBox.Show("Exam can not be updated. There is less than 2 weeks left before the exam.");
+                }else
+                {
+                    ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetAllCourses(), examSlotsController);
+                    examSlotUpdateWindow.Show();
+                }
+                
             }
-            
+            */
+
         }
 
         private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
@@ -111,7 +132,6 @@ namespace LangLang
 
         private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            Trace.WriteLine("IDDDDD "+SelectedExamSlot.MaxStudents);
             if (!examSlotsController.Delete(SelectedExamSlot.Id))
             {
                 MessageBox.Show("Can't delete exam, there is less than 14 days before exam.");
