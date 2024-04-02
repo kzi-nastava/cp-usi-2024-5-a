@@ -293,6 +293,25 @@ namespace LangLang.Core.Controller
             return _courses.GetAllCourses()[courseId];
         }
 
+        public List<DateTime> CalculateClassDates(DateTime startDate, DateTime endDate, List<DayOfWeek> weekdays, TimeSpan classTime)
+        {
+            List<DateTime> classDates = new List<DateTime>();
+
+            DateTime currentDate = startDate.Date;
+            while (currentDate <= endDate)
+            {
+                if (weekdays.Contains(currentDate.DayOfWeek))
+                {
+                    DateTime classDate = currentDate.Date + classTime;
+                    classDates.Add(classDate);
+                }
+
+                currentDate = currentDate.AddDays(1);
+            }
+
+            return classDates;
+        }
+
         public List<Course> SearchCoursesByTutor(int tutorId, string language, LanguageLevel level, DateTime startDate, int duration, bool online)
         {
             List<Course> tutorsCourses = GetCoursesByTutor(tutorId).Values.ToList();
