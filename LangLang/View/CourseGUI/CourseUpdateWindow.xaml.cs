@@ -24,10 +24,14 @@ namespace LangLang.View.CourseGUI
     {
         public CourseDTO Course { get; set; }
         private CourseController courseController;
-        public CourseUpdateWindow(CourseController courseControler, int courseId)
+        private ExamSlotController examController { get; set; }
+        public CourseUpdateWindow(CourseController courseControler, ExamSlotController exams, int courseId)
         {
             this.courseController = courseControler;
             Course = new CourseDTO(courseController.GetById(courseId));
+
+            examController = new ExamSlotController();
+            examController = exams;
             InitializeComponent();
             DataContext = this;
             languageLvlCb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
@@ -37,9 +41,32 @@ namespace LangLang.View.CourseGUI
         {
             if (Course.IsValid)
             {
-                courseController.Update(Course.ToCourse());
-                MessageBox.Show("Success!");
-                Close();
+                if (Course.NotOnline)
+                {
+                    if (courseController.CanUpdateLiveCourse(Course.ToCourse(), examController.GetAllExamSlots().Values.ToList<ExamSlot>()))
+                    {
+                        courseController.Update(Course.ToCourse());
+                        MessageBox.Show("Success!");
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("There seem to be time overlaps.");
+                    }
+                }
+                else
+                {
+                    if (courseController.CanUpdateOnlineCourse(Course.ToCourse(), examController.GetExamSlotsByTutor(Course.TutorId, courseController)))
+                    {
+                        courseController.Update(Course.ToCourse());
+                        MessageBox.Show("Success!");
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("There seem to be time overlaps.");
+                    }
+                }
             }
             else
             {
