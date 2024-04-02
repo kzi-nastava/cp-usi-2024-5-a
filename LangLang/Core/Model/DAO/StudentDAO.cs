@@ -53,6 +53,7 @@ namespace LangLang.Core.Model.DAO
             Student oldStudent = GetStudentById(student.Profile.Id);
             if (oldStudent == null) return null;
 
+            oldStudent.Profile.Id = student.Profile.Id;
             oldStudent.Profile.Name = student.Profile.Name;
             oldStudent.Profile.LastName = student.Profile.LastName;
             oldStudent.Profile.Gender = student.Profile.Gender;
