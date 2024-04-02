@@ -43,8 +43,8 @@ namespace LangLang.Core.DAO
             Dictionary<int, Tutor> allTutors = tutorController.GetAllTutors();
 
             Dictionary<int, Tutor> filteredTutors = allTutors.Where(tutor =>
-            (date == default || tutor.Value.EmploymentDate == date) &&
-             (language == "" || tutor.Value.Skill.Language.Any(skill => skill == language)) &&
+            (date == default || tutor.Value.EmploymentDate.Date == date.Date) &&
+             (language == "" || tutor.Value.Skill.Language.Any(skill => skill.Contains(language))) &&
              (level == null || tutor.Value.Skill.Level.Any(skilll => skilll == level))).ToDictionary(x => x.Key, x => x.Value);
 
 

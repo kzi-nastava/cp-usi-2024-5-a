@@ -156,6 +156,7 @@ namespace LangLang.View
             EmploymentDatePicker.SelectedDate = null;
         }
 
+
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             string language = languagetb.Text;
@@ -163,21 +164,15 @@ namespace LangLang.View
             LanguageLevel? level = null;
             if (levelCB.SelectedValue != null)
                 level = (LanguageLevel)levelCB.SelectedValue;
-
-            if (language == "" && date == DateTime.MinValue && level == null)
-            {
-                MessageBox.Show("Please select some criterion");
-            }
-            else
-            {
-                data = tutorsController.Search(languagetb.Text, date, level);
-                Update();
-            }
+         
+            data = tutorsController.Search(languagetb.Text, date, level);
+            Update();
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
             data = tutorsController.GetAllTutors();
+            levelCB.SelectedItem = null;
             Update();
         }
 
@@ -199,6 +194,5 @@ namespace LangLang.View
                 dataGrid.ItemsSource = SelectedTutor.LanguageLevel;
             }
         }
-
     }
 }
