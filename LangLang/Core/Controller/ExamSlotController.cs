@@ -97,7 +97,7 @@ namespace LangLang.Core.Controller
         }
 
         // Method to search exam slots by tutor and criteria
-        public List<ExamSlot> SearchExamSlotsByTutor(int tutorId, CourseController courses, DateTime examDate, string courseLanguage, LanguageLevel languageLevel)
+        public List<ExamSlot> SearchExamSlotsByTutor(int tutorId, CourseController courses, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
         {
             // Retrieve all exam slots created by the specified tutor
             List<ExamSlot> examSlotsByTutor = this.GetExamSlotsByTutor(tutorId, courses);

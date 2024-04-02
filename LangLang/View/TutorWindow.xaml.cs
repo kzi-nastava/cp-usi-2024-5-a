@@ -146,5 +146,11 @@ namespace LangLang
         {
 
         }
+
+        private void ExamSlotSearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ExamSlotSearchWindow examSlotSearchWindow = new ExamSlotSearchWindow(coursesController, examSlotsController, tutor.Id);
+            examSlotSearchWindow.Show();
+        }
     }
 }

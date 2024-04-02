@@ -4,6 +4,7 @@ using LangLang.View;
 using LangLang.Core.Model;
 using System.Collections.Generic;
 using System.Linq;
+using LangLang.View.StudentGUI;
 
 namespace LangLang
 {
@@ -12,7 +13,7 @@ namespace LangLang
         private TutorController tutorController { get; set; }
         private StudentController studentController { get; set; }
         private EnrollmentRequestController enrollmentRequestController { get; set; }
-
+        private ExamSlotController examSlotController { get; set; } 
         private CourseController courseController { get; set; }
 
         public MainWindow()
@@ -20,6 +21,7 @@ namespace LangLang
             InitializeComponent();
             studentController = new();
             enrollmentRequestController = new();
+            examSlotController = new();
             courseController = new();   
         }
 
@@ -44,7 +46,7 @@ namespace LangLang
         private void StudentWindow(object sender, RoutedEventArgs e)
         {
             
-            StudentWindow studentWindow = new(studentController, studentController.GetAllStudents()[studentController.GetAllStudents().Keys.Max()], enrollmentRequestController, courseController);
+            StudentWindow studentWindow = new(studentController, studentController.GetAllStudents()[studentController.GetAllStudents().Keys.Max()], enrollmentRequestController, courseController, examSlotController);
             studentWindow.Show();
         }
     }
