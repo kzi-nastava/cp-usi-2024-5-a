@@ -125,7 +125,7 @@ namespace LangLang
 
         private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            CourseCreateWindow courseCreateWindow = new CourseCreateWindow(coursesController, tutor.Id);
+            CourseCreateWindow courseCreateWindow = new CourseCreateWindow(coursesController, examSlotsController, tutor.Id);
             courseCreateWindow.ShowDialog();
             Update();
         }

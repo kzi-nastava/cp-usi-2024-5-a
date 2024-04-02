@@ -24,16 +24,22 @@ namespace LangLang.View.CourseGUI
     {
         public CourseDTO Course { get; set; }
         private CourseController courseController { get; set; }
-        public CourseCreateWindow(CourseController courseController, int tutorId)
+        private ExamSlotController examController { get; set; }
+        private int tutorId { get; set; }
+        public CourseCreateWindow(CourseController courseController, ExamSlotController exams, int tutorId)
         {
             Course = new CourseDTO();
             Course.TutorId = tutorId;
             this.courseController = new CourseController();
             this.courseController = courseController;
+            examController = new ExamSlotController();
+            examController = exams;
+            this.tutorId = tutorId;
             InitializeComponent();
             DataContext = this;
             languageLvlCb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
             classsroomCb.IsChecked = false;
+            maxNumOfStudentsTb.IsEnabled = false;
             mon.IsChecked = false;
             tue.IsChecked = false;
             wed.IsChecked = false;
@@ -45,9 +51,32 @@ namespace LangLang.View.CourseGUI
         {
             if (Course.IsValid)
             {
-                courseController.Add(Course.ToCourse());
-                MessageBox.Show("Success!");
-                Close();
+                if (Course.NotOnline)
+                {
+                    if (courseController.CanCreateLiveCourse(Course.ToCourse(), examController.GetAllExamSlots().Values.ToList<ExamSlot>()))
+                    {
+                        courseController.Add(Course.ToCourse());
+                        MessageBox.Show("Success!");
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("There seem to be time overlaps.");
+                    }
+                }
+                else
+                {
+                    if (courseController.CanCreateOnlineCourse(Course.ToCourse(), examController.GetExamSlotsByTutor(tutorId, courseController)))
+                    {
+                        courseController.Add(Course.ToCourse());
+                        MessageBox.Show("Success!");
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("There seem to be time overlaps.");
+                    }
+                }
             }
             else
             {
