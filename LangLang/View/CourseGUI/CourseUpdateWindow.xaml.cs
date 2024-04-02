@@ -18,32 +18,26 @@ using System.Windows.Shapes;
 namespace LangLang.View.CourseGUI
 {
     /// <summary>
-    /// Interaction logic for CourseCreateWindow.xaml
+    /// Interaction logic for CourseUpdateWindow.xaml
     /// </summary>
-    public partial class CourseCreateWindow : Window
+    public partial class CourseUpdateWindow : Window
     {
         public CourseDTO Course { get; set; }
-        private CourseController courseController = new CourseController();
-        public CourseCreateWindow(CourseController courseController)
+        private CourseController courseController;
+        public CourseUpdateWindow(CourseController courseControler, int courseId)
         {
-            Course = new CourseDTO();
-            //this.courseController = courseController;
+            this.courseController = courseControler;
+            Course = new CourseDTO(courseController.GetById(courseId));
             InitializeComponent();
             DataContext = this;
             languageLvlCb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
-            classsroomCb.IsChecked = false;
-            mon.IsChecked = false;
-            tue.IsChecked = false;
-            wed.IsChecked = false;
-            thu.IsChecked = false;
-            fri.IsChecked = false;
         }
 
-        private void CourseCreateBtn_Click(object sender, RoutedEventArgs e)
+        private void CourseUpdateBtn_Click(object sender, RoutedEventArgs e)
         {
             if (Course.IsValid)
             {
-                courseController.Add(Course.ToCourse());
+                courseController.Update(Course.ToCourse());
                 MessageBox.Show("Success!");
                 Close();
             }
