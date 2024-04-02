@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -18,6 +19,8 @@ namespace LangLang.DTO
         public int Id { get; set; }
 
         private int _courseId;
+        private string _language;
+        private LanguageLevel _level;
         private int _maxStudents;
         private DateTime _examDate;
         private string _time;
@@ -30,22 +33,52 @@ namespace LangLang.DTO
             set
             {
                 _courseId = value;
+                OnPropertyChanged("CourseId");
+            }
+        }
+
+        public string Language
+        {
+            get { return _language; }
+            set
+            {
+                if (_language != value)
+                {
+                    _language = value;
+                    OnPropertyChanged("Language");
+                }
+            }
+        }
+
+        public LanguageLevel Level
+        {
+            get { return _level; }
+            set
+            {
+                if (_level != value)
+                {
+                    _level = value;
+                    OnPropertyChanged("Level");
+                }
             }
         }
 
         public string MaxStudents
         {
-            get { return _maxStudents.ToString(); ; }
+            get { return _maxStudents.ToString(); }
             set
             {
+
                 if (int.TryParse(value, out int result) && result >= 0)
                 {
                     _maxStudents = result;
+                    //OnPropertyChanged("MaxStudents");
                 }
                 else
                 {
-                    throw new ArgumentException("Max number of students must be a non-negative integer.");
+                    _maxStudents = 0;
                 }
+
             }
         }
 
@@ -55,6 +88,7 @@ namespace LangLang.DTO
             set
             {
                 _examDate = value;
+                OnPropertyChanged("ExamDate");
             }
         }
 
@@ -64,6 +98,7 @@ namespace LangLang.DTO
             set
             {
                 _numberOfStudents = value;
+                //OnPropertyChanged("NumberOfStudents");
             }
         }
 
@@ -73,6 +108,7 @@ namespace LangLang.DTO
             set
             {
                 _time = value;
+                OnPropertyChanged("Time");
             }
         }
 
@@ -97,7 +133,8 @@ namespace LangLang.DTO
                 {
 
                     if (string.IsNullOrEmpty(MaxStudents)) return "Max number of students is required";
-                    if (!int.TryParse(MaxStudents, out int maxStudents) || maxStudents <= 0) return "Must input a positive integer for max number of students.";
+                    Trace.WriteLine("MMMMMM "+MaxStudents);
+                    if (!int.TryParse(MaxStudents, out int _maxStudents) || _maxStudents <= 0) return "Must input a positive integer for max number of students.";
                     else return "";
                 }
 
@@ -108,7 +145,7 @@ namespace LangLang.DTO
                     else return "";
                 }
 
-                if (columnName == "ExamTime")
+                if (columnName == "Time")
                 {
                     if (string.IsNullOrEmpty(Time)) return "Time is required";
                     if (!_TimeRegex.Match(Time).Success) return "Time must be of format hh:mm .";
@@ -118,7 +155,7 @@ namespace LangLang.DTO
             }
         }
 
-        private readonly string[] _validatedProperties = { "MaxStudents", "ExamDate", "ExamTime" };
+        private readonly string[] _validatedProperties = { "MaxStudents", "ExamDate", "Time" };
 
         // checks if all properties are valid
         public bool IsValid
@@ -127,8 +164,9 @@ namespace LangLang.DTO
             {
                 foreach (var property in _validatedProperties)
                 {
-                    if (this[property] != null)
-                        return true;
+                    Trace.WriteLine(this[property]);
+                    if (this[property] != "")
+                        return false;
                 }
 
                 return true;
@@ -137,9 +175,11 @@ namespace LangLang.DTO
 
 
 
-        public ExamSlotDTO(ExamSlot examSlot)
+        public ExamSlotDTO(ExamSlot examSlot, Course course)
         {
             this.Id = examSlot.Id;
+            this.Language = course.Language;
+            this.Level = course.Level;
             this.MaxStudents = examSlot.MaxStudents.ToString();
             this.NumberOfStudents = examSlot.NumberOfStudents;
             this.CourseId = examSlot.CourseId;
@@ -184,7 +224,10 @@ namespace LangLang.DTO
 
         public ExamSlot ToExamSlot()
         {
-            return new ExamSlot(Id, _courseId, _maxStudents, ToDateTime(_examDate,_time) , 0);
+            string[] timeParts = _time.Split(':');
+            int hour = int.Parse(timeParts[0]);
+            int minute = int.Parse(timeParts[1]);
+            return new ExamSlot(Id, _courseId, _maxStudents, new DateTime(_examDate.Year, _examDate.Month, _examDate.Day, hour, minute, 0), 0);
         }
 
         public string Error => throw new NotImplementedException();

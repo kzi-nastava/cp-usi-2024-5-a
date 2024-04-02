@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LangLang"
         mc:Ignorable="d"
-        Title="TutorWindow" Height="450" Width="800">
+        Title="TutorWindow" Height="450" Width="1000">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*" />
@@ -77,7 +77,7 @@
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
                     <Button Name="courseCreateWindowBtn" Content="Create course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="CourseCreateWindowBtn_Click" />
                     <Button Content="Delete course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
-                    <Button Content="Update course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                    <Button Click="CourseUpdateWindowBtn_Click" Content="Update course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
                 </StackPanel>
                 <Button Content="Search courses" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
             </StackPanel>
@@ -91,7 +91,7 @@
                 <!-- Four Buttons -->
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"  Orientation="Horizontal">
                     <Button Name="examSlotCreateWindowBtn" Content="Create exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black"  Click="ExamSlotCreateWindowBtn_Click" />
-                    <Button Content="Delete exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                    <Button Content="Delete exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotDeleteBtn_Click" />
                     <Button Content="Update exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotUpdateWindowBtn_Click" />
                 </StackPanel>
                 <Button Content="Search exams" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
@@ -109,6 +109,16 @@
                 <DataGridTextColumn Header="Date and Time" Binding="{Binding ExamDateTime, StringFormat={}{0:MM/dd/yyyy HH:mm}}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid Grid.Column="0"  Margin="15,45,15,0" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Grid.Column="0"  Margin="15,45,15,0" SelectionChanged="coursesTable_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Language" Binding="{Binding Language}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Level" Binding="{Binding Level}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Students" Binding="{Binding NumberOfStudents}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Weeks" Binding="{Binding NumberOfWeeks}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Days" Binding="{Binding StringDays}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Start Date and Class Time" Width="*" Binding="{Binding StartDateTime, StringFormat={}{0:MM/dd/yyyy HH:mm}}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

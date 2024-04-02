@@ -39,9 +39,39 @@ namespace LangLang.Core.Controller
             _courses.AddCourse(course);
         }
 
+        public void Update(Course course)
+        {
+            _courses.UpdateCourse(course);
+        }
+
         public void Delete(int courseId)
         {
             _courses.RemoveCourse(courseId);
+        }
+
+        // Deletes all future courses made by tutor or updates all the active courses to have no tutor as well as future courses made by director
+        public void DeleteCoursesByTutor(int tutorId)
+        {
+            foreach (Course course in GetCoursesByTutor(tutorId).Values)
+            {
+                if (course.StartDateTime > DateTime.Now)
+                {
+                    if (course.CreatedByDirector)
+                    {
+                        course.TutorId = -1;
+                        _courses.UpdateCourse(course);
+                    }
+                    else
+                    {
+                        _courses.RemoveCourse(course.Id);
+                    }
+                }
+                else
+                {
+                    course.TutorId = -1;
+                    _courses.UpdateCourse(course);
+                }
+            }
         }
 
         public void Subscribe(IObserver observer)

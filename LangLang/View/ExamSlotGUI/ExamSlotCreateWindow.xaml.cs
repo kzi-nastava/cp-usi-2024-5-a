@@ -1,5 +1,10 @@
-﻿using System;
+﻿using LangLang.Core.Controller;
+using LangLang.Core.Model;
+using LangLang.DTO;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,14 +24,48 @@ namespace LangLang.View
     /// </summary>
     public partial class ExamSlotCreateWindow : Window
     {
-        public ExamSlotCreateWindow()
+        public List<Course> Courses { get; set; }
+        public Course SelectedCourse { get; set; }
+        public ExamSlotDTO ExamSlot { get; set; }
+        private ExamSlotController examSlotsController { get; set; }
+        //public ExamSlotCreateWindow(Dictionary<int,Course> courses, ExamSlotController controller)
+        public ExamSlotCreateWindow(Dictionary<int,Course> courses,ExamSlotController controller)
         {
+            Courses = courses.Values.ToList<Course>();
+            SelectedCourse = new Course();
+            examSlotsController = controller;
+            ExamSlot = new ExamSlotDTO();
+
             InitializeComponent();
+            DataContext = this;
+
         }
 
         private void examSlotCreateBtn_Click(object sender, RoutedEventArgs e)
         {
+            Trace.WriteLine("Mas "+ExamSlot.MaxStudents);
+            if (ExamSlot.IsValid)
+            {
+                examSlotsController.Add(ExamSlot.ToExamSlot());
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Exam slot can not be created. Not all fields are valid.");
+            }
+        }
 
+        private void CoursesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(SelectedCourse!= null)
+            {
+                //SelectedCourse = (Course)CoursesDataGrid.SelectedItem;
+                languageTb.Text = SelectedCourse.Language;
+                ExamSlot.Language = SelectedCourse.Language;
+                levelTb.Text = SelectedCourse.Level.ToString();
+                ExamSlot.Level = SelectedCourse.Level;
+                //CoursesDataGrid.SelectedItem = null;
+            }
         }
     }
 }

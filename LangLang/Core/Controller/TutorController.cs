@@ -1,6 +1,7 @@
 ﻿using LangLang.Core.DAO;
 using LangLang.Core.Model;
 using LangLang.Core.Observer;
+using System;
 using System.Collections.Generic;
 
 namespace LangLang.Core.Controller
@@ -27,6 +28,11 @@ namespace LangLang.Core.Controller
         public void Delete(int tutorId)
         {
             _tutors.Remove(tutorId);
+        }
+
+        public Dictionary<int, Tutor> Search(string language, DateTime date, LanguageLevel? level)
+        {
+            return _tutors.Search(this, date, language, level);
         }
         public void Update(Tutor tutor)
         {

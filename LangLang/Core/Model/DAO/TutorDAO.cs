@@ -2,7 +2,9 @@
 using LangLang.Core.Repository;
 using LangLang.Core.Observer;
 using System.Collections.Generic;
-
+using System.Linq;
+using LangLang.Core.Controller;
+using System;
 
 namespace LangLang.Core.DAO
 {
@@ -36,6 +38,18 @@ namespace LangLang.Core.DAO
             return tutor;
         }
 
+        public Dictionary<int, Tutor> Search(TutorController tutorController, DateTime date, string language, LanguageLevel? level)
+        {
+            Dictionary<int, Tutor> allTutors = tutorController.GetAllTutors();
+
+             Dictionary<int, Tutor> filteredTutors = allTutors.Where(tutor =>
+             (date == default || tutor.Value.EmploymentDate == date) &&
+             (language == "" || tutor.Value.LanguageSkills.Any(skill => skill.Key == language)) &&
+             (level == null || tutor.Value.LanguageSkills.Any(skilll => skilll.Value == level))).ToDictionary(x => x.Key, x => x.Value);
+
+
+            return filteredTutors;
+        }
         public Tutor? Update(Tutor tutor)
         {
             Tutor oldTutor = Get(tutor.Profile.Id);
