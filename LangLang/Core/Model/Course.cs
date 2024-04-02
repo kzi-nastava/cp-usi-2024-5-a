@@ -126,7 +126,7 @@ namespace LangLang.Core.Model
                 sbDays.Remove(sbDays.Length - 1, 1);
             }
 
-            return $"ID: {Id,5} | Language: {Language,20} | Level: {Level,5} | NumberOfWeeks: {NumberOfWeeks,5} | Days: {sbDays, 10} | Online: {Online,5} | NumberOfStudents : {NumberOfStudents,5} | MaxStudents : {MaxStudents,5} | StartDateTime : {StartDateTime,10} | CreatedByDirector : {CreatedByDirector,5} |";
+            return $"ID: {Id,5} | TutorId: {TutorId,5} | Language: {Language,20} | Level: {Level,5} | NumberOfWeeks: {NumberOfWeeks,5} | Days: {sbDays, 10} | Online: {Online,5} | NumberOfStudents : {NumberOfStudents,5} | MaxStudents : {MaxStudents,5} | StartDateTime : {StartDateTime,10} | CreatedByDirector : {CreatedByDirector,5} |";
         }
 
         public string[] ToCSV()
@@ -146,6 +146,7 @@ namespace LangLang.Core.Model
             string[] csvValues =
             {
                 Id.ToString(),
+                TutorId.ToString(),
                 Language,
                 Level.ToString(),
                 NumberOfWeeks.ToString(),
@@ -162,23 +163,24 @@ namespace LangLang.Core.Model
         public void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);
-            Language = values[1];
-            Level = (LanguageLevel)Enum.Parse(typeof(LanguageLevel), values[2]);
-            NumberOfWeeks = int.Parse(values[3]);
+            TutorId = int.Parse(values[1]);
+            Language = values[2];
+            Level = (LanguageLevel)Enum.Parse(typeof(LanguageLevel), values[3]);
+            NumberOfWeeks = int.Parse(values[4]);
 
             // Converting from string to list of WeekDays
-            string[] days = values[4].Split(' ');
+            string[] days = values[5].Split(' ');
             Days = new List<DayOfWeek>();
             foreach (string day in days)
             {
                 Days.Add((DayOfWeek)Enum.Parse(typeof(DayOfWeek), day));
             }
 
-            Online = bool.Parse(values[5]);
-            NumberOfStudents = int.Parse(values[6]);
-            MaxStudents = int.Parse(values[7]);
-            StartDateTime = DateTime.Parse(values[8]);
-            CreatedByDirector = bool.Parse(values[9]);
+            Online = bool.Parse(values[6]);
+            NumberOfStudents = int.Parse(values[7]);
+            MaxStudents = int.Parse(values[8]);
+            StartDateTime = DateTime.Parse(values[9]);
+            CreatedByDirector = bool.Parse(values[10]);
         }
     }
 }
