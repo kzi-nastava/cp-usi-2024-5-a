@@ -216,7 +216,7 @@ namespace LangLang.Core.Controller
         {
             Course course = GetAllCourses()[courseId];
             TimeSpan difference = course.StartDateTime - DateTime.Now;
-            return difference.TotalDays < 7;
+            return difference.TotalDays >= 7;
         }
 
         // Method checks if a certain course is available for the student
@@ -232,13 +232,20 @@ namespace LangLang.Core.Controller
                 }
                 else
                 {
-                    return course.NumberOfStudents <= course.MaxStudents;
+                    return course.NumberOfStudents < course.MaxStudents;
                 }
             }
             else
             {
                 return false;
             }
+        }
+
+        public void AddStudentToCourse(int courseId)
+        {
+            Course course = GetById(courseId);
+            course.NumberOfStudents += 1;
+            Update(course);
         }
 
         // Returns all courses made by a certain tutor
