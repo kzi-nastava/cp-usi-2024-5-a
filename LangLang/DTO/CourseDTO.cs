@@ -34,7 +34,6 @@ namespace LangLang.DTO
         private bool thu;
         private bool fri;
 
-
         public bool Mon
         {
             get
@@ -276,6 +275,7 @@ namespace LangLang.DTO
 
         private readonly Regex _TimeRegex = new("^([01]?[0-9]|2[0-3]):[0-5][0-9]$");
 
+
         public string this[string columnName]
         {
             get
@@ -312,8 +312,12 @@ namespace LangLang.DTO
                 return "";
             }
         }
+        public string ConcatenatedDays
+        {
+            get { return string.Join(", ", Days); }
+        }
 
-        private string[] _validatedProperties = { "Language", "Level", "StartDateTime", "NumberOfWeeks", "Time" };
+        private string[] _validatedProperties = { "StartDateTime", "Language", "Level", "NumberOfWeeks", "Time" };
 
         // checks if all properties are valid
         public bool IsValid
@@ -405,7 +409,6 @@ namespace LangLang.DTO
             CreatedByDirector = course.CreatedByDirector;
             TutorId = course.TutorId;
             Days = course.Days;
-
             StringBuilder sbDays = new StringBuilder(); 
             if (Days.Contains(DayOfWeek.Monday))
             {
