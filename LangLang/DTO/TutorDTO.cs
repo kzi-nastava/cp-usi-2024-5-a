@@ -212,6 +212,7 @@ namespace LangLang.View.DTO
         {
             get
             {
+                languagelevel.Clear();
                 for (int i = 0; i < levels.Count; i++)
                 {
                     languagelevel.Add(languages[i] + " " + levels[i].ToString());
