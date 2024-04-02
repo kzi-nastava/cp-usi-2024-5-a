@@ -150,7 +150,7 @@ namespace LangLang
         {
             if (coursesController.IsCourseValid(SelectedCourse.Id))
             {
-                CourseUpdateWindow courseUpdateWindow = new CourseUpdateWindow(coursesController, SelectedCourse.Id);
+                CourseUpdateWindow courseUpdateWindow = new CourseUpdateWindow(coursesController, examSlotsController, SelectedCourse.Id);
                 courseUpdateWindow.Show();
                 Update();
             }
@@ -164,7 +164,9 @@ namespace LangLang
         {
             if (coursesController.IsCourseValid(SelectedCourse.Id))
             {
-                coursesController.Delete(SelectedCourse.Id);
+                int id = SelectedCourse.Id;
+                examSlotsController.DeleteExamSlotsByCourseId(id);
+                coursesController.Delete(id);
                 Update();
                 MessageBox.Show("The course has successfully been deleted.");
             }
