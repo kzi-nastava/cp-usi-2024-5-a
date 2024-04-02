@@ -49,9 +49,10 @@ namespace LangLang
             //tutor = t;
             tutor = new Tutor();
             tutor.Profile.Id = 1;
-
             InitializeComponent();
             DataContext = this;
+            courseDeleteBtn.IsEnabled = false;
+            courseUpdateBtn.IsEnabled = false;
 
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             examSlotsController = new ExamSlotController();
@@ -60,14 +61,12 @@ namespace LangLang
 
             List<DayOfWeek> days = new List<DayOfWeek>();
             days.Add(DayOfWeek.Monday);
-            Course c = new Course(1, 1, "eng", LanguageLevel.A1, 4, days, true, 0, DateTime.Now, false);
+            Course c = new Course(1, tutor.Id, "eng", LanguageLevel.A1, 4, days, true, 0, DateTime.Now, false);
             coursesController.Add(c);
-            Course e = new Course(2, 1, "spanish", LanguageLevel.A2, 4, days, true, 0, DateTime.Now, false);
-           
-            coursesController.Add(c);
+            Course e = new Course(2, tutor.Id, "spanish", LanguageLevel.A2, 4, days, true, 0, DateTime.Now, false);
             coursesController.Add(e);
 
-            Trace.WriteLine("Posle "+c.Id);
+            Trace.WriteLine("Posle "+coursesController.GetAllCourses().Values.Count);
 
             if (coursesController.GetAllCourses().Values.Count == 1)
             {
@@ -79,9 +78,7 @@ namespace LangLang
             ExamSlotDTO dto = new ExamSlotDTO(es, c);
             ExamSlots.Add(dto);
             examSlotsController.Add(es);
-            
-            
-            coursesController.Add(e);
+           
             coursesController.Subscribe(this);
             examSlotsController.Subscribe(this);
             Update();
@@ -100,6 +97,7 @@ namespace LangLang
                 Course c = coursesController.GetAllCourses()[exam.CourseId];
                 ExamSlots.Add(new ExamSlotDTO(exam, c));
             }
+
             Courses.Clear();
             foreach (Course course in coursesController.GetCoursesByTutor(tutor).Values)
                 Courses.Add(new CourseDTO(course));
@@ -122,8 +120,9 @@ namespace LangLang
 
         private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            CourseCreateWindow courseCreateWindow = new CourseCreateWindow(coursesController);
-            courseCreateWindow.Show();
+            CourseCreateWindow courseCreateWindow = new CourseCreateWindow(coursesController, tutor.Id);
+            courseCreateWindow.ShowDialog();
+            Update();
         }
 
         private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
@@ -138,13 +137,36 @@ namespace LangLang
          }
         private void CourseUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-           // CourseUpdateWindow courseUpdateWindow = new CourseUpdateWindow(courseController);
-            //courseUpdateWindow.Show();
+            if (coursesController.IsCourseValid(SelectedCourse.Id))
+            {
+                CourseUpdateWindow courseUpdateWindow = new CourseUpdateWindow(coursesController, SelectedCourse.Id);
+                courseUpdateWindow.Show();
+                Update();
+            }
+            else
+            {
+                MessageBox.Show("Selected course cannot be updated, it has already started or there are less than 7 days before course start.");
+            }
         }
 
+        private void CourseDeleteBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (coursesController.IsCourseValid(SelectedCourse.Id))
+            {
+                coursesController.Delete(SelectedCourse.Id);
+                Update();
+                MessageBox.Show("The course has successfully been deleted.");
+            }
+            else
+            {
+                MessageBox.Show("Selected course cannot be deleted, it has already started or there are less than 7 days before course start.");
+            }
+        }
         private void coursesTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            courseUpdateBtn.IsEnabled = true;
+            courseDeleteBtn.IsEnabled = true;
         }
+
     }
 }
