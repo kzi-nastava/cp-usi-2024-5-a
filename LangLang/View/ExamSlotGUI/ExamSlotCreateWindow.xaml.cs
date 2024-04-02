@@ -58,9 +58,10 @@ namespace LangLang.View
                     
                     ExamSlot.CourseId = SelectedCourse.Id;
                     bool added = examSlotsController.Add(ExamSlot.ToExamSlot(), courseController);
+                    /*
                     if (!added)
                     {
-                        examSlotsController.Add(ExamSlot.ToExamSlot(), courseController);
+                        //examSlotsController.Add(ExamSlot.ToExamSlot(), courseController);
 
                         MessageBox.Show("Choose another exam date or time.");
                     }
@@ -70,9 +71,11 @@ namespace LangLang.View
                         examSlotsController.Add(ExamSlot.ToExamSlot(), courseController);
 
                         Close();
-                    }
+                    }*/
+                    Close();
+
                 }
-                
+
             }
             else
             {
