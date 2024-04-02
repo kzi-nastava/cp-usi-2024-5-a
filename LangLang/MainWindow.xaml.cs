@@ -36,8 +36,8 @@ namespace LangLang
         }
         private void DirectorWindow(object sender, RoutedEventArgs e)
         {
-            //DirectorWindow window = new();
-            //window.Show();
+            DirectorWindow window = new(appController.TutorController, new Director());
+            window.Show();
         }
 
         private void RegisterWindow(object sender, RoutedEventArgs e)
