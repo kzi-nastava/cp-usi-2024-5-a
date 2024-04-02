@@ -1,39 +1,26 @@
 using LangLang.Core.Controller;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using LangLang.Core.Controller;
 using LangLang.View;
-using System;
+using LangLang.Core.Model;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace LangLang
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private TutorController tutorController { get; set; }
+        private StudentController studentController { get; set; }
+        private EnrollmentRequestController enrollmentRequestController { get; set; }
+
+        private CourseController courseController { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
+            studentController = new();
+            enrollmentRequestController = new();
+            courseController = new();   
         }
 
         private void Tutor_Click(object sender, RoutedEventArgs e)
@@ -44,9 +31,21 @@ namespace LangLang
         }
         private void DirectorWindow(object sender, RoutedEventArgs e)
         {
-            //DirectorWindow window = new DirectorWindow();
+            //DirectorWindow window = new();
             //window.Show();
         }
 
+        private void RegisterWindow(object sender, RoutedEventArgs e)
+        {
+            Registration registrationWindow = new(studentController);
+            registrationWindow.Show();
+        }
+
+        private void StudentWindow(object sender, RoutedEventArgs e)
+        {
+            
+            StudentWindow studentWindow = new(studentController, studentController.GetAllStudents()[studentController.GetAllStudents().Keys.Max()], enrollmentRequestController, courseController);
+            studentWindow.Show();
+        }
     }
 }
