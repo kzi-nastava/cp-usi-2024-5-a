@@ -306,7 +306,6 @@
             <!--birthday label-->
             <Label x:Name="birthlbl" Content="birth day" HorizontalAlignment="Center" Height="26" Margin="0,472,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" Grid.Row="2">
                 <Label.RenderTransform>
-                <Label.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
                         <SkewTransform AngleX="0"/>
@@ -321,7 +320,7 @@
                         <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
                     </LinearGradientBrush>
                 </Label.Background>
-            </Label>
+                </Label>
 
             <!--birthday picker-->
             <DatePicker x:Name="BirthDatePicker"
