@@ -10,12 +10,21 @@ namespace LangLang
 {
     public partial class MainWindow : Window
     {
+        private TutorController tutorController { get; set; }
+        private StudentController studentController { get; set; }
+        private EnrollmentRequestController enrollmentRequestController { get; set; }
+        private ExamSlotController examSlotController { get; set; } 
+        private CourseController courseController { get; set; }
 
         private AppController appController { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
+            studentController = new();
+            enrollmentRequestController = new();
+            examSlotController = new();
+            courseController = new();   
             appController = new();
         }
 
@@ -40,6 +49,7 @@ namespace LangLang
         private void StudentWindow(object sender, RoutedEventArgs e)
         {
             
+
             StudentWindow studentWindow = new(appController, appController.StudentController, appController.StudentController.GetAllStudents()[appController.StudentController.GetAllStudents().Keys.Max()], appController.EnrollmentRequestController, appController.CourseController, appController.ExamSlotController);
             studentWindow.Show();
         }
