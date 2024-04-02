@@ -21,7 +21,7 @@ namespace LangLang.Core.DAO
         private int GenerateId()
         {
             if (_tutors.Count == 0) return 0;
-            return _tutors.Count + 1;
+            return _tutors.Keys.Max() + 1;
         }
 
         private Tutor? Get(int id)
@@ -42,10 +42,10 @@ namespace LangLang.Core.DAO
         {
             Dictionary<int, Tutor> allTutors = tutorController.GetAllTutors();
 
-             Dictionary<int, Tutor> filteredTutors = allTutors.Where(tutor =>
-             (date == default || tutor.Value.EmploymentDate == date) &&
-             (language == "" || tutor.Value.LanguageSkills.Any(skill => skill.Key == language)) &&
-             (level == null || tutor.Value.LanguageSkills.Any(skilll => skilll.Value == level))).ToDictionary(x => x.Key, x => x.Value);
+            Dictionary<int, Tutor> filteredTutors = allTutors.Where(tutor =>
+            (date == default || tutor.Value.EmploymentDate == date) &&
+             (language == "" || tutor.Value.Skill.Language.Any(skill => skill == language)) &&
+             (level == null || tutor.Value.Skill.Level.Any(skilll => skilll == level))).ToDictionary(x => x.Key, x => x.Value);
 
 
             return filteredTutors;
@@ -63,6 +63,7 @@ namespace LangLang.Core.DAO
             oldTutor.Profile.Email = tutor.Profile.Email;
             oldTutor.Profile.Password = tutor.Profile.Password;
             oldTutor.Profile.Role = tutor.Profile.Role;
+            oldTutor.EmploymentDate = tutor.EmploymentDate;
 
             _repository.Save(_tutors);
             NotifyObservers();

@@ -3,7 +3,7 @@ using LangLang.Core.Repository.Serialization;
 
 namespace LangLang.Core.Model
 {
-    class Director : ISerializable
+    public class Director : ISerializable
     {
 
         private Profile _profile;
@@ -17,6 +17,8 @@ namespace LangLang.Core.Model
         public Director(int id, string name, string lastName, UserGender gender, DateTime dateOfBirth, string phoneNumber, string email, string password, UserType role) {
             _profile = new Profile(id, name, lastName, gender, dateOfBirth, phoneNumber, email, password, role);
         }
+
+        public Director() { }
 
         public string[] ToCSV()
         {
