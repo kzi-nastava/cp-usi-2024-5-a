@@ -34,6 +34,7 @@ namespace LangLang.DTO
         private bool thu;
         private bool fri;
 
+        public int NumberOfStudents { get; set; }
         public bool Mon
         {
             get
@@ -390,6 +391,7 @@ namespace LangLang.DTO
             fri = false;
             wed = false;
             thu = false;
+            NumberOfStudents = 0;   
         }
 
         public Course ToCourse()
@@ -409,6 +411,7 @@ namespace LangLang.DTO
             CreatedByDirector = course.CreatedByDirector;
             TutorId = course.TutorId;
             Days = course.Days;
+            NumberOfStudents = course.NumberOfStudents;
             StringBuilder sbDays = new StringBuilder(); 
             if (Days.Contains(DayOfWeek.Monday))
             {
