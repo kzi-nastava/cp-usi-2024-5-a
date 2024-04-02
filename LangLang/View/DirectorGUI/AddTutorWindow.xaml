@@ -303,29 +303,21 @@
                 </ComboBox>
             </StackPanel>
             <!--table-->
-            <DataGrid Height="100"
-                              AutoGenerateColumns="False"
-                              x:Name="LLDataGrid"
-                              ItemsSource="{Binding Skills, UpdateSourceTrigger=PropertyChanged}"
-                              SelectionMode="Single" IsReadOnly="True" Margin="50,0,0,0" RenderTransformOrigin="0.502,0.513" HorizontalAlignment="Left" Width="318">
-                <DataGrid.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform AngleY="-0.101"/>
-                        <RotateTransform/>
-                        <TranslateTransform Y="-0.525"/>
-                    </TransformGroup>
-                </DataGrid.RenderTransform>
+            <DataGrid x:Name="LLDataGrid"
+                Width="250"
+                Height="121"
+                AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Language" Width =" 200" Binding="{Binding Key}" />
-                    <DataGridTextColumn Header="Level" Width="120" Binding="{Binding Value}" />
+                    <DataGridTextColumn 
+                Header="Languages and levels for tutor" IsReadOnly="false" 
+                Binding="{Binding}" 
+                Foreground="Black" 
+                Width="250" />
                 </DataGrid.Columns>
             </DataGrid>
-
             <!--button add-->
             <Button x:Name="addLL" Content="Add skill" HorizontalAlignment="Center" Height="33" Margin="0,25,0,0" Width="229" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="addLL_Click"/>
             <!--button delete-->
-            <Button x:Name="deleteLL" Content="Delete skill" HorizontalAlignment="Center" Height="33" Margin="0,25,0,0" Width="220" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="deleteLL_Click"/>
 
         </StackPanel>
     </Grid>
