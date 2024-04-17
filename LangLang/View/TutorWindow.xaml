@@ -5,120 +5,115 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LangLang"
         mc:Ignorable="d"
-        Title="TutorWindow" Height="450" Width="1000">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="3*" />
-            <RowDefinition Height="1*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+        Title="TutorWindow" Height="450" Width="600">
+    <TabControl>
+        <!--COURSE TAB-->
+        <TabItem Header="Courses">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
 
-        <!--label for courses table-->
-        <Label x:Name="coursesLbl" Content="Your courses" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Height="24" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
-            <Label.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
-                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
-                </LinearGradientBrush>
-            </Label.Background>
-        </Label>
+                <!--label for courses table-->
+                <Label x:Name="coursesLbl" Content="Your courses" Grid.Row="0" HorizontalAlignment="Center" Height="24" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleX="0"/>
+                            <RotateTransform/>
+                            <TranslateTransform X="0"/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="1"/>
+                            <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                            <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                        </LinearGradientBrush>
+                    </Label.Background>
+                </Label>
 
-        <!--label for exam slots table-->
-        <Label x:Name="examSlotsLbl" Content="Your Exam Slots" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Height="24" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
-            <Label.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
-                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
-                </LinearGradientBrush>
-            </Label.Background>
-        </Label>
-
-
-        <!-- First Row, First Column Content -->
-        <Border Grid.Row="0" Grid.Column="0">
-            <!-- Your content here -->
-            <!-- Example: <TextBlock Text="Content 1" /> -->
-        </Border>
-
-        <!-- First Row, Second Column Content -->
-        <Border Grid.Row="0" Grid.Column="1">
-            <!-- Your content here -->
-            <!-- Example: <TextBlock Text="Content 2" /> -->
-        </Border>
-
-
-        <!-- Second Row, First Column Content -->
-        <Border Grid.Row="1" Grid.Column="0">
-            <!-- Your content here -->
-            <!-- Example: <TextBlock Text="Content 3" /> -->
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
-                <!-- Four Buttons -->
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-                    <Button Name="courseCreateWindowBtn" Content="Create course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="CourseCreateWindowBtn_Click" />
-                    <Button Click="CourseDeleteBtn_Click" x:Name="courseDeleteBtn" Content="Delete course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
-                    <Button x:Name="courseUpdateBtn" Click="CourseUpdateWindowBtn_Click" Content="Update course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                <!--buttons for CRUD-->
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Grid.Row="1">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <Button Name="courseCreateWindowBtn" Content="Create course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="CourseCreateWindowBtn_Click" />
+                        <Button Click="CourseDeleteBtn_Click" x:Name="courseDeleteBtn" Content="Delete course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                        <Button x:Name="courseUpdateBtn" Click="CourseUpdateWindowBtn_Click" Content="Update course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                    </StackPanel>
+                    <Button Click="CourseSearchWindowBtn_Click" x:Name="courseSearchBtn" Content="Search courses" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
                 </StackPanel>
-                <Button Click="CourseSearchWindowBtn_Click" x:Name="courseSearchBtn" Content="Search courses" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
-            </StackPanel>
-        </Border>
 
-        <!-- Second Row, Second Column Content -->
-        <Border Grid.Row="1" Grid.Column="1">
-            <!-- Your content here -->
-            <!-- Example: <TextBlock Text="Content 4" /> -->
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
-                <!-- Four Buttons -->
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"  Orientation="Horizontal">
-                    <Button Name="examSlotCreateWindowBtn" Content="Create exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black"  Click="ExamSlotCreateWindowBtn_Click" />
-                    <Button Content="Delete exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotDeleteBtn_Click" />
-                    <Button Content="Update exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotUpdateWindowBtn_Click" />
+                <!--table for courses-->
+                <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Margin="15,45,15,0" SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="coursesTable_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="idColumn" IsReadOnly="True" Header="Id" Binding="{Binding Id}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Language" Binding="{Binding Language}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Level" Binding="{Binding Level}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Students" Binding="{Binding NumberOfStudents}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Weeks" Binding="{Binding NumberOfWeeks}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Days" Binding="{Binding StringDays}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Start Date and Class Time" Width="*" Binding="{Binding StartDateTime, StringFormat={}{0:MM/dd/yyyy HH:mm}}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <!--end of table for courses-->
+            </Grid>
+        </TabItem>
+        
+        <!--EXAM SLOTS TAB-->
+        <TabItem Header="Exam slots">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <!--label for exam slots table-->
+                <Label x:Name="examSlotsLbl" Content="Your Exam Slots" Grid.Row="0" HorizontalAlignment="Center" Height="24" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleX="0"/>
+                            <RotateTransform/>
+                            <TranslateTransform X="0"/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="1"/>
+                            <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                            <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                        </LinearGradientBrush>
+                    </Label.Background>
+                </Label>
+
+                <!--buttons for CRUD-->
+                <StackPanel HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Orientation="Vertical" >
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"  Orientation="Horizontal">
+                        <Button Name="examSlotCreateWindowBtn" Content="Create exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black"  Click="ExamSlotCreateWindowBtn_Click" />
+                        <Button Content="Delete exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotDeleteBtn_Click" />
+                        <Button Content="Update exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotUpdateWindowBtn_Click" />
+                    </StackPanel>
+                    <Button Content="Search exams" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotSearchBtn_Click" />
                 </StackPanel>
-                <Button Content="Search exams" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotSearchBtn_Click" />
-            </StackPanel>
-        </Border>
-        <DataGrid Grid.Column="1" Margin="15,45,15,0" AutoGenerateColumns="False"
-                          x:Name="ExamSlotsDataGrid"
-                          ItemsSource="{Binding ExamSlots, UpdateSourceTrigger=PropertyChanged}"
-                          SelectedItem="{Binding SelectedExamSlot, UpdateSourceTrigger=PropertyChanged}"
-                          SelectionMode="Single" IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Course ID" Binding="{Binding CourseId}"/>
-                <DataGridTextColumn Header="Max Students" Binding="{Binding MaxStudents}"/>
-                <DataGridTextColumn Header="Number of Students" Binding="{Binding NumberOfStudents}"/>
-                <DataGridTextColumn Header="Date and Time" Binding="{Binding ExamDateTime, StringFormat={}{0:MM/dd/yyyy HH:mm}}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Grid.Column="0"  Margin="15,45,15,0" SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="coursesTable_SelectionChanged">
-            <DataGrid.Columns>
-                <DataGridTextColumn x:Name="idColumn" IsReadOnly="True" Header="Id" Binding="{Binding Id}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Language" Binding="{Binding Language}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Level" Binding="{Binding Level}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Students" Binding="{Binding NumberOfStudents}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Weeks" Binding="{Binding NumberOfWeeks}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Days" Binding="{Binding StringDays}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Start Date and Class Time" Width="*" Binding="{Binding StartDateTime, StringFormat={}{0:MM/dd/yyyy HH:mm}}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+
+                <!--table for exam slots-->
+                <DataGrid Grid.Column="1" Margin="15,45,15,0" AutoGenerateColumns="False"
+                                  x:Name="ExamSlotsDataGrid"
+                                  ItemsSource="{Binding ExamSlots, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectedItem="{Binding SelectedExamSlot, UpdateSourceTrigger=PropertyChanged}"
+                                  SelectionMode="Single" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Course ID" Binding="{Binding CourseId}"/>
+                        <DataGridTextColumn Header="Max Students" Binding="{Binding MaxStudents}"/>
+                        <DataGridTextColumn Header="Number of Students" Binding="{Binding NumberOfStudents}"/>
+                        <DataGridTextColumn Header="Date and Time" Binding="{Binding ExamDateTime, StringFormat={}{0:MM/dd/yyyy HH:mm}}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <!--end of exam slots table-->
+            </Grid>
+
+        </TabItem>
+    </TabControl>
+    
 </Window>
