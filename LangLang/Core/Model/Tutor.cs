@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Reflection;
+using LangLang.Core.Controller;
 
 namespace LangLang.Core.Model
 {
-    public class Tutor : ISerializable
+    public class Tutor : ISerializable, IProfileHolder
     {
         private Skill _skill;
 

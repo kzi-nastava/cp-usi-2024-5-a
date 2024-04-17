@@ -6,7 +6,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LangLang.View"
         mc:Ignorable="d"
-        Title="AddUserWindow" Height="773" Width="500">
+        Title="Registration" Height="773" Width="500"
+        WindowStartupLocation="CenterScreen">
 
     <!--validation-->
     <Window.Resources>
@@ -24,7 +25,7 @@
     <Grid Margin="10,10,10,0" Height="710" VerticalAlignment="Top">
         
         <!--title registation-->
-        <TextBlock x:Name="schoolNametb" Height="40" Margin="0,10,0,0" TextWrapping="Wrap" Text="registration" VerticalAlignment="Top" Width="240" FontFamily="Gill Sans Ultra Bold" Padding="8,0,0,0" HorizontalAlignment="Center" Foreground="#FF302A2A" FontSize="22" RenderTransformOrigin="0.5,0.5" FlowDirection="RightToLeft" TextAlignment="Center">
+        <TextBlock x:Name="schoolNametb" Height="40" Margin="0,32,0,0" TextWrapping="Wrap" Text="Create account" VerticalAlignment="Top" Width="240" FontFamily="Gill Sans Ultra Bold" Padding="8,0,0,0" HorizontalAlignment="Center" Foreground="#FF302A2A" FontSize="22" RenderTransformOrigin="0.5,0.5" FlowDirection="RightToLeft" TextAlignment="Center">
             <TextBlock.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" MappingMode="RelativeToBoundingBox" SpreadMethod="Repeat" Opacity="0.99">
                     <LinearGradientBrush.RelativeTransform>
@@ -36,7 +37,7 @@
                         </TransformGroup>
                     </LinearGradientBrush.RelativeTransform>
                     <GradientStop Color="Black"/>
-                    <GradientStop Color="#FFFFD2D2" Offset="0.26"/>
+                    <GradientStop Color="White" Offset="0"/>
                 </LinearGradientBrush>
             </TextBlock.Background>
         </TextBlock>

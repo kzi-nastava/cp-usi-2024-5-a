@@ -14,6 +14,7 @@ namespace LangLang.Core.Controller
         private StudentController _studentController;
         private EnrollmentRequestController _enrollmentRequestController;
         private ExamSlotController _examSlotController;
+        private LoginController _loginController;
         public AppController()
         {
             this._tutorController = new TutorController();
@@ -21,6 +22,12 @@ namespace LangLang.Core.Controller
             this._studentController = new StudentController();
             this._enrollmentRequestController = new EnrollmentRequestController();
             this._examSlotController = new ExamSlotController();
+            this._loginController = new LoginController(_studentController, _tutorController);
+        }
+
+        public LoginController LoginController
+        {
+            get { return this._loginController; }
         }
 
         public TutorController TutorController

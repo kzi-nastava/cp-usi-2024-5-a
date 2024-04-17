@@ -1,9 +1,10 @@
-﻿using LangLang.Core.Repository.Serialization;
+﻿using LangLang.Core.Controller;
+using LangLang.Core.Repository.Serialization;
 using System;
 
 namespace LangLang.Core.Model
 {
-    public class Student : ISerializable
+    public class Student : ISerializable, IProfileHolder
     {
 
         private Profile _profile;
