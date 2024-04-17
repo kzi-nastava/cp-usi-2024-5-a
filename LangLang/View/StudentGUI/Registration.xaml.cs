@@ -11,12 +11,12 @@ namespace LangLang.View
         private StudentController studentController;
         private AppController appController;
 
-        public Registration(AppController appController, StudentController studentController)
+        public Registration(AppController appController)
         {
             InitializeComponent();
             DataContext = this;
             Student = new StudentDTO();
-            this.studentController = studentController;
+            this.studentController = appController.StudentController;
             this.appController = appController;
             gendercb.ItemsSource = Enum.GetValues(typeof(UserGender));
         }

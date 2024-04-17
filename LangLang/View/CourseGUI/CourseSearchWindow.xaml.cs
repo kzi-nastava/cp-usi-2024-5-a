@@ -24,7 +24,6 @@ namespace LangLang.View.CourseGUI
     public partial class CourseSearchWindow : Window
     {
         private CourseController courseController { get; set; }
-        private AppController appController;
         private ObservableCollection<CourseDTO> courses;
         private List<Course> coursesForReview;
         private int tutorId { get; set; }
@@ -37,8 +36,6 @@ namespace LangLang.View.CourseGUI
             this.tutorId = tutorId;
             this.courseController = new CourseController();
             this.courseController = courseController;
-
-            this.appController = appController;
 
             this.courses = new ObservableCollection<CourseDTO>();
             
