@@ -2,6 +2,14 @@
 
 namespace LangLang.Core.Model
 {
+    // Classes containing an attribute of type Profile should implement this interface
+    // for abstraction purposes over more complex user types
+    public interface IProfileHolder
+    {
+        Profile Profile { get; }
+    }
+
+
     public class Profile
     {
         // Attributes
