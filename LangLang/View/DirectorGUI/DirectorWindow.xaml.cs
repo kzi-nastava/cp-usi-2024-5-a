@@ -16,18 +16,18 @@ namespace LangLang.View
         public TutorDTO SelectedTutor { get; set; }
         private TutorController tutorsController { get; set; }
         private AppController appController;
-        private Director currentyLoggedIn;
+        private Director currentlyLoggedIn;
         private Dictionary<int, Tutor> data;
 
-        public DirectorWindow(AppController appController,TutorController tutorController, Director currentyLoggedIn)
+        public DirectorWindow(AppController appController, Profile currentlyLoggedIn)
         {
             InitializeComponent();
             DataContext = this;
             Tutors = new ObservableCollection<TutorDTO>();
 
-            this.tutorsController = tutorController;
-            this.currentyLoggedIn = currentyLoggedIn;
-            this.data = tutorController.GetAllTutors();
+            this.tutorsController = appController.TutorController;
+            this.data = tutorsController.GetAllTutors();
+            //this.currentlyLoggedIn =  // TODO: Set when the directory is loaded
             this.appController = appController;
 
             tutorsController.Subscribe(this);
@@ -57,7 +57,7 @@ namespace LangLang.View
         // open add new tutor window 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            AddTutorWindow window = new AddTutorWindow(tutorsController, appController);
+            AddTutorWindow window = new AddTutorWindow(appController);
             window.Show();
         }
 
@@ -160,7 +160,7 @@ namespace LangLang.View
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             string language = languagetb.Text;
-            DateTime date = datePickerEmployment.SelectedDate ?? default; // if picker s null, pick up a minVal
+            DateTime date = datePickerEmployment.SelectedDate ?? default; // if picker is null, pick up a minVal
             LanguageLevel? level = null;
             if (levelCB.SelectedValue != null)
                 level = (LanguageLevel)levelCB.SelectedValue;

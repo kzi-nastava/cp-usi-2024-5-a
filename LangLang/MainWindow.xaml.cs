@@ -30,7 +30,7 @@ namespace LangLang
 
         private void signupbtn_Click(object sender, RoutedEventArgs e)
         {
-            Registration registrationWindow = new(appController, appController.StudentController);
+            Registration registrationWindow = new(appController);
             registrationWindow.Show();
             this.Close();
         }
@@ -52,11 +52,11 @@ namespace LangLang
         {
             if (profile.Role == UserType.Student)
             {
-                StudentWindow studentWindow = new(appController, appController.StudentController, appController.StudentController.GetAllStudents()[profile.Id], appController.EnrollmentRequestController, appController.CourseController, appController.ExamSlotController);
+                StudentWindow studentWindow = new(appController, profile);
                 studentWindow.Show();
             } else if (profile.Role == UserType.Tutor)
             {
-                TutorWindow tutorWindow = new(appController.TutorController.GetAllTutors()[profile.Id]);
+                TutorWindow tutorWindow = new(appController, profile);
                 tutorWindow.Show();
             }
         }
