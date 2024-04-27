@@ -206,9 +206,9 @@ namespace LangLang.DTO
             gender = student.Profile.Gender;
             email = student.Profile.Email;
             password = student.Profile.Password;
-            birthDate = student.Profile.DateOfBirth;
+            birthDate = student.Profile.BirthDate;
             phoneNumber = student.Profile.PhoneNumber;
-            profession = student.ProfessionalQualification;
+            profession = student.Profession;
         }
 
         public string Error => throw new NotImplementedException();

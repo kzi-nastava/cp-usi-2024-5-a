@@ -319,7 +319,7 @@ namespace LangLang.View.DTO
             Name = tutor.Profile.Name;
             LastName = tutor.Profile.LastName;
             Gender = tutor.Profile.Gender;
-            BirthDate = tutor.Profile.DateOfBirth;
+            BirthDate = tutor.Profile.BirthDate;
             PhoneNumber = tutor.Profile.PhoneNumber;
             Email = tutor.Profile.Email;
             Password = tutor.Profile.Password;
