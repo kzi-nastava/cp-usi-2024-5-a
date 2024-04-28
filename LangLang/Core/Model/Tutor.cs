@@ -35,7 +35,7 @@ namespace LangLang.Core.Model
             private set { _profile = value; }
         }
 
-        public Tutor(int id, string name, string lastName, UserGender gender, DateTime dateOfBirth, string phoneNumber, string email, string password, UserType role, DateTime employmentDate, List<string> languages, List<LanguageLevel>levels) {
+        public Tutor(int id, string name, string lastName, Gender gender, DateTime dateOfBirth, string phoneNumber, string email, string password, UserType role, DateTime employmentDate, List<string> languages, List<LanguageLevel>levels) {
             _profile = new Profile(id, name, lastName, gender, dateOfBirth, phoneNumber, email, password, role);
             _employmentDate = employmentDate;
             _skill = new(languages, levels);

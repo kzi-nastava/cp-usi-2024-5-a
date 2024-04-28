@@ -18,7 +18,7 @@ namespace LangLang.View
             Student = new StudentDTO();
             this.studentController = appController.StudentController;
             this.appController = appController;
-            gendercb.ItemsSource = Enum.GetValues(typeof(UserGender));
+            gendercb.ItemsSource = Enum.GetValues(typeof(Gender));
         }
 
         private void SignUp_Click(object sender, RoutedEventArgs e)

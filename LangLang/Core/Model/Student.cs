@@ -13,7 +13,7 @@ namespace LangLang.Core.Model
 
         public Student() { }
 
-        public Student(int id, string name, string lastName, UserGender gender, DateTime dateOfBirth, string phoneNumber, string email, string password, UserType role, string profession)
+        public Student(int id, string name, string lastName, Gender gender, DateTime dateOfBirth, string phoneNumber, string email, string password, UserType role, string profession)
         {
             Profile = new Profile(id, name, lastName, gender, dateOfBirth, phoneNumber, email, password, role);
             Profession = profession;

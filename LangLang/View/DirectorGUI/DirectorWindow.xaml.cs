@@ -47,7 +47,7 @@ namespace LangLang.View
 
         void SetUpWindow()
         {
-            gendercb.ItemsSource = Enum.GetValues(typeof(UserGender));
+            gendercb.ItemsSource = Enum.GetValues(typeof(Gender));
             levelCB.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
             ClearFields();
             DisableForm();
@@ -77,7 +77,7 @@ namespace LangLang.View
                     SelectedTutor.Email = emailtb.Text;
                     SelectedTutor.BirthDate = BirthDatePicker.SelectedDate.Value;
                     SelectedTutor.PhoneNumber = phonenumbertb.Text;
-                    SelectedTutor.Gender = (UserGender)gendercb.SelectedItem;
+                    SelectedTutor.Gender = (Gender)gendercb.SelectedItem;
                     SelectedTutor.Password = passwordTB.Text;
                     SelectedTutor.EmploymentDate = EmploymentDatePicker.SelectedDate.Value;
 
