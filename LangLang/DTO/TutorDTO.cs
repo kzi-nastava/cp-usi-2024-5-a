@@ -13,7 +13,7 @@ namespace LangLang.View.DTO
 
         private string name;
         private string lastName;
-        private UserGender gender;
+        private Gender gender;
         private DateTime birthDate;
         private string phoneNumber;
         private string email;
@@ -56,7 +56,7 @@ namespace LangLang.View.DTO
             }
         }
 
-        public UserGender Gender
+        public Gender Gender
         {
             get
             {

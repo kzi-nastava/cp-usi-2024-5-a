@@ -1,20 +1,15 @@
 ﻿using LangLang.Core.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LangLang.Core.Controller
 {
     public class AppController
     {
-        public TutorController TutorController { get; }
-        public CourseController CourseController { get; }
-        public StudentController StudentController { get; }
-        public EnrollmentRequestController EnrollmentRequestController { get; }
-        public ExamSlotController ExamSlotController { get; }
-        public LoginController LoginController { get; }
+        public readonly TutorController TutorController;
+        public readonly CourseController CourseController;
+        public readonly StudentController StudentController;
+        public readonly EnrollmentRequestController EnrollmentRequestController;
+        public readonly ExamSlotController ExamSlotController;
+        public readonly LoginController LoginController;
         public AppController()
         {
             this.TutorController = new TutorController();

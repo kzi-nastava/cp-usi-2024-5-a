@@ -17,7 +17,7 @@ namespace LangLang.DTO
         private string password;
         private string profession;
         private string phoneNumber;
-        private UserGender gender;
+        private Gender gender;
         private DateTime birthDate;
 
 
@@ -99,7 +99,7 @@ namespace LangLang.DTO
             }
         }
 
-        public UserGender Gender
+        public Gender Gender
         {
             get { return gender; }
             set

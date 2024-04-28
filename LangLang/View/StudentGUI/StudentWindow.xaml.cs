@@ -44,7 +44,7 @@ namespace LangLang.View.StudentGUI
             examSlotsForReview = this.studentController.GetAvailableExamSlots(this.currentlyLoggedIn, courseController, examSlotController, enrollmentRequestController);
             coursesForReview = this.studentController.GetAvailableCourses(courseController);
 
-            gendercb.ItemsSource = Enum.GetValues(typeof(UserGender));
+            gendercb.ItemsSource = Enum.GetValues(typeof(Gender));
             levelExamcb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
             levelCoursecb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
             

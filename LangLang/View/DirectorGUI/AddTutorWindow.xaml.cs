@@ -25,7 +25,7 @@ namespace LangLang.View
             Tutor = new TutorDTO();
             DataContext = this;
 
-            genderCB.ItemsSource = Enum.GetValues(typeof(UserGender));
+            genderCB.ItemsSource = Enum.GetValues(typeof(Gender));
             levelCB.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
         }
 

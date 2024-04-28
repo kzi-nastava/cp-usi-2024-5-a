@@ -14,7 +14,7 @@ namespace LangLang.Core.Model
             set { _profile = value;}
         }
 
-        public Director(int id, string name, string lastName, UserGender gender, DateTime dateOfBirth, string phoneNumber, string email, string password, UserType role) {
+        public Director(int id, string name, string lastName, Gender gender, DateTime dateOfBirth, string phoneNumber, string email, string password, UserType role) {
             _profile = new Profile(id, name, lastName, gender, dateOfBirth, phoneNumber, email, password, role);
         }
 
