@@ -5,18 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LangLang"
         mc:Ignorable="d"
-        Title="TutorWindow" Height="450" Width="600">
+        WindowStartupLocation="CenterScreen"
+        Title="TutorWindow" Height="550" Width="600"
+        ResizeMode="NoResize">
     <TabControl>
         <!--COURSE TAB-->
         <TabItem Header="Courses">
             <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="92*"/>
+                    <ColumnDefinition Width="9*"/>
+                    <ColumnDefinition Width="493*"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="3*" />
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
 
                 <!--label for courses table-->
-                <Label x:Name="coursesLbl" Content="Your courses" Grid.Row="0" HorizontalAlignment="Center" Height="24" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
+                <Label x:Name="coursesLbl" Content="Your courses" Grid.Row="0" HorizontalAlignment="Left" Height="24" Margin="41,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center" Grid.Column="2">
                     <Label.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -35,7 +42,7 @@
                 </Label>
 
                 <!--buttons for CRUD-->
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Grid.Row="1">
+                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Vertical" Grid.Row="1" Grid.Column="2" Margin="40,0,0,0">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
                         <Button Name="courseCreateWindowBtn" Content="Create course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="CourseCreateWindowBtn_Click" />
                         <Button Click="CourseDeleteBtn_Click" x:Name="courseDeleteBtn" Content="Delete course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
@@ -45,7 +52,7 @@
                 </StackPanel>
 
                 <!--table for courses-->
-                <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Margin="15,45,15,0" SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="coursesTable_SelectionChanged">
+                <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Margin="15,45,15,101" SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="coursesTable_SelectionChanged" Grid.ColumnSpan="3" Grid.RowSpan="2">
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="idColumn" IsReadOnly="True" Header="Id" Binding="{Binding Id}"/>
                         <DataGridTextColumn IsReadOnly="True" Header="Language" Binding="{Binding Language}"/>
@@ -59,12 +66,12 @@
                 <!--end of table for courses-->
             </Grid>
         </TabItem>
-        
+
         <!--EXAM SLOTS TAB-->
         <TabItem Header="Exam slots">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="2*" />
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
 
@@ -91,10 +98,14 @@
                 <StackPanel HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Orientation="Vertical" >
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"  Orientation="Horizontal">
                         <Button Name="examSlotCreateWindowBtn" Content="Create exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black"  Click="ExamSlotCreateWindowBtn_Click" />
-                        <Button Content="Delete exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotDeleteBtn_Click" />
-                        <Button Content="Update exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotUpdateWindowBtn_Click" />
+                        <Button Content="Delete exam" Name = "deleteExamBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotDeleteBtn_Click" />
+                        <Button Content="Update exam" Name = "updateExamBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotUpdateWindowBtn_Click" />
                     </StackPanel>
                     <Button Content="Search exams" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotSearchBtn_Click" />
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"  Orientation="Horizontal">
+                        <Button Content="Exam applications" Name = "examApplicationBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ButtonSeeStudentInfo_Click" Width="140" />
+                        <Button Content="Enter results" Name = "enterResultsBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ButtonEnterResults_Click" />
+                    </StackPanel>
                 </StackPanel>
 
                 <!--table for exam slots-->
@@ -102,7 +113,7 @@
                                   x:Name="ExamSlotsDataGrid"
                                   ItemsSource="{Binding ExamSlots, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedItem="{Binding SelectedExamSlot, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectionMode="Single" IsReadOnly="True">
+                                  SelectionMode="Single" IsReadOnly="True" SelectionChanged="ExamSlotsDataGrid_SelectionChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Course ID" Binding="{Binding CourseId}"/>
                         <DataGridTextColumn Header="Max Students" Binding="{Binding MaxStudents}"/>
@@ -115,5 +126,5 @@
 
         </TabItem>
     </TabControl>
-    
+
 </Window>
