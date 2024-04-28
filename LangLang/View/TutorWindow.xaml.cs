@@ -194,7 +194,8 @@ namespace LangLang
 
         private void ButtonSeeStudentInfo_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: implement 
+            ExamApplications applicationsWindow = new ExamApplications(appController);
+            applicationsWindow.Show();
         }
 
         private void ButtonEnterResults_Click(object sender, RoutedEventArgs e)
