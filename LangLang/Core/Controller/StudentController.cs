@@ -44,49 +44,17 @@ namespace LangLang.Core.Controller
 
         public List<Course> GetAvailableCourses(CourseController courseController) 
         {
-            List<Course> availableCourses = new();
-            foreach (Course course in courseController.GetAllCourses().Values)
-            {
-                if (courseController.IsCourseAvailable(course.Id)) {
-                        availableCourses.Add(course);
-                }
-            }
-            return availableCourses;
+            return _students.GetAvailableCourses(courseController);
         }
-
-        private bool HasStudentAttendedCourse(Student student, Course course, EnrollmentRequest enrollmentRequest)
-        {
-   
-            if (enrollmentRequest.StudentId == student.Id && enrollmentRequest.CourseId == course.Id)
-            {
-                if (enrollmentRequest.Status == Status.Accepted)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
+        
         public List<ExamSlot> GetAvailableExamSlots(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController enrollmentRequestController)
         {
-            List<ExamSlot> availableExamSlots = new();
-            if (student == null) return availableExamSlots; 
-            foreach (ExamSlot examSlot in examSlotController.GetAllExamSlots().Values)
-            {
-                foreach (EnrollmentRequest enrollmentRequest in enrollmentRequestController.GetStudentRequests(student.Id).Values) {
-                    if (HasStudentAttendedCourse(student, courseController.GetById(examSlot.CourseId), enrollmentRequest)) {
-                        availableExamSlots.Add(examSlot);
-                    }
-                }
-            }
-
-            return availableExamSlots;
+            return _students.GetAvailableExamSlots(student, courseController, examSlotController, enrollmentRequestController);
         }
 
         public bool CanModifyInfo(int studentId, EnrollmentRequestController erc)
         {
-            Dictionary<int, EnrollmentRequest> studentRequests = erc.GetStudentRequests(studentId);
-            return studentRequests.Count == 0;
+            return _students.CanModifyInfo(studentId, erc);
         }
 
         public List<ExamSlot> SearchExamSlotsByStudent(ExamSlotController examSlotController, CourseController courseController, EnrollmentRequestController enrollmentRequestController, int studentId, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)

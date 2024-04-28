@@ -14,14 +14,14 @@ namespace LangLang.Core.Model
         public int Id { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
-        public UserGender Gender { get; set; }
+        public Gender Gender { get; set; }
         public DateTime BirthDate { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }    
         public UserType Role { get; set; }
 
-        public Profile(int id, string name, string lastName, UserGender gender, DateTime birthDate, string phoneNumber, string email, string password, UserType role)
+        public Profile(int id, string name, string lastName, Gender gender, DateTime birthDate, string phoneNumber, string email, string password, UserType role)
         {
             Id = id;
             Name = name;
@@ -38,17 +38,17 @@ namespace LangLang.Core.Model
 
         /// Constructor for initializing after parsing data loaded from file.
         /// <exception cref="FormatException">Thrown when date is not in the correct format.</exception>
-        public Profile(string id, string name, string lastName, string gender, string dateOfBirth, string phoneNumber, string email, string password, string role)
+        public Profile(string id, string name, string lastName, string gender, string birthDate, string phoneNumber, string email, string password, string role)
         {
             try {
-                BirthDate = DateTime.ParseExact(dateOfBirth, "yyyy-MM-dd", null);
+                BirthDate = DateTime.ParseExact(birthDate, "yyyy-MM-dd", null);
             } 
             catch {
                 throw new FormatException("Date is not in the correct format.");
             }
 
             Id = int.Parse(id);
-            Gender = (UserGender)Enum.Parse(typeof(UserGender), gender);
+            Gender = (Gender)Enum.Parse(typeof(Gender), gender);
             Role = (UserType)Enum.Parse(typeof(UserType), role);
             Name = name; 
             LastName = lastName;
