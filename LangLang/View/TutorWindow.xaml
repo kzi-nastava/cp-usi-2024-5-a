@@ -45,7 +45,7 @@
                 </StackPanel>
 
                 <!--table for courses-->
-                <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Margin="15,45,15,0" SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="coursesTable_SelectionChanged">
+                <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Margin="15,45,15,0" SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="CoursesTable_SelectionChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="idColumn" IsReadOnly="True" Header="Id" Binding="{Binding Id}"/>
                         <DataGridTextColumn IsReadOnly="True" Header="Language" Binding="{Binding Language}"/>
