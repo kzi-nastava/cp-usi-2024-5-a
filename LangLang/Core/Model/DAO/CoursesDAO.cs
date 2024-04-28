@@ -3,6 +3,7 @@ using System.Linq;
 using LangLang.Core.Repository;
 using LangLang.Core.Model;
 using LangLang.Core.Observer;
+using System;
 
 namespace LangLang.Core.Model.DAO;
 
@@ -71,6 +72,12 @@ public class CoursesDAO : Subject
     public Dictionary<int, Course> GetAllCourses()
     {
         return _courses;
+    }
+
+    public bool IsCompleted(int id)
+    {
+        Course course = _courses[id] ?? throw new ArgumentException("There is no course with given id");
+        return course.IsCompleted();
     }
 
 }
