@@ -57,12 +57,12 @@ namespace LangLang.Core.Model.DAO
             oldStudent.Profile.Name = student.Profile.Name;
             oldStudent.Profile.LastName = student.Profile.LastName;
             oldStudent.Profile.Gender = student.Profile.Gender;
-            oldStudent.Profile.DateOfBirth = student.Profile.DateOfBirth;
+            oldStudent.Profile.BirthDate = student.Profile.BirthDate;
             oldStudent.Profile.PhoneNumber = student.Profile.PhoneNumber;
             oldStudent.Profile.Email = student.Profile.Email;
             oldStudent.Profile.Role = student.Profile.Role;
             oldStudent.Profile.Password = student.Profile.Password;
-            oldStudent.ProfessionalQualification = student.ProfessionalQualification;
+            oldStudent.Profession = student.Profession;
 
             _repository.Save(_students);
             NotifyObservers();

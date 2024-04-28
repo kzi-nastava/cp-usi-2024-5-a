@@ -58,7 +58,7 @@ namespace LangLang.Core.DAO
             oldTutor.Profile.Name = tutor.Profile.Name;
             oldTutor.Profile.LastName = tutor.Profile.LastName;
             oldTutor.Profile.Gender = tutor.Profile.Gender;
-            oldTutor.Profile.DateOfBirth = tutor.Profile.DateOfBirth;
+            oldTutor.Profile.BirthDate = tutor.Profile.BirthDate;
             oldTutor.Profile.PhoneNumber = tutor.Profile.PhoneNumber;
             oldTutor.Profile.Email = tutor.Profile.Email;
             oldTutor.Profile.Password = tutor.Profile.Password;

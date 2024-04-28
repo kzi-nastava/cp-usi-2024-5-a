@@ -44,7 +44,7 @@ namespace LangLang.Core.Model.DAO
             EnrollmentRequest oldRequest = GetEnrollmentRequestById(enrollmentRequest.Id);
             if (oldRequest == null) return null;
 
-            oldRequest.ERStatus = enrollmentRequest.ERStatus;
+            oldRequest.Status = enrollmentRequest.Status;
 
             _repository.Save(_enrollmentRequests);
             NotifyObservers();

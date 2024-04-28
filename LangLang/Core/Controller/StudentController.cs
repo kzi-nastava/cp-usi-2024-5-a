@@ -59,7 +59,7 @@ namespace LangLang.Core.Controller
    
             if (enrollmentRequest.StudentId == student.Id && enrollmentRequest.CourseId == course.Id)
             {
-                if (enrollmentRequest.ERStatus == ERStatus.Accepted)
+                if (enrollmentRequest.Status == Status.Accepted)
                 {
                     return true;
                 }
