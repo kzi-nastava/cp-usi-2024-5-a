@@ -1,7 +1,7 @@
 ﻿
 namespace LangLang.Core.Model.Enums
 {
-    public enum ERStatus
+    public enum Status
     {
         Pending,
         Accepted,

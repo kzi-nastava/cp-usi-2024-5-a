@@ -17,15 +17,15 @@ namespace LangLang.View
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public AddTutorWindow(TutorController tutorController, AppController appController)
+        public AddTutorWindow(AppController appController)
         {
             InitializeComponent();
-            this.tutorController = tutorController;
             this.appController = appController;
+            this.tutorController = appController.TutorController;
             Tutor = new TutorDTO();
             DataContext = this;
 
-            genderCB.ItemsSource = Enum.GetValues(typeof(UserGender));
+            genderCB.ItemsSource = Enum.GetValues(typeof(Gender));
             levelCB.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
         }
 

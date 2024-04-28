@@ -14,37 +14,37 @@ namespace LangLang.View.StudentGUI
     public partial class StudentWindow : Window, IObserver
     {
         public StudentDTO Student { get; set; }
+        private AppController appController;
         private StudentController studentController;
         private EnrollmentRequestController enrollmentRequestController;
         private CourseController courseController;
         private ExamSlotController examSlotController;
-        private AppController appController;
         private Student currentlyLoggedIn;
         private ObservableCollection<CourseDTO> courses;
         private ObservableCollection<ExamSlotDTO> examSlots;
         private List<Course> coursesForReview;
         private List<ExamSlot> examSlotsForReview;
 
-        public StudentWindow(AppController appController, StudentController studentController, Student currentlyLoggedIn, EnrollmentRequestController enrollmentRequestController, CourseController courseController, ExamSlotController examSlotController)
+        public StudentWindow(AppController appController, Profile currentlyLoggedIn)
         {
             InitializeComponent();
             DataContext = this;
 
-            this.studentController = studentController;
-            this.currentlyLoggedIn = currentlyLoggedIn;
-            this.courseController = courseController;
-            this.enrollmentRequestController = enrollmentRequestController;
-            this.examSlotController = examSlotController;
             this.appController = appController;
+            this.studentController = appController.StudentController;
+            this.currentlyLoggedIn = studentController.GetAllStudents()[currentlyLoggedIn.Id];
+            this.courseController = appController.CourseController;
+            this.enrollmentRequestController = appController.EnrollmentRequestController;
+            this.examSlotController = appController.ExamSlotController;
 
             this.courses = new ObservableCollection<CourseDTO>();
             this.examSlots = new ObservableCollection<ExamSlotDTO>();
 
             Student = new(this.currentlyLoggedIn);
-            examSlotsForReview = this.studentController.GetAvailableExamSlots(currentlyLoggedIn, courseController, examSlotController, enrollmentRequestController);
+            examSlotsForReview = this.studentController.GetAvailableExamSlots(this.currentlyLoggedIn, courseController, examSlotController, enrollmentRequestController);
             coursesForReview = this.studentController.GetAvailableCourses(courseController);
 
-            gendercb.ItemsSource = Enum.GetValues(typeof(UserGender));
+            gendercb.ItemsSource = Enum.GetValues(typeof(Gender));
             levelExamcb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
             levelCoursecb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
             

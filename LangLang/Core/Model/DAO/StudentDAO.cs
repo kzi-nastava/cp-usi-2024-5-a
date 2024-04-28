@@ -3,6 +3,7 @@ using System.Linq;
 using LangLang.Core.Repository;
 using LangLang.Core.Observer;
 using LangLang.Core.Controller;
+using LangLang.Core.Model.Enums;
 
 namespace LangLang.Core.Model.DAO
 {
@@ -57,12 +58,12 @@ namespace LangLang.Core.Model.DAO
             oldStudent.Profile.Name = student.Profile.Name;
             oldStudent.Profile.LastName = student.Profile.LastName;
             oldStudent.Profile.Gender = student.Profile.Gender;
-            oldStudent.Profile.DateOfBirth = student.Profile.DateOfBirth;
+            oldStudent.Profile.BirthDate = student.Profile.BirthDate;
             oldStudent.Profile.PhoneNumber = student.Profile.PhoneNumber;
             oldStudent.Profile.Email = student.Profile.Email;
             oldStudent.Profile.Role = student.Profile.Role;
             oldStudent.Profile.Password = student.Profile.Password;
-            oldStudent.ProfessionalQualification = student.ProfessionalQualification;
+            oldStudent.Profession = student.Profession;
 
             _repository.Save(_students);
             NotifyObservers();
@@ -74,7 +75,7 @@ namespace LangLang.Core.Model.DAO
             Student student = GetStudentById(id);
             if (student == null) return null;
 
-            foreach (EnrollmentRequest er in enrollmentRequestController.GetStudentRequests(id).Values)
+            foreach (EnrollmentRequest er in enrollmentRequestController.GetStudentRequests(id))
             {
                 enrollmentRequestController.Delete(er.Id);
             }
@@ -83,6 +84,61 @@ namespace LangLang.Core.Model.DAO
             _repository.Save(_students);
             NotifyObservers();
             return student;
+        }
+
+        public List<Course> GetAvailableCourses(CourseController courseController)
+        {
+            List<Course> availableCourses = new();
+            foreach (Course course in courseController.GetAllCourses().Values)
+            {
+                if (courseController.IsCourseAvailable(course.Id))
+                {
+                    availableCourses.Add(course);
+                }
+            }
+            return availableCourses;
+        }
+
+        private bool HasStudentAttendedCourse(Student student, Course course, EnrollmentRequest enrollmentRequest)
+        {
+
+            if (enrollmentRequest.StudentId == student.Id && enrollmentRequest.CourseId == course.Id)
+            {
+                if (enrollmentRequest.Status == Status.Accepted)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public List<ExamSlot> GetAvailableExamSlots(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController enrollmentRequestController)
+        {
+            List<ExamSlot> availableExamSlots = new();
+            if (student == null) return availableExamSlots;
+            foreach (ExamSlot examSlot in examSlotController.GetAllExamSlots().Values)
+            {
+                foreach (EnrollmentRequest enrollmentRequest in enrollmentRequestController.GetStudentRequests(student.Id))
+                {
+                    if (HasStudentAttendedCourse(student, courseController.GetById(examSlot.CourseId), enrollmentRequest))
+                    {
+                        availableExamSlots.Add(examSlot);
+                    }
+                }
+            }
+
+            return availableExamSlots;
+        }
+
+        public bool CanModifyInfo(int studentId, EnrollmentRequestController erc)
+        {
+            List<EnrollmentRequest> studentRequests = erc.GetStudentRequests(studentId);
+            foreach (EnrollmentRequest request in studentRequests)
+            {
+                if (request.Status == Status.Accepted) return false; // TODO: Check if the course is incomplete upon implementing functionality in courseController.
+
+            }
+            return true;
         }
     }
 }

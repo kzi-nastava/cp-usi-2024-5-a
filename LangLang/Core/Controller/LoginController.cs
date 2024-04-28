@@ -9,8 +9,8 @@ namespace LangLang.Core.Controller
 
     public class LoginController
     {
-        StudentController studentController;
-        TutorController tutorController;
+        readonly StudentController studentController;
+        readonly TutorController tutorController;
         // TODO: add director
         public LoginController(StudentController studentController, TutorController tutorController)
         {
@@ -22,13 +22,9 @@ namespace LangLang.Core.Controller
         {
             try
             {
-                var profile = GetProfile(studentController.GetAllStudents(), email, password)
-                              ?? GetProfile(tutorController.GetAllTutors(), email, password);
-                
-                if (profile == null)
-                {
-                    throw new AuthenticationException("Invalid email address"); // there is no profile with given email
-                }
+                var profile = (GetProfile(studentController.GetAllStudents(), email, password)
+                              ?? GetProfile(tutorController.GetAllTutors(), email, password)) 
+                              ?? throw new AuthenticationException("Invalid email address");
                 return profile; // profile with the given credentials exists
             }
             catch (AuthenticationException ex)
@@ -53,7 +49,7 @@ namespace LangLang.Core.Controller
 
             return user.Profile;
         }
-
+        
     }
 
 }

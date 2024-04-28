@@ -13,7 +13,7 @@ namespace LangLang.View.DTO
 
         private string name;
         private string lastName;
-        private UserGender gender;
+        private Gender gender;
         private DateTime birthDate;
         private string phoneNumber;
         private string email;
@@ -56,7 +56,7 @@ namespace LangLang.View.DTO
             }
         }
 
-        public UserGender Gender
+        public Gender Gender
         {
             get
             {
@@ -319,7 +319,7 @@ namespace LangLang.View.DTO
             Name = tutor.Profile.Name;
             LastName = tutor.Profile.LastName;
             Gender = tutor.Profile.Gender;
-            BirthDate = tutor.Profile.DateOfBirth;
+            BirthDate = tutor.Profile.BirthDate;
             PhoneNumber = tutor.Profile.PhoneNumber;
             Email = tutor.Profile.Email;
             Password = tutor.Profile.Password;

@@ -464,5 +464,10 @@ namespace LangLang.Core.Controller
 
             return filteredCourses;
         }
+
+        public bool IsCompleted(int id)
+        {
+            return _courses.IsCompleted(id);
+        }
     }   
 }

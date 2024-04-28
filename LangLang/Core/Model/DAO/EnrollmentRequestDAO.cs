@@ -1,6 +1,7 @@
 ﻿using LangLang.Core.Observer;
 using LangLang.Core.Repository;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LangLang.Core.Model.DAO
 {
@@ -44,7 +45,7 @@ namespace LangLang.Core.Model.DAO
             EnrollmentRequest oldRequest = GetEnrollmentRequestById(enrollmentRequest.Id);
             if (oldRequest == null) return null;
 
-            oldRequest.ERStatus = enrollmentRequest.ERStatus;
+            oldRequest.Status = enrollmentRequest.Status;
 
             _repository.Save(_enrollmentRequests);
             NotifyObservers();
@@ -60,6 +61,17 @@ namespace LangLang.Core.Model.DAO
             _repository.Save(_enrollmentRequests);
             NotifyObservers();
             return enrollmentRequest;
+        }
+
+        public List<EnrollmentRequest> GetStudentRequests(int studentId)
+        {
+            Dictionary<int, EnrollmentRequest> studentRequests = new();
+            foreach (EnrollmentRequest enrollmentRequest in GetAllEnrollmentRequests().Values)
+            {
+                if (enrollmentRequest.StudentId == studentId) studentRequests.Add(enrollmentRequest.Id, enrollmentRequest);
+
+            }
+            return studentRequests.Values.ToList();
         }
     }
 }

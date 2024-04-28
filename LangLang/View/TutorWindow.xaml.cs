@@ -27,18 +27,21 @@ namespace LangLang
         public CourseDTO SelectedCourse { get; set; }
         private CourseController coursesController { get; set; }
 
+        private AppController appController { get; set; }
+
         public Tutor tutor { get; set; }
-        public TutorWindow( Tutor tutor)
+        public TutorWindow(AppController appController, Profile currentlyLoggedIn)
         {
-            this.tutor = tutor;
+            this.tutor = appController.TutorController.GetAllTutors()[currentlyLoggedIn.Id];
             InitializeComponent();
             DataContext = this;
             courseDeleteBtn.IsEnabled = false;
             courseUpdateBtn.IsEnabled = false;
 
+            this.appController = appController;
+            examSlotsController = appController.ExamSlotController;
+            coursesController = appController.CourseController;
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
-            examSlotsController = new ExamSlotController();
-            coursesController = new CourseController();
             Courses = new ObservableCollection<CourseDTO>();
 
             disableButtonsES();
