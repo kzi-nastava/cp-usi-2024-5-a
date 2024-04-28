@@ -8,16 +8,15 @@ namespace LangLang.Core.Model
         public int Id { get; set; }
         public string Language { get; set; }
         public LanguageLevel Level { get; set; }
-        
         public int TutorId { get; set; }
-
         public TimeSlot TimeSlot { get; set; }
         public int MaxStudents { get; set; }
+        public bool ApplicationPossible { get; set; }
 
         // NOTE: if possible don't save number of registeredStudents, ask the database. If not, then add attribute.
         
 
-        public ExamSlot(int id, string language, LanguageLevel level, TimeSlot timeSlot, int maxStudents, int tutorId)
+        public ExamSlot(int id, string language, LanguageLevel level, TimeSlot timeSlot, int maxStudents, int tutorId, bool applicationPossible)
         {
             Id = id;
             Language = language;
@@ -25,6 +24,7 @@ namespace LangLang.Core.Model
             TutorId = tutorId;
             TimeSlot = timeSlot;
             MaxStudents = maxStudents;
+            ApplicationPossible = applicationPossible;
         }
 
         public ExamSlot() { }
@@ -38,6 +38,7 @@ namespace LangLang.Core.Model
             TutorId.ToString(),
             // TODO: add serialization for timeSlot when implemented
             MaxStudents.ToString(),
+            ApplicationPossible.ToString()
             };
         }
 
@@ -49,6 +50,7 @@ namespace LangLang.Core.Model
             TutorId = int.Parse(values[3]);
             // TODO: add deserialization for timeSlot when implemented
             MaxStudents = int.Parse(values[6]);
+            ApplicationPossible = bool.Parse(values[7]);
         }
     }
 }
