@@ -52,7 +52,7 @@
                 </StackPanel>
 
                 <!--table for courses-->
-                <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Margin="15,45,15,101" SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="coursesTable_SelectionChanged" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Margin="15,45,15,101" SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="CoursesTable_SelectionChanged" Grid.ColumnSpan="3" Grid.RowSpan="2">
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="idColumn" IsReadOnly="True" Header="Id" Binding="{Binding Id}"/>
                         <DataGridTextColumn IsReadOnly="True" Header="Language" Binding="{Binding Language}"/>

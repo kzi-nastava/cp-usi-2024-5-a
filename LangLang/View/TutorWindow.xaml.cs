@@ -35,19 +35,20 @@ namespace LangLang
             this.tutor = appController.TutorController.GetAllTutors()[currentlyLoggedIn.Id];
             InitializeComponent();
             DataContext = this;
-            courseDeleteBtn.IsEnabled = false;
-            courseUpdateBtn.IsEnabled = false;
 
             this.appController = appController;
             examSlotsController = appController.ExamSlotController;
             coursesController = appController.CourseController;
+
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             Courses = new ObservableCollection<CourseDTO>();
 
             disableButtonsES();
+            disableButtonsCourse();
 
             coursesController.Subscribe(this);
             examSlotsController.Subscribe(this);
+
             Update();
         }
 
@@ -69,47 +70,14 @@ namespace LangLang
 
         private void ExamSlotCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            //fix to courses by tutor
-            Trace.WriteLine("U tutorwindow " + coursesController.GetAllCourses().Count);
-
             ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow(coursesController.GetCoursesByTutor(tutor), examSlotsController);
             examSlotCreateWindow.Show();
         }
 
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-
-            if (SelectedExamSlot == null)
-            {
-                MessageBox.Show("No exam slot selected. Please select an exam slot.");
-            }
-            else
-            {
-                
                 ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetCoursesByTutor(tutor), examSlotsController);
                 examSlotUpdateWindow.Show();
-                
-
-            }
-            /*
-            if (SelectedExamSlot == null)
-            {
-                MessageBox.Show("No exam slot selected. Please select an exam slot.");
-            }else
-            {
-                bool canBeUpdated = examSlotsController.Update(SelectedExamSlot.ToExamSlot());
-                if (!canBeUpdated)
-                {
-                    MessageBox.Show("Exam can not be updated. There is less than 2 weeks left before the exam.");
-                }else
-                {
-                    ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetAllCourses(), examSlotsController);
-                    examSlotUpdateWindow.Show();
-                }
-                
-            }
-            */
-
         }
 
         private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
@@ -165,6 +133,21 @@ namespace LangLang
             }
         }
         private void coursesTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (SelectedCourse == null) {
+                disableButtonsCourse();
+            } else
+            {
+                enableButtonsCourse();
+            }
+        }
+
+        private void disableButtonsCourse()
+        {
+            courseUpdateBtn.IsEnabled = false;
+            courseDeleteBtn.IsEnabled = false;
+        }
+        private void enableButtonsCourse()
         {
             courseUpdateBtn.IsEnabled = true;
             courseDeleteBtn.IsEnabled = true;
