@@ -182,5 +182,11 @@ namespace LangLang.Core.Model
             StartDateTime = DateTime.Parse(values[9]);
             CreatedByDirector = bool.Parse(values[10]);
         }
+
+        public bool IsCompleted()
+        {
+            DateTime endDate = StartDateTime.AddDays(NumberOfWeeks * 7);
+            return DateTime.Now >= endDate;
+        }
     }
 }
