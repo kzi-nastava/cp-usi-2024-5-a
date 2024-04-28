@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LangLang.Core.Model
 {
-    public enum UserGender
+    public enum Gender
     {
         Male,
         Female
