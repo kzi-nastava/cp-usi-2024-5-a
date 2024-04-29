@@ -7,78 +7,188 @@ using System.Threading.Tasks;
 using LangLang.Core.Observer;
 using System.Collections;
 using System.Windows.Input;
-
+using LangLang.Core.Controller;
+using LangLang.View.ExamSlotGUI;
 
 namespace LangLang.Core.Model.DAO
 {
     public class ExamSlotsDAO : Subject
     {
-        private readonly Dictionary<int, ExamSlot> _examSlots;
+        private readonly Dictionary<int, ExamSlot> _exams;
         private readonly Repository<ExamSlot> _repository;
 
         public ExamSlotsDAO()
         {
             _repository = new Repository<ExamSlot>("examSlots.csv");
-            _examSlots = _repository.Load();
+            _exams = _repository.Load();
         }
         private int GenerateId()
         {
-            if (_examSlots.Count == 0) return 0;
-            return _examSlots.Keys.Max() + 1;
+            if (_exams.Count == 0) return 0;
+            return _exams.Keys.Max() + 1;
         }
 
-        private ExamSlot? GetExamSlotById(int id)
+        public ExamSlot? GetExamById(int id)
         {
-            return _examSlots[id];
+            return _exams[id];
         }
 
-        public Dictionary<int,ExamSlot> GetAllExams()
+        public Dictionary<int, ExamSlot> GetAllExams()
         {
-            return _examSlots;
+            return _exams;
         }
 
 
         //function takes examslot and adds it to dictionary of examslots
-        //function saves changes and returns added examslot
-        public ExamSlot AddExamSlot(ExamSlot examSlot)
+        //function saves changes and returns if adding was successful
+        public bool AddExam(ExamSlot exam, CourseController courses)
         {
-            examSlot.Id = GenerateId();
-            _examSlots[examSlot.Id] = examSlot;
-            _repository.Save(_examSlots);
-            NotifyObservers();
-            return examSlot;
+            return false;
+            /*
+            if (CanCreateExamSlot(exam, courses))
+            {
+                exam.Id = GenerateId();
+                _exams[exam.Id] = exam;
+                _repository.Save(_exams);
+                NotifyObservers();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            */
         }
 
         //function takes id of examslot and removes examslot with that id
-        //function saves changes and returns removed examslot
-        public ExamSlot RemoveExamSlot(int id)
+        //function saves changes and returns if removing was successful
+        public bool RemoveExam(int id)
         {
-            ExamSlot examSlot = GetExamSlotById(id);
-            if (examSlot == null) return null;
+            ExamSlot exam = GetExamById(id);
+            if (exam == null) return false;
 
-            _examSlots.Remove(id);
-            _repository.Save(_examSlots);
-            NotifyObservers();
-            return examSlot;
+            //should use const variable instead of 14
+            if ((exam.TimeSlot.Time - DateTime.Now).TotalDays >= 14)
+            {
+                _exams.Remove(id);
+                _repository.Save(_exams);
+                NotifyObservers();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
 
         //function for updating examslot takes new version of examslot and updates existing examslot to be same as new one
-        //function saves changes and returns updated examslot
-        public ExamSlot UpdateExamSlot(ExamSlot examSlot)
+        //function saves changes and returns if updating was successful
+        public bool UpdateExam(ExamSlot exam)
         {
-            ExamSlot oldExamSlot = GetExamSlotById(examSlot.Id);
-            if (oldExamSlot == null) return null;
+            //should use const variable instead of 14
 
-            oldExamSlot.TutorId = examSlot.TutorId;
-            oldExamSlot.MaxStudents = examSlot.MaxStudents;
-            oldExamSlot.TimeSlot = examSlot.TimeSlot;
+            if ((exam.TimeSlot.Time - DateTime.Now).TotalDays >= 14)
+            {
+                ExamSlot oldExam = GetExamById(exam.Id);
+                if (oldExam == null) return false;
 
-            _repository.Save(_examSlots);
-            NotifyObservers();
-            return oldExamSlot;
+                oldExam.TutorId = exam.TutorId;
+                oldExam.MaxStudents = exam.MaxStudents;
+                oldExam.TimeSlot = exam.TimeSlot;
+
+                _repository.Save(_exams);
+                NotifyObservers();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
         }
 
-        
+
+        // Method to get all exam slots by tutor ID
+        //function takes tutor id
+        public List<ExamSlot> GetExams(Tutor tutor)
+        {
+            List<ExamSlot> exams = new List<ExamSlot>();
+
+            foreach (ExamSlot exam in _exams.Values)
+            {
+
+                if (tutor.Id == exam.TutorId)
+                {
+                    exams.Add(exam);
+                }
+            }
+
+            return exams;
+        }
+
+
+        // Method to check if an exam slot is available
+        // takes exam slot, returns true if it is availbale or false if it isn't available
+        public bool IsAvailable(ExamSlot exam, ExamAppRequestController examAppController)
+        {
+            if(HasPassed(exam))
+            {
+                return false;
+            }
+
+
+            if (IsFullyBooked(exam, examAppController))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool HasPassed(ExamSlot exam)
+        {
+            return exam.TimeSlot.Time > DateTime.Now;
+        }
+        public int CountExamApplications(ExamSlot exam, ExamAppRequestController examAppController)
+        {
+            int count = 0;
+            foreach (ExamAppRequest request in examAppController.GetAll())
+            {
+                if (request.ExamSlotId == exam.Id && !request.IsCanceled)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public bool IsFullyBooked(ExamSlot exam, ExamAppRequestController examAppController)
+        {
+            return exam.MaxStudents == CountExamApplications(exam, examAppController);
+        }
+
+        // Method to search exam slots by tutor and criteria
+        public List<ExamSlot> SearchExamsByTutor(Tutor tutor, DateTime examDate, string language, LanguageLevel? level)
+        {
+            List<ExamSlot> exams = _exams.Values.ToList();
+
+            exams = this.GetExams(tutor);
+
+            return SearchExams(exams, examDate, language, level);
+        }
+        public List<ExamSlot> SearchExams(List<ExamSlot> exams, DateTime examDate, string language, LanguageLevel? level)
+        {
+
+            // Apply search criteria if they are not null
+            List<ExamSlot> filteredExams = exams.Where(exam =>
+                (examDate == default || exam.TimeSlot.Time.Date == examDate.Date) &&
+                (language == "" || exam.Language == language) &&
+                (level == null || exam.Level == level)
+            ).ToList();
+
+            return filteredExams;
+        }
 
     }
     

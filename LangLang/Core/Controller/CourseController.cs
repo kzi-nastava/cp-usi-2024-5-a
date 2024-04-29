@@ -114,11 +114,11 @@ namespace LangLang.Core.Controller
             // Go through all exams of the same tutor
             foreach (ExamSlot exam in exams)
             {
-                DateTime examDate = exam.ExamDateTime.Date;
+                DateTime examDate = exam.TimeSlot.Time.Date;
                 if (examDate >= courseStartDate && examDate <= courseEndDate && course.Days.Contains(examDate.DayOfWeek))
                 {
                     // Check if there are time overlaps
-                    TimeSpan examTime = exam.ExamDateTime.TimeOfDay;
+                    TimeSpan examTime = exam.TimeSlot.Time.TimeOfDay;
                     TimeSpan difference = courseTime - examTime;
                     if ((examTime < courseTime && difference.Duration().TotalMinutes < 240) || (examTime > courseTime && difference.Duration().TotalMinutes < 90))
                     {
@@ -166,11 +166,11 @@ namespace LangLang.Core.Controller
             // Go through all exams of the same tutor
             foreach (ExamSlot exam in exams)
             {
-                DateTime examDate = exam.ExamDateTime.Date;
+                DateTime examDate = exam.TimeSlot.Time;
                 if (examDate >= courseStartDate && examDate <= courseEndDate && course.Days.Contains(examDate.DayOfWeek))
                 {
                     // Check if there are time overlaps
-                    TimeSpan examTime = exam.ExamDateTime.TimeOfDay;
+                    TimeSpan examTime = exam.TimeSlot.Time.TimeOfDay;
                     TimeSpan difference = courseTime - examTime;
                     if ((examTime < courseTime && difference.Duration().TotalMinutes < 240) || (examTime > courseTime && difference.Duration().TotalMinutes < 90))
                     {
@@ -233,11 +233,11 @@ namespace LangLang.Core.Controller
             // Go through all exams of the same tutor
             foreach (ExamSlot exam in exams)
             {
-                DateTime examDate = exam.ExamDateTime.Date;
+                DateTime examDate = exam.TimeSlot.Time.Date;
                 if (examDate >= courseStartDate && examDate <= courseEndDate && course.Days.Contains(examDate.DayOfWeek))
                 {
                     // Check if there are time overlaps
-                    TimeSpan examTime = exam.ExamDateTime.TimeOfDay;
+                    TimeSpan examTime = exam.TimeSlot.Time.TimeOfDay;
                     TimeSpan difference = courseTime - examTime;
                     if ((examTime < courseTime && difference.Duration().TotalMinutes < 240) || (examTime > courseTime && difference.Duration().TotalMinutes < 90))
                     {
@@ -317,11 +317,11 @@ namespace LangLang.Core.Controller
             // Go through all exams of the same tutor
             foreach (ExamSlot exam in exams)
             {
-                DateTime examDate = exam.ExamDateTime.Date;
+                DateTime examDate = exam.TimeSlot.Time;
                 if (examDate >= courseStartDate && examDate <= courseEndDate && course.Days.Contains(examDate.DayOfWeek))
                 {
                     // Check if there are time overlaps
-                    TimeSpan examTime = exam.ExamDateTime.TimeOfDay;
+                    TimeSpan examTime = exam.TimeSlot.Time.TimeOfDay;
                     TimeSpan difference = courseTime - examTime;
                     if ((examTime < courseTime && difference.Duration().TotalMinutes < 240) || (examTime > courseTime && difference.Duration().TotalMinutes < 90))
                     {

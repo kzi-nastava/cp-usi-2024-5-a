@@ -168,7 +168,9 @@ namespace LangLang.DTO
             }
         }
 
-
+        public ExamSlotDTO()
+        {
+        }
 
         public ExamSlotDTO(ExamSlot examSlot)
         {
@@ -176,8 +178,8 @@ namespace LangLang.DTO
             this.Language = examSlot.Language;
             this.Level = examSlot.Level;
             this.MaxStudents = examSlot.MaxStudents.ToString();
-            //this.ExamDate = examSlot.TimeSlot.Time.Date;
-            //this.Time = examSlot.TimeSlot.Time.ToString("HH:mm");
+            this.ExamDate = examSlot.TimeSlot.Time.Date;
+            this.Time = examSlot.TimeSlot.Time.ToString("HH:mm");
             this.ApplicationPossible = examSlot.ApplicationPossible;
         }
 
