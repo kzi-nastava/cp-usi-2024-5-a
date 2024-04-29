@@ -151,7 +151,7 @@ namespace LangLang.Core.Controller
             DateTime courseStartDate = course.StartDateTime.Date;
             DateTime courseEndDate = courses.GetCourseEnd(course);
 
-            //int busyClassrooms = 0;
+            int busyClassrooms = 0;
             
             //if course isn't finished, can't create exam slot
             if (courseEndDate >= examSlot.ExamDateTime.Date)
