@@ -8,6 +8,7 @@ using LangLang.Core.Observer;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Collections.Generic;
 
 namespace LangLang
 {
@@ -19,7 +20,7 @@ namespace LangLang
         // EXAM SLOTS
         public ObservableCollection<ExamSlotDTO> ExamSlots { get; set; }
         public ExamSlotDTO SelectedExamSlot { get; set; }
-        private ExamSlotController examSlotsController { get; set; }
+        private ExamSlotController examSlotController { get; set; }
 
         // COURSES
         public ObservableCollection<CourseDTO> Courses { get; set; }
@@ -36,7 +37,7 @@ namespace LangLang
             DataContext = this;
 
             this.appController = appController;
-            examSlotsController = appController.ExamSlotController;
+            examSlotController = appController.ExamSlotController;
             coursesController = appController.CourseController;
 
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
@@ -46,7 +47,7 @@ namespace LangLang
             DisableButtonsCourse();
 
             coursesController.Subscribe(this);
-            examSlotsController.Subscribe(this);
+            examSlotController.Subscribe(this);
 
             Update();
         }
@@ -54,14 +55,14 @@ namespace LangLang
         public void Update()
         {
             ExamSlots.Clear();
-            //filter exam slots for this tutor
-            foreach (ExamSlot exam in examSlotsController.GetExamSlotsByTutor(tutor.Id, coursesController))
+
+            foreach (ExamSlot exam in examSlotController.GetExams(tutor))
             {
-                Course c = coursesController.GetAllCourses()[exam.CourseId];
-                ExamSlots.Add(new ExamSlotDTO(exam, c));
+                ExamSlots.Add(new ExamSlotDTO(exam));
             }
 
             Courses.Clear();
+
             foreach (Course course in coursesController.GetCoursesByTutor(tutor).Values)
                 Courses.Add(new CourseDTO(course));
             coursesTable.ItemsSource = Courses;
@@ -69,19 +70,19 @@ namespace LangLang
 
         private void ExamSlotCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow(coursesController.GetCoursesByTutor(tutor), examSlotsController);
+            ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow(coursesController.GetCoursesByTutor(tutor), examSlotController);
             examSlotCreateWindow.Show();
         }
 
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-                ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetCoursesByTutor(tutor), examSlotsController);
+                ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetCoursesByTutor(tutor), examSlotController);
                 examSlotUpdateWindow.Show();
         }
 
         private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            CourseCreateWindow courseCreateWindow = new CourseCreateWindow(coursesController, examSlotsController, tutor.Id);
+            CourseCreateWindow courseCreateWindow = new CourseCreateWindow(coursesController, examSlotController, tutor.Id);
             courseCreateWindow.ShowDialog();
             Update();
         }
@@ -95,7 +96,7 @@ namespace LangLang
 
         private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (!examSlotsController.Delete(SelectedExamSlot.Id))
+            if (!examSlotController.Delete(SelectedExamSlot.Id))
             {
                 MessageBox.Show("Can't delete exam, there is less than 14 days before exam.");
             }
@@ -121,7 +122,7 @@ namespace LangLang
             if (coursesController.IsCourseValid(SelectedCourse.Id))
             {
                 int id = SelectedCourse.Id;
-                examSlotsController.DeleteExamSlotsByCourseId(id);
+                examSlotController.DeleteExamSlotsByCourseId(id);
                 coursesController.Delete(id);
                 Update();
                 MessageBox.Show("The course has successfully been deleted.");

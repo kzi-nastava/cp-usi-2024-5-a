@@ -170,16 +170,14 @@ namespace LangLang.DTO
 
 
 
-        public ExamSlotDTO(ExamSlot examSlot, LanguageLevel level, string language, int tutorId, int numberStudents)
+        public ExamSlotDTO(ExamSlot examSlot)
         {
             this.Id = examSlot.Id;
-            this.Language = language;
-            this.Level = level;
-            this.TutorId = tutorId;
+            this.Language = examSlot.Language;
+            this.Level = examSlot.Level;
             this.MaxStudents = examSlot.MaxStudents.ToString();
-            this.NumberStudents = numberStudents;
-            this.ExamDate = examSlot.TimeSlot.Time.Date;
-            this.Time = examSlot.TimeSlot.Time.ToString("HH:mm");
+            //this.ExamDate = examSlot.TimeSlot.Time.Date;
+            //this.Time = examSlot.TimeSlot.Time.ToString("HH:mm");
             this.ApplicationPossible = examSlot.ApplicationPossible;
         }
 
