@@ -27,7 +27,7 @@ namespace LangLang.Core.Model.DAO
             return _examSlots.Keys.Max() + 1;
         }
 
-        private ExamSlot? GetExamSlotById(int id)
+        public ExamSlot? GetExamSlotById(int id)
         {
             return _examSlots[id];
         }

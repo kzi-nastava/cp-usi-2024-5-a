@@ -74,9 +74,9 @@ namespace LangLang.Core.Controller
         }
 
 
-        public ExamSlot GetById(int id)
+        public ExamSlot? GetById(int id)
         {
-            return _examSlots.GetAllExams()[id];
+            return _examSlots.GetExamSlotById(id);
         }
 
         // Method to get all exam slots by tutor ID
