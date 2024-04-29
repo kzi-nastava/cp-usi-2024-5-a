@@ -4,7 +4,7 @@ using LangLang.Core.Repository.Serialization;
 
 namespace LangLang.Core.Model
 {
-    public class TimeSlot : ISerializable
+    public class TimeSlot
     {
         // NOTE: Adapt as needed during implementation
         public int Duration { get; set; }
@@ -14,6 +14,20 @@ namespace LangLang.Core.Model
         {
             Duration = duration;
             Time = time;
+        }
+
+        public TimeSlot(string duration, string time)
+        {
+            try
+            {
+                Time = DateTime.ParseExact(time, "yyyy-MM-dd HH:mm", null);
+            }
+            catch
+            {
+                throw new FormatException("Date is not in the correct format.");
+            }
+            Duration = int.Parse(duration);
+
         }
 
         public bool OverlappsWith(TimeSlot timeSlot)
@@ -29,19 +43,7 @@ namespace LangLang.Core.Model
             return (Time > DateTime.Now);
         }
 
-        public void FromString(string duration, string time)
-        {
-            try
-            {
-                Time = DateTime.ParseExact(time, "yyyy-MM-dd HH:mm", null);
-            }
-            catch
-            {
-                throw new FormatException("Date is not in the correct format.");
-            }
-            Duration = int.Parse(duration);
-            
-        }
+        
 
         public string ToString()
         {
