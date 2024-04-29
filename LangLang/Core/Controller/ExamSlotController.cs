@@ -76,7 +76,7 @@ namespace LangLang.Core.Controller
 
         public ExamSlot GetById(int id)
         {
-            return _examSlots.GetAllExamSlots()[id];
+            return _examSlots.GetAllExams()[id];
         }
 
         // Method to get all exam slots by tutor ID
@@ -85,7 +85,7 @@ namespace LangLang.Core.Controller
         {
             List<ExamSlot> exams = new List<ExamSlot>();
 
-            foreach (ExamSlot exam in _examSlots.GetAllExams().Values)
+            foreach (ExamSlot exam in _examSlots.GetAllExams())
             {
                 
                 if (tutor.Id == exam.TutorId)
@@ -120,15 +120,17 @@ namespace LangLang.Core.Controller
         }
 
         // Method to search exam slots by tutor and criteria
-        public List<ExamSlot> SearchExams(int tutorId, DateTime examDate, string  language, LanguageLevel? level)
+        public List<ExamSlot> SearchExams(Tutor tutor, DateTime examDate, string  language, LanguageLevel? level)
         {
-            List<ExamSlot> exams = _examSlots.GetAllExams().Values.ToList();
+            List<ExamSlot> exams = _examSlots.GetAllExams();
 
-            if (tutorId != null)
-            {
-            exams = this.GetExams(tutorId);
+            exams = this.GetExams(tutor);
 
+
+            return SearchExams(exams,examDate,language,level);
         }
+        public List<ExamSlot> SearchExams(List<ExamSlot> exams, DateTime examDate, string language, LanguageLevel? level)
+        {
 
             // Apply search criteria if they are not null
             List<ExamSlot> filteredExams = exams.Where(exam =>
@@ -140,7 +142,6 @@ namespace LangLang.Core.Controller
             return filteredExams;
         }
 
-       
         public bool CanCreateExamSlot(ExamSlot examSlot, CourseController courses)
         {
 
