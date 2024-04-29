@@ -54,17 +54,16 @@ namespace LangLang
         public void Update()
         {
             ExamSlots.Clear();
-            //filter exam slots for this tutor
-            foreach (ExamSlot exam in examSlotsController.GetExamSlotsByTutor(tutor.Id, coursesController))
+            
+            foreach (ExamSlot exam in examSlotsController.GetExamSlotsByTutor(tutor.Id))
             {
-                Course c = coursesController.GetAllCourses()[exam.CourseId];
-                ExamSlots.Add(new ExamSlotDTO(exam, c));
+                ExamSlots.Add(new ExamSlotDTO(exam));
             }
 
-            Courses.Clear();
-            foreach (Course course in coursesController.GetCoursesByTutor(tutor).Values)
-                Courses.Add(new CourseDTO(course));
-            coursesTable.ItemsSource = Courses;
+            //Courses.Clear();
+            //foreach (Course course in coursesController.GetCoursesByTutor(tutor).Values)
+            //    Courses.Add(new CourseDTO(course));
+            //coursesTable.ItemsSource = Courses;
         }
 
         private void ExamSlotCreateWindowBtn_Click(object sender, RoutedEventArgs e)
