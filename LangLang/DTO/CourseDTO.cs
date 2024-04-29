@@ -25,7 +25,7 @@ namespace LangLang.DTO
         private List<DayOfWeek> days;
         private bool online;
         private int maxStudents;
-        private DateTime startDateTime;
+        private DateTime startDate;
         private bool createdByDirector;
         private string time;
         private bool mon;
@@ -143,18 +143,18 @@ namespace LangLang.DTO
             }
         }
 
-        public DateTime StartDateTime
+        public DateTime StartDate
         {
             get
             {
-                return startDateTime;
+                return startDate;
             }
             set
             {
-                if (value != startDateTime)
+                if (value != startDate)
                 {
-                    startDateTime = value;
-                    OnPropertyChanged("StartDateTime");
+                    startDate = value;
+                    OnPropertyChanged("StartDate");
                 }
             }
         }
@@ -294,10 +294,10 @@ namespace LangLang.DTO
                     if (timeParts.Length != 2) return "Time format must be HH:mm";
                     else return "";
                 }
-                if (columnName == "StartDateTime")
+                if (columnName == "StartDate")
                 {
-                    if (startDateTime < DateTime.Now) return "Please enter a valid date. Dates in the past are not allowed.";
-                    if (startDateTime == default) return "Birth date is required";
+                    if (startDate < DateTime.Now) return "Please enter a valid date. Dates in the past are not allowed.";
+                    if (startDate == default) return "Birth date is required";
                     else return "";
                 }
                 if (columnName == "NumberOfWeeks")
@@ -313,19 +313,21 @@ namespace LangLang.DTO
                 return "";
             }
         }
+
+        private string[] _validatedProperties = {"StartDate", "Language", "Level", "NumberOfWeeks", "Time" };
+
         public string ConcatenatedDays
         {
             get { return string.Join(", ", Days); }
         }
-
-        private string[] _validatedProperties = { "StartDateTime", "Language", "Level", "NumberOfWeeks", "Time" };
 
         // checks if all properties are valid
         public bool IsValid
         {
             get
             {
-                if (online == false)
+                // if the course is held in person add validation for maximal number of student, otherwize remove it
+                if (online == false) 
                 {
                     _validatedProperties = _validatedProperties.Append("MaxStudents").ToArray();
                 }
@@ -345,37 +347,22 @@ namespace LangLang.DTO
                         _validatedProperties = newArray;
                     }
                 }
-                days = new List<DayOfWeek>();
-                if (mon)
-                {
-                    days.Add(DayOfWeek.Monday);
-                }
-                if (tue)
-                {
-                    days.Add(DayOfWeek.Tuesday);
-                }
-                if (wed)
-                {
-                    days.Add(DayOfWeek.Wednesday);
-                }
-                if (thu)
-                {
-                    days.Add(DayOfWeek.Thursday);
-                }
-                if (fri)
-                {
-                    days.Add(DayOfWeek.Friday);
-                }
-                if (days.Count == 0)
-                {
-                    return false;
-                }
+
                 foreach (var property in _validatedProperties)
                 {
-                    if (this[property] != "")
-                        return false;
+                    if (this[property] != "") return false;
                 }
 
+                List<DayOfWeek> _days = new List<DayOfWeek>();
+
+                if (mon) _days.Add(DayOfWeek.Monday);
+                if (tue) _days.Add(DayOfWeek.Tuesday);
+                if (wed) _days.Add(DayOfWeek.Wednesday);
+                if (thu) _days.Add(DayOfWeek.Thursday);
+                if (fri) _days.Add(DayOfWeek.Friday);
+
+                if(_days.Count == 0) return false;
+                days = _days;
                 return true;
             }
         }
@@ -399,7 +386,7 @@ namespace LangLang.DTO
             string[] timeParts = time.Split(':');
             int hour = int.Parse(timeParts[0]);
             int minute = int.Parse(timeParts[1]);
-            return new Course(Id, tutorId, language, level, numberOfWeeks, days, online, maxStudents, new DateTime(startDateTime.Year, startDateTime.Month, startDateTime.Day, hour, minute, 0), createdByDirector);
+            return new Course(Id, tutorId, language, level, numberOfWeeks, days, online, maxStudents, new DateTime(startDate.Year, startDate.Month, startDate.Day, hour, minute, 0), createdByDirector);
         }
 
         public CourseDTO(Course course)
@@ -412,59 +399,8 @@ namespace LangLang.DTO
             TutorId = course.TutorId;
             Days = course.Days;
             NumberOfStudents = course.NumberOfStudents;
-            StringBuilder sbDays = new StringBuilder(); 
-            if (Days.Contains(DayOfWeek.Monday))
-            {
-                Mon = true;
-                sbDays.Append("Mon ");
-            }
-            else
-            {
-                Mon = false;
-            }
-            if (Days.Contains(DayOfWeek.Tuesday))
-            {
-                Tue = true;
-                sbDays.Append("Tue ");
-            }
-            else
-            {
-                Tue = false;
-            }
-            if (Days.Contains(DayOfWeek.Wednesday))
-            {
-                Wed = true;
-                sbDays.Append("Wed ");
-            }
-            else
-            {
-                Wed = false;
-            }
-            if (Days.Contains(DayOfWeek.Thursday))
-            {
-                Thu = true;
-                sbDays.Append("Thu ");
-            }
-            else
-            {
-                Thu = false;
-            }
-            if (Days.Contains(DayOfWeek.Friday))
-            {
-                Fri = true;
-                sbDays.Append("Fri ");
-            }
-            else
-            {
-                Fri = false;
-            }
-            // Deletes the last white space from stringbuilder
-            if (sbDays.Length > 0)
-            {
-                sbDays.Remove(sbDays.Length - 1, 1);
-            }
-            StringDays = sbDays.ToString();
-            StartDateTime = course.StartDateTime;
+            StringDays = ConcatenatedDays;
+            StartDate = course.StartDateTime;
             NumberOfWeeks = course.NumberOfWeeks.ToString();
             MaxStudents = course.MaxStudents.ToString();
             Time = course.StartDateTime.ToString("HH:mm");
