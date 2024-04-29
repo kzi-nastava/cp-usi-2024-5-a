@@ -9,12 +9,10 @@ namespace LangLang.DTO
 {
     public class ExamSlotDTO : INotifyPropertyChanged
     {
-        public ExamSlotDTO() {
-            _courseId = -1;
-        }
+        
         public int Id { get; set; }
 
-        private int _courseId;
+        private int _tutorId;
         private string _language;
         private LanguageLevel _level;
         private int _maxStudents;
@@ -22,14 +20,15 @@ namespace LangLang.DTO
         private string _time;
         private int _numberOfStudents;
         private DateTime _examDateTime;
+        private bool _applicationPossible;
 
-        public int CourseId
+        public int TutorId
         {
-            get { return _courseId; }
+            get { return _tutorId; }
             set
             {
-                _courseId = value;
-                OnPropertyChanged("CourseId");
+                _tutorId = value;
+                OnPropertyChanged("TutorId");
             }
         }
 
@@ -117,6 +116,16 @@ namespace LangLang.DTO
             }
         }
 
+        public bool ApplicationPossible
+        {
+            get { return _applicationPossible; }
+            set
+            {
+                _applicationPossible = value;
+                OnPropertyChanged("ApplicationPossible");
+            }
+        }
+
         private readonly Regex _TimeRegex = new("^(?:[01]\\d|2[0-3]):(?:[0-5]\\d)$");
 
 
@@ -171,17 +180,18 @@ namespace LangLang.DTO
 
 
 
-        public ExamSlotDTO(ExamSlot examSlot, Course course)
+        public ExamSlotDTO(ExamSlot examSlot, LanguageLevel level, string language, int tutorId, int numberOfStudents)
         {
             this.Id = examSlot.Id;
-            this.Language = course.Language;
-            this.Level = course.Level;
+            this.Language = language;
+            this.Level = level;
+            this.TutorId = tutorId;
             this.MaxStudents = examSlot.MaxStudents.ToString();
-            this.NumberOfStudents = examSlot.NumberOfStudents;
-            this.CourseId = examSlot.CourseId;
-            this.ExamDate = examSlot.ExamDateTime.Date;
-            this.Time = examSlot.ExamDateTime.ToString("HH:mm");
-            this.ExamDateTime = examSlot.ExamDateTime;
+            this.NumberOfStudents = numberOfStudents;
+            this.ExamDate = examSlot.TimeSlot.Time.Date;
+            this.Time = examSlot.TimeSlot.Time.ToString("HH:mm");
+            this.ExamDateTime = examSlot.TimeSlot.Time;
+            this.ApplicationPossible = examSlot.ApplicationPossible;
         }
 
         public ExamSlot ToExamSlot()
@@ -189,7 +199,7 @@ namespace LangLang.DTO
             string[] timeParts = _time.Split(':');
             int hour = int.Parse(timeParts[0]);
             int minute = int.Parse(timeParts[1]);
-            return new ExamSlot(Id, _courseId, _maxStudents, new DateTime(_examDate.Year, _examDate.Month, _examDate.Day, hour, minute, 0), 0);
+            return new ExamSlot(Id, _language,_level, new TimeSlot(4,new DateTime(_examDate.Year, _examDate.Month, _examDate.Day, hour, minute, 0)), 0,_tutorId,_applicationPossible);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

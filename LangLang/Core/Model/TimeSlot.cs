@@ -7,7 +7,13 @@ namespace LangLang.Core.Model
     {
         // NOTE: Adapt as needed during implementation
         public int Duration { get; set; }
-        public DateTime time { get; set; }
+        public DateTime Time { get; set; }
+
+        public TimeSlot(int duration, DateTime time)
+        {
+            Duration = duration;
+            Time = time;
+        }
 
         public bool OverlappsWith(TimeSlot timeSlot)
         {
