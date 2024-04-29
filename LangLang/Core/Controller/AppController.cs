@@ -8,16 +8,18 @@ namespace LangLang.Core.Controller
         public readonly CourseController CourseController;
         public readonly StudentController StudentController;
         public readonly EnrollmentRequestController EnrollmentRequestController;
+        public readonly WithdrawalRequestController WithdrawalRequestController;
         public readonly ExamSlotController ExamSlotController;
         public readonly LoginController LoginController;
         public AppController()
         {
-            this.TutorController = new TutorController();
-            this.CourseController = new CourseController();
-            this.StudentController = new StudentController();
-            this.EnrollmentRequestController = new EnrollmentRequestController();
-            this.ExamSlotController = new ExamSlotController();
-            this.LoginController = new LoginController(StudentController, TutorController);
+            TutorController = new();
+            CourseController = new();
+            StudentController = new();
+            EnrollmentRequestController = new();
+            WithdrawalRequestController = new();
+            ExamSlotController = new();
+            LoginController = new(StudentController, TutorController);
         }
 
 
