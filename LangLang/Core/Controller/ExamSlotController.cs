@@ -49,6 +49,10 @@ namespace LangLang.Core.Controller
             return _exams.GetExamById(id);
         }
 
+        public List<ExamSlot> GetExams(Tutor tutor)
+        {
+            return _exams.GetExams(tutor);
+        }
         public List<ExamSlot> SearchExamsByTutor(Tutor tutor, DateTime examDate, string language, LanguageLevel? level)
         {
             return _exams.SearchExamsByTutor(tutor, examDate, language, level);
