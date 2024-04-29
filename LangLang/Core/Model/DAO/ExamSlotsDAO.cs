@@ -37,6 +37,7 @@ namespace LangLang.Core.Model.DAO
             return _examSlots;
         }
 
+
         //function takes examslot and adds it to dictionary of examslots
         //function saves changes and returns added examslot
         public ExamSlot AddExamSlot(ExamSlot examSlot)
@@ -76,6 +77,8 @@ namespace LangLang.Core.Model.DAO
             NotifyObservers();
             return oldExamSlot;
         }
+
+        
 
     }
     

@@ -3,7 +3,7 @@ using LangLang.Core.Repository.Serialization;
 using System;
 namespace LangLang.Core.Model
 {
-    public class ExamSlotAppRequest : ISerializable
+    public class ExamAppRequest : ISerializable
     {
         public int Id { get; set; }
         public int StudentId { get; set; }
@@ -12,9 +12,9 @@ namespace LangLang.Core.Model
         public DateTime LastModifiedTimestamp { get; set; }
         public bool IsCanceled { get; set; }
 
-        public ExamSlotAppRequest() { }
+        public ExamAppRequest() { }
 
-        public ExamSlotAppRequest(int id, int studentId, int examSlotId, DateTime requestSentAt)
+        public ExamAppRequest(int id, int studentId, int examSlotId, DateTime requestSentAt)
         {
             Id = id;
             StudentId = studentId;
