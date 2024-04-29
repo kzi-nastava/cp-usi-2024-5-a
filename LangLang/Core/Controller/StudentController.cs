@@ -41,7 +41,6 @@ namespace LangLang.Core.Controller
             _students.Subscribe(observer);
         }
 
-
         public List<Course> GetAvailableCourses(CourseController courseController) 
         {
             return _students.GetAvailableCourses(courseController);
@@ -52,9 +51,14 @@ namespace LangLang.Core.Controller
             return _students.GetAvailableExamSlots(student, courseController, examSlotController, enrollmentRequestController);
         }
 
-        public bool CanModifyInfo(int studentId, EnrollmentRequestController erc)
+        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController)
         {
-            return _students.CanModifyInfo(studentId, erc);
+            return _students.CanModifyInfo(studentId, erController, courseController);
+        }
+
+        public bool CanRequestEnroll(int id, EnrollmentRequestController erController, CourseController courseController)
+        {
+            return _students.CanRequestEnroll(id, erController, courseController);
         }
 
         public List<ExamSlot> SearchExamSlotsByStudent(ExamSlotController examSlotController, CourseController courseController, EnrollmentRequestController enrollmentRequestController, int studentId, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
@@ -69,5 +73,6 @@ namespace LangLang.Core.Controller
             List<Course> filteredCourses = courseController.SearchCourses(availableCourses, language, level, startDate, duration, online);
             return filteredCourses;
         }
+
     }
 }
