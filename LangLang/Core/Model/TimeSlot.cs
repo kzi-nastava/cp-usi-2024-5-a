@@ -1,6 +1,6 @@
 ﻿using LangLang.Core.Model.Enums;
 using System;
-using System.Runtime.Serialization;
+using LangLang.Core.Repository.Serialization;
 
 namespace LangLang.Core.Model
 {
@@ -16,6 +16,20 @@ namespace LangLang.Core.Model
             Time = time;
         }
 
+        public TimeSlot(string duration, string time)
+        {
+            try
+            {
+                Time = DateTime.ParseExact(time, "yyyy-MM-dd HH:mm", null);
+            }
+            catch
+            {
+                throw new FormatException("Date is not in the correct format.");
+            }
+            Duration = int.Parse(duration);
+
+        }
+
         public bool OverlappsWith(TimeSlot timeSlot)
         {
             DateTime end = Time.AddHours(Duration);
@@ -29,26 +43,11 @@ namespace LangLang.Core.Model
             return (Time > DateTime.Now);
         }
 
-        public void FromCSV(string[] values)
-        {
-            try
-            {
-                Time = DateTime.ParseExact(values[1], "yyyy-MM-dd HH:mm", null);
-            }
-            catch
-            {
-                throw new FormatException("Date is not in the correct format.");
-            }
-            Duration = int.Parse(values[0]);
-            
-        }
+        
 
-        public string[] ToCSV()
+        public string ToString()
         {
-            return new string[] {
-                Duration.ToString(),
-                Time.ToString("yyyy-MM-dd HH:mm"),
-            };
+            return Duration.ToString() + '|' + Time.ToString("yyyy-MM-dd HH:mm");
         }
     }
 }
