@@ -1,10 +1,10 @@
 ﻿using LangLang.Core.Model.Enums;
 using System;
-using System.Runtime.Serialization;
+using LangLang.Core.Repository.Serialization;
 
 namespace LangLang.Core.Model
 {
-    public class TimeSlot
+    public class TimeSlot : ISerializable
     {
         // NOTE: Adapt as needed during implementation
         public int Duration { get; set; }
@@ -29,26 +29,23 @@ namespace LangLang.Core.Model
             return (Time > DateTime.Now);
         }
 
-        public void FromCSV(string[] values)
+        public void FromString(string duration, string time)
         {
             try
             {
-                Time = DateTime.ParseExact(values[1], "yyyy-MM-dd HH:mm", null);
+                Time = DateTime.ParseExact(time, "yyyy-MM-dd HH:mm", null);
             }
             catch
             {
                 throw new FormatException("Date is not in the correct format.");
             }
-            Duration = int.Parse(values[0]);
+            Duration = int.Parse(duration);
             
         }
 
-        public string[] ToCSV()
+        public string ToString()
         {
-            return new string[] {
-                Duration.ToString(),
-                Time.ToString("yyyy-MM-dd HH:mm"),
-            };
+            return Duration.ToString() + '|' + Time.ToString("yyyy-MM-dd HH:mm");
         }
     }
 }
