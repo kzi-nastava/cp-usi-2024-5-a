@@ -32,7 +32,7 @@ namespace LangLang.View.StudentGUI
 
             this.appController = appController;
             this.studentController = appController.StudentController;
-            this.currentlyLoggedIn = studentController.GetAllStudents()[currentlyLoggedIn.Id];
+            this.currentlyLoggedIn = studentController.GetById(currentlyLoggedIn.Id);
             this.courseController = appController.CourseController;
             this.enrollmentRequestController = appController.EnrollmentRequestController;
             this.examSlotController = appController.ExamSlotController;
@@ -80,7 +80,7 @@ namespace LangLang.View.StudentGUI
             ExamSlots.Clear();
             foreach (ExamSlot exam in examSlotsForReview)
             {
-                Course c = courseController.GetAllCourses()[exam.CourseId];
+                Course c = courseController.GetById(exam.CourseId);
                 ExamSlots.Add(new ExamSlotDTO(exam, c));
             }
         }

@@ -21,6 +21,11 @@ namespace LangLang.Core.Controller
             return _students.GetAllStudents();
         }
 
+        public Student GetById(int id)
+        {
+            return _students.GetStudentById(id);
+        }
+
         public void Add(Student student)
         {
             _students.AddStudent(student);

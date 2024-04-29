@@ -33,6 +33,11 @@ namespace LangLang.Core.Model.DAO
             return _enrollmentRequests.Values.ToList();
         }
 
+        public EnrollmentRequest GetById(int id)
+        {
+            return _enrollmentRequests[id];
+        }
+
         public EnrollmentRequest Add(EnrollmentRequest enrollmentRequest)
         {
             enrollmentRequest.Id = GenerateId();
@@ -48,12 +53,12 @@ namespace LangLang.Core.Model.DAO
             if (oldRequest == null) return null;
 
             oldRequest.UpdateStatus(enrollmentRequest.Status);
-            oldRequest.IsCanceled = enrollmentRequest.IsCanceled;
-            oldRequest.LastModifiedTimestamp = DateTime.Now;
             _repository.Save(_enrollmentRequests);
             NotifyObservers();
             return oldRequest;
         }
+
+
 
         public EnrollmentRequest? Remove(int id)
         {
@@ -82,7 +87,7 @@ namespace LangLang.Core.Model.DAO
             if (course.StartDateTime.Date - DateTime.Now.Date <= TimeSpan.FromDays(7))
                 return false; // course start date must be at least 7 days away
 
-            enrollmentRequest.IsCanceled = true;
+            enrollmentRequest.CancelRequest();
             return true;
         }
 
