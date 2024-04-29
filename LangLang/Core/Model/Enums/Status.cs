@@ -5,6 +5,7 @@ namespace LangLang.Core.Model.Enums
     {
         Pending,
         Accepted,
-        Rejected
+        Rejected,
+        Paused
     }
 }

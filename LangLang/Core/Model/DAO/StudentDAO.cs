@@ -4,20 +4,16 @@ using LangLang.Core.Repository;
 using LangLang.Core.Observer;
 using LangLang.Core.Controller;
 using LangLang.Core.Model.Enums;
+using System;
 
 namespace LangLang.Core.Model.DAO
 {
-    /**
-     * This class encapsulates a list of Student objects and provides methods
-     * for adding, updating, deleting, and retrieving Student objects.
-     * Additionally, this class uses Repository<Student> for loading and saving objects.
-    **/
     public class StudentDAO : Subject
     {
         private readonly Dictionary<int, Student> _students;
         private readonly Repository<Student> _repository;
-    
-    
+
+
         public StudentDAO()
         {
             _repository = new Repository<Student>("students.csv");
@@ -69,7 +65,7 @@ namespace LangLang.Core.Model.DAO
             NotifyObservers();
             return oldStudent;
         }
-     
+
         public Student? RemoveStudent(int id, EnrollmentRequestController enrollmentRequestController)
         {
             Student student = GetStudentById(id);
@@ -130,15 +126,28 @@ namespace LangLang.Core.Model.DAO
             return availableExamSlots;
         }
 
-        public bool CanModifyInfo(int studentId, EnrollmentRequestController erc)
+        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController)
         {
-            List<EnrollmentRequest> studentRequests = erc.GetStudentRequests(studentId);
-            foreach (EnrollmentRequest request in studentRequests)
-            {
-                if (request.Status == Status.Accepted) return false; // TODO: Check if the course is incomplete upon implementing functionality in courseController.
+            // can modify - student is not currently enrolled in any course and has not applied for any exams
+            return (CanRequestEnroll(studentId, erController, courseController) && !HasRegisteredForExam());
+        }
 
+        public bool CanRequestEnroll(int id, EnrollmentRequestController erController, CourseController courseController)
+        {
+            foreach (EnrollmentRequest er in erController.GetStudentRequests(id))
+            {
+                if (er.Status == Status.Accepted && !er.IsCanceled)
+                {
+                    if (!courseController.IsCompleted(er.Id)) return false;
+                }
             }
             return true;
+        }
+
+        public bool HasRegisteredForExam()
+        {
+            // TODO: Implement this method once the exam application class is implemented.
+            return false;
         }
     }
 }

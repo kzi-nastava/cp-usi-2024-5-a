@@ -132,7 +132,25 @@ namespace LangLang
                 MessageBox.Show("Selected course cannot be deleted, it has already started or there are less than 7 days before course start.");
             }
         }
-        private void coursesTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        private void CoursesTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (SelectedCourse == null)
+            {
+                disableButtonsCourse();
+            }
+            else
+            {
+                enableButtonsCourse();
+            }
+        }
+
+        private void disableButtonsCourse()
+        {
+            courseUpdateBtn.IsEnabled = false;
+            courseDeleteBtn.IsEnabled = false;
+        }
+        private void enableButtonsCourse()
         {
             if (SelectedCourse == null) {
                 disableButtonsCourse();
