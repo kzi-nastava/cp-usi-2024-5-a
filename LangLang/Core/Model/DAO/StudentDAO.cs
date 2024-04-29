@@ -95,12 +95,12 @@ namespace LangLang.Core.Model.DAO
             return availableCourses;
         }
 
-        private bool HasStudentAttendedCourse(Student student, Course course, EnrollmentRequest enrollmentRequest)
+        private bool HasStudentAttendedCourse(Course course, EnrollmentRequest enrollmentRequest, ExamSlot examSlot)
         {
 
-            if (enrollmentRequest.StudentId == student.Id && enrollmentRequest.CourseId == course.Id)
+            if (course.Language == examSlot.Language && course.Level == examSlot.Level)
             {
-                if (enrollmentRequest.Status == Status.Accepted)
+                if (enrollmentRequest.Status == Status.Accepted && course.IsCompleted())
                 {
                     return true;
                 }
@@ -108,15 +108,19 @@ namespace LangLang.Core.Model.DAO
             return false;
         }
 
-        public List<ExamSlot> GetAvailableExamSlots(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController enrollmentRequestController)
+        public List<ExamSlot>? GetAvailableExamSlots(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController erController)
         {
+            if (student == null) return null;
             List<ExamSlot> availableExamSlots = new();
-            if (student == null) return availableExamSlots;
-            foreach (ExamSlot examSlot in examSlotController.GetAllExamSlots().Values)
+
+            List<EnrollmentRequest> studentRequests = erController.GetStudentRequests(student.Id);
+            
+            foreach (ExamSlot examSlot in examSlotController.GetAllExams())
             {
-                foreach (EnrollmentRequest enrollmentRequest in enrollmentRequestController.GetStudentRequests(student.Id))
+                foreach (EnrollmentRequest enrollmentRequest in studentRequests)
                 {
-                    if (HasStudentAttendedCourse(student, courseController.GetById(examSlot.CourseId), enrollmentRequest))
+                    Course course = courseController.GetById(enrollmentRequest.CourseId);
+                    if (HasStudentAttendedCourse(course, enrollmentRequest, examSlot))
                     {
                         availableExamSlots.Add(examSlot);
                     }
