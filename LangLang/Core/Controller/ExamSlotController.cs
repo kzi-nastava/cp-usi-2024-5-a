@@ -19,9 +19,9 @@ namespace LangLang.Core.Controller
             _examSlots = new ExamSlotsDAO();
         }
 
-        public Dictionary<int, ExamSlot> GetAllExamSlots()
+        public Dictionary<int, ExamSlot> GetAllExams()
         {
-            return _examSlots.GetAllExamSlots();
+            return _examSlots.GetAllExams();
         }
 
         public bool Add(ExamSlot examSlot, CourseController courses)
@@ -41,7 +41,7 @@ namespace LangLang.Core.Controller
             
             //should use const variable instead of 14
 
-            if ((examSlot.ExamDateTime - DateTime.Now).TotalDays >= 14)
+            if ((examSlot.TimeSlot.Time - DateTime.Now).TotalDays >= 14)
             {
                 _examSlots.UpdateExamSlot(examSlot);
                 return true;
@@ -55,10 +55,10 @@ namespace LangLang.Core.Controller
         //returns true if removal was allowed (succesful) or false if removal wasn't allowed (unsuccesful)
         public bool Delete(int examSlotId)
         {
-            ExamSlot examSlot = _examSlots.GetAllExamSlots()[examSlotId];
+            ExamSlot examSlot = _examSlots.GetAllExams()[examSlotId];
 
             //should use const variable instead of 14
-            if ((examSlot.ExamDateTime - DateTime.Now).TotalDays >= 14)
+            if ((examSlot.TimeSlot.Time - DateTime.Now).TotalDays >= 14)
             {
                 _examSlots.RemoveExamSlot(examSlotId);
                 return true;
@@ -74,37 +74,37 @@ namespace LangLang.Core.Controller
         }
 
         // Method to get all exam slots by tutor ID
-        //function takes tutor id and CourseController and returns list of examslots
-        public List<ExamSlot> GetExamSlotsByTutor(int tutorId, CourseController courses)
+        //function takes tutor id
+        public List<ExamSlot> GetExams(Tutor tutor)
         {
-            List<ExamSlot> examSlotsByTutor = new List<ExamSlot>();
+            List<ExamSlot> exams = new List<ExamSlot>();
 
-            foreach (ExamSlot examSlot in _examSlots.GetAllExamSlots().Values)
+            foreach (ExamSlot exam in _examSlots.GetAllExams().Values)
             {
-                // Check if the exam slot's tutor ID matches the provided tutor ID
-                int courseId = examSlot.CourseId;
-                int courseTutorId = courses.GetAllCourses()[courseId].TutorId;
-                if (tutorId == courseTutorId)
+                
+                if (tutor.Id == exam.TutorId)
                 {
-                    examSlotsByTutor.Add(examSlot);
+                    exams.Add(exam);
                 }
             }
 
-            return examSlotsByTutor;
+            return exams;
         }
 
         // Method to check if an exam slot is available
         // takes exam slot, returns true if it is availbale or false if it isn't available
-        public bool IsExamSlotAvailable(ExamSlot examSlot)
+        public bool IsAvailable(ExamSlot examSlot, ExamAppRequestController appController)
         {
             // Check if the maximum number of students has been reached
-            if (examSlot.NumberOfStudents == examSlot.MaxStudents)
+
+            if(appController.IsFullyBooked(examSlot.Id))
             {
                 return false;
             }
 
             // Check if there is less than a month before the exam slot starts
-            TimeSpan timeUntilStart = examSlot.ExamDateTime - DateTime.Now;
+
+            TimeSpan timeUntilStart = examSlot.TimeSlot.Time - DateTime.Now;
             if (timeUntilStart < TimeSpan.FromDays(30))
             {
                 return false;
@@ -114,26 +114,27 @@ namespace LangLang.Core.Controller
         }
 
         // Method to search exam slots by tutor and criteria
-        public List<ExamSlot> SearchExamSlotsByTutor(int tutorId, CourseController courses, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
+        public List<ExamSlot> SearchExams(int tutorId, DateTime examDate, string  language, LanguageLevel? level)
         {
-            // Retrieve all exam slots created by the specified tutor
-            List<ExamSlot> examSlotsByTutor = this.GetExamSlotsByTutor(tutorId, courses);
-            return SearchExamSlots(examSlotsByTutor, courses, examDate, courseLanguage, languageLevel);
-        }
-        
-        // Method to search ExamSlot list by criteria
-        public List<ExamSlot> SearchExamSlots(List<ExamSlot> searchableExamSlots, CourseController courses, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
-        {
+            List<ExamSlot> exams = _examSlots.GetAllExams().Values.ToList();
+
+            if (tutorId != null)
+            {
+            exams = this.GetExams(tutorId);
+
+            }
+
             // Apply search criteria if they are not null
-            List<ExamSlot> filteredExamSlots = searchableExamSlots.Where(exam =>
-                (examDate == default || exam.ExamDateTime.Date == examDate.Date) &&
-                (courseLanguage == "" || courses.GetAllCourses()[exam.CourseId].Language.Contains(courseLanguage)) &&
-                (languageLevel == null || courses.GetAllCourses()[exam.CourseId].Level == languageLevel)
+            List<ExamSlot> filteredExams = exams.Where(exam =>
+                (examDate == default || exam.TimeSlot.Time.Date == examDate.Date) &&
+                (language == "" || exam.Language == language) &&
+                (level == null || exam.Level == level)
             ).ToList();
 
-            return filteredExamSlots;
+            return filteredExams;
         }
-
+        
+       
         public bool CanCreateExamSlot(ExamSlot examSlot, CourseController courses)
         {
 
@@ -232,7 +233,8 @@ namespace LangLang.Core.Controller
             bool overlap = !(examTime >= classEndTime || examEndTime <= classTime);
             return overlap;
         }
-        public void DeleteExamSlotsByCourseId(int courseId)
+        /*
+         public void DeleteExamSlotsByCourseId(int courseId)
         {
             List<ExamSlot> examSlotsToDelete = _examSlots.GetAllExamSlots().Values.Where(slot => slot.CourseId == courseId).ToList();
             foreach (ExamSlot slot in examSlotsToDelete)
@@ -240,5 +242,7 @@ namespace LangLang.Core.Controller
                 Delete(slot.Id);
             }
         }
+         */
+
     }
 }

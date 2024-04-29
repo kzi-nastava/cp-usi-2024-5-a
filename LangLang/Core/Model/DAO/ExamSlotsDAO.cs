@@ -32,7 +32,7 @@ namespace LangLang.Core.Model.DAO
             return _examSlots[id];
         }
 
-        public Dictionary<int,ExamSlot> GetAllExamSlots()
+        public Dictionary<int,ExamSlot> GetAllExams()
         {
             return _examSlots;
         }
@@ -68,10 +68,9 @@ namespace LangLang.Core.Model.DAO
             ExamSlot oldExamSlot = GetExamSlotById(examSlot.Id);
             if (oldExamSlot == null) return null;
 
-            oldExamSlot.CourseId = examSlot.CourseId;
+            oldExamSlot.TutorId = examSlot.TutorId;
             oldExamSlot.MaxStudents = examSlot.MaxStudents;
-            oldExamSlot.ExamDateTime = examSlot.ExamDateTime;
-            oldExamSlot.NumberOfStudents = examSlot.NumberOfStudents;
+            oldExamSlot.TimeSlot = examSlot.TimeSlot;
 
             _repository.Save(_examSlots);
             NotifyObservers();
