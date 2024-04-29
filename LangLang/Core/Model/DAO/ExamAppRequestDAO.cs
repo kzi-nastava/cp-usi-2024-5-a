@@ -64,6 +64,16 @@ namespace LangLang.Core.Model.DAO
             return studentRequests;
         }
 
+        public List<ExamAppRequest> GetExamRequests(int examId)
+        {
+            List<ExamAppRequest> examRequests = new();
+            foreach (ExamAppRequest appRequest in GetAllAppRequests())
+            {
+                if (appRequest.ExamSlotId == examId) examRequests.Add(appRequest);
+            }
+            return examRequests;
+        }
+
         // returns true if the cancellation was successful, otherwise false
         public bool CancelRequest(ExamAppRequest appRequest, ExamSlot exam)
         {
