@@ -75,14 +75,14 @@ namespace LangLang.Core.Controller
 
         // Method to get all exam slots by tutor ID
         //function takes tutor id
-        public List<ExamSlot> GetExams(int tutorId)
+        public List<ExamSlot> GetExams(Tutor tutor)
         {
             List<ExamSlot> exams = new List<ExamSlot>();
 
             foreach (ExamSlot exam in _examSlots.GetAllExams().Values)
             {
                 
-                if (tutorId == exam.TutorId)
+                if (tutor.Id == exam.TutorId)
                 {
                     exams.Add(exam);
                 }
