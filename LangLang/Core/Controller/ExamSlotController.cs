@@ -19,9 +19,9 @@ namespace LangLang.Core.Controller
             _examSlots = new ExamSlotsDAO();
         }
 
-        public Dictionary<int, ExamSlot> GetAllExamSlots()
+        public Dictionary<int, ExamSlot> GetAllExams()
         {
-            return _examSlots.GetAllExamSlots();
+            return _examSlots.GetAllExams();
         }
 
         public bool Add(ExamSlot examSlot, CourseController courses)
@@ -55,7 +55,7 @@ namespace LangLang.Core.Controller
         //returns true if removal was allowed (succesful) or false if removal wasn't allowed (unsuccesful)
         public bool Delete(int examSlotId)
         {
-            ExamSlot examSlot = _examSlots.GetAllExamSlots()[examSlotId];
+            ExamSlot examSlot = _examSlots.GetAllExams()[examSlotId];
 
             //should use const variable instead of 14
             if ((examSlot.TimeSlot.Time - DateTime.Now).TotalDays >= 14)
@@ -79,7 +79,7 @@ namespace LangLang.Core.Controller
         {
             List<ExamSlot> exams = new List<ExamSlot>();
 
-            foreach (ExamSlot exam in _examSlots.GetAllExamSlots().Values)
+            foreach (ExamSlot exam in _examSlots.GetAllExams().Values)
             {
                 
                 if (tutorId == exam.TutorId)
@@ -114,16 +114,16 @@ namespace LangLang.Core.Controller
         }
 
         // Method to search exam slots by tutor and criteria
-        public List<ExamSlot> SearchExams(int tutorId, CourseController courses, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
+        public List<ExamSlot> SearchExams(int tutorId, DateTime examDate, string  language, LanguageLevel? level)
         {
-            // Retrieve all exam slots created by the specified tutor
-            List<ExamSlot> examSlotsByTutor = this.GetExams(tutorId);
-            return Search(examSlotsByTutor, examDate, courseLanguage, languageLevel);
-        }
-        
-        // Method to search ExamSlot list by criteria
-        private List<ExamSlot> Search(List<ExamSlot> exams, DateTime examDate, string language, LanguageLevel? level)
-        {
+            List<ExamSlot> exams = _examSlots.GetAllExams().Values.ToList();
+
+            if (tutorId != null)
+            {
+            exams = this.GetExams(tutorId);
+
+            }
+
             // Apply search criteria if they are not null
             List<ExamSlot> filteredExams = exams.Where(exam =>
                 (examDate == default || exam.TimeSlot.Time.Date == examDate.Date) &&
@@ -133,7 +133,8 @@ namespace LangLang.Core.Controller
 
             return filteredExams;
         }
-
+        
+       
         public bool CanCreateExamSlot(ExamSlot examSlot, CourseController courses)
         {
 

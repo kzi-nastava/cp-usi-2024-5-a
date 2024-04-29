@@ -32,7 +32,7 @@ namespace LangLang.Core.Model.DAO
             return _examSlots[id];
         }
 
-        public Dictionary<int,ExamSlot> GetAllExamSlots()
+        public Dictionary<int,ExamSlot> GetAllExams()
         {
             return _examSlots;
         }
