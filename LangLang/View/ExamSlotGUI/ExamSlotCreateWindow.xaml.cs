@@ -32,7 +32,6 @@ namespace LangLang.View
         public ExamSlotCreateWindow(Dictionary<int,Course> courses,ExamSlotController controller)
         {
             Courses = courses.Values.ToList<Course>();
-            Trace.WriteLine("U create " + Courses.Count);
             SelectedCourse = new Course();
             examSlotsController = controller;
             ExamSlot = new ExamSlotDTO();
@@ -58,7 +57,7 @@ namespace LangLang.View
                     
                     ExamSlot.CourseId = SelectedCourse.Id;
                     bool added = examSlotsController.Add(ExamSlot.ToExamSlot(), courseController);
-                    /*
+                    /*F
                     if (!added)
                     {
                         //examSlotsController.Add(ExamSlot.ToExamSlot(), courseController);
