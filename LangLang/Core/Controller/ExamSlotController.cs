@@ -73,6 +73,12 @@ namespace LangLang.Core.Controller
             _examSlots.Subscribe(observer);
         }
 
+
+        public ExamSlot GetById(int id)
+        {
+            return _examSlots.GetAllExamSlots()[id];
+        }
+
         // Method to get all exam slots by tutor ID
         //function takes tutor id and CourseController and returns list of examslots
         public List<ExamSlot> GetExamSlotsByTutor(int tutorId, CourseController courses)

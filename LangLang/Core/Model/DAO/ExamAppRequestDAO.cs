@@ -7,14 +7,14 @@ using System.Linq;
 
 namespace LangLang.Core.Model.DAO
 {
-    public class ExamSlotAppRequestDAO : Subject
+    public class ExamAppRequestDAO : Subject
     {
-        private readonly Dictionary<int, ExamSlotAppRequest> _appRequests;
-        private readonly Repository<ExamSlotAppRequest> _repository;
+        private readonly Dictionary<int, ExamAppRequest> _appRequests;
+        private readonly Repository<ExamAppRequest> _repository;
 
-        public ExamSlotAppRequestDAO()
+        public ExamAppRequestDAO()
         {
-            _repository = new Repository<ExamSlotAppRequest>("examSlotAppRequests.csv");
+            _repository = new Repository<ExamAppRequest>("examSlotAppRequests.csv");
             _appRequests = _repository.Load();
         }
         private int GenerateId()
@@ -23,17 +23,17 @@ namespace LangLang.Core.Model.DAO
             return _appRequests.Keys.Max() + 1;
         }
 
-        public ExamSlotAppRequest? GetAppRequestById(int id)
+        public ExamAppRequest? GetAppRequestById(int id)
         {
             return _appRequests[id];
         }
 
-        public List<ExamSlotAppRequest> GetAllAppRequests()
+        public List<ExamAppRequest> GetAllAppRequests()
         {
             return _appRequests.Values.ToList();
         }
 
-        public ExamSlotAppRequest Add(ExamSlotAppRequest appRequest)
+        public ExamAppRequest Add(ExamAppRequest appRequest)
         {
             appRequest.Id = GenerateId();
             _appRequests.Add(appRequest.Id, appRequest);
@@ -43,9 +43,9 @@ namespace LangLang.Core.Model.DAO
         }
 
 
-        public ExamSlotAppRequest? Remove(int id)
+        public ExamAppRequest? Remove(int id)
         {
-            ExamSlotAppRequest? appRequest = GetAppRequestById(id);
+            ExamAppRequest? appRequest = GetAppRequestById(id);
             if (appRequest == null) return null;
 
             _appRequests.Remove(appRequest.Id);
@@ -54,10 +54,10 @@ namespace LangLang.Core.Model.DAO
             return appRequest;
         }
 
-        public List<ExamSlotAppRequest> GetStudentRequests(int studentId)
+        public List<ExamAppRequest> GetStudentRequests(int studentId)
         {
-            List<ExamSlotAppRequest> studentRequests = new();
-            foreach (ExamSlotAppRequest appRequest in GetAllAppRequests())
+            List<ExamAppRequest> studentRequests = new();
+            foreach (ExamAppRequest appRequest in GetAllAppRequests())
             {
                 if (appRequest.StudentId == studentId) studentRequests.Add(appRequest);
             }
@@ -65,7 +65,7 @@ namespace LangLang.Core.Model.DAO
         }
 
         // returns true if the cancellation was successful, otherwise false
-        public bool CancelRequest(ExamSlotAppRequest appRequest, ExamSlot exam)
+        public bool CancelRequest(ExamAppRequest appRequest, ExamSlot exam)
         {
             if (exam.TimeSlot.Time.Date - DateTime.Now.Date <= TimeSpan.FromDays(10))
                 return false; // exam start date must be at least 10 days away
