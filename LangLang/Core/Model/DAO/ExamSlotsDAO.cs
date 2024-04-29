@@ -8,6 +8,7 @@ using LangLang.Core.Observer;
 using System.Collections;
 using System.Windows.Input;
 using LangLang.Core.Controller;
+using LangLang.View.ExamSlotGUI;
 
 namespace LangLang.Core.Model.DAO
 {
@@ -129,17 +130,15 @@ namespace LangLang.Core.Model.DAO
 
         // Method to check if an exam slot is available
         // takes exam slot, returns true if it is availbale or false if it isn't available
-        public bool IsAvailable(ExamSlot examSlot, ExamAppRequestController appController)
+        public bool IsAvailable(ExamSlot exam, ExamAppRequestController examAppController)
         {
-            // Check if exam passed
-            if(examSlot.TimeSlot.Time > DateTime.Now)
+            if(HasPassed(exam))
             {
                 return false;
             }
 
-            // Check if the maximum number of students has been reached
-            
-            if (appController.IsFullyBooked(examSlot.Id))
+
+            if (IsFullyBooked(exam, examAppController))
             {
                 return false;
             }
@@ -147,6 +146,27 @@ namespace LangLang.Core.Model.DAO
             return true;
         }
 
+        public bool HasPassed(ExamSlot exam)
+        {
+            return exam.TimeSlot.Time > DateTime.Now;
+        }
+        public int CountExamApplications(ExamSlot exam, ExamAppRequestController examAppController)
+        {
+            int count = 0;
+            foreach (ExamAppRequest request in examAppController.GetAll())
+            {
+                if (request.ExamSlotId == exam.Id && !request.IsCanceled)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        public bool IsFullyBooked(ExamSlot exam, ExamAppRequestController examAppController)
+        {
+            return exam.MaxStudents == CountExamApplications(exam, examAppController);
+        }
 
         // Method to search exam slots by tutor and criteria
         public List<ExamSlot> SearchExamsByTutor(Tutor tutor, DateTime examDate, string language, LanguageLevel? level)
@@ -169,6 +189,7 @@ namespace LangLang.Core.Model.DAO
 
             return filteredExams;
         }
+
     }
     
 }

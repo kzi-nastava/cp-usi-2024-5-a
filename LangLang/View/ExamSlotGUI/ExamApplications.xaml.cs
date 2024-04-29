@@ -13,7 +13,7 @@ namespace LangLang.View.ExamSlotGUI
         public StudentDTO SelectedStudent { get; set; }
         public ExamApplications(AppController appController)
         {
-            InitializeComponent();
+            //InitializeComponent();
 
         }
 
