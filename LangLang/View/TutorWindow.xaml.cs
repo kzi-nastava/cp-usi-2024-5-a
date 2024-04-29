@@ -1,29 +1,13 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
-
 using LangLang.DTO;
 using LangLang.View;
 using LangLang.View.CourseGUI;
 using LangLang.View.ExamSlotGUI;
 using LangLang.Core.Observer;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Data;
-using System.Reflection;
-using System.Xml.Linq;
-using System.Reflection.Emit;
 using System.Diagnostics;
 
 namespace LangLang
@@ -51,17 +35,20 @@ namespace LangLang
             this.tutor = appController.TutorController.GetAllTutors()[currentlyLoggedIn.Id];
             InitializeComponent();
             DataContext = this;
-            courseDeleteBtn.IsEnabled = false;
-            courseUpdateBtn.IsEnabled = false;
 
             this.appController = appController;
             examSlotsController = appController.ExamSlotController;
             coursesController = appController.CourseController;
+
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             Courses = new ObservableCollection<CourseDTO>();
-            
+
+            disableButtonsES();
+            disableButtonsCourse();
+
             coursesController.Subscribe(this);
             examSlotsController.Subscribe(this);
+
             Update();
         }
 
@@ -83,47 +70,14 @@ namespace LangLang
 
         private void ExamSlotCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            //fix to courses by tutor
-            Trace.WriteLine("U tutorwindow " + coursesController.GetAllCourses().Count);
-
             ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow(coursesController.GetCoursesByTutor(tutor), examSlotsController);
             examSlotCreateWindow.Show();
         }
 
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-
-            if (SelectedExamSlot == null)
-            {
-                MessageBox.Show("No exam slot selected. Please select an exam slot.");
-            }
-            else
-            {
-                
                 ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetCoursesByTutor(tutor), examSlotsController);
                 examSlotUpdateWindow.Show();
-                
-
-            }
-            /*
-            if (SelectedExamSlot == null)
-            {
-                MessageBox.Show("No exam slot selected. Please select an exam slot.");
-            }else
-            {
-                bool canBeUpdated = examSlotsController.Update(SelectedExamSlot.ToExamSlot());
-                if (!canBeUpdated)
-                {
-                    MessageBox.Show("Exam can not be updated. There is less than 2 weeks left before the exam.");
-                }else
-                {
-                    ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetAllCourses(), examSlotsController);
-                    examSlotUpdateWindow.Show();
-                }
-                
-            }
-            */
-
         }
 
         private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
@@ -198,6 +152,21 @@ namespace LangLang
         }
         private void enableButtonsCourse()
         {
+            if (SelectedCourse == null) {
+                disableButtonsCourse();
+            } else
+            {
+                enableButtonsCourse();
+            }
+        }
+
+        private void disableButtonsCourse()
+        {
+            courseUpdateBtn.IsEnabled = false;
+            courseDeleteBtn.IsEnabled = false;
+        }
+        private void enableButtonsCourse()
+        {
             courseUpdateBtn.IsEnabled = true;
             courseDeleteBtn.IsEnabled = true;
         }
@@ -207,5 +176,43 @@ namespace LangLang
             ExamSlotSearchWindow examSlotSearchWindow = new ExamSlotSearchWindow(coursesController, examSlotsController, tutor.Id);
             examSlotSearchWindow.Show();
         }
+
+        private void disableButtonsES()
+        {
+            deleteExamBtn.IsEnabled = false;
+            updateExamBtn.IsEnabled = false;
+            examApplicationBtn.IsEnabled = false;
+            enterResultsBtn.IsEnabled = false;
+        }
+
+        private void enableButtonsES()
+        {
+            deleteExamBtn.IsEnabled = true;
+            updateExamBtn.IsEnabled = true;
+            examApplicationBtn.IsEnabled = true;
+            enterResultsBtn.IsEnabled = true;
+        }
+
+        private void ButtonSeeStudentInfo_Click(object sender, RoutedEventArgs e)
+        {
+            ExamApplications applicationsWindow = new ExamApplications(appController);
+            applicationsWindow.Show();
+        }
+
+        private void ButtonEnterResults_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: implement
+        }
+
+        private void ExamSlotsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (SelectedExamSlot == null) // when the DataGrid listener is triggered, check if there is a selection, and based on that, decide whether to enable or disable the buttons
+            {
+                disableButtonsES();
+            } else {
+                enableButtonsES();
+            }
+        }
+
     }
 }
