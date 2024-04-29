@@ -47,7 +47,7 @@ namespace LangLang.Core.Model.DAO
             EnrollmentRequest? oldRequest = GetEnrollmentRequestById(enrollmentRequest.Id);
             if (oldRequest == null) return null;
 
-            oldRequest.Status = enrollmentRequest.Status;
+            oldRequest.UpdateStatus(enrollmentRequest.Status);
             oldRequest.IsCanceled = enrollmentRequest.IsCanceled;
             oldRequest.LastModifiedTimestamp = DateTime.Now;
             _repository.Save(_enrollmentRequests);
