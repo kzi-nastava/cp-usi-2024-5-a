@@ -1,19 +1,13 @@
 ﻿using LangLang.Core.Model;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+
 
 namespace LangLang.DTO
 {
-    public class ExamSlotDTO : INotifyPropertyChanged, IDataErrorInfo
+    public class ExamSlotDTO : INotifyPropertyChanged
     {
         public ExamSlotDTO() {
             _courseId = -1;
@@ -190,40 +184,6 @@ namespace LangLang.DTO
             this.ExamDateTime = examSlot.ExamDateTime;
         }
 
-        private DateTime ToDateTime(DateTime date, string time)
-        {
-
-            string[] timeComponents = time.Split(':');
-
-            if (timeComponents.Length == 2)
-            {
-                // Parse hour component
-                if (int.TryParse(timeComponents[0], out int hours))
-                {
-                    // Parse minute component
-                    if (int.TryParse(timeComponents[1], out int minutes))
-                    {
-                        // Create a new DateTime object with the combined date and time components
-                        DateTime combinedDateTime = new DateTime(date.Year, date.Month, date.Day, hours, minutes, 0);
-
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid minute component.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid hour component.");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Invalid time format.");
-            }
-            return DateTime.Now;
-        }
-
         public ExamSlot ToExamSlot()
         {
             string[] timeParts = _time.Split(':');
@@ -231,8 +191,6 @@ namespace LangLang.DTO
             int minute = int.Parse(timeParts[1]);
             return new ExamSlot(Id, _courseId, _maxStudents, new DateTime(_examDate.Year, _examDate.Month, _examDate.Day, hour, minute, 0), 0);
         }
-
-        public string Error => throw new NotImplementedException();
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
