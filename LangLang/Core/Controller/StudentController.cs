@@ -63,8 +63,9 @@ namespace LangLang.Core.Controller
 
         public List<ExamSlot> SearchExamSlotsByStudent(ExamSlotController examSlotController, CourseController courseController, EnrollmentRequestController enrollmentRequestController, int studentId, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
         {
-            List<ExamSlot> availableExamSlots = GetAvailableExamSlots(_students.GetStudentById(studentId), courseController, examSlotController, enrollmentRequestController);
-            return examSlotController.SearchExamSlots(availableExamSlots, courseController, examDate, courseLanguage, languageLevel);
+            Student student = GetAllStudents()[studentId];
+            List<ExamSlot> availableExamSlots = GetAvailableExamSlots(student, courseController, examSlotController, enrollmentRequestController);
+            return examSlotController.SearchExams(availableExamSlots, examDate, courseLanguage, languageLevel);
         }
 
         public List<Course> SearchCoursesByStudent(CourseController courseController, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online) 

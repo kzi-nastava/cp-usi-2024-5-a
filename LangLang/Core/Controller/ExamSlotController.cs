@@ -19,7 +19,7 @@ namespace LangLang.Core.Controller
             _examSlots = new ExamSlotsDAO();
         }
 
-        public Dictionary<int, ExamSlot> GetAllExams()
+        public List<ExamSlot> GetAllExams()
         {
             return _examSlots.GetAllExams();
         }
@@ -128,7 +128,7 @@ namespace LangLang.Core.Controller
             {
             exams = this.GetExams(tutorId);
 
-            }
+        }
 
             // Apply search criteria if they are not null
             List<ExamSlot> filteredExams = exams.Where(exam =>
@@ -139,7 +139,7 @@ namespace LangLang.Core.Controller
 
             return filteredExams;
         }
-        
+
        
         public bool CanCreateExamSlot(ExamSlot examSlot, CourseController courses)
         {
