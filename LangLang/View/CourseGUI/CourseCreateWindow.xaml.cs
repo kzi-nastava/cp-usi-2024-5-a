@@ -53,7 +53,7 @@ namespace LangLang.View.CourseGUI
             {
                 if (Course.NotOnline)
                 {
-                    if (courseController.CanCreateLiveCourse(Course.ToCourse(), examController.GetAllExamSlots().Values.ToList<ExamSlot>()))
+                    if (courseController.CanCreateLiveCourse(Course.ToCourse(), examController.GetAllExams()))
                     {
                         courseController.Add(Course.ToCourse());
                         MessageBox.Show("Success!");
@@ -66,7 +66,8 @@ namespace LangLang.View.CourseGUI
                 }
                 else
                 {
-                    if (courseController.CanCreateOnlineCourse(Course.ToCourse(), examController.GetExamSlotsByTutor(tutorId, courseController)))
+                    /*
+                    if (courseController.CanCreateOnlineCourse(Course.ToCourse(), examController.GetExams(tutorId)))
                     {
                         courseController.Add(Course.ToCourse());
                         MessageBox.Show("Success!");
@@ -76,6 +77,7 @@ namespace LangLang.View.CourseGUI
                     {
                         MessageBox.Show("There seem to be time overlaps.");
                     }
+                    */
                 }
             }
             else

@@ -23,5 +23,15 @@ namespace LangLang.View.CourseGUI
         {
             InitializeComponent();
         }
+
+        private void RejectBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AcceptListBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

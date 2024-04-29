@@ -55,10 +55,9 @@ namespace LangLang
         {
             ExamSlots.Clear();
             //filter exam slots for this tutor
-            foreach (ExamSlot exam in examSlotsController.GetExamSlotsByTutor(tutor.Id, coursesController))
+            foreach (ExamSlot exam in examSlotsController.GetExams(tutor))
             {
-                Course c = coursesController.GetAllCourses()[exam.CourseId];
-                ExamSlots.Add(new ExamSlotDTO(exam, c));
+                ExamSlots.Add(new ExamSlotDTO(exam));
             }
 
             Courses.Clear();
@@ -121,7 +120,6 @@ namespace LangLang
             if (coursesController.IsCourseValid(SelectedCourse.Id))
             {
                 int id = SelectedCourse.Id;
-                examSlotsController.DeleteExamSlotsByCourseId(id);
                 coursesController.Delete(id);
                 Update();
                 MessageBox.Show("The course has successfully been deleted.");
