@@ -17,9 +17,9 @@ namespace LangLang.View.CourseGUI
     /// <summary>
     /// Interaction logic for EnterGardesWindow.xaml
     /// </summary>
-    public partial class EnterGardesWindow : Window
+    public partial class EnterGradesWindow : Window
     {
-        public EnterGardesWindow()
+        public EnterGradesWindow()
         {
             InitializeComponent();
         }

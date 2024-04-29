@@ -43,6 +43,8 @@ namespace LangLang.Core.Model.DAO
         //function saves changes and returns if adding was successful
         public bool AddExam(ExamSlot exam, CourseController courses)
         {
+            return false;
+            /*
             if (CanCreateExamSlot(exam, courses))
             {
                 exam.Id = GenerateId();
@@ -55,7 +57,7 @@ namespace LangLang.Core.Model.DAO
             {
                 return false;
             }
-            
+            */
         }
 
         //function takes id of examslot and removes examslot with that id
@@ -135,6 +137,7 @@ namespace LangLang.Core.Model.DAO
                 return false;
             }
 
+
             if (IsFullyBooked(exam, examAppController))
             {
                 return false;
@@ -187,13 +190,6 @@ namespace LangLang.Core.Model.DAO
             return filteredExams;
         }
 
-
-
-
-
-
-
-        
     }
     
 }

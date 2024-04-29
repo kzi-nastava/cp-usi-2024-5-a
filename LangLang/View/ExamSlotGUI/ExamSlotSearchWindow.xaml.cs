@@ -34,12 +34,11 @@ namespace LangLang.View.ExamSlotGUI
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             examSlotsForReview = new List<ExamSlot>();
             //fix to get only by this tutor
-            examSlotsForReview = examSlotController.GetExamSlotsByTutor(tutorId,courseController);
+            //examSlotsForReview = examSlotController.GetExams(tutorId,courseController);
 
             foreach(ExamSlot exam in examSlotsForReview)
             {
-                Course course = courseController.GetAllCourses()[exam.CourseId];
-                ExamSlots.Add(new ExamSlotDTO(exam,course));
+                ExamSlots.Add(new ExamSlotDTO(exam));
             }
 
             this.courseController = courseController;
@@ -56,8 +55,7 @@ namespace LangLang.View.ExamSlotGUI
             ExamSlots.Clear();
             foreach (ExamSlot exam in examSlotsForReview)
             {
-                Course c = courseController.GetAllCourses()[exam.CourseId];
-                ExamSlots.Add(new ExamSlotDTO(exam, c));
+                ExamSlots.Add(new ExamSlotDTO(exam));
             }
         }
         private void SearchExam_Click(object sender, RoutedEventArgs e)
@@ -69,7 +67,7 @@ namespace LangLang.View.ExamSlotGUI
             DateTime examDate = examdatePicker.SelectedDate ?? default;
 
 
-            examSlotsForReview = examSlotController.SearchExamSlotsByTutor(tutorId, courseController, examDate, language, level); 
+            //examSlotsForReview = examSlotController.SearchExamSlotsByTutor(tutorId, courseController, examDate, language, level); 
             Update();
         }
 
@@ -77,7 +75,7 @@ namespace LangLang.View.ExamSlotGUI
         {
             //fix to show all exam slots for current tutor
             //examSlotsForReview = examSlotController.GetExamSlotsByTutor(tutorId, courseController);
-            examSlotsForReview = examSlotController.GetExamSlotsByTutor(tutorId,courseController);
+            //examSlotsForReview = examSlotController.GetExamSlotsByTutor(tutorId,courseController);
             Update();
         }
     }
