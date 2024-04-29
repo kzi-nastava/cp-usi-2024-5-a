@@ -12,18 +12,13 @@
         <!--COURSE TAB-->
         <TabItem Header="Courses">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="92*"/>
-                    <ColumnDefinition Width="9*"/>
-                    <ColumnDefinition Width="493*"/>
-                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="3*" />
+                    <RowDefinition Height="2*" />
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
 
                 <!--label for courses table-->
-                <Label x:Name="coursesLbl" Content="Your courses" Grid.Row="0" HorizontalAlignment="Left" Height="24" Margin="41,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center" Grid.Column="2">
+                <Label x:Name="coursesLbl" Content="Your courses" Grid.Row="0" HorizontalAlignment="Center" Height="24" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center" Grid.Column="2">
                     <Label.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -42,17 +37,21 @@
                 </Label>
 
                 <!--buttons for CRUD-->
-                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Vertical" Grid.Row="1" Grid.Column="2" Margin="40,0,0,0">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Grid.Row="1" >
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
                         <Button Name="courseCreateWindowBtn" Content="Create course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="CourseCreateWindowBtn_Click" />
                         <Button Click="CourseDeleteBtn_Click" x:Name="courseDeleteBtn" Content="Delete course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
                         <Button x:Name="courseUpdateBtn" Click="CourseUpdateWindowBtn_Click" Content="Update course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
                     </StackPanel>
                     <Button Click="CourseSearchWindowBtn_Click" x:Name="courseSearchBtn" Content="Search courses" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                    <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Width="289">
+                        <Button Click="CourseEnrollmentBtn_Click" Content="Course enrollments" Name = "courseEnrollmentBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Width="140" />
+                        <Button Click="EnterGradeBtn_Click" Content="Enter grade" Name = "enterGradeBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Width="140" />
+                    </StackPanel>
                 </StackPanel>
 
                 <!--table for courses-->
-                <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Margin="15,45,15,101" SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="CoursesTable_SelectionChanged" Grid.ColumnSpan="3" Grid.RowSpan="2">
+                <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Margin="15,45,15,0" SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="CoursesTable_SelectionChanged" Grid.ColumnSpan="3" Grid.RowSpan="1">
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="idColumn" IsReadOnly="True" Header="Id" Binding="{Binding Id}"/>
                         <DataGridTextColumn IsReadOnly="True" Header="Language" Binding="{Binding Language}"/>
@@ -115,9 +114,10 @@
                                   SelectedItem="{Binding SelectedExamSlot, UpdateSourceTrigger=PropertyChanged}"
                                   SelectionMode="Single" IsReadOnly="True" SelectionChanged="ExamSlotsDataGrid_SelectionChanged">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Language" Binding="{Binding Language}"/>
-                        <DataGridTextColumn Header="Level" Binding="{Binding Level}"/>
-                        <DataGridTextColumn Header="Max students" Binding="{Binding MaxStudents}"/>
+                        <DataGridTextColumn Header="Course ID" Binding="{Binding CourseId}"/>
+                        <DataGridTextColumn Header="Max Students" Binding="{Binding MaxStudents}"/>
+                        <DataGridTextColumn Header="Number of Students" Binding="{Binding NumberOfStudents}"/>
+                        <DataGridTextColumn Header="Date and Time" Binding="{Binding ExamDateTime, StringFormat={}{0:MM/dd/yyyy HH:mm}}"/>
                     </DataGrid.Columns>
                 </DataGrid>
                 <!--end of exam slots table-->

@@ -8,7 +8,6 @@ using LangLang.Core.Observer;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Collections.Generic;
 
 namespace LangLang
 {
@@ -20,7 +19,7 @@ namespace LangLang
         // EXAM SLOTS
         public ObservableCollection<ExamSlotDTO> ExamSlots { get; set; }
         public ExamSlotDTO SelectedExamSlot { get; set; }
-        private ExamSlotController examSlotController { get; set; }
+        private ExamSlotController examSlotsController { get; set; }
 
         // COURSES
         public ObservableCollection<CourseDTO> Courses { get; set; }
@@ -37,7 +36,7 @@ namespace LangLang
             DataContext = this;
 
             this.appController = appController;
-            examSlotController = appController.ExamSlotController;
+            examSlotsController = appController.ExamSlotController;
             coursesController = appController.CourseController;
 
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
@@ -47,7 +46,7 @@ namespace LangLang
             DisableButtonsCourse();
 
             coursesController.Subscribe(this);
-            examSlotController.Subscribe(this);
+            examSlotsController.Subscribe(this);
 
             Update();
         }
@@ -55,14 +54,14 @@ namespace LangLang
         public void Update()
         {
             ExamSlots.Clear();
-
-            foreach (ExamSlot exam in examSlotController.GetExams(tutor))
+            //filter exam slots for this tutor
+            foreach (ExamSlot exam in examSlotsController.GetExamSlotsByTutor(tutor.Id, coursesController))
             {
-                ExamSlots.Add(new ExamSlotDTO(exam));
+                Course c = coursesController.GetAllCourses()[exam.CourseId];
+                ExamSlots.Add(new ExamSlotDTO(exam, c));
             }
 
             Courses.Clear();
-
             foreach (Course course in coursesController.GetCoursesByTutor(tutor).Values)
                 Courses.Add(new CourseDTO(course));
             coursesTable.ItemsSource = Courses;
@@ -70,19 +69,19 @@ namespace LangLang
 
         private void ExamSlotCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow(coursesController.GetCoursesByTutor(tutor), examSlotController);
+            ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow(coursesController.GetCoursesByTutor(tutor), examSlotsController);
             examSlotCreateWindow.Show();
         }
 
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-                ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetCoursesByTutor(tutor), examSlotController);
-                examSlotUpdateWindow.Show();
+            ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetCoursesByTutor(tutor), examSlotsController);
+            examSlotUpdateWindow.Show();
         }
 
         private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            CourseCreateWindow courseCreateWindow = new CourseCreateWindow(coursesController, examSlotController, tutor.Id);
+            CourseCreateWindow courseCreateWindow = new CourseCreateWindow(coursesController, examSlotsController, tutor.Id);
             courseCreateWindow.ShowDialog();
             Update();
         }
@@ -96,13 +95,13 @@ namespace LangLang
 
         private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (!examSlotController.Delete(SelectedExamSlot.Id))
+            if (!examSlotsController.Delete(SelectedExamSlot.Id))
             {
                 MessageBox.Show("Can't delete exam, there is less than 14 days before exam.");
             }
-            
+
             Update();
-         }
+        }
         private void CourseUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
             if (coursesController.IsCourseValid(SelectedCourse.Id))
@@ -122,7 +121,7 @@ namespace LangLang
             if (coursesController.IsCourseValid(SelectedCourse.Id))
             {
                 int id = SelectedCourse.Id;
-                examSlotController.DeleteExamSlotsByCourseId(id);
+                examSlotsController.DeleteExamSlotsByCourseId(id);
                 coursesController.Delete(id);
                 Update();
                 MessageBox.Show("The course has successfully been deleted.");
@@ -132,12 +131,24 @@ namespace LangLang
                 MessageBox.Show("Selected course cannot be deleted, it has already started or there are less than 7 days before course start.");
             }
         }
-        
+
+        private void EnterGradeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            EnterGradesWindow enterGradesWindow = new EnterGradesWindow();
+            enterGradesWindow.Show();
+        }
+
+        private void CourseEnrollmentBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
         private void CoursesTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (SelectedCourse == null) {
+            if (SelectedCourse == null)
+            {
                 DisableButtonsCourse();
-            } else
+            }
+            else
             {
                 EnableButtonsCourse();
             }
@@ -148,7 +159,7 @@ namespace LangLang
             courseUpdateBtn.IsEnabled = false;
             courseDeleteBtn.IsEnabled = false;
         }
-        
+
         private void EnableButtonsCourse()
         {
             courseUpdateBtn.IsEnabled = true;
@@ -194,7 +205,9 @@ namespace LangLang
             if (SelectedExamSlot == null) // when the DataGrid listener is triggered, check if there is a selection, and based on that, decide whether to enable or disable the buttons
             {
                 DisableButtonsES();
-            } else {
+            }
+            else
+            {
                 EnableButtonsES();
             }
         }
