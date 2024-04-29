@@ -143,7 +143,7 @@ namespace LangLang.View.StudentGUI
 
         private void editbtn_Click(object sender, RoutedEventArgs e)
         {
-            if (studentController.CanModifyInfo(currentlyLoggedIn.Id, enrollmentRequestController))
+            if (studentController.CanModifyInfo(currentlyLoggedIn.Id, enrollmentRequestController, courseController))
             {
                 EnableAll();
                 EditMode();

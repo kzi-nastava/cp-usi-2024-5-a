@@ -1,9 +1,7 @@
-﻿
-using LangLang.Core.Model.DAO;
+﻿using LangLang.Core.Model.DAO;
 using System.Collections.Generic;
 using LangLang.Core.Model;
 using LangLang.Core.Observer;
-using System.Linq;
 
 namespace LangLang.Core.Controller
 {
@@ -16,7 +14,7 @@ namespace LangLang.Core.Controller
             _enrollmentRequests = new EnrollmentRequestDAO();
         }
 
-        public Dictionary<int, EnrollmentRequest> GetAll()
+        public List<EnrollmentRequest> GetAll()
         {
             return _enrollmentRequests.GetAllEnrollmentRequests();
         }
@@ -44,6 +42,24 @@ namespace LangLang.Core.Controller
         public List<EnrollmentRequest> GetStudentRequests(int studentId)
         {
             return _enrollmentRequests.GetStudentRequests(studentId);
+        }
+
+        public bool CancelRequest(EnrollmentRequest enrollmentRequest, CourseController courseController)
+        {
+            Course course = courseController.GetById(enrollmentRequest.CourseId);
+            return _enrollmentRequests.CancelRequest(enrollmentRequest, course);
+        }
+
+        // this method is invoked when the tutor approves the request for the student
+        public void PauseRequests(int studentId, EnrollmentRequest enrollmentRequest)
+        {
+            _enrollmentRequests.PauseRequests(studentId, enrollmentRequest.Id);
+        }
+
+        // this method is invoked when the student complete/withdrawal_from course
+        public void ResumePausedRequests(int studentId)
+        {
+            _enrollmentRequests.ResumePausedRequests(studentId);
         }
     }
 }

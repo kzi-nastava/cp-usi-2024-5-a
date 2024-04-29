@@ -1,5 +1,7 @@
-﻿using LangLang.Core.Observer;
+﻿using LangLang.Core.Model.Enums;
+using LangLang.Core.Observer;
 using LangLang.Core.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,7 +20,7 @@ namespace LangLang.Core.Model.DAO
         private int GenerateId()
         {
             if (_enrollmentRequests.Count == 0) return 0;
-            return _enrollmentRequests.Count + 1;
+            return _enrollmentRequests.Keys.Max() + 1;
         }
 
         public EnrollmentRequest? GetEnrollmentRequestById(int id)
@@ -26,9 +28,9 @@ namespace LangLang.Core.Model.DAO
             return _enrollmentRequests[id];
         }
 
-        public Dictionary<int, EnrollmentRequest> GetAllEnrollmentRequests()
+        public List<EnrollmentRequest> GetAllEnrollmentRequests()
         {
-            return _enrollmentRequests;
+            return _enrollmentRequests.Values.ToList();
         }
 
         public EnrollmentRequest Add(EnrollmentRequest enrollmentRequest)
@@ -42,11 +44,12 @@ namespace LangLang.Core.Model.DAO
 
         public EnrollmentRequest? Update(EnrollmentRequest enrollmentRequest)
         {
-            EnrollmentRequest oldRequest = GetEnrollmentRequestById(enrollmentRequest.Id);
+            EnrollmentRequest? oldRequest = GetEnrollmentRequestById(enrollmentRequest.Id);
             if (oldRequest == null) return null;
 
             oldRequest.Status = enrollmentRequest.Status;
-
+            oldRequest.IsCanceled = enrollmentRequest.IsCanceled;
+            oldRequest.LastModifiedTimestamp = DateTime.Now;
             _repository.Save(_enrollmentRequests);
             NotifyObservers();
             return oldRequest;
@@ -54,7 +57,7 @@ namespace LangLang.Core.Model.DAO
 
         public EnrollmentRequest? Remove(int id)
         {
-            EnrollmentRequest enrollmentRequest = GetEnrollmentRequestById(id);
+            EnrollmentRequest? enrollmentRequest = GetEnrollmentRequestById(id);
             if (enrollmentRequest == null) return null; 
 
             _enrollmentRequests.Remove(enrollmentRequest.Id);
@@ -65,13 +68,48 @@ namespace LangLang.Core.Model.DAO
 
         public List<EnrollmentRequest> GetStudentRequests(int studentId)
         {
-            Dictionary<int, EnrollmentRequest> studentRequests = new();
-            foreach (EnrollmentRequest enrollmentRequest in GetAllEnrollmentRequests().Values)
+            List<EnrollmentRequest> studentRequests = new();
+            foreach (EnrollmentRequest enrollmentRequest in GetAllEnrollmentRequests())
             {
-                if (enrollmentRequest.StudentId == studentId) studentRequests.Add(enrollmentRequest.Id, enrollmentRequest);
-
+                if (enrollmentRequest.StudentId == studentId) studentRequests.Add(enrollmentRequest);
             }
-            return studentRequests.Values.ToList();
+            return studentRequests;
         }
+
+        // returns true if the cancellation was successful, otherwise false
+        public bool CancelRequest(EnrollmentRequest enrollmentRequest, Course course)
+        {
+            if (course.StartDateTime.Date - DateTime.Now.Date <= TimeSpan.FromDays(7))
+                return false; // course start date must be at least 7 days away
+
+            enrollmentRequest.IsCanceled = true;
+            return true;
+        }
+
+        public void PauseRequests(int studentId, int acceptedRequestId)
+        {
+            var studentRequests = GetStudentRequests(studentId);
+            foreach (EnrollmentRequest er in studentRequests)
+            {
+                if (er.Id == acceptedRequestId)
+                {
+                    er.UpdateStatus(Status.Accepted);
+                }
+                else if (er.Status == Status.Pending && !er.IsCanceled)
+                {
+                    er.UpdateStatus(Status.Paused);
+                }
+            }
+        }
+
+        public void ResumePausedRequests(int studentId)
+        {
+            var studentRequests = GetStudentRequests(studentId);
+            foreach (EnrollmentRequest request in studentRequests)
+            {
+                if (request.Status == Status.Paused) request.UpdateStatus(Status.Pending);
+            }
+        }
+
     }
 }
