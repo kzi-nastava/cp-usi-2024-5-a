@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LangLang.Core.Model.Enums;
+using System;
 using System.Runtime.Serialization;
 
 namespace LangLang.Core.Model
@@ -17,16 +18,37 @@ namespace LangLang.Core.Model
 
         public bool OverlappsWith(TimeSlot timeSlot)
         {
-            // TODO: Implement
-            return false;
+            DateTime end = Time.AddHours(Duration);
+            DateTime otherEnd = timeSlot.Time.AddHours(timeSlot.Duration);
+
+            return ((Time < otherEnd && Time > timeSlot.Time) || ( end > timeSlot.Time && end < otherEnd));
         }
 
         public bool IsInFuture()
         {
-            // TODO: Implement
-            return false;
+            return (Time > DateTime.Now);
         }
 
-        // TODO: Add serialization methods
+        public void FromCSV(string[] values)
+        {
+            try
+            {
+                Time = DateTime.ParseExact(values[1], "yyyy-MM-dd HH:mm", null);
+            }
+            catch
+            {
+                throw new FormatException("Date is not in the correct format.");
+            }
+            Duration = int.Parse(values[0]);
+            
+        }
+
+        public string[] ToCSV()
+        {
+            return new string[] {
+                Duration.ToString(),
+                Time.ToString("yyyy-MM-dd HH:mm"),
+            };
+        }
     }
 }
