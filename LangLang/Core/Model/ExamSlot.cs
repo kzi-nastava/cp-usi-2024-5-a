@@ -27,6 +27,8 @@ namespace LangLang.Core.Model
             ApplicationPossible = applicationPossible;
         }
 
+        public ExamSlot() { }
+
         public string[] ToCSV()
         {
             return new string[] {

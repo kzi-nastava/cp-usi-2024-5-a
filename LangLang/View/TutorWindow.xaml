@@ -118,6 +118,8 @@
                         <DataGridTextColumn Header="Language" Binding="{Binding Language}"/>
                         <DataGridTextColumn Header="Level" Binding="{Binding Level}"/>
                         <DataGridTextColumn Header="Max students" Binding="{Binding MaxStudents}"/>
+                        <DataGridTextColumn Header="Date and time" Binding="{Binding ExamDate}"/>
+                
                     </DataGrid.Columns>
                 </DataGrid>
                 <!--end of exam slots table-->
