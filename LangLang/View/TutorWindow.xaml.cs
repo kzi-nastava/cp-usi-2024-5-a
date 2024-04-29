@@ -8,7 +8,6 @@ using LangLang.Core.Observer;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Diagnostics;
 
 namespace LangLang
 {
@@ -17,12 +16,12 @@ namespace LangLang
     /// </summary>
     public partial class TutorWindow : Window, IObserver
     {
-        //for exam slots
+        // EXAM SLOTS
         public ObservableCollection<ExamSlotDTO> ExamSlots { get; set; }
         public ExamSlotDTO SelectedExamSlot { get; set; }
         private ExamSlotController examSlotsController { get; set; }
 
-        //for courses
+        // COURSES
         public ObservableCollection<CourseDTO> Courses { get; set; }
         public CourseDTO SelectedCourse { get; set; }
         private CourseController coursesController { get; set; }
@@ -43,8 +42,8 @@ namespace LangLang
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             Courses = new ObservableCollection<CourseDTO>();
 
-            disableButtonsES();
-            disableButtonsCourse();
+            DisableButtonsES();
+            DisableButtonsCourse();
 
             coursesController.Subscribe(this);
             examSlotsController.Subscribe(this);
@@ -132,40 +131,24 @@ namespace LangLang
                 MessageBox.Show("Selected course cannot be deleted, it has already started or there are less than 7 days before course start.");
             }
         }
-
+        
         private void CoursesTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (SelectedCourse == null)
-            {
-                disableButtonsCourse();
-            }
-            else
-            {
-                enableButtonsCourse();
-            }
-        }
-
-        private void disableButtonsCourse()
-        {
-            courseUpdateBtn.IsEnabled = false;
-            courseDeleteBtn.IsEnabled = false;
-        }
-        private void enableButtonsCourse()
-        {
             if (SelectedCourse == null) {
-                disableButtonsCourse();
+                DisableButtonsCourse();
             } else
             {
-                enableButtonsCourse();
+                EnableButtonsCourse();
             }
         }
 
-        private void disableButtonsCourse()
+        private void DisableButtonsCourse()
         {
             courseUpdateBtn.IsEnabled = false;
             courseDeleteBtn.IsEnabled = false;
         }
-        private void enableButtonsCourse()
+        
+        private void EnableButtonsCourse()
         {
             courseUpdateBtn.IsEnabled = true;
             courseDeleteBtn.IsEnabled = true;
@@ -177,7 +160,7 @@ namespace LangLang
             examSlotSearchWindow.Show();
         }
 
-        private void disableButtonsES()
+        private void DisableButtonsES()
         {
             deleteExamBtn.IsEnabled = false;
             updateExamBtn.IsEnabled = false;
@@ -185,7 +168,7 @@ namespace LangLang
             enterResultsBtn.IsEnabled = false;
         }
 
-        private void enableButtonsES()
+        private void EnableButtonsES()
         {
             deleteExamBtn.IsEnabled = true;
             updateExamBtn.IsEnabled = true;
@@ -201,16 +184,17 @@ namespace LangLang
 
         private void ButtonEnterResults_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: implement
+            EnterResults resultsWindow = new EnterResults();
+            resultsWindow.Show();
         }
 
         private void ExamSlotsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (SelectedExamSlot == null) // when the DataGrid listener is triggered, check if there is a selection, and based on that, decide whether to enable or disable the buttons
             {
-                disableButtonsES();
+                DisableButtonsES();
             } else {
-                enableButtonsES();
+                EnableButtonsES();
             }
         }
 
