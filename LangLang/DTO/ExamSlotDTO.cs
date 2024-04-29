@@ -168,7 +168,9 @@ namespace LangLang.DTO
             }
         }
 
-
+        public ExamSlotDTO()
+        {
+        }
 
         public ExamSlotDTO(ExamSlot examSlot)
         {
