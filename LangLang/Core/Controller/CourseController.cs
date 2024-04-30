@@ -23,15 +23,7 @@ namespace LangLang.Core.Controller
 
         public Dictionary<int, Course> GetLiveCourses()
         {
-            Dictionary<int, Course> courses = _courses.GetAllCourses();
-            foreach (Course course in courses.Values)
-            {
-                if (course.Online)
-                {
-                    courses.Remove(course.Id);
-                }
-            }
-            return courses;
+            return _courses.GetLiveCourses();
         }
 
         public void Add(Course course)
@@ -50,377 +42,46 @@ namespace LangLang.Core.Controller
         }
 
         // Deletes all future courses made by tutor or updates all the active courses to have no tutor as well as future courses made by director
-        public void DeleteCoursesByTutor(int tutorId)
+        public void DeleteCoursesWithTutor(int tutorId)
         {
-            foreach (Course course in GetCoursesByTutor(tutorId).Values)
-            {
-                if (course.StartDateTime > DateTime.Now)
-                {
-                    if (course.CreatedByDirector)
-                    {
-                        course.TutorId = -1;
-                        _courses.UpdateCourse(course);
-                    }
-                    else
-                    {
-                        _courses.RemoveCourse(course.Id);
-                    }
-                }
-                else
-                {
-                    course.TutorId = -1;
-                    _courses.UpdateCourse(course);
-                }
-            }
+            _courses.DeleteCoursesWithTutor(tutorId);
         }
 
         public void Subscribe(IObserver observer)
         {
             _courses.Subscribe(observer);
         }
-        // Method returns true if a new online course can be added
-        // or false if there are time overlaps and the course cannot be created
-        // The parameter exams is a list of ExamSlots of the same tutor who wants to create a new course
-        public bool CanCreateOnlineCourse(Course course, List<ExamSlot> exams)
-        {
-            // Get the time and the date of the beginning and of the end of the new couse
-            TimeSpan courseTime = course.StartDateTime.TimeOfDay;
-            DateTime courseStartDate = course.StartDateTime.Date;
-            DateTime courseEndDate = GetCourseEnd(course);
 
-            // Go through each course with the same tutor and check if there is time overlapping 
-            foreach (Course cour in GetCoursesByTutor(course.TutorId).Values)
-            {
-                // Check if the courses are overlapping
-                DateTime courStartDate = cour.StartDateTime.Date;
-                DateTime courEndDate = GetCourseEnd(cour);
-                if (courStartDate <= courseEndDate && courEndDate >= courseStartDate)
-                {
-                    foreach (DayOfWeek day in cour.Days)
-                    {
-                        if (course.Days.Contains(day))
-                        {
-                            TimeSpan courTime = cour.StartDateTime.TimeOfDay;
-                            TimeSpan difference = courseTime - courTime;
-                            if (difference.Duration().TotalMinutes < 90)
-                            {
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Go through all exams of the same tutor
-            foreach (ExamSlot exam in exams)
-            {
-                DateTime examDate = exam.TimeSlot.Time.Date;
-                if (examDate >= courseStartDate && examDate <= courseEndDate && course.Days.Contains(examDate.DayOfWeek))
-                {
-                    // Check if there are time overlaps
-                    TimeSpan examTime = exam.TimeSlot.Time.TimeOfDay;
-                    TimeSpan difference = courseTime - examTime;
-                    if ((examTime < courseTime && difference.Duration().TotalMinutes < 240) || (examTime > courseTime && difference.Duration().TotalMinutes < 90))
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-        public bool CanUpdateOnlineCourse(Course course, List<ExamSlot> exams)
-        {
-            // Get the time and the date of the beginning and of the end of the new couse
-            TimeSpan courseTime = course.StartDateTime.TimeOfDay;
-            DateTime courseStartDate = course.StartDateTime.Date;
-            DateTime courseEndDate = GetCourseEnd(course);
-
-            // Go through each course with the same tutor and check if there is time overlapping 
-            foreach (Course cour in GetCoursesByTutor(course.TutorId).Values)
-            {
-                if(cour.Id == course.Id)
-                {
-                    continue;
-                }
-                // Check if the courses are overlapping
-                DateTime courStartDate = cour.StartDateTime.Date;
-                DateTime courEndDate = GetCourseEnd(cour);
-                if (courStartDate <= courseEndDate && courEndDate >= courseStartDate)
-                {
-                    foreach (DayOfWeek day in cour.Days)
-                    {
-                        if (course.Days.Contains(day))
-                        {
-                            TimeSpan courTime = cour.StartDateTime.TimeOfDay;
-                            TimeSpan difference = courseTime - courTime;
-                            if (difference.Duration().TotalMinutes < 90)
-                            {
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Go through all exams of the same tutor
-            foreach (ExamSlot exam in exams)
-            {
-                DateTime examDate = exam.TimeSlot.Time;
-                if (examDate >= courseStartDate && examDate <= courseEndDate && course.Days.Contains(examDate.DayOfWeek))
-                {
-                    // Check if there are time overlaps
-                    TimeSpan examTime = exam.TimeSlot.Time.TimeOfDay;
-                    TimeSpan difference = courseTime - examTime;
-                    if ((examTime < courseTime && difference.Duration().TotalMinutes < 240) || (examTime > courseTime && difference.Duration().TotalMinutes < 90))
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-        // Method returns true if a new live course can be added
-        // or false if there are time overlaps and the course cannot be created
-        // The parameter exams is a list of ExamSlots of all the exams
-        public bool CanCreateLiveCourse(Course course, List<ExamSlot> exams)
-        {
-            // Get the time and the date of the beginning and of the end of the new couse
-            TimeSpan courseTime = course.StartDateTime.TimeOfDay;
-            DateTime courseStartDate = course.StartDateTime.Date;
-            DateTime courseEndDate = GetCourseEnd(course);
-
-            bool firstClassroomTaken = false;
-            bool secondClassromTaken = false;
-            // Go through each course with the same tutor or held in a classroom and check if there is time overlapping 
-            foreach (Course cour in _courses.GetAllCourses().Values)
-            {
-                if(cour.TutorId != course.TutorId && cour.Online)
-                {
-                    continue;
-                }
-                // Check if the courses are overlapping
-                DateTime courStartDate = cour.StartDateTime.Date;
-                DateTime courEndDate = GetCourseEnd(cour);
-                if (courStartDate <= courseEndDate && courEndDate >= courseStartDate)
-                {
-                    foreach (DayOfWeek day in cour.Days)
-                    {
-                        if (course.Days.Contains(day))
-                        {
-                            TimeSpan courTime = cour.StartDateTime.TimeOfDay;
-                            TimeSpan difference = courseTime - courTime;
-                            if (difference.Duration().TotalMinutes < 90)
-                            {
-                                if(firstClassroomTaken && secondClassromTaken)
-                                {
-                                    return false;
-                                }
-                                else if(firstClassroomTaken)
-                                {
-                                    secondClassromTaken = true;
-                                }
-                                else
-                                {
-                                    firstClassroomTaken = true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Go through all exams of the same tutor
-            foreach (ExamSlot exam in exams)
-            {
-                DateTime examDate = exam.TimeSlot.Time.Date;
-                if (examDate >= courseStartDate && examDate <= courseEndDate && course.Days.Contains(examDate.DayOfWeek))
-                {
-                    // Check if there are time overlaps
-                    TimeSpan examTime = exam.TimeSlot.Time.TimeOfDay;
-                    TimeSpan difference = courseTime - examTime;
-                    if ((examTime < courseTime && difference.Duration().TotalMinutes < 240) || (examTime > courseTime && difference.Duration().TotalMinutes < 90))
-                    {
-                        if (firstClassroomTaken && secondClassromTaken)
-                        {
-                            return false;
-                        }
-                        else if (firstClassroomTaken)
-                        {
-                            secondClassromTaken = true;
-                        }
-                        else
-                        {
-                            firstClassroomTaken = true;
-                        }
-                    }
-                }
-            }
-
-            if (firstClassroomTaken && secondClassromTaken)
-            {
-                return false;
-            }
-            return true;
-        }
-        public bool CanUpdateLiveCourse(Course course, List<ExamSlot> exams)
-        {
-            // Get the time and the date of the beginning and of the end of the new couse
-            TimeSpan courseTime = course.StartDateTime.TimeOfDay;
-            DateTime courseStartDate = course.StartDateTime.Date;
-            DateTime courseEndDate = GetCourseEnd(course);
-
-            bool firstClassroomTaken = false;
-            bool secondClassromTaken = false;
-            // Go through each course with the same tutor or held in a classroom and check if there is time overlapping 
-            foreach (Course cour in _courses.GetAllCourses().Values)
-            {
-                if(cour.Id == course.Id)
-                {
-                    continue;
-                }
-                if (cour.TutorId != course.TutorId && cour.Online)
-                {
-                    continue;
-                }
-                // Check if the courses are overlapping
-                DateTime courStartDate = cour.StartDateTime.Date;
-                DateTime courEndDate = GetCourseEnd(cour);
-                if (courStartDate <= courseEndDate && courEndDate >= courseStartDate)
-                {
-                    foreach (DayOfWeek day in cour.Days)
-                    {
-                        if (course.Days.Contains(day))
-                        {
-                            TimeSpan courTime = cour.StartDateTime.TimeOfDay;
-                            TimeSpan difference = courseTime - courTime;
-                            if (difference.Duration().TotalMinutes < 90)
-                            {
-                                if (firstClassroomTaken && secondClassromTaken)
-                                {
-                                    return false;
-                                }
-                                else if (firstClassroomTaken)
-                                {
-                                    secondClassromTaken = true;
-                                }
-                                else
-                                {
-                                    firstClassroomTaken = true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Go through all exams of the same tutor
-            foreach (ExamSlot exam in exams)
-            {
-                DateTime examDate = exam.TimeSlot.Time;
-                if (examDate >= courseStartDate && examDate <= courseEndDate && course.Days.Contains(examDate.DayOfWeek))
-                {
-                    // Check if there are time overlaps
-                    TimeSpan examTime = exam.TimeSlot.Time.TimeOfDay;
-                    TimeSpan difference = courseTime - examTime;
-                    if ((examTime < courseTime && difference.Duration().TotalMinutes < 240) || (examTime > courseTime && difference.Duration().TotalMinutes < 90))
-                    {
-                        if (firstClassroomTaken && secondClassromTaken)
-                        {
-                            return false;
-                        }
-                        else if (firstClassroomTaken)
-                        {
-                            secondClassromTaken = true;
-                        }
-                        else
-                        {
-                            firstClassroomTaken = true;
-                        }
-                    }
-                }
-            }
-
-            if (firstClassroomTaken && secondClassromTaken)
-            {
-                return false;
-            }
-            return true;
-        }
         // Method checks if the course is valid for updating or canceling
-        public bool IsCourseValid(int courseId)
+        public bool CanCourseBeChanged(int courseId)
         {
-            Course course = GetAllCourses()[courseId];
-            TimeSpan difference = course.StartDateTime - DateTime.Now;
-            return difference.TotalDays >= 7;
+            return _courses.CanCourseBeChanged(courseId);
         }
 
         // Method checks if a certain course is available for the student
         public bool IsCourseAvailable(int courseId)
         {
-            Course course = GetAllCourses()[courseId];
-            TimeSpan difference = course.StartDateTime - DateTime.Now;
-            if (difference.TotalDays > 7)
-            {
-                if (course.Online)
-                {
-                    return true;
-                }
-                else
-                {
-                    return course.NumberOfStudents < course.MaxStudents;
-                }
-            }
-            else
-            {
-                return false;
-            }
+            return _courses.IsCourseAvailable(courseId);
         }
 
         public void AddStudentToCourse(int courseId)
         {
-            Course course = GetById(courseId);
-            course.NumberOfStudents += 1;
-            Update(course);
+            _courses.AddStudentToCourse(courseId);
         }
 
-        // Returns all courses made by a certain tutor
-        public Dictionary<int, Course> GetCoursesByTutor(Tutor tutor)
+        public Dictionary<int, Course> GetCoursesWithTutor(Tutor tutor)
         {
-            Dictionary<int, Course> coursesByTutor = new Dictionary<int, Course>();
-
-            foreach (Course course in GetAllCourses().Values)
-            {
-                if (course.TutorId == tutor.Id)
-                {
-                    coursesByTutor[course.Id] = course;
-                }
-            }
-
-            return coursesByTutor;
+            return _courses.GetCoursesWithTutor(tutor);
         }
 
-        public Dictionary<int, Course> GetCoursesByTutor(int tutorId)
+        public Dictionary<int, Course> GetCoursesWithTutor(int tutorId)
         {
-            Dictionary<int, Course> coursesByTutor = new Dictionary<int, Course>();
-
-            foreach (Course course in GetAllCourses().Values)
-            {
-                if (course.TutorId == tutorId)
-                {
-                    coursesByTutor[course.Id] = course;
-                }
-            }
-
-            return coursesByTutor;
+            return _courses.GetCoursesWithTutor(tutorId);
         }
 
-        // Method returns DateTime of the beginning of the last class of the course
         public DateTime GetCourseEnd(Course course)
         {
-            DateTime end = course.StartDateTime.AddDays(7 * course.NumberOfWeeks);
-            DayOfWeek endDay = course.Days[course.Days.Count - 1];
-            return end.AddDays((int)endDay - (int)end.DayOfWeek);
+            return _courses.GetCourseEnd(course);
         }
 
         public Course GetById(int courseId)
@@ -428,28 +89,9 @@ namespace LangLang.Core.Controller
             return _courses.GetAllCourses()[courseId];
         }
 
-        public List<DateTime> CalculateClassDates(DateTime startDate, DateTime endDate, List<DayOfWeek> weekdays, TimeSpan classTime)
-        {
-            List<DateTime> classDates = new List<DateTime>();
-
-            DateTime currentDate = startDate.Date;
-            while (currentDate <= endDate)
-            {
-                if (weekdays.Contains(currentDate.DayOfWeek))
-                {
-                    DateTime classDate = currentDate.Date + classTime;
-                    classDates.Add(classDate);
-                }
-
-                currentDate = currentDate.AddDays(1);
-            }
-
-            return classDates;
-        }
-
         public List<Course> SearchCoursesByTutor(int tutorId, string language, LanguageLevel level, DateTime startDate, int duration, bool online)
         {
-            List<Course> tutorsCourses = GetCoursesByTutor(tutorId).Values.ToList();
+            List<Course> tutorsCourses = GetCoursesWithTutor(tutorId).Values.ToList();
             return SearchCourses(tutorsCourses, language, level, startDate, duration, online);
         }
 

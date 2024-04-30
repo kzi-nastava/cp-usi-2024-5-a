@@ -36,7 +36,7 @@ namespace LangLang.Core.Model
             Language,
             Level.ToString(),
             TutorId.ToString(),
-            // TODO: add serialization for timeSlot when implemented
+            TimeSlot.ToString(),
             MaxStudents.ToString(),
             ApplicationPossible.ToString()
             };
@@ -48,9 +48,10 @@ namespace LangLang.Core.Model
             Language = values[1];
             Level = (LanguageLevel)Enum.Parse(typeof(LanguageLevel), values[2]);
             TutorId = int.Parse(values[3]);
-            // TODO: add deserialization for timeSlot when implemented
+            TimeSlot = new (values[4], values[5]);
             MaxStudents = int.Parse(values[6]);
             ApplicationPossible = bool.Parse(values[7]);
         }
+
     }
 }

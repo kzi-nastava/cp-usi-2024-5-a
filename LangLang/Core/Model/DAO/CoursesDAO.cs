@@ -74,10 +74,118 @@ public class CoursesDAO : Subject
         return _courses;
     }
 
+    // Deletes all future courses made by tutor or updates all the active courses to have no tutor as well as future courses made by director
+    public void DeleteCoursesWithTutor(int tutorId)
+    {
+        foreach (Course course in GetCoursesWithTutor(tutorId).Values)
+        {
+            if (course.StartDateTime > DateTime.Now)
+            {
+                if (course.CreatedByDirector)
+                {
+                    course.TutorId = -1;
+                    UpdateCourse(course);
+                }
+                else
+                {
+                    RemoveCourse(course.Id);
+                }
+            }
+            else
+            {
+                course.TutorId = -1;
+                UpdateCourse(course);
+            }
+        }
+    }
+
     public bool IsCompleted(int id)
     {
-        Course course = _courses[id] ?? throw new ArgumentException("There is no course with given id");
+        Course course = GetCourseById(id) ?? throw new ArgumentException("There is no course with given id");
         return course.IsCompleted();
     }
 
+    public void AddStudentToCourse(int courseId)
+    {
+        Course course = GetCourseById(courseId);
+        course.NumberOfStudents += 1;
+        UpdateCourse(course);
+    }
+
+    // Method checks if a certain course is available for the student
+    public bool IsCourseAvailable(int courseId)
+    {
+        Course course = GetCourseById(courseId);
+        TimeSpan difference = course.StartDateTime - DateTime.Now;
+        if (difference.TotalDays > 7)
+        {
+            if (course.Online) return true;
+            else return course.NumberOfStudents < course.MaxStudents;
+        }
+        return false;
+    }
+
+    // Method checks if the course is valid for updating or canceling
+    public bool CanCourseBeChanged(int courseId)
+    {
+        Course course = GetCourseById(courseId);
+        DateTime oneWeekFromNow = DateTime.Now.AddDays(7);
+        return course.StartDateTime >= oneWeekFromNow;
+    }
+
+    public DateTime GetCourseEnd(Course course)
+    {
+        return course.TimeSlots[course.TimeSlots.Count-1].GetEnd();
+    }
+
+    public List<DateTime> CalculateClassDates(DateTime startDate, DateTime endDate, List<DayOfWeek> weekdays, TimeSpan classTime)
+    {
+        List<DateTime> classDates = new List<DateTime>();
+
+
+        return classDates;
+    }
+
+    public Dictionary<int, Course> GetCoursesWithTutor(Tutor tutor)
+    {
+        Dictionary<int, Course> coursesByTutor = new Dictionary<int, Course>();
+
+        foreach (Course course in _courses.Values)
+        {
+            if (course.TutorId == tutor.Id)
+            {
+                coursesByTutor[course.Id] = course;
+            }
+        }
+
+        return coursesByTutor;
+    }
+
+    public Dictionary<int, Course> GetCoursesWithTutor(int tutorId)
+    {
+        Dictionary<int, Course> coursesByTutor = new Dictionary<int, Course>();
+
+        foreach (Course course in _courses.Values)
+        {
+            if (course.TutorId == tutorId)
+            {
+                coursesByTutor[course.Id] = course;
+            }
+        }
+
+        return coursesByTutor;
+    }
+
+    public Dictionary<int, Course> GetLiveCourses()
+    {
+        Dictionary<int, Course> courses = _courses;
+        foreach (Course course in courses.Values)
+        {
+            if (course.Online)
+            {
+                courses.Remove(course.Id);
+            }
+        }
+        return courses;
+    }
 }

@@ -103,7 +103,7 @@ namespace LangLang
         }
         private void CourseUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (courseController.IsCourseValid(SelectedCourse.Id))
+            if (coursesController.CanCourseBeChanged(SelectedCourse.Id))
             {
                 CourseUpdateWindow updateWindow = new (appController, SelectedCourse.Id);
                 updateWindow.Show();
@@ -116,7 +116,7 @@ namespace LangLang
 
         private void CourseDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (courseController.IsCourseValid(SelectedCourse.Id))
+            if (coursesController.CanCourseBeChanged(SelectedCourse.Id))
             {
                 courseController.Delete(SelectedCourse.Id);
                 Update();
