@@ -61,20 +61,20 @@ namespace LangLang
             }
 
             Courses.Clear();
-            foreach (Course course in coursesController.GetCoursesByTutor(tutor).Values)
+            foreach (Course course in coursesController.GetCoursesWithTutor(tutor).Values)
                 Courses.Add(new CourseDTO(course));
             coursesTable.ItemsSource = Courses;
         }
 
         private void ExamSlotCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow(coursesController.GetCoursesByTutor(tutor), examSlotsController);
+            ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow(coursesController.GetCoursesWithTutor(tutor), examSlotsController);
             examSlotCreateWindow.Show();
         }
 
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetCoursesByTutor(tutor), examSlotsController);
+            ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetCoursesWithTutor(tutor), examSlotsController);
             examSlotUpdateWindow.Show();
         }
 
@@ -103,7 +103,7 @@ namespace LangLang
         }
         private void CourseUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (coursesController.IsCourseValid(SelectedCourse.Id))
+            if (coursesController.CanCourseBeChanged(SelectedCourse.Id))
             {
                 CourseUpdateWindow courseUpdateWindow = new CourseUpdateWindow(coursesController, examSlotsController, SelectedCourse.Id);
                 courseUpdateWindow.Show();
@@ -117,7 +117,7 @@ namespace LangLang
 
         private void CourseDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (coursesController.IsCourseValid(SelectedCourse.Id))
+            if (coursesController.CanCourseBeChanged(SelectedCourse.Id))
             {
                 int id = SelectedCourse.Id;
                 coursesController.Delete(id);

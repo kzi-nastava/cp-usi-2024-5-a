@@ -43,6 +43,7 @@ namespace LangLang.View.CourseGUI
             {
                 if (Course.NotOnline)
                 {
+                    /*
                     if (courseController.CanUpdateLiveCourse(Course.ToCourse(), examController.GetAllExams()))
                     {
                         courseController.Update(Course.ToCourse());
@@ -53,6 +54,7 @@ namespace LangLang.View.CourseGUI
                     {
                         MessageBox.Show("There seem to be time overlaps.");
                     }
+                    */
                 }
                 else
                 {
