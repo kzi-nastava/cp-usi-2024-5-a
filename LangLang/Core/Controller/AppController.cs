@@ -11,6 +11,7 @@ namespace LangLang.Core.Controller
         public readonly WithdrawalRequestController WithdrawalRequestController;
         public readonly ExamSlotController ExamSlotController;
         public readonly LoginController LoginController;
+        public readonly GradeController GradeController;
         public AppController()
         {
             TutorController = new();
@@ -20,6 +21,7 @@ namespace LangLang.Core.Controller
             WithdrawalRequestController = new();
             ExamSlotController = new();
             LoginController = new(StudentController, TutorController);
+            GradeController = new();
         }
 
 
