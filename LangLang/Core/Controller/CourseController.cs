@@ -83,6 +83,11 @@ namespace LangLang.Core.Controller
             return _courses.GetCoursesWithTutor(tutor).Values.ToList();
         }
 
+        public List<Course> GetCourses(Tutor tutor)
+        {
+            return _courses.GetCoursesWithTutor(tutor).Values.ToList();
+        }
+
         public DateTime GetCourseEnd(Course course)
         {
             return _courses.GetCourseEnd(course);
