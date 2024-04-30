@@ -39,7 +39,7 @@ namespace LangLang.View.CourseGUI
 
             this.courses = new ObservableCollection<CourseDTO>();
             
-            coursesForReview = this.courseController.GetCoursesByTutor(tutorId).Values.ToList<Course>();
+            coursesForReview = this.courseController.GetCoursesWithTutor(tutorId).Values.ToList<Course>();
 
             levelCoursecb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
 
@@ -65,13 +65,13 @@ namespace LangLang.View.CourseGUI
             DateTime courseStartDate = courseStartdp.SelectedDate ?? default;
             int duration = 0;
             int.TryParse(durationtb.Text, out duration);
-            coursesForReview =  this.courseController.SearchCourses(this.courseController.GetCoursesByTutor(tutorId).Values.ToList<Course>(), language, level, courseStartDate, duration, !onlinecb.IsChecked);
+            coursesForReview =  this.courseController.SearchCourses(this.courseController.GetCoursesWithTutor(tutorId).Values.ToList<Course>(), language, level, courseStartDate, duration, !onlinecb.IsChecked);
             Update();
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
-            coursesForReview = this.courseController.GetCoursesByTutor(tutorId).Values.ToList<Course>();
+            coursesForReview = this.courseController.GetCoursesWithTutor(tutorId).Values.ToList<Course>();
             levelCoursecb.SelectedItem = null;
             Update();
         }
