@@ -80,8 +80,7 @@ namespace LangLang.View.StudentGUI
             ExamSlots.Clear();
             foreach (ExamSlot exam in examSlotsForReview)
             {
-                Course c = courseController.GetById(exam.CourseId);
-                ExamSlots.Add(new ExamSlotDTO(exam, c));
+                ExamSlots.Add(new ExamSlotDTO(exam));
             }
         }
 

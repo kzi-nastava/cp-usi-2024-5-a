@@ -22,6 +22,7 @@ namespace LangLang.Core.Model
         private int _maxStudents;
         private DateTime _startDateTime;
         private bool _createdByDirector;
+        private List<TimeSlot> _timeSlots;
 
         // Properties
 
@@ -90,6 +91,11 @@ namespace LangLang.Core.Model
             set { _createdByDirector = value; }
         }
 
+        public List<TimeSlot> TimeSlots
+        {
+            get { return _timeSlots; }
+            set { _timeSlots = value; }
+        }
         // Constructors
 
         public Course(int id, int tutorId, string language, LanguageLevel level, int numberOfWeeks, List<DayOfWeek> days,
@@ -106,6 +112,7 @@ namespace LangLang.Core.Model
             MaxStudents = maxStudents;
             StartDateTime = startDateTime;
             CreatedByDirector = createdByDirector;
+            generateTimeSlots();
         }
         
         public Course()
@@ -181,12 +188,26 @@ namespace LangLang.Core.Model
             MaxStudents = int.Parse(values[8]);
             StartDateTime = DateTime.Parse(values[9]);
             CreatedByDirector = bool.Parse(values[10]);
+            generateTimeSlots();
         }
 
         public bool IsCompleted()
         {
-            DateTime endDate = StartDateTime.AddDays(NumberOfWeeks * 7);
-            return DateTime.Now >= endDate;
+            TimeSlot timeSlot = TimeSlots[TimeSlots.Count - 1];
+            return DateTime.Now >= timeSlot.GetEnd();
+        }
+
+        private void generateTimeSlots()
+        {
+            TimeSlots = new List<TimeSlot>();
+            for(int week = 0; week < NumberOfWeeks; week++)
+            {
+                foreach(DayOfWeek day in Days)
+                {
+                    DateTime currentDate = StartDateTime.AddDays(week * 7 + (day - StartDateTime.DayOfWeek));
+                    TimeSlots.Add(new TimeSlot(1.5, currentDate));
+                }
+            }
         }
     }
 }

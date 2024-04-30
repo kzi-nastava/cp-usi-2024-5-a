@@ -109,7 +109,7 @@ namespace LangLang.View
             }
             else
             {
-                appController.CourseController.DeleteCoursesByTutor(SelectedTutor.Id);
+                appController.CourseController.DeleteCoursesWithTutor(SelectedTutor.Id);
                 tutorsController.Delete(SelectedTutor.Id);
                 MessageBox.Show("Tutor is successfully deleted");
                 DisableForm();

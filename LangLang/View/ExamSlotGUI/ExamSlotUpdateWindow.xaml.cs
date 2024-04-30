@@ -28,8 +28,9 @@ namespace LangLang.View.ExamSlotGUI
         public ExamSlotDTO ExamSlot { get; set; }
         private ExamSlotController examSlotsController { get; set; }
         private bool canBeUpdated;
-        public ExamSlotUpdateWindow(ExamSlotDTO selectedExamSlot, Dictionary<int, Course> courses, ExamSlotController controller)
+        public ExamSlotUpdateWindow(AppController appController, int courseId)
         {
+            /*
             Courses = courses.Values.ToList<Course>();
             SelectedCourse = new Course();
             SelectedCourse = courses[selectedExamSlot.CourseId];
@@ -43,6 +44,7 @@ namespace LangLang.View.ExamSlotGUI
             //Prefill(ExamSlot);
             InitializeComponent();
             DataContext = this;
+            */
         }
         public void Prefill(ExamSlotDTO selectedExamSlot)
         {
@@ -63,7 +65,7 @@ namespace LangLang.View.ExamSlotGUI
                 }
                 else
                 {
-                    Trace.WriteLine("aaaaa "+ ExamSlot.ToExamSlot().CourseId);
+                    
                     examSlotsController.Update(ExamSlot.ToExamSlot());
                 }
                 Close();
@@ -86,7 +88,7 @@ namespace LangLang.View.ExamSlotGUI
                 ExamSlot.Language = SelectedCourse.Language;
                 levelTb.Text = SelectedCourse.Level.ToString();
                 ExamSlot.Level = SelectedCourse.Level;
-                ExamSlot.CourseId = SelectedCourse.Id;
+                //ExamSlot.CourseId = SelectedCourse.Id;
                 //CoursesDataGrid.SelectedItem = null;
             }
         }

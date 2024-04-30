@@ -25,14 +25,15 @@ namespace LangLang.View.CourseGUI
         public CourseDTO Course { get; set; }
         private CourseController courseController;
         private ExamSlotController examController { get; set; }
-        public CourseUpdateWindow(CourseController courseControler, ExamSlotController exams, int courseId)
+        public CourseUpdateWindow(AppController appController, int courseId)
         {
-            this.courseController = courseControler;
+            InitializeComponent();
+
+            examController = appController.ExamSlotController;
+            courseController = appController.CourseController;
+
             Course = new CourseDTO(courseController.GetById(courseId));
 
-            examController = new ExamSlotController();
-            examController = exams;
-            InitializeComponent();
             DataContext = this;
             languageLvlCb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
         }
@@ -43,7 +44,8 @@ namespace LangLang.View.CourseGUI
             {
                 if (Course.NotOnline)
                 {
-                    if (courseController.CanUpdateLiveCourse(Course.ToCourse(), examController.GetAllExamSlots().Values.ToList<ExamSlot>()))
+                    /*
+                    if (courseController.CanUpdateLiveCourse(Course.ToCourse(), examController.GetAllExams()))
                     {
                         courseController.Update(Course.ToCourse());
                         MessageBox.Show("Success!");
@@ -53,10 +55,12 @@ namespace LangLang.View.CourseGUI
                     {
                         MessageBox.Show("There seem to be time overlaps.");
                     }
+                    */
                 }
                 else
                 {
-                    if (courseController.CanUpdateOnlineCourse(Course.ToCourse(), examController.GetExamSlotsByTutor(Course.TutorId, courseController)))
+                    /*
+                    if (courseController.CanUpdateOnlineCourse(Course.ToCourse(), examController.GetExams(Course.TutorId)))
                     {
                         courseController.Update(Course.ToCourse());
                         MessageBox.Show("Success!");
@@ -66,6 +70,7 @@ namespace LangLang.View.CourseGUI
                     {
                         MessageBox.Show("There seem to be time overlaps.");
                     }
+                    */
                 }
             }
             else

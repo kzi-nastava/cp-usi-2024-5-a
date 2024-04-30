@@ -26,14 +26,14 @@ namespace LangLang.View.CourseGUI
         private CourseController courseController { get; set; }
         private ExamSlotController examController { get; set; }
         private int tutorId { get; set; }
-        public CourseCreateWindow(CourseController courseController, ExamSlotController exams, int tutorId)
+        public CourseCreateWindow(AppController appController, Tutor loggedIn)
         {
             Course = new CourseDTO();
             Course.TutorId = tutorId;
-            this.courseController = new CourseController();
-            this.courseController = courseController;
-            examController = new ExamSlotController();
-            examController = exams;
+
+            examController = appController.ExamSlotController;
+            courseController = appController.CourseController;
+
             this.tutorId = tutorId;
             InitializeComponent();
             DataContext = this;
@@ -53,7 +53,8 @@ namespace LangLang.View.CourseGUI
             {
                 if (Course.NotOnline)
                 {
-                    if (courseController.CanCreateLiveCourse(Course.ToCourse(), examController.GetAllExamSlots().Values.ToList<ExamSlot>()))
+                    /*
+                    if (courseController.CanCreateLiveCourse(Course.ToCourse(), examController.GetAllExams()))
                     {
                         courseController.Add(Course.ToCourse());
                         MessageBox.Show("Success!");
@@ -63,10 +64,12 @@ namespace LangLang.View.CourseGUI
                     {
                         MessageBox.Show("There seem to be time overlaps.");
                     }
+                    */
                 }
                 else
                 {
-                    if (courseController.CanCreateOnlineCourse(Course.ToCourse(), examController.GetExamSlotsByTutor(tutorId, courseController)))
+                    /*
+                    if (courseController.CanCreateOnlineCourse(Course.ToCourse(), examController.GetExams(tutorId)))
                     {
                         courseController.Add(Course.ToCourse());
                         MessageBox.Show("Success!");
@@ -76,6 +79,7 @@ namespace LangLang.View.CourseGUI
                     {
                         MessageBox.Show("There seem to be time overlaps.");
                     }
+                    */
                 }
             }
             else

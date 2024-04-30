@@ -1,41 +1,33 @@
 ﻿using LangLang.Core.Model;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+
 
 namespace LangLang.DTO
 {
-    public class ExamSlotDTO : INotifyPropertyChanged, IDataErrorInfo
+    public class ExamSlotDTO : INotifyPropertyChanged
     {
-        public ExamSlotDTO() {
-            _courseId = -1;
-        }
+        
         public int Id { get; set; }
 
-        private int _courseId;
+        private int _tutorId;
         private string _language;
         private LanguageLevel _level;
         private int _maxStudents;
         private DateTime _examDate;
         private string _time;
-        private int _numberOfStudents;
-        private DateTime _examDateTime;
+        private int _numberStudents;
+        private bool _applicationPossible;
 
-        public int CourseId
+        public int TutorId
         {
-            get { return _courseId; }
+            get { return _tutorId; }
             set
             {
-                _courseId = value;
-                OnPropertyChanged("CourseId");
+                _tutorId = value;
+                OnPropertyChanged("TutorId");
             }
         }
 
@@ -74,7 +66,7 @@ namespace LangLang.DTO
                 if (int.TryParse(value, out int result) && result >= 0)
                 {
                     _maxStudents = result;
-                    //OnPropertyChanged("MaxStudents");
+                    OnPropertyChanged("MaxStudents");
                 }
                 else
                 {
@@ -94,13 +86,13 @@ namespace LangLang.DTO
             }
         }
 
-        public int NumberOfStudents
+        public int NumberStudents
         {
-            get { return _numberOfStudents; }
+            get { return _numberStudents; }
             set
             {
-                _numberOfStudents = value;
-                //OnPropertyChanged("NumberOfStudents");
+                _numberStudents = value;
+                OnPropertyChanged("NumberOfStudents");
             }
         }
 
@@ -114,12 +106,13 @@ namespace LangLang.DTO
             }
         }
 
-        public DateTime ExamDateTime
+
+        public bool ApplicationPossible
         {
-            get { return _examDateTime; }
-            set 
+            get { return _applicationPossible; }
+            set
             {
-                _examDateTime = value;
+                _applicationPossible = value;
             }
         }
 
@@ -175,53 +168,19 @@ namespace LangLang.DTO
             }
         }
 
-
-
-        public ExamSlotDTO(ExamSlot examSlot, Course course)
+        public ExamSlotDTO()
         {
-            this.Id = examSlot.Id;
-            this.Language = course.Language;
-            this.Level = course.Level;
-            this.MaxStudents = examSlot.MaxStudents.ToString();
-            this.NumberOfStudents = examSlot.NumberOfStudents;
-            this.CourseId = examSlot.CourseId;
-            this.ExamDate = examSlot.ExamDateTime.Date;
-            this.Time = examSlot.ExamDateTime.ToString("HH:mm");
-            this.ExamDateTime = examSlot.ExamDateTime;
         }
 
-        private DateTime ToDateTime(DateTime date, string time)
+        public ExamSlotDTO(ExamSlot examSlot)
         {
-
-            string[] timeComponents = time.Split(':');
-
-            if (timeComponents.Length == 2)
-            {
-                // Parse hour component
-                if (int.TryParse(timeComponents[0], out int hours))
-                {
-                    // Parse minute component
-                    if (int.TryParse(timeComponents[1], out int minutes))
-                    {
-                        // Create a new DateTime object with the combined date and time components
-                        DateTime combinedDateTime = new DateTime(date.Year, date.Month, date.Day, hours, minutes, 0);
-
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid minute component.");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid hour component.");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Invalid time format.");
-            }
-            return DateTime.Now;
+            this.Id = examSlot.Id;
+            this.Language = examSlot.Language;
+            this.Level = examSlot.Level;
+            this.MaxStudents = examSlot.MaxStudents.ToString();
+            this.ExamDate = examSlot.TimeSlot.Time.Date;
+            this.Time = examSlot.TimeSlot.Time.ToString("HH:mm");
+            this.ApplicationPossible = examSlot.ApplicationPossible;
         }
 
         public ExamSlot ToExamSlot()
@@ -229,10 +188,8 @@ namespace LangLang.DTO
             string[] timeParts = _time.Split(':');
             int hour = int.Parse(timeParts[0]);
             int minute = int.Parse(timeParts[1]);
-            return new ExamSlot(Id, _courseId, _maxStudents, new DateTime(_examDate.Year, _examDate.Month, _examDate.Day, hour, minute, 0), 0);
+            return new ExamSlot(Id, _language,_level, new TimeSlot(4,new DateTime(_examDate.Year, _examDate.Month, _examDate.Day, hour, minute, 0)),_maxStudents,_tutorId,_applicationPossible);
         }
-
-        public string Error => throw new NotImplementedException();
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
