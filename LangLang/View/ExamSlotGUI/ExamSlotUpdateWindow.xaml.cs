@@ -28,7 +28,7 @@ namespace LangLang.View.ExamSlotGUI
         public ExamSlotDTO ExamSlot { get; set; }
         private ExamSlotController examSlotsController { get; set; }
         private bool canBeUpdated;
-        public ExamSlotUpdateWindow(ExamSlotDTO selectedExamSlot, Dictionary<int, Course> courses, ExamSlotController controller)
+        public ExamSlotUpdateWindow(AppController appController, int courseId)
         {
             /*
             Courses = courses.Values.ToList<Course>();

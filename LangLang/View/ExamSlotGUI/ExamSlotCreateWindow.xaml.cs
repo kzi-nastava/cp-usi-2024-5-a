@@ -28,12 +28,11 @@ namespace LangLang.View
         public Course SelectedCourse { get; set; }
         public ExamSlotDTO ExamSlot { get; set; }
         private ExamSlotController examSlotsController { get; set; }
-        //public ExamSlotCreateWindow(Dictionary<int,Course> courses, ExamSlotController controller)
-        public ExamSlotCreateWindow(Dictionary<int,Course> courses,ExamSlotController controller)
+        public ExamSlotCreateWindow(AppController appController, Tutor loggedIn)
         {
-            Courses = courses.Values.ToList<Course>();
+            //Courses = courses.Values.ToList<Course>();
             SelectedCourse = new Course();
-            examSlotsController = controller;
+            examSlotsController = appController.ExamSlotController;
             ExamSlot = new ExamSlotDTO();
 
             InitializeComponent();

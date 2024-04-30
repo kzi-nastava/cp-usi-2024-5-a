@@ -29,7 +29,7 @@ namespace LangLang.View.ExamSlotGUI
         private ExamSlotController examSlotController;
         private int tutorId;
 
-        public ExamSlotSearchWindow(CourseController courseController,ExamSlotController examSlotController, int tutorId)
+        public ExamSlotSearchWindow(AppController appController, Tutor loggedIn)
         {
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             examSlotsForReview = new List<ExamSlot>();

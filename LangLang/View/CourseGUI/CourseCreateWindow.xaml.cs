@@ -26,14 +26,14 @@ namespace LangLang.View.CourseGUI
         private CourseController courseController { get; set; }
         private ExamSlotController examController { get; set; }
         private int tutorId { get; set; }
-        public CourseCreateWindow(CourseController courseController, ExamSlotController exams, int tutorId)
+        public CourseCreateWindow(AppController appController, Tutor loggedIn)
         {
             Course = new CourseDTO();
             Course.TutorId = tutorId;
-            this.courseController = new CourseController();
-            this.courseController = courseController;
-            examController = new ExamSlotController();
-            examController = exams;
+
+            examController = appController.ExamSlotController;
+            courseController = appController.CourseController;
+
             this.tutorId = tutorId;
             InitializeComponent();
             DataContext = this;
