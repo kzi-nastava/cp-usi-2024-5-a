@@ -7,10 +7,10 @@ namespace LangLang.Core.Model
     public class TimeSlot
     {
         // NOTE: Adapt as needed during implementation
-        public int Duration { get; set; }
+        public double Duration { get; set; }
         public DateTime Time { get; set; }
 
-        public TimeSlot(int duration, DateTime time)
+        public TimeSlot(double duration, DateTime time)
         {
             Duration = duration;
             Time = time;
@@ -26,7 +26,7 @@ namespace LangLang.Core.Model
             {
                 throw new FormatException("Date is not in the correct format.");
             }
-            Duration = int.Parse(duration);
+            Duration = double.Parse(duration);
 
         }
 
@@ -43,11 +43,14 @@ namespace LangLang.Core.Model
             return (Time > DateTime.Now);
         }
 
-        
-
         public string ToString()
         {
             return Duration.ToString() + '|' + Time.ToString("yyyy-MM-dd HH:mm");
+        }
+
+        public DateTime GetEnd()
+        {
+            return Time.AddHours(Duration);
         }
     }
 }
