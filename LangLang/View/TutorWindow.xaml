@@ -114,10 +114,10 @@
                                   SelectedItem="{Binding SelectedExamSlot, UpdateSourceTrigger=PropertyChanged}"
                                   SelectionMode="Single" IsReadOnly="True" SelectionChanged="ExamSlotsDataGrid_SelectionChanged">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Course ID" Binding="{Binding CourseId}"/>
-                        <DataGridTextColumn Header="Max Students" Binding="{Binding MaxStudents}"/>
-                        <DataGridTextColumn Header="Number of Students" Binding="{Binding NumberOfStudents}"/>
-                        <DataGridTextColumn Header="Date and Time" Binding="{Binding ExamDateTime, StringFormat={}{0:MM/dd/yyyy HH:mm}}"/>
+                        <DataGridTextColumn Header="Language" Binding="{Binding Language}"/>
+                        <DataGridTextColumn Header="Level" Binding="{Binding Level}"/>
+                        <DataGridTextColumn Header="Max students" Binding="{Binding MaxStudents}"/>
+                        <DataGridTextColumn Header="Date and time" Binding="{Binding ExamDate}"/>
                     </DataGrid.Columns>
                 </DataGrid>
                 <!--end of exam slots table-->
