@@ -25,14 +25,15 @@ namespace LangLang.View.CourseGUI
         public CourseDTO Course { get; set; }
         private CourseController courseController;
         private ExamSlotController examController { get; set; }
-        public CourseUpdateWindow(CourseController courseControler, ExamSlotController exams, int courseId)
+        public CourseUpdateWindow(AppController appController, int courseId)
         {
-            this.courseController = courseControler;
+            InitializeComponent();
+
+            examController = appController.ExamSlotController;
+            courseController = appController.CourseController;
+
             Course = new CourseDTO(courseController.GetById(courseId));
 
-            examController = new ExamSlotController();
-            examController = exams;
-            InitializeComponent();
             DataContext = this;
             languageLvlCb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
         }

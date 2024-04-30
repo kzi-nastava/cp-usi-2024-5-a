@@ -27,7 +27,7 @@ namespace LangLang.View.CourseGUI
         private ObservableCollection<CourseDTO> courses;
         private List<Course> coursesForReview;
         private int tutorId { get; set; }
-        public CourseSearchWindow(CourseController courseController, int tutorId)
+        public CourseSearchWindow(AppController appController, Tutor loggedIn)
         {
 
             InitializeComponent();
