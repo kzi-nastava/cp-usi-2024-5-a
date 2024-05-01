@@ -96,6 +96,7 @@ namespace LangLang.Core.Model.DAO
                 oldExam.TutorId = exam.TutorId;
                 oldExam.MaxStudents = exam.MaxStudents;
                 oldExam.TimeSlot = exam.TimeSlot;
+                oldExam.Modifiable = exam.Modifiable;
 
                 _repository.Save(_exams);
                 NotifyObservers();

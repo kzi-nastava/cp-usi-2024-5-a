@@ -3,6 +3,7 @@ using LangLang.Core.Model;
 using LangLang.DTO;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace LangLang.View.ExamSlotGUI
 {
@@ -28,6 +29,7 @@ namespace LangLang.View.ExamSlotGUI
             this.examSlot = examSlot;
             requestController = appController.ExamAppRequestController;
             examSlotController = appController.ExamSlotController;
+            studentController = appController.StudentController;
 
             Students = new ObservableCollection<StudentDTO>();
 
@@ -40,7 +42,7 @@ namespace LangLang.View.ExamSlotGUI
         {
             Students.Clear();
 
-            foreach (Student student in requestController.GetExamRequests(examSlot.Id))
+            foreach (Student student in requestController.GetExamRequests(examSlot.Id, studentController))
             {
                 Students.Add(new StudentDTO(student));
             }
@@ -48,7 +50,7 @@ namespace LangLang.View.ExamSlotGUI
 
         private void AdjustButtons()
         {
-            if (examSlot.ApplicationPossible == false)
+            if (examSlot.Modifiable == false)
                 confirmApplicationsBtn.IsEnabled = false;
             deleteBtn.IsEnabled = false;
         }
@@ -57,12 +59,12 @@ namespace LangLang.View.ExamSlotGUI
         {
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to confirm list?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes) {
-                examSlotController.ConfirmApplications(examSlot.Id);
+                examSlot.Modifiable = false;
+                examSlotController.Update(examSlot.ToExamSlot());
                 AdjustButtons();
                 ShowSuccess();
             }
         }
-
 
         private void DeleteBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -81,7 +83,7 @@ namespace LangLang.View.ExamSlotGUI
             MessageBox.Show("Successfully completed", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void StudentsTable_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void StudentsTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (SelectedStudent != null)
                 deleteBtn.IsEnabled = true;
