@@ -33,9 +33,9 @@ namespace LangLang.Core.Controller
             }
         }
 
-        private Profile? GetProfile<userType>(Dictionary<int, userType> users, string email, string password) where userType: IProfileHolder
+        private Profile? GetProfile<userType>(List<userType> users, string email, string password) where userType: IProfileHolder
         {
-            userType user = users.FirstOrDefault(user => user.Value.Profile.Email == email).Value;
+            userType user = users.FirstOrDefault(user => user.Profile.Email == email);
 
             if (user == null || user.Profile == null)
             {

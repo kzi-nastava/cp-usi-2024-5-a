@@ -31,9 +31,20 @@ namespace LangLang.Core.Model.DAO
             return _students[id];
         }
 
-        public Dictionary<int, Student> GetAllStudents()
+        public List<Student> GetAllStudents()
         {
-            return _students;
+            return _students.Values.ToList();
+        }
+
+        public List<Student> GetUndeletedStudents()
+        {
+            List<Student> undeletedStudents = new();
+            foreach (var student in GetAllStudents())
+            {
+                if (!student.Profile.IsDeleted) undeletedStudents.Add(student);
+            }
+
+            return undeletedStudents;
         }
 
         public Student AddStudent(Student student)

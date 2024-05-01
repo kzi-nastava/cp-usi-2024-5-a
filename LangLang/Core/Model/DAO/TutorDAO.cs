@@ -70,9 +70,9 @@ namespace LangLang.Core.DAO
             return oldTutor;
         }
 
-        public Dictionary<int, Tutor> GetAllTutors()
+        public List<Tutor> GetAllTutors()
         {
-            return _tutors;
+            return _tutors.Values.ToList();
         }
 
         public Tutor? Remove(int id)
