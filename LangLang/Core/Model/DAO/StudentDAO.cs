@@ -47,7 +47,7 @@ namespace LangLang.Core.Model.DAO
 
         public Student? UpdateStudent(Student student)
         {
-            Student oldStudent = GetStudentById(student.Profile.Id);
+            Student? oldStudent = GetStudentById(student.Profile.Id);
             if (oldStudent == null) return null;
 
             oldStudent.Profile.Id = student.Profile.Id;
@@ -130,19 +130,20 @@ namespace LangLang.Core.Model.DAO
             return availableExamSlots;
         }
 
-        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController)
+        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController)
         {
             // can modify - student is not currently enrolled in any course and has not applied for any exams
-            return (CanRequestEnroll(studentId, erController, courseController) && !HasRegisteredForExam());
+            return (CanRequestEnroll(studentId, erController, courseController, wrController) && !HasRegisteredForExam());
         }
 
-        public bool CanRequestEnroll(int id, EnrollmentRequestController erController, CourseController courseController)
+        public bool CanRequestEnroll(int id, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController)
         {
             foreach (EnrollmentRequest er in erController.GetStudentRequests(id))
             {
                 if (er.Status == Status.Accepted && !er.IsCanceled)
                 {
-                    if (!courseController.IsCompleted(er.Id)) return false;
+                    if (!courseController.IsCompleted(er.CourseId) && !wrController.HasAcceptedWithdrawal(er.Id)) 
+                        return false;
                 }
             }
             return true;

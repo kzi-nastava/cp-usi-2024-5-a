@@ -45,6 +45,11 @@ namespace LangLang.Core.Model
             LastModifiedTimestamp = DateTime.Now;
         }
 
+        public bool CanWithdraw()
+        {
+            return (DateTime.Now - LastModifiedTimestamp).Days > 7;
+        }
+
         public void FromCSV(string[] values)
         {
             try {

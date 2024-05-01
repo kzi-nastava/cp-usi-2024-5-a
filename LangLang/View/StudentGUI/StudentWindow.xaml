@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LangLang.View"
         mc:Ignorable="d"
-        Title="Student" Height="700" Width="1000">
+        Title="Student" Height="750" Width="1000"
+        WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <ControlTemplate x:Name="controltpl" x:Key="ValidationTemplate">
@@ -20,19 +21,16 @@
     </Window.Resources>
 
     <Grid VerticalAlignment="Center">
-        <TabControl x:Name="tabControl" HorizontalAlignment="Center" Height="674" VerticalAlignment="Center" Width="1000">
-            <TabItem Header="Student data" Margin="-2,-2,1,0">
-                <Grid Margin="0,0,-3,-9" Background="#FFFAE0E0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="110*"/>
-                        <ColumnDefinition Width="887*"/>
-                    </Grid.ColumnDefinitions>
+        <Button x:Name="signoutbtn" Content="Sign out" HorizontalAlignment="Left" Height="25" Margin="814,5,0,0" VerticalAlignment="Top" Width="140" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="SignOutBtn_Click"/>
+        <TabControl x:Name="tabControl" HorizontalAlignment="Center" Height="694" VerticalAlignment="Top" Width="945" Margin="0,35,0,0">
+            <TabItem Header="Student data" Margin="0,-2,1,0">
+                <Grid Margin="0,0,0,0" Background="#FFFAE0E0">
 
                     <!--student name-->
                     <TextBlock x:Name="currenttb" Text="" Focusable="True" Width="495" Height="142" MinHeight="9" FontFamily="Broadway" FontSize="40" Margin="0,291,0,0" VerticalAlignment="Top" TextAlignment="Center" IsEnabled="False" HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="#FFD28383" Grid.ColumnSpan="2"/>
 
                     <!--edit form-->
-                    <ScrollViewer HorizontalAlignment="Left" Height="499" Margin="337,0,0,0" VerticalAlignment="Center" Width="540" BorderBrush="Black" Grid.Column="1">
+                    <ScrollViewer HorizontalAlignment="Left" Height="542" Margin="337,0,0,0" VerticalAlignment="Top" Width="540" BorderBrush="Black" Grid.Column="1" Grid.ColumnSpan="5">
                         <Grid>
                             <!--label name and box for name-->
                             <Label x:Name="nameLbl" Content="name" HorizontalAlignment="Center" Height="24" Margin="0,25,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
@@ -265,11 +263,10 @@
                         </Grid>
                     </ScrollViewer>
 
-                    <Button x:Name="signoutbtn" Content="Checkout" HorizontalAlignment="Left" Height="33" Margin="442,24,0,0" VerticalAlignment="Top" Width="310" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="signoutbtn_Click" Grid.Column="1"/>
-                    <Button x:Name="editbtn" Content="Edit data" HorizontalAlignment="Left" Height="33" Margin="442,599,0,0" VerticalAlignment="Top" Width="140" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="editbtn_Click" Grid.Column="1"/>
-                    <Button x:Name="savebtn" Content="Save changes" HorizontalAlignment="Left" Height="33" Margin="442,599,0,0" VerticalAlignment="Top" Width="140" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="save_Click" Grid.Column="1"/>
-                    <Button x:Name="deletebtn" Content="Delete account" HorizontalAlignment="Left" Height="33" Margin="612,599,0,0" VerticalAlignment="Top" Width="140" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="delete_Click" Grid.Column="1"/>
-                    <Button x:Name="discardbtn" Content="Discard changes" HorizontalAlignment="Left" Height="33" Margin="612,599,0,0" VerticalAlignment="Top" Width="140" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="discard_Click" Grid.Column="1"/>
+                    <Button x:Name="editbtn" Content="Edit data" HorizontalAlignment="Left" Height="33" Margin="447,570,0,0" VerticalAlignment="Top" Width="140" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="EditBtn_Click" Grid.Column="1"/>
+                    <Button x:Name="savebtn" Content="Save changes" HorizontalAlignment="Left" Height="33" Margin="447,570,0,0" VerticalAlignment="Top" Width="140" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="SaveBtn_Click" Grid.Column="1"/>
+                    <Button x:Name="deletebtn" Content="Delete account" HorizontalAlignment="Left" Height="33" Margin="607,570,0,0" VerticalAlignment="Top" Width="140" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="DeleteBtn_Click" Grid.Column="1" Grid.ColumnSpan="2"/>
+                    <Button x:Name="discardbtn" Content="Discard changes" HorizontalAlignment="Left" Height="33" Margin="607,570,0,0" VerticalAlignment="Top" Width="140" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="DiscardBtn_Click" Grid.Column="1" Grid.ColumnSpan="2"/>
                 </Grid>
             </TabItem>
 
@@ -292,7 +289,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
-                    <GroupBox x:Name="searchgb" HorizontalAlignment="Left" Height="222" Header="Search" Margin="254,409,0,0" VerticalAlignment="Top" Width="516" RenderTransformOrigin="0.501,0.513">
+                    <GroupBox x:Name="searchgb" HorizontalAlignment="Left" Height="222" Header="Search" Margin="256,429,0,0" VerticalAlignment="Top" Width="516" RenderTransformOrigin="0.501,0.513">
                         <Grid>
                             <GroupBox x:Name="languagegb" HorizontalAlignment="Left" Height="53" Header="Language" Margin="20,20,0,0" VerticalAlignment="Top" Width="249">
                                 <TextBox x:Name="languagetb" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="" Width="209" Background="White" SelectionBrush="#FFFAE0E0" BorderBrush="#FFFAE0E0" Margin="10,0,0,0" TextChanged="SearchCourses"/>
@@ -316,7 +313,7 @@
                             <GroupBox x:Name="onlinegb" HorizontalAlignment="Left" Height="53" Header="Online" Margin="425,59,0,0" VerticalAlignment="Top" Width="69">
                                 <CheckBox x:Name="onlinecb" Content="&#xD;&#xA;" HorizontalAlignment="Left" Height="16" Margin="20,5,0,0" VerticalAlignment="Top" Width="22" RenderTransformOrigin="1.162,1.554" Checked="SearchCourses"/>
                             </GroupBox>
-                            <Button x:Name="clearhbtn" Content="Clear filters" HorizontalAlignment="Left" Height="26" Margin="171,163,0,0" VerticalAlignment="Top" Width="179" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="Clear_Click"/>
+                            <Button x:Name="clearhbtn" Content="Clear filters" HorizontalAlignment="Left" Height="26" Margin="171,163,0,0" VerticalAlignment="Top" Width="179" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ClearCourseBtn_Click"/>
 
                         </Grid>
                     </GroupBox>
@@ -356,12 +353,22 @@
                             <GroupBox x:Name="levelExamgb" HorizontalAlignment="Left" Height="53" Header="Level" Margin="330,20,0,0" VerticalAlignment="Top" Width="100">
                                 <ComboBox x:Name="levelExamcb" HorizontalAlignment="Left" Height="28" Width="71" Margin="10,0,0,0" BorderBrush="#FFE8E8E8" SelectionChanged="SearchExams"/>
                             </GroupBox>
-                            <Button x:Name="clearExamhbtn" Content="Clear filters" HorizontalAlignment="Center" Height="29" Margin="0,160,0,0" VerticalAlignment="Top" Width="118" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ClearExam_Click"/>
+                            <Button x:Name="clearExamhbtn" Content="Clear filters" HorizontalAlignment="Center" Height="29" Margin="0,160,0,0" VerticalAlignment="Top" Width="118" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ClearExamBtn_Click"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
             </TabItem>
-        </TabControl>
 
+            <!--tab for exams preview and search-->
+            <TabItem Header="Active course">
+                <Grid Margin="0,0,-3,-9" Background="#FFFAE0E0">
+                    <TextBlock x:Name="courseNameTb" Text="" Focusable="True" Width="495" Height="100" MinHeight="9" FontFamily="Broadway" FontSize="40" Margin="0,208,0,0" VerticalAlignment="Top" TextAlignment="Center" IsEnabled="False" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="#FFD28383"/>
+                    <TextBlock x:Name="courseLevelTb" Text="" Focusable="True" Width="495" Height="100" MinHeight="9" FontFamily="Broadway" FontSize="40" Margin="0,300,0,0" VerticalAlignment="Top" TextAlignment="Center" IsEnabled="False" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="#FFD28383"/>
+                    <TextBlock x:Name="untilEndTb" Text="" Focusable="True" Width="773" Height="100" MinHeight="9" FontFamily="Broadway" FontSize="20" Margin="0,450,0,0" VerticalAlignment="Top" TextAlignment="Center" IsEnabled="False" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="#FFD28383"/>
+                    <Button x:Name="CourseWithdrawalBtn" Content="Withdrawal from course" HorizontalAlignment="Center" Height="29" Margin="0,572,0,0" VerticalAlignment="Top" Width="170" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" Click="CourseWithdrawalBtn_Click"/>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
