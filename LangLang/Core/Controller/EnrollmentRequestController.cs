@@ -66,5 +66,16 @@ namespace LangLang.Core.Controller
         {
             _enrollmentRequests.ResumePausedRequests(studentId);
         }
+
+        public bool CanRequestWithdrawal(int id)
+        {
+            return _enrollmentRequests.CanRequestWithdrawal(id);
+        }
+
+        public EnrollmentRequest? GetActiveCourseRequest(int studentId, CourseController courseController)
+        {
+            return _enrollmentRequests.GetActiveCourseRequest(studentId, courseController);
+        }
+        
     }
 }

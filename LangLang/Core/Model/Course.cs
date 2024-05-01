@@ -209,5 +209,11 @@ namespace LangLang.Core.Model
                 }
             }
         }
+
+        public int DaysUntilEnd()
+        {
+            var endDate = TimeSlots[TimeSlots.Count - 1].GetEnd();
+            return (endDate - DateTime.Now).Days;
+        }
     }
 }

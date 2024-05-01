@@ -1,4 +1,5 @@
-﻿using LangLang.Core.Model.Enums;
+﻿using LangLang.Core.Controller;
+using LangLang.Core.Model.Enums;
 using LangLang.Core.Observer;
 using LangLang.Core.Repository;
 using System;
@@ -114,6 +115,24 @@ namespace LangLang.Core.Model.DAO
             {
                 if (request.Status == Status.Paused) request.UpdateStatus(Status.Pending);
             }
+        }
+
+        public EnrollmentRequest? GetActiveCourseRequest(int studentId, CourseController courseController)
+        {
+            var studentRequests = GetStudentRequests(studentId);
+            foreach (var request in studentRequests)
+            {
+                var course = courseController.GetById(request.CourseId);
+                if (request.Status == Status.Accepted && !course.IsCompleted())
+                    return request;
+            }
+            return null;
+        }
+
+        public bool CanRequestWithdrawal(int id)
+        {
+            EnrollmentRequest er = GetById(id);
+            return er.CanWithdraw();
         }
 
     }
