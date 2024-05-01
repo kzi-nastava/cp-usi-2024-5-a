@@ -15,7 +15,7 @@ namespace LangLang.Core.Controller
             _tutors = new TutorDAO();
         }
 
-        public Dictionary<int, Tutor> GetAllTutors()
+        public List<Tutor> GetAllTutors()
         {
             return _tutors.GetAllTutors();
         }
