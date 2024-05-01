@@ -12,23 +12,46 @@ namespace LangLang.DTO
 
         public int Id { get; set; }
 
-        private Course course;
-        private Student student;
+        public int CourseId { get; set; }
+        public int StudentId {  get; set; }
         private Status status;
         private DateTime requestSentAt;
         private DateTime lastModifiedTimestamp;
         private bool isCanceled;
 
+        public Status Status
+        {
+            get { return status; }
+            set { status = value; }
+        }
+
+        public DateTime RequestSentAt
+        {
+            get { return requestSentAt; }
+            set { requestSentAt = value; }
+        }
+
+        public DateTime LastModifiedTimestamp
+        {
+            get { return lastModifiedTimestamp; }
+            set { lastModifiedTimestamp = value; }
+        }
+        public bool IsCanceled
+        {
+            get { return isCanceled; }
+            set { isCanceled = value; }
+        }
+        
         public EnrollmentRequest ToEnrollmentRequest()
         {
-            return new EnrollmentRequest(Id, student.Id, course.Id, status, requestSentAt, lastModifiedTimestamp, isCanceled);
+            return new EnrollmentRequest(Id, StudentId, CourseId, status, requestSentAt, lastModifiedTimestamp, isCanceled);
         }
 
         public EnrollmentRequestDTO(EnrollmentRequest enrollmentRequest, AppController appController)
         {
             Id = enrollmentRequest.Id;
-            course = appController.CourseController.GetById(enrollmentRequest.CourseId);
-            student = appController.StudentController.GetById(enrollmentRequest.StudentId);
+            CourseId = enrollmentRequest.CourseId;
+            StudentId = enrollmentRequest.StudentId;
             status = enrollmentRequest.Status;
             requestSentAt = enrollmentRequest.RequestSentAt;
             lastModifiedTimestamp = enrollmentRequest.LastModifiedTimestamp;

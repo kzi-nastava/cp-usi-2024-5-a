@@ -2,7 +2,6 @@
 using LangLang.Core.Model;
 using System.Collections.Generic;
 using LangLang.Core.Observer;
-using LangLang.Core.Model.Enums;
 using System;
 
 namespace LangLang.Core.Controller
@@ -46,9 +45,10 @@ namespace LangLang.Core.Controller
             _students.Subscribe(observer);
         }
 
-        public List<Course> GetAvailableCourses(CourseController courseController) 
+        public List<Course> GetAvailableCourses(int studentId, CourseController courseController, EnrollmentRequestController erController) 
         {
-            return _students.GetAvailableCourses(courseController);
+            List<EnrollmentRequest> studentRequests = erController.GetStudentRequests(studentId);
+            return _students.GetAvailableCourses(studentId, courseController, studentRequests);
         }
         
         public List<ExamSlot> GetAvailableExamSlots(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController enrollmentRequestController)
@@ -73,9 +73,9 @@ namespace LangLang.Core.Controller
             return examSlotController.SearchExams(availableExamSlots, examDate, courseLanguage, languageLevel);
         }
 
-        public List<Course> SearchCoursesByStudent(CourseController courseController, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online) 
+        public List<Course> SearchCoursesByStudent(int studentId, CourseController courseController, EnrollmentRequestController erController, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online) 
         {
-            List<Course> availableCourses = GetAvailableCourses(courseController);
+            List<Course> availableCourses = GetAvailableCourses(studentId, courseController, erController);
             List<Course> filteredCourses = courseController.SearchCourses(availableCourses, language, level, startDate, duration, online);
             return filteredCourses;
         }
