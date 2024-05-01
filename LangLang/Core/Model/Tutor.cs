@@ -35,8 +35,8 @@ namespace LangLang.Core.Model
             private set { _profile = value; }
         }
 
-        public Tutor(int id, string name, string lastName, Gender gender, DateTime dateOfBirth, string phoneNumber, string email, string password, UserType role, DateTime employmentDate, List<string> languages, List<LanguageLevel>levels) {
-            _profile = new Profile(id, name, lastName, gender, dateOfBirth, phoneNumber, email, password, role);
+        public Tutor(int id, string name, string lastName, Gender gender, DateTime dateOfBirth, string phoneNumber, string email, string password, UserType role, bool isDeleted, DateTime employmentDate, List<string> languages, List<LanguageLevel>levels) {
+            _profile = new Profile(id, name, lastName, gender, dateOfBirth, phoneNumber, email, password, role, isDeleted);
             _employmentDate = employmentDate;
             _skill = new(languages, levels);
             }
@@ -55,14 +55,14 @@ namespace LangLang.Core.Model
 
         public void FromCSV(string[] values)
         {
-            _profile = new Profile(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
+            _profile = new Profile(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8], values[9]);
 
-            if (!DateTime.TryParseExact(values[9], "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out _employmentDate))
+            if (!DateTime.TryParseExact(values[10], "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out _employmentDate))
             {
                 throw new FormatException("Date is not in the correct format.");
             }
 
-            for (int i = 10; i < values.Length; i++)
+            for (int i = 11; i < values.Length; i++)
             {
                 string[] languageSkill = values[i].Split(',');
 

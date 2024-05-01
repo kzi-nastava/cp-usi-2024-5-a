@@ -195,7 +195,7 @@ namespace LangLang.DTO
 
         public Student ToStudent()
         {
-            return new Student(Id, name, lastName, gender, birthDate, phoneNumber, email, password, UserType.Student, profession);
+            return new Student(Id, name, lastName, gender, birthDate, phoneNumber, email, password, UserType.Student, false, profession);
         }
 
         public StudentDTO(Student student)
