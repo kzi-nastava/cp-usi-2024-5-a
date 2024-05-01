@@ -19,6 +19,11 @@ namespace LangLang.Core.Controller
             return _enrollmentRequests.GetAllEnrollmentRequests();
         }
 
+        public EnrollmentRequest GetById(int id)
+        { 
+            return _enrollmentRequests.GetById(id);
+        }
+
         public void Add(EnrollmentRequest enrollmentRequest)
         {
             _enrollmentRequests.Add(enrollmentRequest);

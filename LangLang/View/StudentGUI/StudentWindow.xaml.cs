@@ -32,7 +32,7 @@ namespace LangLang.View.StudentGUI
 
             this.appController = appController;
             this.studentController = appController.StudentController;
-            this.currentlyLoggedIn = studentController.GetAllStudents()[currentlyLoggedIn.Id];
+            this.currentlyLoggedIn = studentController.GetById(currentlyLoggedIn.Id);
             this.courseController = appController.CourseController;
             this.enrollmentRequestController = appController.EnrollmentRequestController;
             this.examSlotController = appController.ExamSlotController;

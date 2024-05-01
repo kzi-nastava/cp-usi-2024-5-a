@@ -14,8 +14,8 @@ namespace LangLang.Core.Model
             set { _profile = value;}
         }
 
-        public Director(int id, string name, string lastName, Gender gender, DateTime dateOfBirth, string phoneNumber, string email, string password, UserType role) {
-            _profile = new Profile(id, name, lastName, gender, dateOfBirth, phoneNumber, email, password, role);
+        public Director(int id, string name, string lastName, Gender gender, DateTime dateOfBirth, string phoneNumber, string email, string password, UserType role, bool isDeleted) {
+            _profile = new Profile(id, name, lastName, gender, dateOfBirth, phoneNumber, email, password, role, isDeleted);
         }
 
         public Director() { }
@@ -29,7 +29,7 @@ namespace LangLang.Core.Model
         public void FromCSV(string[] values)
         {
             try {
-                _profile = new Profile(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8]);
+                _profile = new Profile(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8], values[9]);
             } catch {
                 throw;
             }

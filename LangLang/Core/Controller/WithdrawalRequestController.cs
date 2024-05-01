@@ -20,6 +20,11 @@ namespace LangLang.Core.Controller
             return _withdrawalRequests.GetAllWithdrawalRequests();
         }
 
+        public WithdrawalRequest GetById(int id)
+        {
+            return _withdrawalRequests.GetById(id);
+        }
+
         public void Add(WithdrawalRequest withdrawalRequest)
         {
             _withdrawalRequests.Add(withdrawalRequest);

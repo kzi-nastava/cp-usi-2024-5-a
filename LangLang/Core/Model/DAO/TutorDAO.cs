@@ -70,9 +70,9 @@ namespace LangLang.Core.DAO
             return oldTutor;
         }
 
-        public Dictionary<int, Tutor> GetAllTutors()
+        public List<Tutor> GetAllTutors()
         {
-            return _tutors;
+            return _tutors.Values.ToList();
         }
 
         public Tutor? Remove(int id)
@@ -80,7 +80,7 @@ namespace LangLang.Core.DAO
             Tutor tutor = Get(id);
             if (tutor == null) return null;
 
-            _tutors.Remove(tutor.Profile.Id);
+            _tutors[id].Profile.IsDeleted = true;
             _repository.Save(_tutors);
             NotifyObservers();
             return tutor;
