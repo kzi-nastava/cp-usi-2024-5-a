@@ -38,17 +38,14 @@ namespace LangLang.Core.DAO
             return tutor;
         }
 
-        public Dictionary<int, Tutor> Search(TutorController tutorController, DateTime date, string language, LanguageLevel? level)
+        public List<Tutor> Search(TutorController tutorController, DateTime date, string language, LanguageLevel? level)
         {
-            Dictionary<int, Tutor> allTutors = tutorController.GetAllTutors();
+            List<Tutor> allTutors = tutorController.GetAllTutors();
 
-            Dictionary<int, Tutor> filteredTutors = allTutors.Where(tutor =>
-            (date == default || tutor.Value.EmploymentDate.Date == date.Date) &&
-             (language == "" || tutor.Value.Skill.Language.Any(skill => skill.Contains(language))) &&
-             (level == null || tutor.Value.Skill.Level.Any(skilll => skilll == level))).ToDictionary(x => x.Key, x => x.Value);
-
-
-            return filteredTutors;
+            return allTutors.Where(tutor =>
+            (date == default || tutor.EmploymentDate.Date == date.Date) &&
+             (language == "" || tutor.Skill.Language.Any(skill => skill.Contains(language))) &&
+             (level == null || tutor.Skill.Level.Any(skilll => skilll == level))).ToList();
         }
         public Tutor? Update(Tutor tutor)
         {
@@ -70,9 +67,9 @@ namespace LangLang.Core.DAO
             return oldTutor;
         }
 
-        public Dictionary<int, Tutor> GetAllTutors()
+        public List<Tutor> GetAllTutors()
         {
-            return _tutors;
+            return _tutors.Values.ToList();
         }
 
         public Tutor? Remove(int id)
@@ -80,7 +77,7 @@ namespace LangLang.Core.DAO
             Tutor tutor = Get(id);
             if (tutor == null) return null;
 
-            _tutors.Remove(tutor.Profile.Id);
+            _tutors[id].Profile.IsDeleted = true;
             _repository.Save(_tutors);
             NotifyObservers();
             return tutor;

@@ -39,9 +39,9 @@ namespace LangLang.Core.Controller
         {
             return _appRequests.GetStudentRequests(studentId);
         }
-        public List<ExamAppRequest> GetExamRequests(int examId)
+        public List<Student> GetExamRequests(int examId, StudentController studentController)
         {
-            return _appRequests.GetExamRequests(examId);
+            return _appRequests.GetExamRequests(examId, studentController);
         }
 
         public bool CancelRequest(ExamAppRequest appRequest, ExamSlotController examSlotController)

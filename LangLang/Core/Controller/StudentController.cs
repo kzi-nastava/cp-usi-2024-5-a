@@ -16,7 +16,7 @@ namespace LangLang.Core.Controller
             _students = new StudentDAO();
         }
 
-        public Dictionary<int, Student> GetAllStudents()
+        public List<Student> GetAllStudents()
         {
             return _students.GetAllStudents();
         }
@@ -31,9 +31,9 @@ namespace LangLang.Core.Controller
             _students.AddStudent(student);
         }
 
-        public void Delete(int studentId, EnrollmentRequestController enrollmentRequestController)
+        public void Delete(int studentId, EnrollmentRequestController erController, ExamAppRequestController earController)
         {
-            _students.RemoveStudent(studentId, enrollmentRequestController);
+            _students.RemoveStudent(studentId, erController, earController);
         }
 
         public void Update(Student student)
