@@ -47,7 +47,7 @@ namespace LangLang.Core.Model.DAO
 
         public Student? UpdateStudent(Student student)
         {
-            Student oldStudent = GetStudentById(student.Profile.Id);
+            Student? oldStudent = GetStudentById(student.Profile.Id);
             if (oldStudent == null) return null;
 
             oldStudent.Profile.Id = student.Profile.Id;
@@ -68,7 +68,7 @@ namespace LangLang.Core.Model.DAO
 
         public Student? RemoveStudent(int id, EnrollmentRequestController enrollmentRequestController)
         {
-            Student student = GetStudentById(id);
+            Student? student = GetStudentById(id);
             if (student == null) return null;
 
             foreach (EnrollmentRequest er in enrollmentRequestController.GetStudentRequests(id))
@@ -76,7 +76,7 @@ namespace LangLang.Core.Model.DAO
                 enrollmentRequestController.Delete(er.Id);
             }
 
-            _students.Remove(student.Profile.Id);
+            _students[id].Profile.IsDeleted = true;
             _repository.Save(_students);
             NotifyObservers();
             return student;

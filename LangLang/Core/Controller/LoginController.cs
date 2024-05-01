@@ -24,7 +24,7 @@ namespace LangLang.Core.Controller
             {
                 var profile = (GetProfile(studentController.GetAllStudents(), email, password)
                               ?? GetProfile(tutorController.GetAllTutors(), email, password)) 
-                              ?? throw new AuthenticationException("Invalid email address");
+                              ?? throw new AuthenticationException("Invalid email address.");
                 return profile; // profile with the given credentials exists
             }
             catch (AuthenticationException ex)
@@ -44,7 +44,12 @@ namespace LangLang.Core.Controller
 
             if (user.Profile.Password != password)
             {
-                throw new AuthenticationException("Invalid password");
+                throw new AuthenticationException("Invalid password.");
+            }
+
+            if (user.Profile.IsDeleted == true)
+            {
+                throw new AuthenticationException("Profile deactivated.");
             }
 
             return user.Profile;
