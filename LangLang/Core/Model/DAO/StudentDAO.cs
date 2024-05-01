@@ -77,15 +77,16 @@ namespace LangLang.Core.Model.DAO
             return oldStudent;
         }
 
-        public Student? RemoveStudent(int id, EnrollmentRequestController enrollmentRequestController)
+        public Student? RemoveStudent(int id, EnrollmentRequestController erController, ExamAppRequestController earController)
         {
             Student? student = GetStudentById(id);
             if (student == null) return null;
 
-            foreach (EnrollmentRequest er in enrollmentRequestController.GetStudentRequests(id))
-            {
-                enrollmentRequestController.Delete(er.Id);
-            }
+            foreach (EnrollmentRequest er in erController.GetStudentRequests(id)) // delete all course enrollment requests
+                erController.Delete(er.Id);
+
+            foreach (ExamAppRequest ar in earController.GetStudentRequests(id)) // delete all exam application requests
+                earController.Delete(ar.Id);
 
             _students[id].Profile.IsDeleted = true;
             _repository.Save(_students);

@@ -19,6 +19,7 @@ namespace LangLang.View.StudentGUI
         private EnrollmentRequestController enrollmentRequestController;
         private CourseController courseController;
         private ExamSlotController examSlotController;
+        private ExamAppRequestController examAppRequestController;
         private Student currentlyLoggedIn;
         private ObservableCollection<CourseDTO> courses;
         private ObservableCollection<ExamSlotDTO> examSlots;
@@ -36,6 +37,7 @@ namespace LangLang.View.StudentGUI
             this.courseController = appController.CourseController;
             this.enrollmentRequestController = appController.EnrollmentRequestController;
             this.examSlotController = appController.ExamSlotController;
+            this.examAppRequestController = appController.ExamAppRequestController;
 
             this.courses = new ObservableCollection<CourseDTO>();
             this.examSlots = new ObservableCollection<ExamSlotDTO>();
@@ -185,7 +187,7 @@ namespace LangLang.View.StudentGUI
 
             if (result == MessageBoxResult.Yes)
             {
-                studentController.Delete(currentlyLoggedIn.Id, enrollmentRequestController);
+                studentController.Delete(currentlyLoggedIn.Id, enrollmentRequestController, examAppRequestController);
                 MessageBox.Show("Account is deactivated. All exams and courses have been canceled.");
                 this.Close();
             }
