@@ -30,7 +30,7 @@
         <!-- end of label -->
 
         <!--table for students-->
-        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="studentsTable" Margin="49,43,49,82" SelectedItem="{Binding SelectedStudent, UpdateSourceTrigger=PropertyChanged}">
+        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="studentsTable" ItemsSource="{Binding Students, UpdateSourceTrigger=PropertyChanged}" Margin="49,43,49,82" SelectedItem="{Binding SelectedStudent, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="StudentsTable_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Name}"/>
                 <DataGridTextColumn IsReadOnly="True" Header="LastName" Binding="{Binding LastName}"/>
@@ -41,8 +41,8 @@
         </DataGrid>
 
         <StackPanel HorizontalAlignment="Center" Height="58" Margin="0,350,0,0" VerticalAlignment="Top" Width="402"/>
-        <Button x:Name="conifrmListBtn" Content="Confirm the list of students" HorizontalAlignment="Left" Height="39" Margin="49,350,0,0" VerticalAlignment="Top" Width="209" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="conifrmListBtn_Click"/>
-        <Button x:Name="disallowBtn" Content="Disallow exam taking" HorizontalAlignment="Left" Height="39" Margin="263,350,0,0" VerticalAlignment="Top" Width="178" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="disallowBtn_Click"/>
+        <Button x:Name="confirmApplicationsBtn" Content="Confirm the list of students" HorizontalAlignment="Left" Height="39" Margin="49,350,0,0" VerticalAlignment="Top" Width="209" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ConfirmApplicationsBtn_Click"/>
+        <Button x:Name="deleteBtn" Content="Disallow exam taking" HorizontalAlignment="Left" Height="39" Margin="263,350,0,0" VerticalAlignment="Top" Width="178" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="DeleteBtn_Click"/>
 
 
     </Grid>

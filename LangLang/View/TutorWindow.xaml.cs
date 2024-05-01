@@ -186,7 +186,7 @@ namespace LangLang
 
         private void ButtonSeeStudentInfo_Click(object sender, RoutedEventArgs e)
         {
-            ExamApplications applicationsWindow = new (appController);
+            ExamApplications applicationsWindow = new (appController, SelectedExamSlot);
             applicationsWindow.Show();
         }
 
