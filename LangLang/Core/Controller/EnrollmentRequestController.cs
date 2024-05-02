@@ -52,7 +52,7 @@ namespace LangLang.Core.Controller
         public bool CancelRequest(EnrollmentRequest enrollmentRequest, CourseController courseController)
         {
             Course course = courseController.GetById(enrollmentRequest.CourseId);
-            return _enrollmentRequests.CancelRequest(enrollmentRequest, course);
+            return _enrollmentRequests.CancelRequest(enrollmentRequest.Id, course);
         }
 
         // this method is invoked when the tutor approves the request for the student

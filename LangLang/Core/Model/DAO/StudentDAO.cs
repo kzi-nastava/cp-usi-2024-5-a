@@ -111,7 +111,7 @@ namespace LangLang.Core.Model.DAO
         {
             foreach (EnrollmentRequest er in enrollmentRequests)
             {
-                if (er.StudentId == studentId && er.CourseId == course.Id) return true;
+                if (er.StudentId == studentId && er.CourseId == course.Id && !er.IsCanceled) return true;
             }
             return false;
         }
