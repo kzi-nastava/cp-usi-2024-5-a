@@ -115,5 +115,11 @@ namespace LangLang.Core.Controller
         {
             return _courses.IsCompleted(id);
         }
-    }   
+
+        public List<Course> GetCoursesForSkills(Tutor tutor)
+        {
+            return _courses.GetCoursesForSkills(tutor);
+        }
+
+    }
 }
