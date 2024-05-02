@@ -11,7 +11,9 @@ namespace LangLang.Core.Controller
         public readonly WithdrawalRequestController WithdrawalRequestController;
         public readonly ExamSlotController ExamSlotController;
         public readonly LoginController LoginController;
+        public readonly ExamAppRequestController ExamAppRequestController;
         public readonly GradeController GradeController;
+      
         public AppController()
         {
             TutorController = new();
@@ -21,6 +23,7 @@ namespace LangLang.Core.Controller
             WithdrawalRequestController = new();
             ExamSlotController = new();
             LoginController = new(StudentController, TutorController);
+            ExamAppRequestController = new();
             GradeController = new();
         }
 
@@ -28,12 +31,12 @@ namespace LangLang.Core.Controller
         public bool EmailExists(string email)
         {
 
-            foreach (Student student in StudentController.GetAllStudents().Values)
+            foreach (Student student in StudentController.GetAllStudents())
             {
                 if (student.Profile.Email == email) return true;
             }
 
-            foreach (Tutor tutor in TutorController.GetAllTutors().Values)
+            foreach (Tutor tutor in TutorController.GetAllTutors())
             {
                 if (tutor.Profile.Email == email) return true;
             }
@@ -47,14 +50,14 @@ namespace LangLang.Core.Controller
         {
             if (role == UserType.Student)
             {
-                foreach (Student student in StudentController.GetAllStudents().Values)
+                foreach (Student student in StudentController.GetAllStudents())
                 {
                     if ((student.Profile.Email == email) && (student.Profile.Id != id)) return true;
                 }
             }
             else
             {
-                foreach (Tutor tutor in TutorController.GetAllTutors().Values)
+                foreach (Tutor tutor in TutorController.GetAllTutors())
                 {
                     if ((tutor.Profile.Email == email) && (tutor.Profile.Id != id)) return true;
                 }

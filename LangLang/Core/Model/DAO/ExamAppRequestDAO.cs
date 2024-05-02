@@ -1,4 +1,5 @@
-﻿using LangLang.Core.Model.Enums;
+﻿using LangLang.Core.Controller;
+using LangLang.Core.Model.Enums;
 using LangLang.Core.Observer;
 using LangLang.Core.Repository;
 using System;
@@ -64,14 +65,17 @@ namespace LangLang.Core.Model.DAO
             return studentRequests;
         }
 
-        public List<ExamAppRequest> GetExamRequests(int examId)
+        public List<Student> GetExamRequests(int examId, StudentController studentController)
         {
-            List<ExamAppRequest> examRequests = new();
+            List<Student> students = new();
             foreach (ExamAppRequest appRequest in GetAllAppRequests())
             {
-                if (appRequest.ExamSlotId == examId) examRequests.Add(appRequest);
+                if (appRequest.ExamSlotId == examId) {
+                    Student student = studentController.GetById(appRequest.StudentId);
+                    students.Add(student);
+                }
             }
-            return examRequests;
+            return students;
         }
 
         // returns true if the cancellation was successful, otherwise false

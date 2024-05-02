@@ -23,6 +23,7 @@ namespace LangLang.View.StudentGUI
         private WithdrawalRequestController wrController;
         private CourseController courseController;
         private ExamSlotController examSlotController;
+        private ExamAppRequestController examAppRequestController;
         private Student currentlyLoggedIn;
         private ObservableCollection<CourseDTO> courses;
         private ObservableCollection<ExamSlotDTO> examSlots;
@@ -42,7 +43,9 @@ namespace LangLang.View.StudentGUI
             SetControllers();
 
             this.currentlyLoggedIn = studentController.GetById(currentlyLoggedIn.Id);
+
             Student = new(this.currentlyLoggedIn);
+
 
             EnrollmentRequest = new();
             if (!studentController.CanRequestEnroll(currentlyLoggedIn.Id, erController, courseController, wrController))
@@ -254,7 +257,7 @@ namespace LangLang.View.StudentGUI
 
             if (result == MessageBoxResult.Yes)
             {
-                studentController.Delete(currentlyLoggedIn.Id, erController);
+                studentController.Delete(currentlyLoggedIn.Id, erController, examAppRequestController);
                 MessageBox.Show("Account is deactivated. All exams and courses have been canceled.");
                 this.Close();
             }

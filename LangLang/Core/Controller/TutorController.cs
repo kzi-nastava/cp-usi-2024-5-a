@@ -15,7 +15,7 @@ namespace LangLang.Core.Controller
             _tutors = new TutorDAO();
         }
 
-        public Dictionary<int, Tutor> GetAllTutors()
+        public List<Tutor> GetAllTutors()
         {
             return _tutors.GetAllTutors();
         }
@@ -30,7 +30,7 @@ namespace LangLang.Core.Controller
             _tutors.Remove(tutorId);
         }
 
-        public Dictionary<int, Tutor> Search(string language, DateTime date, LanguageLevel? level)
+        public List<Tutor> Search(string language, DateTime date, LanguageLevel? level)
         {
             return _tutors.Search(this, date, language, level);
         }
