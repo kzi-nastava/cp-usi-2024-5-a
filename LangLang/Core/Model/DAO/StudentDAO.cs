@@ -13,7 +13,6 @@ namespace LangLang.Core.Model.DAO
         private readonly Dictionary<int, Student> _students;
         private readonly Repository<Student> _repository;
 
-
         public StudentDAO()
         {
             _repository = new Repository<Student>("students.csv");
@@ -94,17 +93,27 @@ namespace LangLang.Core.Model.DAO
             return student;
         }
 
-        public List<Course> GetAvailableCourses(CourseController courseController)
+        public List<Course> GetAvailableCourses(int studentId, CourseController courseController, List<EnrollmentRequest> studentRequests)
         {
             List<Course> availableCourses = new();
             foreach (Course course in courseController.GetAllCourses().Values)
             {
                 if (courseController.IsCourseAvailable(course.Id))
                 {
-                    availableCourses.Add(course);
+                    if (!IsRequestDuplicate(studentId, course, studentRequests))
+                        availableCourses.Add(course);
                 }
             }
             return availableCourses;
+        }
+
+        private bool IsRequestDuplicate(int studentId, Course course, List<EnrollmentRequest> enrollmentRequests)
+        {
+            foreach (EnrollmentRequest er in enrollmentRequests)
+            {
+                if (er.StudentId == studentId && er.CourseId == course.Id) return true;
+            }
+            return false;
         }
 
         private bool HasStudentAttendedCourse(Course course, EnrollmentRequest enrollmentRequest, ExamSlot examSlot)

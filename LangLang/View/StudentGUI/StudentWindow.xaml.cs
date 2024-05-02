@@ -1,6 +1,7 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Model.DAO;
+using LangLang.Core.Model.Enums;
 using LangLang.Core.Observer;
 using LangLang.DTO;
 using System;
@@ -15,19 +16,23 @@ namespace LangLang.View.StudentGUI
     public partial class StudentWindow : Window, IObserver
     {
         public StudentDTO Student { get; set; }
+        public EnrollmentRequestDTO EnrollmentRequest { get; set; }
         private AppController appController;
         private StudentController studentController;
-        private EnrollmentRequestController ERController;
-        private WithdrawalRequestController WRController;
+        private EnrollmentRequestController erController;
+        private WithdrawalRequestController wrController;
         private CourseController courseController;
         private ExamSlotController examSlotController;
         private ExamAppRequestController examAppRequestController;
         private Student currentlyLoggedIn;
         private ObservableCollection<CourseDTO> courses;
         private ObservableCollection<ExamSlotDTO> examSlots;
+        private ObservableCollection<EnrollmentRequestDTO> enrollmentRequests;
         private List<Course> coursesForReview;
         private List<ExamSlot> examSlotsForReview;
+        private List<EnrollmentRequest> enrollmentRequestsForReview;
         private int enrollmentRequestId; // id of enrollment request to current active course
+        public CourseDTO SelectedCourse {  get; set; }
 
         public StudentWindow(AppController appController, Profile currentlyLoggedIn)
         {
@@ -35,32 +40,63 @@ namespace LangLang.View.StudentGUI
             DataContext = this;
 
             this.appController = appController;
-            this.studentController = appController.StudentController;
-            this.currentlyLoggedIn = studentController.GetById(currentlyLoggedIn.Id);
-            this.courseController = appController.CourseController;
-            this.ERController = appController.EnrollmentRequestController;
-            this.WRController = appController.WithdrawalRequestController;
-            this.examSlotController = appController.ExamSlotController;
-            this.examAppRequestController = appController.ExamAppRequestController;
+            SetControllers();
 
-            this.courses = new ObservableCollection<CourseDTO>();
-            this.examSlots = new ObservableCollection<ExamSlotDTO>();
+            this.currentlyLoggedIn = studentController.GetById(currentlyLoggedIn.Id);
 
             Student = new(this.currentlyLoggedIn);
-            examSlotsForReview = this.studentController.GetAvailableExamSlots(this.currentlyLoggedIn, courseController, examSlotController, ERController);
-            coursesForReview = this.studentController.GetAvailableCourses(courseController);
 
+
+            EnrollmentRequest = new();
+            if (!studentController.CanRequestEnroll(currentlyLoggedIn.Id, erController, courseController, wrController))
+            {
+                SendRequestBtn.IsEnabled = false;
+            }
+
+            CreateObservableCollections();
+            SetDataForReview();
+            SubscribeControllers();
+            FillComboBox();
+            FillData();
+            Update();
+        }
+
+        private void CreateObservableCollections()
+        {
+            courses = new ObservableCollection<CourseDTO>();
+            examSlots = new ObservableCollection<ExamSlotDTO>();
+            enrollmentRequests = new ObservableCollection<EnrollmentRequestDTO>();
+        }
+
+        private void SetDataForReview()
+        {
+            examSlotsForReview = studentController.GetAvailableExamSlots(currentlyLoggedIn, courseController, examSlotController, erController);
+            coursesForReview = studentController.GetAvailableCourses(currentlyLoggedIn.Id, courseController, erController);
+            enrollmentRequestsForReview = erController.GetStudentRequests(currentlyLoggedIn.Id);
+        }
+
+        private void SetControllers()
+        {
+            studentController = appController.StudentController;
+            courseController = appController.CourseController;
+            erController = appController.EnrollmentRequestController;
+            wrController = appController.WithdrawalRequestController;
+            examSlotController = appController.ExamSlotController;
+        }
+
+        private void FillComboBox()
+        {
             gendercb.ItemsSource = Enum.GetValues(typeof(Gender));
             levelExamcb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
             levelCoursecb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
-            
-            this.studentController.Subscribe(this);
-            this.courseController.Subscribe(this);
-            this.ERController.Subscribe(this);
-            this.examSlotController.Subscribe(this);
+        }
 
-            FillData();
-            Update();
+        private void SubscribeControllers()
+        {
+            studentController.Subscribe(this);
+            courseController.Subscribe(this);
+            erController.Subscribe(this);
+            examSlotController.Subscribe(this);
         }
 
         public ObservableCollection<CourseDTO> Courses
@@ -75,19 +111,25 @@ namespace LangLang.View.StudentGUI
             set { examSlots = value; }
         }
 
+        public ObservableCollection<EnrollmentRequestDTO> EnrollmentRequests
+        {
+            get { return enrollmentRequests; }
+            set { enrollmentRequests = value; }
+        }
 
         public void Update()
-        {
+        {   
             Courses.Clear();
             foreach (Course course in coursesForReview)
-            {
                 Courses.Add(new CourseDTO(course));
-            }
+
             ExamSlots.Clear();
             foreach (ExamSlot exam in examSlotsForReview)
-            {
                 ExamSlots.Add(new ExamSlotDTO(exam));
-            }
+            
+            EnrollmentRequests.Clear();
+            foreach (EnrollmentRequest er in enrollmentRequestsForReview)
+                EnrollmentRequests.Add(new EnrollmentRequestDTO(er, appController));
         }
 
         private void EditMode()
@@ -120,7 +162,7 @@ namespace LangLang.View.StudentGUI
 
         private void FillCourseInfo()
         {
-            EnrollmentRequest? enrollmentRequest = ERController.GetActiveCourseRequest(Student.Id, courseController);
+            EnrollmentRequest? enrollmentRequest = erController.GetActiveCourseRequest(Student.Id, courseController);
             if (enrollmentRequest == null)
             {
                 untilEndTb.Text = "You are currently not enrolled in any courses. \nYou can request enrollment or wait for the tutor to accept your request.";
@@ -130,7 +172,7 @@ namespace LangLang.View.StudentGUI
             
             int erId = enrollmentRequest.Id;
             // disable the withdrawal request button if the student is ineligible to withdraw or has already withdrawn
-            if (!ERController.CanRequestWithdrawal(erId) || WRController.AlreadyExists(erId))
+            if (!erController.CanRequestWithdrawal(erId) || wrController.AlreadyExists(erId))
                 CourseWithdrawalBtn.IsEnabled = false;
 
             Course activeCourse = courseController.GetById(enrollmentRequest.CourseId);
@@ -167,12 +209,12 @@ namespace LangLang.View.StudentGUI
 
         private void SignOutBtn_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (studentController.CanModifyInfo(currentlyLoggedIn.Id, ERController, courseController, WRController))
+            if (studentController.CanModifyInfo(currentlyLoggedIn.Id, erController, courseController, wrController))
             {
                 EnableAll();
                 EditMode();
@@ -215,7 +257,7 @@ namespace LangLang.View.StudentGUI
 
             if (result == MessageBoxResult.Yes)
             {
-                studentController.Delete(currentlyLoggedIn.Id, ERController, examAppRequestController);
+                studentController.Delete(currentlyLoggedIn.Id, erController, examAppRequestController);
                 MessageBox.Show("Account is deactivated. All exams and courses have been canceled.");
                 this.Close();
             }
@@ -223,13 +265,13 @@ namespace LangLang.View.StudentGUI
 
         private void ClearExamBtn_Click(object sender, RoutedEventArgs e)
         {
-            examSlotsForReview = this.studentController.GetAvailableExamSlots(currentlyLoggedIn, this.courseController, examSlotController, ERController);
+            examSlotsForReview = this.studentController.GetAvailableExamSlots(currentlyLoggedIn, this.courseController, examSlotController, erController);
             levelExamcb.SelectedItem = null;
             Update();
         }
         private void ClearCourseBtn_Click(object sender, RoutedEventArgs e)
         {
-            coursesForReview = this.studentController.GetAvailableCourses(this.courseController);
+            coursesForReview = studentController.GetAvailableCourses(currentlyLoggedIn.Id, courseController, erController);
             levelCoursecb.SelectedItem = null;
             Update();
         }
@@ -249,7 +291,7 @@ namespace LangLang.View.StudentGUI
             DateTime examDate = examdatePicker.SelectedDate ?? default;
 
 
-            examSlotsForReview = this.studentController.SearchExamSlotsByStudent(examSlotController, courseController, ERController, currentlyLoggedIn.Id, examDate, language, level); ;
+            examSlotsForReview = studentController.SearchExamSlotsByStudent(examSlotController, courseController, erController, currentlyLoggedIn.Id, examDate, language, level); ;
             Update();
         }
 
@@ -260,9 +302,23 @@ namespace LangLang.View.StudentGUI
             if (levelCoursecb.SelectedValue != null)
                 level = (LanguageLevel)levelCoursecb.SelectedValue;
             DateTime courseStartDate = courseStartdp.SelectedDate ?? default;
-            int duration = 0;
-            int.TryParse(durationtb.Text, out duration);
-            coursesForReview = this.studentController.SearchCoursesByStudent(courseController, language, level, courseStartDate, duration, !onlinecb.IsChecked);
+            int.TryParse(durationtb.Text, out int duration);
+            coursesForReview = studentController.SearchCoursesByStudent(currentlyLoggedIn.Id, courseController, erController, language, level, courseStartDate, duration, !onlinecb.IsChecked);
+            Update();
+        }
+
+        private void SendRequestBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedCourse  == null) return;
+            EnrollmentRequest.CourseId = SelectedCourse.Id;
+            EnrollmentRequest.StudentId = currentlyLoggedIn.Id;
+            EnrollmentRequest.Status = Status.Pending;
+            EnrollmentRequest.RequestSentAt = DateTime.Now;
+            EnrollmentRequest.LastModifiedTimestamp = DateTime.Now;
+            EnrollmentRequest.IsCanceled = false;
+            erController.Add(EnrollmentRequest.ToEnrollmentRequest());
+            MessageBox.Show("Request sent. Please wait for approval.");
+            coursesForReview = studentController.GetAvailableCourses(currentlyLoggedIn.Id, courseController, erController);
             Update();
         }
     }

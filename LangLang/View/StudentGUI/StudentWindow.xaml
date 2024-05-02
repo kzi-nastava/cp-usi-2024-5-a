@@ -21,7 +21,7 @@
     </Window.Resources>
 
     <Grid VerticalAlignment="Center">
-        <Button x:Name="signoutbtn" Content="Sign out" HorizontalAlignment="Left" Height="25" Margin="814,5,0,0" VerticalAlignment="Top" Width="140" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="SignOutBtn_Click"/>
+        <Button x:Name="signoutbtn" Content="Sign out" HorizontalAlignment="Left" Height="25" Margin="818,18,0,0" VerticalAlignment="Top" Width="140" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="SignOutBtn_Click"/>
         <TabControl x:Name="tabControl" HorizontalAlignment="Center" Height="694" VerticalAlignment="Top" Width="945" Margin="0,35,0,0">
             <TabItem Header="Student data" Margin="0,-2,1,0">
                 <Grid Margin="0,0,0,0" Background="#FFFAE0E0">
@@ -278,7 +278,8 @@
                               AutoGenerateColumns="False"
                               x:Name="CoursesDataGrid"
                               ItemsSource="{Binding Path=Courses, UpdateSourceTrigger=PropertyChanged}"
-                              SelectionMode="Single" IsReadOnly="True" Margin="168,52,136,251">
+                              SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}"
+                              SelectionMode="Single" IsReadOnly="True" Margin="54,30,250,273">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Language" Binding="{Binding Language}"/>
                             <DataGridTextColumn Header="Language level" Binding="{Binding Level}"/>
@@ -289,7 +290,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
 
-                    <GroupBox x:Name="searchgb" HorizontalAlignment="Left" Height="222" Header="Search" Margin="256,429,0,0" VerticalAlignment="Top" Width="516" RenderTransformOrigin="0.501,0.513">
+                    <GroupBox x:Name="searchgb" HorizontalAlignment="Left" Height="222" Header="Search" Margin="115,419,0,0" VerticalAlignment="Top" Width="516" RenderTransformOrigin="0.501,0.513">
                         <Grid>
                             <GroupBox x:Name="languagegb" HorizontalAlignment="Left" Height="53" Header="Language" Margin="20,20,0,0" VerticalAlignment="Top" Width="249">
                                 <TextBox x:Name="languagetb" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="" Width="209" Background="White" SelectionBrush="#FFFAE0E0" BorderBrush="#FFFAE0E0" Margin="10,0,0,0" TextChanged="SearchCourses"/>
@@ -317,6 +318,41 @@
 
                         </Grid>
                     </GroupBox>
+
+                    <Button x:Name="SendRequestBtn"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Width="129"
+                        Height="104"
+                        Margin="755,164,0,0"
+                        Background="#FFFFDBDB"
+                        BorderBrush="White"
+                        Foreground="#FFD28383"
+                        FontFamily="Segoe UI Black" Click="SendRequestBtn_Click">
+                        <StackPanel>
+                            <TextBlock Text="SEND" TextAlignment="Center"/>
+                            <TextBlock Text="COURSE" TextAlignment="Center"/>
+                            <TextBlock Text="ENROLLMENT" TextAlignment="Center"/>
+                            <TextBlock Text="REQUEST" TextAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Expander x:Name="expander" HorizontalAlignment="Left" Height="212" Header="Help?" Margin="684,429,0,0" VerticalAlignment="Top" Width="234" RenderTransformOrigin="0.5,0.5">
+                        <Expander.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Expander.RenderTransform>
+                        <Grid Background="#FFFAE0E0" Margin="0,10,0,0" Width="227">
+                            <TextBlock x:Name="helpTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" 
+                                       Text="If you want to request enrollment in a course, it is necessary to select one of the offered courses. If you cannot select the button, it means that you are currently attending another course or you have registered for an exam.
+                                       For easier navigation, you can also search by criteria." 
+                                       VerticalAlignment="Center" Height="179" Width="227"/>
+                        </Grid>
+                    </Expander>
+
                 </Grid>
             </TabItem>
 
