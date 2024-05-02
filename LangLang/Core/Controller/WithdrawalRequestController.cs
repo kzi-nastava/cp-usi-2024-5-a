@@ -1,6 +1,7 @@
 ﻿
 using LangLang.Core.Model;
 using LangLang.Core.Model.DAO;
+using LangLang.Core.Model.Enums;
 using LangLang.Core.Observer;
 using System.Collections.Generic;
 
@@ -54,6 +55,11 @@ namespace LangLang.Core.Controller
         public bool HasAcceptedWithdrawal(int enrollmentRequestId)
         {
             return _withdrawalRequests.HasAcceptedWithdrawal(enrollmentRequestId);
+        }
+
+        public void UpdateStatus(int id, Status status)
+        {
+            _withdrawalRequests.UpdateStatus(id, status);
         }
     }
 }
