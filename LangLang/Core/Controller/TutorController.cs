@@ -42,5 +42,10 @@ namespace LangLang.Core.Controller
         {
             _tutors.Subscribe(observer);
         }
+
+        public Tutor GetById(int id)
+        {
+            return _tutors.Get(id);
+        }
     }
 }

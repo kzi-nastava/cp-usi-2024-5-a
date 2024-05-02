@@ -407,7 +407,7 @@
             </TabItem>
             
             
-            <!--tab for enrollmen requests preview and cancelation-->
+            <!--tab for enrollment requests preview and cancelation-->
             <TabItem Header="Course enrollment requests">
                 <Grid Margin="0,0,-3,-9" Background="#FFFAE0E0">
                     <DataGrid Height="Auto"
@@ -430,7 +430,29 @@
                             Click="CancelRequestBtn_Click"/>
                 </Grid>
             </TabItem>
-            
+
+            <!--tab for completed courses review and tutor rating-->
+            <TabItem Header="Completed courses">
+                <Grid Margin="0,0,-3,-9" Background="#FFFAE0E0">
+                    <DataGrid Height="Auto"
+                      Width="Auto"
+                      AutoGenerateColumns="False"
+                      x:Name="CompletedCoursesDataGrid"
+                      ItemsSource="{Binding CompletedCourses, UpdateSourceTrigger=PropertyChanged}"
+                      SelectionMode="Single" IsReadOnly="True" Margin="319,154,319,153" 
+                      SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="CompletedCoursesDataGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Language" Binding="{Binding Language}"/>
+                                    <DataGridTextColumn Header="Language level" Binding="{Binding Level}"/>
+                                    <DataGridTextColumn Header="Tutor" Binding="{Binding TutorFullName}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Button x:Name="rateTutorBtn" Content="Rate tutor" HorizontalAlignment="Center" Height="29" Margin="0,572,0,0" VerticalAlignment="Top" Width="170" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" 
+                        />
+                </Grid>
+            </TabItem>
+
+
         </TabControl>
     </Grid>
 </Window>

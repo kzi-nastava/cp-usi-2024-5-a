@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Reflection;
 using System.Windows;
+using LangLang.Core.Controller;
 
 
 namespace LangLang.DTO
@@ -33,6 +34,7 @@ namespace LangLang.DTO
         private bool wed;
         private bool thu;
         private bool fri;
+        public string TutorFullName { get; set; }
 
         public int NumberOfStudents { get; set; }
         public bool Mon
@@ -404,6 +406,15 @@ namespace LangLang.DTO
             NumberOfWeeks = course.NumberOfWeeks.ToString();
             MaxStudents = course.MaxStudents.ToString();
             Time = course.StartDateTime.ToString("HH:mm");
+        }
+
+        public CourseDTO(Course course, AppController appController)
+        {
+            Language = course.Language;
+            Level = course.Level;
+            var tutorController = appController.TutorController;
+            var tutor = tutorController.GetById(course.TutorId);
+            TutorFullName = tutor.Profile.Name + " " + tutor.Profile.LastName;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

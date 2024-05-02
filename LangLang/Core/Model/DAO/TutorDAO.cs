@@ -24,7 +24,7 @@ namespace LangLang.Core.DAO
             return _tutors.Keys.Max() + 1;
         }
 
-        private Tutor? Get(int id)
+        public Tutor? Get(int id)
         {
             return _tutors[id];
         }
