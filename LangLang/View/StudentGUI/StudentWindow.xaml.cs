@@ -1,13 +1,11 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
-using LangLang.Core.Model.DAO;
 using LangLang.Core.Model.Enums;
 using LangLang.Core.Observer;
 using LangLang.DTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Security.Policy;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -25,14 +23,16 @@ namespace LangLang.View.StudentGUI
         private ExamSlotController examSlotController;
         private ExamAppRequestController examAppRequestController;
         private Student currentlyLoggedIn;
-        private ObservableCollection<CourseDTO> courses;
-        private ObservableCollection<ExamSlotDTO> examSlots;
-        private ObservableCollection<EnrollmentRequestDTO> enrollmentRequests;
+        public ObservableCollection<CourseDTO> Courses {  get; set; }
+        public ObservableCollection<ExamSlotDTO> ExamSlots { get; set; }
+        public ObservableCollection<EnrollmentRequestDTO> EnrollmentRequests {  get; set; }
+
         private List<Course> coursesForReview;
         private List<ExamSlot> examSlotsForReview;
         private List<EnrollmentRequest> enrollmentRequestsForReview;
         private int enrollmentRequestId; // id of enrollment request to current active course
         public CourseDTO SelectedCourse {  get; set; }
+        public EnrollmentRequestDTO SelectedEnrollmentRequest { get; set; }
 
         public StudentWindow(AppController appController, Profile currentlyLoggedIn)
         {
@@ -43,16 +43,9 @@ namespace LangLang.View.StudentGUI
             SetControllers();
 
             this.currentlyLoggedIn = studentController.GetById(currentlyLoggedIn.Id);
-
             Student = new(this.currentlyLoggedIn);
 
-
             EnrollmentRequest = new();
-            if (!studentController.CanRequestEnroll(currentlyLoggedIn.Id, erController, courseController, wrController))
-            {
-                SendRequestBtn.IsEnabled = false;
-            }
-
             CreateObservableCollections();
             SetDataForReview();
             SubscribeControllers();
@@ -63,9 +56,9 @@ namespace LangLang.View.StudentGUI
 
         private void CreateObservableCollections()
         {
-            courses = new ObservableCollection<CourseDTO>();
-            examSlots = new ObservableCollection<ExamSlotDTO>();
-            enrollmentRequests = new ObservableCollection<EnrollmentRequestDTO>();
+            Courses = new ObservableCollection<CourseDTO>();
+            ExamSlots = new ObservableCollection<ExamSlotDTO>();
+            EnrollmentRequests = new ObservableCollection<EnrollmentRequestDTO>();
         }
 
         private void SetDataForReview()
@@ -97,24 +90,6 @@ namespace LangLang.View.StudentGUI
             courseController.Subscribe(this);
             erController.Subscribe(this);
             examSlotController.Subscribe(this);
-        }
-
-        public ObservableCollection<CourseDTO> Courses
-        {
-            get { return courses; }
-            set { courses = value; }
-        }
-
-        public ObservableCollection<ExamSlotDTO> ExamSlots
-        {
-            get { return examSlots; }
-            set { examSlots = value; }
-        }
-
-        public ObservableCollection<EnrollmentRequestDTO> EnrollmentRequests
-        {
-            get { return enrollmentRequests; }
-            set { enrollmentRequests = value; }
         }
 
         public void Update()
@@ -157,7 +132,7 @@ namespace LangLang.View.StudentGUI
             professiontb.Text = Student.Profession;
             FillCourseInfo();
             NormalMode();
-            DisableAll();
+            DisableComponents();
         }
 
         private void FillCourseInfo()
@@ -165,25 +140,18 @@ namespace LangLang.View.StudentGUI
             EnrollmentRequest? enrollmentRequest = erController.GetActiveCourseRequest(Student.Id, courseController, wrController);
             if (enrollmentRequest == null)
             {
-                untilEndTb.Text = "You are currently not enrolled in any courses. \nYou can request enrollment or wait for the tutor to accept your request.";
-                CourseWithdrawalBtn.Visibility = Visibility.Collapsed;
+                HideWithdrawalBtn();
                 return;
             }
-            
-            int erId = enrollmentRequest.Id;
-            // disable the withdrawal request button if the student is ineligible to withdraw or has already withdrawn
-            if (!erController.CanRequestWithdrawal(erId) || wrController.AlreadyExists(erId))
-                CourseWithdrawalBtn.IsEnabled = false;
-
+            enrollmentRequestId = enrollmentRequest.Id; 
             Course activeCourse = courseController.GetById(enrollmentRequest.CourseId);
-            enrollmentRequestId = erId; 
             courseNameTb.Text = activeCourse.Language;
             courseLevelTb.Text = activeCourse.Level.ToString();
             string daysUntilEnd = activeCourse.DaysUntilEnd().ToString();
             untilEndTb.Text = daysUntilEnd + " days until the end of course.";
         }
 
-        private void DisableAll()
+        private void DisableComponents()
         {
             nametb.IsEnabled = false;
             lastnametb.IsEnabled = false;
@@ -193,9 +161,23 @@ namespace LangLang.View.StudentGUI
             passwordtb.IsEnabled = false;
             birthdp.IsEnabled = false;
             professiontb.IsEnabled = false;
+
+            // disable the enrollment request button if the student can't request enrollment
+            if (!studentController.CanRequestEnroll(currentlyLoggedIn.Id, erController, courseController, wrController))
+                SendRequestBtn.IsEnabled = false;
+
+            if (CourseWithdrawalBtn.Visibility == Visibility.Visible)
+            {
+                // disable the withdrawal request button if the student is ineligible to withdraw or has already withdrawn
+                if (!erController.CanRequestWithdrawal(enrollmentRequestId) || wrController.AlreadyExists(enrollmentRequestId))
+                    CourseWithdrawalBtn.IsEnabled = false;
+            }
+
+
+            CancelRequestBtn.IsEnabled = false;
         }
 
-        private void EnableAll()
+        private void EnableComponents()
         {
             nametb.IsEnabled = true;
             lastnametb.IsEnabled = true;
@@ -207,6 +189,12 @@ namespace LangLang.View.StudentGUI
             professiontb.IsEnabled = true;
         }
 
+        private void HideWithdrawalBtn()
+        {
+            untilEndTb.Text = "You are currently not enrolled in any courses. \nYou can request enrollment or wait for the tutor to accept your request.";
+            CourseWithdrawalBtn.Visibility = Visibility.Collapsed;
+        }
+
         private void SignOutBtn_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -216,7 +204,7 @@ namespace LangLang.View.StudentGUI
         {
             if (studentController.CanModifyInfo(currentlyLoggedIn.Id, erController, courseController, wrController))
             {
-                EnableAll();
+                EnableComponents();
                 EditMode();
             }
             else
@@ -236,7 +224,7 @@ namespace LangLang.View.StudentGUI
                     studentController.Update(Student.ToStudent());
                     MessageBox.Show("Success.");
                     NormalMode();
-                    DisableAll();
+                    DisableComponents();
                 }
             } else
             {
@@ -259,13 +247,13 @@ namespace LangLang.View.StudentGUI
             {
                 studentController.Delete(currentlyLoggedIn.Id, erController, examAppRequestController);
                 MessageBox.Show("Account is deactivated. All exams and courses have been canceled.");
-                this.Close();
+                Close();
             }
         }
 
         private void ClearExamBtn_Click(object sender, RoutedEventArgs e)
         {
-            examSlotsForReview = this.studentController.GetAvailableExamSlots(currentlyLoggedIn, this.courseController, examSlotController, erController);
+            examSlotsForReview = studentController.GetAvailableExamSlots(currentlyLoggedIn, this.courseController, examSlotController, erController);
             levelExamcb.SelectedItem = null;
             Update();
         }
@@ -319,7 +307,40 @@ namespace LangLang.View.StudentGUI
             erController.Add(EnrollmentRequest.ToEnrollmentRequest());
             MessageBox.Show("Request sent. Please wait for approval.");
             coursesForReview = studentController.GetAvailableCourses(currentlyLoggedIn.Id, courseController, erController);
+            enrollmentRequestsForReview = erController.GetStudentRequests(currentlyLoggedIn.Id);
             Update();
+        }
+
+        private void EnrollmentRequestsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (SelectedEnrollmentRequest == null) CancelRequestBtn.IsEnabled = false;
+            else CancelRequestBtn.IsEnabled = true;
+        }
+
+        private void CancelRequestBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to cancel the request?", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                TryCancelRequest();
+            }
+        }
+
+        private void TryCancelRequest()
+        {
+            EnrollmentRequest enrollmentRequest = SelectedEnrollmentRequest.ToEnrollmentRequest();
+
+            try
+            {
+                erController.CancelRequest(enrollmentRequest, courseController);
+                coursesForReview = studentController.GetAvailableCourses(currentlyLoggedIn.Id, courseController, erController);
+                Update();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

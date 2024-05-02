@@ -286,7 +286,7 @@
                             <DataGridTextColumn Header="Duration (weeks)" Binding="{Binding NumberOfWeeks}"/>
                             <DataGridTextColumn Header="In classroom" Binding="{Binding NotOnline}"/>
                             <DataGridTextColumn Header="Days" Binding="{Binding ConcatenatedDays}"/>
-                            <DataGridTextColumn Header="Start date" Binding="{Binding StartDateTime}"/>
+                            <DataGridTextColumn Header="Start date" Binding="{Binding StartDate, StringFormat={}{0:dd/MM/yyyy}}"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -405,6 +405,32 @@
 
                 </Grid>
             </TabItem>
+            
+            
+            <!--tab for enrollmen requests preview and cancelation-->
+            <TabItem Header="Course enrollment requests">
+                <Grid Margin="0,0,-3,-9" Background="#FFFAE0E0">
+                    <DataGrid Height="Auto"
+                          Width="Auto"
+                          AutoGenerateColumns="False"
+                          x:Name="EnrollmentRequestsDataGrid"
+                          ItemsSource="{Binding EnrollmentRequests, UpdateSourceTrigger=PropertyChanged}"
+                          SelectionMode="Single" IsReadOnly="True" Margin="189,154,189,153" SelectionChanged="EnrollmentRequestsDataGrid_SelectionChanged"
+                          SelectedItem="{Binding SelectedEnrollmentRequest, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Language" Binding="{Binding Course.Language}"/>
+                            <DataGridTextColumn Header="Language level" Binding="{Binding Course.Level}"/>
+                            <DataGridTextColumn Header="Sent on" Binding="{Binding RequestSentAt, StringFormat={}{0:dd/MM/yyyy}}"/>
+                            <DataGridTextColumn Header="Last request update" Binding="{Binding LastModifiedTimestamp, StringFormat={}{0:dd/MM/yyyy}}"/>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
+                            <DataGridTextColumn Header="Canceled" Binding="{Binding IsCanceled}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button x:Name="CancelRequestBtn" Content="Cancel request" HorizontalAlignment="Center" Height="29" Margin="0,572,0,0" VerticalAlignment="Top" Width="170" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" 
+                            Click="CancelRequestBtn_Click"/>
+                </Grid>
+            </TabItem>
+            
         </TabControl>
     </Grid>
 </Window>

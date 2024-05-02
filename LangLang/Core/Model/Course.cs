@@ -215,5 +215,10 @@ namespace LangLang.Core.Model
             var endDate = TimeSlots[TimeSlots.Count - 1].GetEnd();
             return (endDate - DateTime.Now).Days;
         }
+
+        public int DaysUntilStart()
+        {
+            return (StartDateTime - DateTime.Now).Days;
+        }
     }
 }
