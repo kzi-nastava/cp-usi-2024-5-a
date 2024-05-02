@@ -162,7 +162,7 @@ namespace LangLang.View.StudentGUI
 
         private void FillCourseInfo()
         {
-            EnrollmentRequest? enrollmentRequest = erController.GetActiveCourseRequest(Student.Id, courseController);
+            EnrollmentRequest? enrollmentRequest = erController.GetActiveCourseRequest(Student.Id, courseController, wrController);
             if (enrollmentRequest == null)
             {
                 untilEndTb.Text = "You are currently not enrolled in any courses. \nYou can request enrollment or wait for the tutor to accept your request.";
