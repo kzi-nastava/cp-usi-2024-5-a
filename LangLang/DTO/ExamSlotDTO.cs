@@ -178,7 +178,7 @@ namespace LangLang.DTO
             this.Language = examSlot.Language;
             this.Level = examSlot.Level;
             this.MaxStudents = examSlot.MaxStudents.ToString();
-            this.ExamDate = examSlot.TimeSlot.Time.Date;
+            this.ExamDate = examSlot.TimeSlot.Time;
             this.Time = examSlot.TimeSlot.Time.ToString("HH:mm");
             this.Modifiable = examSlot.Modifiable;
         }

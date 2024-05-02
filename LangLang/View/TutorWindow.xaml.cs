@@ -193,7 +193,7 @@ namespace LangLang
             }
             else
             {
-                MessageBox.Show("It's possible to see enrolled students only 7 days before the exam and during the day of exam!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("It's possible to see applications only 7 days before the exam and during the exam!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
