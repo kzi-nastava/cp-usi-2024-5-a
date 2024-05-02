@@ -215,7 +215,7 @@ namespace LangLang.View.StudentGUI
 
             if (result == MessageBoxResult.Yes)
             {
-                studentController.Delete(currentlyLoggedIn.Id, enrollmentRequestController, examAppRequestController);
+                studentController.Delete(currentlyLoggedIn.Id, ERController, examAppRequestController);
                 MessageBox.Show("Account is deactivated. All exams and courses have been canceled.");
                 this.Close();
             }
