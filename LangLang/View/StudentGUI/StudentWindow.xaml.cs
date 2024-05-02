@@ -26,10 +26,12 @@ namespace LangLang.View.StudentGUI
         public ObservableCollection<CourseDTO> Courses {  get; set; }
         public ObservableCollection<ExamSlotDTO> ExamSlots { get; set; }
         public ObservableCollection<EnrollmentRequestDTO> EnrollmentRequests {  get; set; }
+        public ObservableCollection<CourseDTO> CompletedCourses { get; set; }
 
         private List<Course> coursesForReview;
         private List<ExamSlot> examSlotsForReview;
         private List<EnrollmentRequest> enrollmentRequestsForReview;
+        private List<Course> completedCourses;
         private int enrollmentRequestId; // id of enrollment request to current active course
         public CourseDTO SelectedCourse {  get; set; }
         public EnrollmentRequestDTO SelectedEnrollmentRequest { get; set; }
@@ -56,9 +58,10 @@ namespace LangLang.View.StudentGUI
 
         private void CreateObservableCollections()
         {
-            Courses = new ObservableCollection<CourseDTO>();
-            ExamSlots = new ObservableCollection<ExamSlotDTO>();
-            EnrollmentRequests = new ObservableCollection<EnrollmentRequestDTO>();
+            Courses = new();
+            ExamSlots = new();
+            EnrollmentRequests = new();
+            CompletedCourses = new();
         }
 
         private void SetDataForReview()
@@ -66,6 +69,7 @@ namespace LangLang.View.StudentGUI
             examSlotsForReview = studentController.GetAvailableExamSlots(currentlyLoggedIn, courseController, examSlotController, erController);
             coursesForReview = studentController.GetAvailableCourses(currentlyLoggedIn.Id, courseController, erController);
             enrollmentRequestsForReview = erController.GetStudentRequests(currentlyLoggedIn.Id);
+            completedCourses = courseController.GetCompletedCourses(currentlyLoggedIn.Id, erController, wrController);
         }
 
         private void SetControllers()
@@ -105,6 +109,10 @@ namespace LangLang.View.StudentGUI
             EnrollmentRequests.Clear();
             foreach (EnrollmentRequest er in enrollmentRequestsForReview)
                 EnrollmentRequests.Add(new EnrollmentRequestDTO(er, appController));
+
+            CompletedCourses.Clear();
+            foreach (Course course in completedCourses)
+                CompletedCourses.Add(new CourseDTO(course, appController));
         }
 
         private void EditMode()
@@ -173,8 +181,8 @@ namespace LangLang.View.StudentGUI
                     CourseWithdrawalBtn.IsEnabled = false;
             }
 
-
             CancelRequestBtn.IsEnabled = false;
+            rateTutorBtn.IsEnabled = false;
         }
 
         private void EnableComponents()
@@ -305,17 +313,14 @@ namespace LangLang.View.StudentGUI
             EnrollmentRequest.LastModifiedTimestamp = DateTime.Now;
             EnrollmentRequest.IsCanceled = false;
             erController.Add(EnrollmentRequest.ToEnrollmentRequest());
+
             MessageBox.Show("Request sent. Please wait for approval.");
+            
             coursesForReview = studentController.GetAvailableCourses(currentlyLoggedIn.Id, courseController, erController);
             enrollmentRequestsForReview = erController.GetStudentRequests(currentlyLoggedIn.Id);
             Update();
         }
 
-        private void EnrollmentRequestsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (SelectedEnrollmentRequest == null) CancelRequestBtn.IsEnabled = false;
-            else CancelRequestBtn.IsEnabled = true;
-        }
 
         private void CancelRequestBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -341,6 +346,21 @@ namespace LangLang.View.StudentGUI
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void EnrollmentRequestsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            AdjustButton(SelectedEnrollmentRequest == null, CancelRequestBtn);
+        }
+        private void CompletedCoursesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            AdjustButton(SelectedCourse == null, rateTutorBtn);
+        }
+
+        private void AdjustButton(bool isNull, Button button)
+        {
+            if (isNull) button.IsEnabled = false;
+            else button.IsEnabled = true;
         }
     }
 }

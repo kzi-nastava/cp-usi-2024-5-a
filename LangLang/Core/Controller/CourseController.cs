@@ -1,5 +1,6 @@
 using LangLang.Core.Model;
 using LangLang.Core.Model.DAO;
+using LangLang.Core.Model.Enums;
 using LangLang.Core.Observer;
 using System;
 using System.Collections.Generic;
@@ -115,5 +116,25 @@ namespace LangLang.Core.Controller
         {
             return _courses.IsCompleted(id);
         }
+
+        public List<Course> GetCompletedCourses(int studentId, EnrollmentRequestController erController, WithdrawalRequestController wrController)
+        {
+            List<Course> courses = new();
+            var studentRequests = erController.GetStudentRequests(studentId);
+
+            foreach (var request in studentRequests)
+            {
+                Course course = GetById(request.CourseId);
+                if (StudentAttendedUntilEnd(course, request, wrController))
+                    courses.Add(course);
+            }
+            return courses;
+        }
+
+        private bool StudentAttendedUntilEnd(Course course, EnrollmentRequest request, WithdrawalRequestController wrController)
+        {
+            return course.IsCompleted() && request.Status == Status.Accepted && !wrController.HasAcceptedWithdrawal(request.Id);
+        }
+
     }   
 }
