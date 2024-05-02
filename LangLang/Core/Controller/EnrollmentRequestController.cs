@@ -72,9 +72,9 @@ namespace LangLang.Core.Controller
             return _enrollmentRequests.CanRequestWithdrawal(id);
         }
 
-        public EnrollmentRequest? GetActiveCourseRequest(int studentId, CourseController courseController)
+        public EnrollmentRequest? GetActiveCourseRequest(int studentId, CourseController courseController, WithdrawalRequestController wrController)
         {
-            return _enrollmentRequests.GetActiveCourseRequest(studentId, courseController);
+            return _enrollmentRequests.GetActiveCourseRequest(studentId, courseController, wrController);
         }
         
     }
