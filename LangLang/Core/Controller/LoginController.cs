@@ -10,12 +10,13 @@ namespace LangLang.Core.Controller
     public class LoginController
     {
         readonly StudentController studentController;
-        readonly TutorController tutorController;
-        // TODO: add director
-        public LoginController(StudentController studentController, TutorController tutorController)
+        readonly TutorController tutorController; 
+        readonly DirectorController directorController;
+        public LoginController(StudentController studentController, TutorController tutorController, DirectorController directorController)
         {
             this.studentController = studentController;
             this.tutorController = tutorController;
+            this.directorController = directorController;
         }
 
         public Profile GetProfileByCredentials(string email, string password)
@@ -24,6 +25,7 @@ namespace LangLang.Core.Controller
             {
                 var profile = (GetProfile(studentController.GetAllStudents(), email, password)
                               ?? GetProfile(tutorController.GetAllTutors(), email, password)) 
+                              ?? GetProfile(directorController.GetAllDirectors(), email, password)
                               ?? throw new AuthenticationException("Invalid email address.");
                 return profile; // profile with the given credentials exists
             }

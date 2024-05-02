@@ -58,6 +58,10 @@ namespace LangLang
             {
                 TutorWindow tutorWindow = new(appController, profile);
                 tutorWindow.Show();
+            } else if (profile.Role == UserType.Director)
+            {
+                DirectorWindow directorWindow = new(appController, profile);
+                directorWindow.Show();
             }
         }
 
