@@ -1,5 +1,6 @@
 ﻿using LangLang.Core.Repository.Serialization;
 using System;
+using System.Diagnostics.Eventing.Reader;
 
 namespace LangLang.Core.Model
 {
@@ -51,6 +52,16 @@ namespace LangLang.Core.Model
             TimeSlot = new (values[4], values[5]);
             MaxStudents = int.Parse(values[6]);
             Modifiable = bool.Parse(values[7]);
+        }
+
+        public bool ApplicationsVisible()
+        {
+            int daysLeft = (TimeSlot.Time - DateTime.Now).Days; // days left until exam
+            double timeLeft = (TimeSlot.GetEnd() - DateTime.Now).TotalMinutes; // time left until end of exam
+
+            if (daysLeft > 0 && daysLeft < 7) return true; // seven days before, applications are visible
+            else if (daysLeft == 0 && timeLeft > 0) return true; // on the exam day, applications are visible until the end of exam
+            return false;
         }
 
     }
