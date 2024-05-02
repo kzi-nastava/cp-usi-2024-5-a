@@ -4,9 +4,6 @@ using LangLang.Core.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace LangLang.Core.Controller
 {
@@ -37,6 +34,11 @@ namespace LangLang.Core.Controller
         public bool Delete(int examId)
         {
             return _exams.RemoveExam(examId);
+        }
+
+        public bool ApplicationsVisible(int id)
+        {
+            return _exams.ApplicationsVisible(id);
         }
 
         public void Subscribe(IObserver observer)

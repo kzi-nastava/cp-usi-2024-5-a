@@ -184,10 +184,17 @@ namespace LangLang
             enterResultsBtn.IsEnabled = true;
         }
 
-        private void ButtonSeeStudentInfo_Click(object sender, RoutedEventArgs e)
+        private void ButtonSeeApplications_Click(object sender, RoutedEventArgs e)
         {
-            ExamApplications applicationsWindow = new (appController, SelectedExamSlot);
-            applicationsWindow.Show();
+            if (examSlotController.ApplicationsVisible(SelectedExamSlot.Id))
+            {
+                ExamApplications applicationsWindow = new(appController, SelectedExamSlot);
+                applicationsWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("It's possible to see enrolled students only 7 days before the exam and during the day of exam!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void ButtonEnterResults_Click(object sender, RoutedEventArgs e)

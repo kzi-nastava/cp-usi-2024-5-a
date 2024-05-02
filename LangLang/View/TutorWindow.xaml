@@ -102,7 +102,7 @@
                     </StackPanel>
                     <Button Content="Search exams" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotSearchBtn_Click" />
                     <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Width="289">
-                        <Button Content="Exam applications" Name = "examApplicationBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ButtonSeeStudentInfo_Click" Width="140" />
+                        <Button Content="Exam applications" Name = "examApplicationBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ButtonSeeApplications_Click" Width="140" />
                         <Button Content="Enter results" Name = "enterResultsBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ButtonEnterResults_Click" Width="129" />
                     </StackPanel>
                 </StackPanel>

@@ -1,5 +1,6 @@
 ﻿using LangLang.Core.Repository.Serialization;
 using System;
+using System.Diagnostics.Eventing.Reader;
 
 namespace LangLang.Core.Model
 {
@@ -51,6 +52,11 @@ namespace LangLang.Core.Model
             TimeSlot = new (values[4], values[5]);
             MaxStudents = int.Parse(values[6]);
             Modifiable = bool.Parse(values[7]);
+        }
+
+        public bool ApplicationsVisible()
+        {
+            return (TimeSlot.Time - DateTime.Now).Days >= 0 && (TimeSlot.Time - DateTime.Now) .Days < 7;
         }
 
     }
