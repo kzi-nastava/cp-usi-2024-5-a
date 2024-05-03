@@ -20,7 +20,7 @@ namespace LangLang.Core.Model
         {
             Id = id;
             Language = language;
-            Level = Level;
+            Level = level;
             TutorId = tutorId;
             TimeSlot = timeSlot;
             MaxStudents = maxStudents;
