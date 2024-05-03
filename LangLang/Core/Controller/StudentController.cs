@@ -30,9 +30,9 @@ namespace LangLang.Core.Controller
             _students.AddStudent(student);
         }
 
-        public void Delete(int studentId, EnrollmentRequestController erController, ExamAppRequestController earController)
+        public void Delete(int studentId, EnrollmentRequestController erController, ExamAppRequestController earController, ExamSlotController examSlotController)
         {
-            _students.RemoveStudent(studentId, erController, earController);
+            _students.RemoveStudent(studentId, erController, earController, examSlotController);
         }
 
         public void Update(Student student)

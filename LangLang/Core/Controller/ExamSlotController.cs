@@ -4,6 +4,7 @@ using LangLang.Core.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LangLang.Core.Repository;
 
 namespace LangLang.Core.Controller
 {
@@ -63,6 +64,15 @@ namespace LangLang.Core.Controller
         public List<ExamSlot> SearchExams(List<ExamSlot> exams, DateTime examDate, string language, LanguageLevel? level)
         {
             return _exams.SearchExams(exams, examDate, language, level);
+        }
+        public void AddStudent(ExamSlot exam)
+        {
+            _exams.AddStudent(exam);
+        }
+
+        public void RemoveStudent(ExamSlot exam)
+        {
+            _exams.RemoveStudent(exam);
         }
     }
 }

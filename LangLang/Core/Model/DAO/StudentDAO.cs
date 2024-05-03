@@ -76,7 +76,7 @@ namespace LangLang.Core.Model.DAO
             return oldStudent;
         }
 
-        public Student? RemoveStudent(int id, EnrollmentRequestController erController, ExamAppRequestController earController)
+        public Student? RemoveStudent(int id, EnrollmentRequestController erController, ExamAppRequestController earController, ExamSlotController examSlotController)
         {
             Student? student = GetStudentById(id);
             if (student == null) return null;
@@ -85,7 +85,7 @@ namespace LangLang.Core.Model.DAO
                 erController.Delete(er.Id);
 
             foreach (ExamAppRequest ar in earController.GetStudentRequests(id)) // delete all exam application requests
-                earController.Delete(ar.Id);
+                earController.Delete(ar.Id, examSlotController);
 
             _students[id].Profile.IsDeleted = true;
             _repository.Save(_students);

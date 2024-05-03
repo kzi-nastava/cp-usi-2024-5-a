@@ -81,7 +81,19 @@ namespace LangLang.Core.Model.DAO
             }
 
         }
+        public void AddStudent(ExamSlot exam)
+        {
+            exam.Applicants++;
+            _repository.Save(_exams);
+            NotifyObservers();
+        }
 
+        public void RemoveStudent(ExamSlot exam)
+        {
+            exam.Applicants--;
+            _repository.Save(_exams);
+            NotifyObservers();
+        }
         //function for updating examslot takes new version of examslot and updates existing examslot to be same as new one
         //function saves changes and returns if updating was successful
         public bool UpdateExam(ExamSlot exam)

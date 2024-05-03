@@ -15,7 +15,7 @@ namespace LangLang.Core.Model
         public bool Modifiable { get; set; }
         public int Applicants { get; set; }
 
-        public ExamSlot(int id, string language, LanguageLevel level, TimeSlot timeSlot, int maxStudents, int tutorId, bool modifiable, int applicants)
+        public ExamSlot(int id, string language, LanguageLevel level, TimeSlot timeSlot, int maxStudents, int tutorId, int applicants, bool modifiable)
         {
             Id = id;
             Language = language;   
@@ -23,8 +23,8 @@ namespace LangLang.Core.Model
             TutorId = tutorId;
             TimeSlot = timeSlot;
             MaxStudents = maxStudents;
-            Modifiable = modifiable;
             Applicants = applicants;
+            Modifiable = modifiable;
         }
 
         public ExamSlot() { }

@@ -34,9 +34,13 @@ namespace LangLang.Core.Model.DAO
             return _appRequests.Values.ToList();
         }
 
-        public ExamAppRequest Add(ExamAppRequest appRequest)
+        public ExamAppRequest Add(ExamAppRequest appRequest, ExamSlotController examController)
         {
             appRequest.Id = GenerateId();
+
+            ExamSlot? exam = examController.GetById(appRequest.ExamSlotId);
+            examController.AddStudent(exam);
+
             _appRequests.Add(appRequest.Id, appRequest);
             _repository.Save(_appRequests);
             NotifyObservers();
@@ -44,10 +48,13 @@ namespace LangLang.Core.Model.DAO
         }
 
 
-        public ExamAppRequest? Remove(int id)
+        public ExamAppRequest? Remove(int id, ExamSlotController examController)
         {
             ExamAppRequest? appRequest = GetAppRequestById(id);
             if (appRequest == null) return null;
+
+            ExamSlot? exam = examController.GetById(appRequest.ExamSlotId);
+            examController.RemoveStudent(exam);
 
             _appRequests.Remove(appRequest.Id);
             _repository.Save(_appRequests);
