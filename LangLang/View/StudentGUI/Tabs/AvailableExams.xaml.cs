@@ -35,7 +35,7 @@ namespace LangLang.View.StudentGUI.Tabs
             var studentController = appController.StudentController;
             var enrollmentController = appController.EnrollmentRequestController;
             var courseController = appController.CourseController;
-            ExamsForReview = studentController.GetAvailableExamSlots(currentlyLoggedIn, courseController, examController, enrollmentController);
+            ExamsForReview = studentController.GetAvailableExams(currentlyLoggedIn, courseController, examController, enrollmentController);
         }
         private void SearchExams(object sender, RoutedEventArgs e)
         {
@@ -58,7 +58,7 @@ namespace LangLang.View.StudentGUI.Tabs
             var courseController = appController.CourseController;
             var studentController = appController.StudentController;
             var enrollmentController = appController.EnrollmentRequestController;
-            ExamsForReview = studentController.GetAvailableExamSlots(currentlyLoggedIn, courseController, examController, enrollmentController);
+            ExamsForReview = studentController.GetAvailableExams(currentlyLoggedIn, courseController, examController, enrollmentController);
             levelExamcb.SelectedItem = null;
             parentWindow.Update();
         }
