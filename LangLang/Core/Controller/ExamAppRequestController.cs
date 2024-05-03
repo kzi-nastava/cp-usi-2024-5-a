@@ -39,6 +39,10 @@ namespace LangLang.Core.Controller
         {
             return _appRequests.GetStudentRequests(studentId);
         }
+        public List<ExamAppRequest> GetActiveStudentRequests(int studentId, ExamSlotController examSlotController)
+        {
+            return _appRequests.GetActiveStudentRequests(studentId, examSlotController);
+        }
         public List<Student> GetExamRequests(int examId, StudentController studentController)
         {
             return _appRequests.GetExamRequests(examId, studentController);

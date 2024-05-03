@@ -3,6 +3,7 @@ using LangLang.Core.Model;
 using System.Collections.Generic;
 using LangLang.Core.Observer;
 using System;
+using LangLang.Core.Repository;
 
 namespace LangLang.Core.Controller
 {
@@ -56,9 +57,9 @@ namespace LangLang.Core.Controller
             return _students.GetAvailableExamSlots(student, courseController, examSlotController, enrollmentRequestController);
         }
 
-        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController)
+        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController, ExamAppRequestController earController, ExamSlotController examController)
         {
-            return _students.CanModifyInfo(studentId, erController, courseController, wrController);
+            return _students.CanModifyInfo(studentId, erController, courseController, wrController, earController,examController);
         }
 
         public bool CanRequestEnroll(int id, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController)
@@ -78,6 +79,16 @@ namespace LangLang.Core.Controller
             List<Course> availableCourses = GetAvailableCourses(studentId, courseController, erController);
             List<Course> filteredCourses = courseController.SearchCourses(availableCourses, language, level, startDate, duration, online);
             return filteredCourses;
+        }
+
+        public void GivePenaltyPoint(Student student)
+        {
+            _students.GivePenaltyPoint(student);
+        }
+
+        public void RemovePenaltyPoint(Student student)
+        {
+            _students.RemovePenaltyPoint(student);
         }
 
     }
