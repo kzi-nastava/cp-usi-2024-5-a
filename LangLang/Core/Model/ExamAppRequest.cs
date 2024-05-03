@@ -24,7 +24,7 @@ namespace LangLang.Core.Model
             IsCanceled = false;
         }
 
-        public void CancelExamSlot()
+        public void CancelExamAppRequest()
         {
             IsCanceled = true;
             LastModifiedTimestamp = DateTime.Now;

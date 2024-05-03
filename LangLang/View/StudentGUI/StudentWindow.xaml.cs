@@ -79,6 +79,5 @@ namespace LangLang.View.StudentGUI
         {
             Close();
         }
-
     }
 }
