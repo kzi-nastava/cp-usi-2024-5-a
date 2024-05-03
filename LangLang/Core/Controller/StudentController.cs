@@ -3,6 +3,7 @@ using LangLang.Core.Model;
 using System.Collections.Generic;
 using LangLang.Core.Observer;
 using System;
+using LangLang.Core.Repository;
 
 namespace LangLang.Core.Controller
 {
@@ -78,6 +79,11 @@ namespace LangLang.Core.Controller
             List<Course> availableCourses = GetAvailableCourses(studentId, courseController, erController);
             List<Course> filteredCourses = courseController.SearchCourses(availableCourses, language, level, startDate, duration, online);
             return filteredCourses;
+        }
+
+        public void GivePenaltyPoint(Student student)
+        {
+            _students.GivePenaltyPoint(student);
         }
 
     }
