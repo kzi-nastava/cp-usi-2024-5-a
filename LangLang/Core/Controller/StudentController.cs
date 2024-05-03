@@ -52,9 +52,9 @@ namespace LangLang.Core.Controller
             return _students.GetAvailableCourses(studentId, courseController, studentRequests);
         }
         
-        public List<ExamSlot> GetAvailableExamSlots(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController enrollmentRequestController)
+        public List<ExamSlot> GetAvailableExams(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController enrollmentRequestController)
         {
-            return _students.GetAvailableExamSlots(student, courseController, examSlotController, enrollmentRequestController);
+            return _students.GetAvailableExams(student, courseController, examSlotController, enrollmentRequestController);
         }
 
         public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController, ExamAppRequestController earController, ExamSlotController examController)
@@ -70,7 +70,7 @@ namespace LangLang.Core.Controller
         public List<ExamSlot> SearchExamSlotsByStudent(ExamSlotController examSlotController, CourseController courseController, EnrollmentRequestController enrollmentRequestController, int studentId, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
         {
             Student student = GetAllStudents()[studentId];
-            List<ExamSlot> availableExamSlots = GetAvailableExamSlots(student, courseController, examSlotController, enrollmentRequestController);
+            List<ExamSlot> availableExamSlots = GetAvailableExams(student, courseController, examSlotController, enrollmentRequestController);
             return examSlotController.SearchExams(availableExamSlots, examDate, courseLanguage, languageLevel);
         }
 

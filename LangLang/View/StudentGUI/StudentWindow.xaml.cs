@@ -67,7 +67,7 @@ namespace LangLang.View.StudentGUI
 
         private void SetDataForReview()
         {
-            examSlotsForReview = studentController.GetAvailableExamSlots(currentlyLoggedIn, courseController, examSlotController, erController);
+            examSlotsForReview = studentController.GetAvailableExams(currentlyLoggedIn, courseController, examSlotController, erController);
             coursesForReview = studentController.GetAvailableCourses(currentlyLoggedIn.Id, courseController, erController);
             enrollmentRequestsForReview = erController.GetStudentRequests(currentlyLoggedIn.Id);
             completedCourses = courseController.GetCompletedCourses(currentlyLoggedIn.Id, erController, wrController);
@@ -263,7 +263,7 @@ namespace LangLang.View.StudentGUI
 
         private void ClearExamBtn_Click(object sender, RoutedEventArgs e)
         {
-            examSlotsForReview = studentController.GetAvailableExamSlots(currentlyLoggedIn, this.courseController, examSlotController, erController);
+            examSlotsForReview = studentController.GetAvailableExams(currentlyLoggedIn, this.courseController, examSlotController, erController);
             levelExamcb.SelectedItem = null;
             Update();
         }
