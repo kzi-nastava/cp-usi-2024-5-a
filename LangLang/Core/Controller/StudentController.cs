@@ -57,9 +57,9 @@ namespace LangLang.Core.Controller
             return _students.GetAvailableExamSlots(student, courseController, examSlotController, enrollmentRequestController);
         }
 
-        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController)
+        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController, ExamAppRequestController earController, ExamSlotController examController)
         {
-            return _students.CanModifyInfo(studentId, erController, courseController, wrController);
+            return _students.CanModifyInfo(studentId, erController, courseController, wrController, earController,examController);
         }
 
         public bool CanRequestEnroll(int id, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController)

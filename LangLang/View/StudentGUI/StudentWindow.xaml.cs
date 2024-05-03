@@ -80,6 +80,7 @@ namespace LangLang.View.StudentGUI
             erController = appController.EnrollmentRequestController;
             wrController = appController.WithdrawalRequestController;
             examSlotController = appController.ExamSlotController;
+            examAppRequestController = appController.ExamAppRequestController;
         }
 
         private void FillComboBox()
@@ -211,7 +212,7 @@ namespace LangLang.View.StudentGUI
 
         private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (studentController.CanModifyInfo(currentlyLoggedIn.Id, erController, courseController, wrController))
+            if (studentController.CanModifyInfo(currentlyLoggedIn.Id, erController, courseController, wrController, examAppRequestController, examSlotController))
             {
                 EnableComponents();
                 EditMode();

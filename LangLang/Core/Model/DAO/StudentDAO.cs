@@ -151,10 +151,10 @@ namespace LangLang.Core.Model.DAO
             return availableExamSlots;
         }
 
-        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController)
+        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController, ExamAppRequestController earController, ExamSlotController examController)
         {
             // can modify - student is not currently enrolled in any course and has not applied for any exams
-            return (CanRequestEnroll(studentId, erController, courseController, wrController) && !HasRegisteredForExam());
+            return (CanRequestEnroll(studentId, erController, courseController, wrController) && !HasAppliedForExam(studentId, earController,examController));
         }
 
         public bool CanRequestEnroll(int id, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController)
@@ -170,10 +170,14 @@ namespace LangLang.Core.Model.DAO
             return true;
         }
 
-        public bool HasRegisteredForExam()
+        public bool HasAppliedForExam(int studentId, ExamAppRequestController examAppController, ExamSlotController examSlotController)
         {
-            // TODO: Implement this method once the exam application class is implemented.
-            return false;
+            List<ExamAppRequest> requests = examAppController.GetActiveStudentRequests(studentId,examSlotController);
+            if(requests.Count == 0)
+            {
+                return false;
+            }
+            return true;
         }
 
         public void GivePenaltyPoint(Student student)
