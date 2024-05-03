@@ -4,6 +4,8 @@ using LangLang.Core.Repository;
 using LangLang.Core.Model;
 using LangLang.Core.Observer;
 using System;
+using LangLang.Core.Controller;
+using System.Windows.Ink;
 
 namespace LangLang.Core.Model.DAO;
 
@@ -105,9 +107,75 @@ public class CoursesDAO : Subject
         return course.IsCompleted();
     }
 
-    public bool OverllapsWith(Course course, TimeSlot timeSlot)
+    public bool CanCreateOrUpdateCourse(Course course, ExamSlotController examSlotController)
     {
-        return course.OverlappsWith(timeSlot);
+        int busyClassrooms = 0;
+        return !ExamsAndCourseOverlapp(course, examSlotController, ref busyClassrooms) && !CoursesOverlapp(course, ref busyClassrooms);
+    }
+
+    // Checks for any overlaps between exams and the course,
+    // considering the availability of the courses's tutor and classrooms
+    public bool ExamsAndCourseOverlapp(Course course, ExamSlotController examSlotController, ref int busyClassrooms)
+    {
+        List<ExamSlot> examSlots = examSlotController.GetAllExams();
+        // Go through exams
+        foreach (ExamSlot exam in examSlots)
+        {
+            //check for overlapping
+            if (course.OverlappsWith(exam.TimeSlot))
+            {
+                //tutor is busy (has exam)
+                if (course.TutorId == exam.TutorId)
+                {
+                    return true;
+                }
+
+                if (!course.Online)
+                {
+                    busyClassrooms++;
+                }
+
+                //all classrooms are busy
+                if (busyClassrooms == 2)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    // Checks for any overlaps between other courses and current course,
+    // considering the availability of the courses's tutor and classrooms
+    public bool CoursesOverlapp(Course course, ref int busyClassrooms)
+    {
+        foreach (Course currCourse in GetAllCourses().Values)
+        {
+            // if this checks for updating course, then skip over the original course
+            if(currCourse.Id == course.Id) { continue; }
+
+            foreach(TimeSlot timeSlot in currCourse.TimeSlots)
+            {
+                if (course.OverlappsWith(timeSlot))
+                {
+                    // the tutor already has a course in one of the timeslots
+                    if (course.TutorId == currCourse.TutorId) return true;
+
+                    //if the course or the currCourse is online continue,
+                    //because the classrooms do not matter
+                    if (course.Online || currCourse.Online) { continue; }
+
+                    busyClassrooms++;
+
+                    //all classrooms are busy
+                    if (busyClassrooms == 2)
+                    {
+                        return true;
+                    }
+
+                }
+            }
+        }
+        return false;
     }
 
     public void AddStudentToCourse(int courseId)

@@ -120,5 +120,10 @@ namespace LangLang.Core.Controller
         {
             return course.OverlappsWith(timeSlot);
         }
+
+        public bool CanCreateOrUpdateCourse(Course course, ExamSlotController examSlotController)
+        {
+            return _courses.CanCreateOrUpdateCourse(course, examSlotController);
+        }
     }   
 }
