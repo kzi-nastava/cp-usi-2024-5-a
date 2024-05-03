@@ -65,6 +65,10 @@ namespace LangLang.Core.Controller
         {
             return _exams.SearchExams(exams, examDate, language, level);
         }
+        public bool HasPassed(ExamSlot exam)
+        {
+            return _exams.HasPassed(exam);
+        }
         public void AddStudent(ExamSlot exam)
         {
             _exams.AddStudent(exam);
