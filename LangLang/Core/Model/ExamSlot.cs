@@ -3,7 +3,7 @@ using System;
 
 namespace LangLang.Core.Model
 {
-    public class ExamSlot: ISerializable, Overlapable
+    public class ExamSlot: ISerializable
     {
         public int Id { get; set; }
         public string Language { get; set; }
