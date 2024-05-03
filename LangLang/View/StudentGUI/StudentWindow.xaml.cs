@@ -1,5 +1,6 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
+using LangLang.Core.Model.DAO;
 using LangLang.Core.Model.Enums;
 using LangLang.Core.Observer;
 using LangLang.DTO;
@@ -361,6 +362,22 @@ namespace LangLang.View.StudentGUI
         {
             if (isNull) button.IsEnabled = false;
             else button.IsEnabled = true;
+        }
+
+        private void rateTutorBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (appController.TutorRatingController.IsRated(currentlyLoggedIn.Id, SelectedCourse.Id))
+            {
+                MessageBox.Show("You have already rated this tutor.", "Rating Already Submitted");
+                return;
+            }
+            TutorRatingDTO tutorRatingDTO = new()
+            {
+                TutorId = SelectedCourse.TutorId,
+                StudentId = currentlyLoggedIn.Id
+            };
+            TutorRating ratingWindow = new(appController, tutorRatingDTO, SelectedCourse.TutorFullName);
+            ratingWindow.Show();
         }
     }
 }

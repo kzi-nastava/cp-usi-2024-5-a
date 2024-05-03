@@ -35,7 +35,7 @@ namespace LangLang.Core.Model.DAO
 
         public TutorRating Add(TutorRating rating)
         {
-            if (rating.Rate < 1 || rating.Rate > 10)
+            if (rating.Rating < 1 || rating.Rating > 10)
             {
                 throw new ArgumentException("Rating must be between 1 and 10");
             }
