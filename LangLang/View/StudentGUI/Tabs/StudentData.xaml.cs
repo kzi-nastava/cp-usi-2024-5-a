@@ -84,7 +84,9 @@ namespace LangLang.View.StudentGUI.Tabs
             var enrollmentController = appController.EnrollmentRequestController;
             var courseController = appController.CourseController;
             var withdrawalController = appController.WithdrawalRequestController;
-            if (studentController.CanModifyInfo(currentlyLoggedIn.Id, enrollmentController, courseController, withdrawalController))
+            var applicationController = appController.ExamAppRequestController;
+            var examController = appController.ExamSlotController;
+            if (studentController.CanModifyInfo(currentlyLoggedIn.Id, enrollmentController, courseController, withdrawalController, applicationController, examController))
             {
                 EnableForm();
                 EditMode();
