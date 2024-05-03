@@ -69,7 +69,6 @@ namespace LangLang.View
 
                         Close();
                     }
-                    Close();
                     
                 }
                 
