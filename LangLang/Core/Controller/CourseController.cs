@@ -115,5 +115,10 @@ namespace LangLang.Core.Controller
         {
             return _courses.IsCompleted(id);
         }
+
+        public bool OverlappsWith(Course course, TimeSlot timeSlot)
+        {
+            return course.OverlappsWith(timeSlot);
+        }
     }   
 }

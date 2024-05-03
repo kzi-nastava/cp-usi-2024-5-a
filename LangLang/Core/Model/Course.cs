@@ -138,5 +138,18 @@ namespace LangLang.Core.Model
                 }
             }
         }
+
+        // this method checks if timeSlot overlapps with any of the course's timeslots
+        public bool OverlappsWith(TimeSlot timeSlot)
+        {
+            foreach(TimeSlot time in TimeSlots)
+            {
+                if (time.OverlappsWith(timeSlot))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

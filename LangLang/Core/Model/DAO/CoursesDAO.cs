@@ -105,6 +105,11 @@ public class CoursesDAO : Subject
         return course.IsCompleted();
     }
 
+    public bool OverllapsWith(Course course, TimeSlot timeSlot)
+    {
+        return course.OverlappsWith(timeSlot);
+    }
+
     public void AddStudentToCourse(int courseId)
     {
         Course course = GetCourseById(courseId);
