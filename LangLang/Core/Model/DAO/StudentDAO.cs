@@ -187,5 +187,13 @@ namespace LangLang.Core.Model.DAO
             _repository.Save(_students);
             NotifyObservers();
         }
+
+        public void RemovePenaltyPoint(Student student)
+        {
+            if (student.PenaltyPoints > 0)
+            {
+                student.PenaltyPoints--;
+            }
+        }
     }
 }

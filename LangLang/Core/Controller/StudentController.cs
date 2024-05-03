@@ -86,5 +86,10 @@ namespace LangLang.Core.Controller
             _students.GivePenaltyPoint(student);
         }
 
+        public void RemovePenaltyPoint(Student student)
+        {
+            _students.RemovePenaltyPoint(student);
+        }
+
     }
 }
