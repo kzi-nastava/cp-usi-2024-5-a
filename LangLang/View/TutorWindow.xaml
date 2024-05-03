@@ -46,7 +46,7 @@
                     <Button Click="CourseSearchWindowBtn_Click" x:Name="courseSearchBtn" Content="Search courses" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
                     <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Width="289">
                         <Button Click="CourseEnrollmentBtn_Click" Content="Course enrollments" Name = "courseEnrollmentBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Width="140" />
-                        <Button Click="EnterGradeBtn_Click" Content="Enter grade" Name = "enterGradeBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Width="140" />
+                        <Button Click="EnterGradeBtn_Click" Content="Enter grade" Name = "courseEnterGradeBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Width="140" />
                     </StackPanel>
                 </StackPanel>
 
