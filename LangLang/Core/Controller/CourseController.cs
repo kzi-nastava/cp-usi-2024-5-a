@@ -117,6 +117,11 @@ namespace LangLang.Core.Controller
             return _courses.IsCompleted(id);
         }
 
+        public List<Course> GetCoursesForSkills(Tutor tutor)
+        {
+            return _courses.GetCoursesForSkills(tutor);
+        }
+
         public List<Course> GetCompletedCourses(int studentId, EnrollmentRequestController erController, WithdrawalRequestController wrController)
         {
             List<Course> courses = new();
@@ -137,4 +142,5 @@ namespace LangLang.Core.Controller
         }
 
     }   
+
 }

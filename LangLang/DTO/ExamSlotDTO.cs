@@ -7,17 +7,19 @@ using System.Text.RegularExpressions;
 
 namespace LangLang.DTO
 {
-    public class ExamSlotDTO : INotifyPropertyChanged
+    public class ExamSlotDTO : INotifyPropertyChanged, IDataErrorInfo
     {
         
         public int Id { get; set; }
 
         private int _tutorId;
-        private string _language;
+        private string? _language;
         private LanguageLevel _level;
         private int _maxStudents;
         private DateTime _examDate;
-        private string _time;
+
+        private string? _time;
+        //private int _numberStudents;
         private int _applicants;
         private bool _modifiable;
 
@@ -27,7 +29,7 @@ namespace LangLang.DTO
             set
             {
                 _tutorId = value;
-                OnPropertyChanged("TutorId");
+                //OnPropertyChanged("TutorId");
             }
         }
 
@@ -86,6 +88,7 @@ namespace LangLang.DTO
             }
         }
 
+
         public int Applicants
         {
             get { return _applicants; }
@@ -95,7 +98,7 @@ namespace LangLang.DTO
                 OnPropertyChanged("Applicants");
             }
         }
-
+        */
         public string Time
         {
             get { return _time; }
@@ -128,7 +131,6 @@ namespace LangLang.DTO
                 {
 
                     if (string.IsNullOrEmpty(MaxStudents)) return "Max number of students is required";
-                    Trace.WriteLine("MMMMMM "+MaxStudents);
                     if (!int.TryParse(MaxStudents, out int _maxStudents) || _maxStudents <= 0) return "Must input a positive integer for max number of students.";
                     else return "";
                 }
@@ -175,6 +177,7 @@ namespace LangLang.DTO
         public ExamSlotDTO(ExamSlot examSlot)
         {
             this.Id = examSlot.Id;
+            this.TutorId = examSlot.TutorId;
             this.Language = examSlot.Language;
             this.Level = examSlot.Level;
             this.MaxStudents = examSlot.MaxStudents.ToString();
@@ -183,9 +186,11 @@ namespace LangLang.DTO
             this.Modifiable = examSlot.Modifiable;
             this.Applicants = examSlot.Applicants;
         }
+        public string Error => null;
 
         public ExamSlot ToExamSlot()
         {
+            Trace.Write(_time);
             string[] timeParts = _time.Split(':');
             int hour = int.Parse(timeParts[0]);
             int minute = int.Parse(timeParts[1]);

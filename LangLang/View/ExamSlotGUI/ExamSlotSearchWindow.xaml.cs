@@ -27,14 +27,16 @@ namespace LangLang.View.ExamSlotGUI
         private List<ExamSlot> examSlotsForReview;
         private CourseController courseController;
         private ExamSlotController examSlotController;
-        private int tutorId;
+        private Tutor loggedIn;
 
         public ExamSlotSearchWindow(AppController appController, Tutor loggedIn)
         {
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             examSlotsForReview = new List<ExamSlot>();
+            examSlotController = appController.ExamSlotController;
+            this.loggedIn = loggedIn;
             //fix to get only by this tutor
-            //examSlotsForReview = examSlotController.GetExams(tutorId,courseController);
+            examSlotsForReview = examSlotController.GetExams(loggedIn);
 
             foreach(ExamSlot exam in examSlotsForReview)
             {
@@ -43,7 +45,6 @@ namespace LangLang.View.ExamSlotGUI
 
             this.courseController = courseController;
             this.examSlotController = examSlotController;
-            this.tutorId = tutorId;
             InitializeComponent();
             DataContext = this;
             levelExamcb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
@@ -67,15 +68,14 @@ namespace LangLang.View.ExamSlotGUI
             DateTime examDate = examdatePicker.SelectedDate ?? default;
 
 
-            //examSlotsForReview = examSlotController.SearchExamSlotsByTutor(tutorId, courseController, examDate, language, level); 
+            examSlotsForReview = examSlotController.SearchExamsByTutor(loggedIn, examDate, language, level); 
             Update();
         }
 
         private void ClearExam_Click(object sender, RoutedEventArgs e)
         {
             //fix to show all exam slots for current tutor
-            //examSlotsForReview = examSlotController.GetExamSlotsByTutor(tutorId, courseController);
-            //examSlotsForReview = examSlotController.GetExamSlotsByTutor(tutorId,courseController);
+            examSlotsForReview = examSlotController.GetExams(loggedIn);
             Update();
         }
     }

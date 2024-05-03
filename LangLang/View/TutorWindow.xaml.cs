@@ -76,10 +76,22 @@ namespace LangLang
 
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotUpdateWindow updateWindow = new (appController, SelectedExamSlot.Id);
+            ExamSlotUpdateWindow updateWindow = new (appController, SelectedExamSlot.Id, LoggedIn);
             updateWindow.Show();
         }
+        private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (!examSlotController.Delete(SelectedExamSlot.Id))
+            {
+                MessageBox.Show("Can't delete exam, there is less than 14 days before exam.");
+            }
+            else
+            {
+                MessageBox.Show("Exam slot successfully deleted.");
+            }
 
+            Update();
+        }
         private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
             CourseCreateWindow createWindow = new (appController, LoggedIn);
@@ -92,15 +104,7 @@ namespace LangLang
             searchWindow.Show();
         }
 
-        private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (!examSlotController.Delete(SelectedExamSlot.Id))
-            {
-                MessageBox.Show("Can't delete exam, there is less than 14 days before exam.");
-            }
-
-            Update();
-        }
+        
         private void CourseUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
             if (courseController.CanCourseBeChanged(SelectedCourse.Id))
