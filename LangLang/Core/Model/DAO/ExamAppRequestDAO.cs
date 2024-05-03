@@ -61,7 +61,7 @@ namespace LangLang.Core.Model.DAO
             NotifyObservers();
             return appRequest;
         }
-
+        //returns list of all students application requests for exams
         public List<ExamAppRequest> GetStudentRequests(int studentId)
         {
             List<ExamAppRequest> studentRequests = new();
@@ -70,6 +70,24 @@ namespace LangLang.Core.Model.DAO
                 if (appRequest.StudentId == studentId) studentRequests.Add(appRequest);
             }
             return studentRequests;
+        }
+        //returns list of all students application requests for exams (without canceled ones and ones that passed)
+        public List<ExamAppRequest> GetActiveStudentRequests(int studentId, ExamSlotController examSlotController)
+        {
+            List<ExamAppRequest> studentRequests = new();
+            foreach (ExamAppRequest appRequest in GetAllAppRequests())
+            {
+                if (appRequest.StudentId == studentId && !appRequest.IsCanceled && IsRequestActive(appRequest, examSlotController)) studentRequests.Add(appRequest);
+            }
+            return studentRequests;
+        }
+
+        //checks  if the exam slot associated with the request has already passed
+        public bool IsRequestActive(ExamAppRequest request , ExamSlotController examSlotController)
+        {
+            ExamSlot exam = examSlotController.GetById(request.ExamSlotId);
+            return !examSlotController.HasPassed(exam);
+
         }
 
         public List<Student> GetExamRequests(int examId, StudentController studentController)
