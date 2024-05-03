@@ -414,6 +414,7 @@ namespace LangLang.DTO
             Level = course.Level;
             var tutorController = appController.TutorController;
             var tutor = tutorController.GetById(course.TutorId);
+            TutorId = course.TutorId;
             TutorFullName = tutor.Profile.Name + " " + tutor.Profile.LastName;
         }
 

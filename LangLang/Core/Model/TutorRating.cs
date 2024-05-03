@@ -7,16 +7,16 @@ namespace LangLang.Core.Model
         public int Id { get; set; }
         public int TutorId { get; set; }
         public int StudentId {  get; set; }
-        public int Rate { get; set; }
+        public int Rating { get; set; }
 
         public TutorRating() {}
 
-        public TutorRating(int id, int tutorId, int studentId, int rate)
+        public TutorRating(int id, int tutorId, int studentId, int rating)
         {
             Id = id;
             TutorId = tutorId;
             StudentId = studentId;
-            Rate = rate;
+            Rating = rating;
         }
 
         public void FromCSV(string[] values)
@@ -24,7 +24,7 @@ namespace LangLang.Core.Model
             Id = int.Parse(values[0]);
             TutorId = int.Parse(values[1]);
             StudentId = int.Parse(values[2]);
-            Rate = int.Parse(values[3]);
+            Rating = int.Parse(values[3]);
         }
 
         public string[] ToCSV()
@@ -33,7 +33,7 @@ namespace LangLang.Core.Model
                 Id.ToString(),
                 TutorId.ToString(),
                 StudentId.ToString(),
-                Rate.ToString()
+                Rating.ToString()
             };
         }
     }
