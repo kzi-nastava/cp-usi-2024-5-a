@@ -128,27 +128,33 @@ namespace LangLang.Core.Model.DAO
             }
             return false;
         }
-
-        public List<ExamSlot>? GetAvailableExamSlots(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController erController)
+        // returns a list of exams that are available for student application
+        public List<ExamSlot>? GetAvailableExams(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController erController)
         {
             if (student == null) return null;
-            List<ExamSlot> availableExamSlots = new();
+            Dictionary<int,ExamSlot> availableExams = new();
 
             List<EnrollmentRequest> studentRequests = erController.GetStudentRequests(student.Id);
             
-            foreach (ExamSlot examSlot in examSlotController.GetAllExams())
+            foreach (ExamSlot exam in examSlotController.GetAllExams())
             {
+                //don't include filled exams and exams that passed
+                if (!examSlotController.IsAvailable(exam))
+                {
+                    continue;
+                }
+
                 foreach (EnrollmentRequest enrollmentRequest in studentRequests)
                 {
                     Course course = courseController.GetById(enrollmentRequest.CourseId);
-                    if (HasStudentAttendedCourse(course, enrollmentRequest, examSlot))
+                    if (HasStudentAttendedCourse(course, enrollmentRequest, exam))
                     {
-                        availableExamSlots.Add(examSlot);
+                        availableExams.Add(exam.Id,exam);
                     }
                 }
             }
 
-            return availableExamSlots;
+            return availableExams.Values.ToList();
         }
 
         public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController, ExamAppRequestController earController, ExamSlotController examController)

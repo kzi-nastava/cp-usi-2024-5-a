@@ -108,7 +108,7 @@ namespace LangLang.Core.Model.DAO
         {
             if (exam.TimeSlot.Time.Date - DateTime.Now.Date <= TimeSpan.FromDays(10))
                 return false; // exam start date must be at least 10 days away
-            appRequest.CancelExamSlot();
+            appRequest.CancelExamAppRequest();
             return true;
         }
 
