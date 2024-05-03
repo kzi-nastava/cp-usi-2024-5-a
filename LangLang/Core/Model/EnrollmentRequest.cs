@@ -11,8 +11,8 @@ namespace LangLang.Core.Model
         public int CourseId { get; set; }
         public Status Status { get; private set; }
         public DateTime RequestSentAt { get; set; }
-        public DateTime LastModifiedTimestamp { get; set; }
-        public bool IsCanceled { get; set; }
+        public DateTime LastModifiedTimestamp { get; private set; }
+        public bool IsCanceled { get; private set; }
 
         public EnrollmentRequest() { }
 
@@ -27,10 +27,27 @@ namespace LangLang.Core.Model
             IsCanceled = false; // this refers whether the student has canceled request before the course has started  
         }
 
+        public EnrollmentRequest(int id, int studentId, int courseId, Status status, DateTime requestSentAt, DateTime lastModifiedTimestamp, bool isCanceled) : this(id, studentId, courseId, status, requestSentAt)
+        {
+            LastModifiedTimestamp = lastModifiedTimestamp;
+            IsCanceled = isCanceled;
+        }   
+
         public void UpdateStatus(Status status)
         {
             Status = status;
             LastModifiedTimestamp = DateTime.Now;
+        }
+
+        public void CancelRequest()
+        {
+            IsCanceled = true;
+            LastModifiedTimestamp = DateTime.Now;
+        }
+
+        public bool CanWithdraw()
+        {
+            return (DateTime.Now - LastModifiedTimestamp).Days > 7;
         }
 
         public void FromCSV(string[] values)

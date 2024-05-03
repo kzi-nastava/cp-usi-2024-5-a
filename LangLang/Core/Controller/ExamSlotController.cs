@@ -4,9 +4,7 @@ using LangLang.Core.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Reflection.Metadata.BlobBuilder;
+using LangLang.Core.Repository;
 
 namespace LangLang.Core.Controller
 {
@@ -39,6 +37,11 @@ namespace LangLang.Core.Controller
             return _exams.RemoveExam(examId);
         }
 
+        public bool ApplicationsVisible(int id)
+        {
+            return _exams.ApplicationsVisible(id);
+        }
+
         public void Subscribe(IObserver observer)
         {
             _exams.Subscribe(observer);
@@ -61,6 +64,19 @@ namespace LangLang.Core.Controller
         public List<ExamSlot> SearchExams(List<ExamSlot> exams, DateTime examDate, string language, LanguageLevel? level)
         {
             return _exams.SearchExams(exams, examDate, language, level);
+        }
+        public bool HasPassed(ExamSlot exam)
+        {
+            return _exams.HasPassed(exam);
+        }
+        public void AddStudent(ExamSlot exam)
+        {
+            _exams.AddStudent(exam);
+        }
+
+        public void RemoveStudent(ExamSlot exam)
+        {
+            _exams.RemoveStudent(exam);
         }
     }
 }

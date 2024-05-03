@@ -19,25 +19,25 @@ namespace LangLang
         // EXAM SLOTS
         public ObservableCollection<ExamSlotDTO> ExamSlots { get; set; }
         public ExamSlotDTO SelectedExamSlot { get; set; }
-        private ExamSlotController examSlotsController { get; set; }
+        private ExamSlotController examSlotController { get; set; }
 
         // COURSES
         public ObservableCollection<CourseDTO> Courses { get; set; }
         public CourseDTO SelectedCourse { get; set; }
-        private CourseController coursesController { get; set; }
+        private CourseController courseController { get; set; }
 
         private AppController appController { get; set; }
 
-        public Tutor tutor { get; set; }
+        public Tutor LoggedIn { get; set; }
         public TutorWindow(AppController appController, Profile currentlyLoggedIn)
         {
-            this.tutor = appController.TutorController.GetAllTutors()[currentlyLoggedIn.Id];
+            LoggedIn = appController.TutorController.GetAllTutors()[currentlyLoggedIn.Id];
             InitializeComponent();
             DataContext = this;
 
             this.appController = appController;
-            examSlotsController = appController.ExamSlotController;
-            coursesController = appController.CourseController;
+            examSlotController = appController.ExamSlotController;
+            courseController = appController.CourseController;
 
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             Courses = new ObservableCollection<CourseDTO>();
@@ -45,8 +45,8 @@ namespace LangLang
             DisableButtonsES();
             DisableButtonsCourse();
 
-            coursesController.Subscribe(this);
-            examSlotsController.Subscribe(this);
+            courseController.Subscribe(this);
+            examSlotController.Subscribe(this);
 
             Update();
         }
@@ -54,60 +54,63 @@ namespace LangLang
         public void Update()
         {
             ExamSlots.Clear();
-            //filter exam slots for this tutor
-            foreach (ExamSlot exam in examSlotsController.GetExams(tutor))
+
+            foreach (ExamSlot exam in examSlotController.GetExams(LoggedIn))
             {
                 ExamSlots.Add(new ExamSlotDTO(exam));
             }
 
             Courses.Clear();
-            foreach (Course course in coursesController.GetCoursesWithTutor(tutor).Values)
+
+            foreach (Course course in courseController.GetCourses(LoggedIn))
+            {
                 Courses.Add(new CourseDTO(course));
-            coursesTable.ItemsSource = Courses;
+            }
         }
 
         private void ExamSlotCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotCreateWindow examSlotCreateWindow = new ExamSlotCreateWindow(coursesController.GetCoursesWithTutor(tutor), examSlotsController);
-            examSlotCreateWindow.Show();
+            ExamSlotCreateWindow createWindow = new (appController, LoggedIn);
+            createWindow.Show();
         }
 
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotUpdateWindow examSlotUpdateWindow = new ExamSlotUpdateWindow(SelectedExamSlot, coursesController.GetCoursesWithTutor(tutor), examSlotsController);
-            examSlotUpdateWindow.Show();
+            ExamSlotUpdateWindow updateWindow = new (appController, SelectedExamSlot.Id, LoggedIn);
+            updateWindow.Show();
         }
-
-        private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
-        {
-            CourseCreateWindow courseCreateWindow = new CourseCreateWindow(coursesController, examSlotsController, tutor.Id);
-            courseCreateWindow.ShowDialog();
-            Update();
-        }
-
-        private void CourseSearchWindowBtn_Click(object sender, RoutedEventArgs e)
-        {
-            CourseSearchWindow courseSearchWindow = new CourseSearchWindow(coursesController, tutor.Id);
-            courseSearchWindow.Show();
-            Update();
-        }
-
         private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (!examSlotsController.Delete(SelectedExamSlot.Id))
+            if (!examSlotController.Delete(SelectedExamSlot.Id))
             {
                 MessageBox.Show("Can't delete exam, there is less than 14 days before exam.");
+            }
+            else
+            {
+                MessageBox.Show("Exam slot successfully deleted.");
             }
 
             Update();
         }
+        private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
+        {
+            CourseCreateWindow createWindow = new (appController, LoggedIn);
+            createWindow.Show();
+        }
+
+        private void CourseSearchWindowBtn_Click(object sender, RoutedEventArgs e)
+        {
+            CourseSearchWindow searchWindow = new (appController, LoggedIn);
+            searchWindow.Show();
+        }
+
+        
         private void CourseUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (coursesController.CanCourseBeChanged(SelectedCourse.Id))
+            if (courseController.CanCourseBeChanged(SelectedCourse.Id))
             {
-                CourseUpdateWindow courseUpdateWindow = new CourseUpdateWindow(coursesController, examSlotsController, SelectedCourse.Id);
-                courseUpdateWindow.Show();
-                Update();
+                CourseUpdateWindow updateWindow = new (appController, SelectedCourse.Id);
+                updateWindow.Show();
             }
             else
             {
@@ -117,10 +120,9 @@ namespace LangLang
 
         private void CourseDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (coursesController.CanCourseBeChanged(SelectedCourse.Id))
+            if (courseController.CanCourseBeChanged(SelectedCourse.Id))
             {
-                int id = SelectedCourse.Id;
-                coursesController.Delete(id);
+                courseController.Delete(SelectedCourse.Id);
                 Update();
                 MessageBox.Show("The course has successfully been deleted.");
             }
@@ -132,13 +134,13 @@ namespace LangLang
 
         private void EnterGradeBtn_Click(object sender, RoutedEventArgs e)
         {
-            EnterGradesWindow enterGradesWindow = new EnterGradesWindow();
-            enterGradesWindow.Show();
+            EnterGradesWindow gradesWindow = new ();
+            gradesWindow.Show();
         }
 
         private void CourseEnrollmentBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            //TODO: implement
         }
         private void CoursesTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -166,8 +168,8 @@ namespace LangLang
 
         private void ExamSlotSearchBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotSearchWindow examSlotSearchWindow = new ExamSlotSearchWindow(coursesController, examSlotsController, tutor.Id);
-            examSlotSearchWindow.Show();
+            ExamSlotSearchWindow searchWindow = new (appController, LoggedIn);
+            searchWindow.Show();
         }
 
         private void DisableButtonsES()
@@ -186,15 +188,22 @@ namespace LangLang
             enterResultsBtn.IsEnabled = true;
         }
 
-        private void ButtonSeeStudentInfo_Click(object sender, RoutedEventArgs e)
+        private void ButtonSeeApplications_Click(object sender, RoutedEventArgs e)
         {
-            ExamApplications applicationsWindow = new ExamApplications(appController);
-            applicationsWindow.Show();
+            if (examSlotController.ApplicationsVisible(SelectedExamSlot.Id) && SelectedExamSlot.Applicants != 0)
+            {
+                ExamApplications applicationsWindow = new(appController, SelectedExamSlot);
+                applicationsWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("If there are applications, they can only be viewed 7 days before exam and during the exam.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void ButtonEnterResults_Click(object sender, RoutedEventArgs e)
         {
-            EnterResults resultsWindow = new EnterResults();
+            EnterResults resultsWindow = new (appController);
             resultsWindow.Show();
         }
 

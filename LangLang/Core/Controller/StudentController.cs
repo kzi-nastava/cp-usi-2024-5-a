@@ -2,8 +2,8 @@
 using LangLang.Core.Model;
 using System.Collections.Generic;
 using LangLang.Core.Observer;
-using LangLang.Core.Model.Enums;
 using System;
+using LangLang.Core.Repository;
 
 namespace LangLang.Core.Controller
 {
@@ -16,9 +16,14 @@ namespace LangLang.Core.Controller
             _students = new StudentDAO();
         }
 
-        public Dictionary<int, Student> GetAllStudents()
+        public List<Student> GetAllStudents()
         {
             return _students.GetAllStudents();
+        }
+
+        public Student GetById(int id)
+        {
+            return _students.GetStudentById(id);
         }
 
         public void Add(Student student)
@@ -26,9 +31,9 @@ namespace LangLang.Core.Controller
             _students.AddStudent(student);
         }
 
-        public void Delete(int studentId, EnrollmentRequestController enrollmentRequestController)
+        public void Delete(int studentId, EnrollmentRequestController erController, ExamAppRequestController earController, ExamSlotController examSlotController)
         {
-            _students.RemoveStudent(studentId, enrollmentRequestController);
+            _students.RemoveStudent(studentId, erController, earController, examSlotController);
         }
 
         public void Update(Student student)
@@ -41,9 +46,10 @@ namespace LangLang.Core.Controller
             _students.Subscribe(observer);
         }
 
-        public List<Course> GetAvailableCourses(CourseController courseController) 
+        public List<Course> GetAvailableCourses(int studentId, CourseController courseController, EnrollmentRequestController erController) 
         {
-            return _students.GetAvailableCourses(courseController);
+            List<EnrollmentRequest> studentRequests = erController.GetStudentRequests(studentId);
+            return _students.GetAvailableCourses(studentId, courseController, studentRequests);
         }
         
         public List<ExamSlot> GetAvailableExamSlots(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController enrollmentRequestController)
@@ -51,14 +57,14 @@ namespace LangLang.Core.Controller
             return _students.GetAvailableExamSlots(student, courseController, examSlotController, enrollmentRequestController);
         }
 
-        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController)
+        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController, ExamAppRequestController earController, ExamSlotController examController)
         {
-            return _students.CanModifyInfo(studentId, erController, courseController);
+            return _students.CanModifyInfo(studentId, erController, courseController, wrController, earController,examController);
         }
 
-        public bool CanRequestEnroll(int id, EnrollmentRequestController erController, CourseController courseController)
+        public bool CanRequestEnroll(int id, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController)
         {
-            return _students.CanRequestEnroll(id, erController, courseController);
+            return _students.CanRequestEnroll(id, erController, courseController, wrController);
         }
 
         public List<ExamSlot> SearchExamSlotsByStudent(ExamSlotController examSlotController, CourseController courseController, EnrollmentRequestController enrollmentRequestController, int studentId, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
@@ -68,11 +74,16 @@ namespace LangLang.Core.Controller
             return examSlotController.SearchExams(availableExamSlots, examDate, courseLanguage, languageLevel);
         }
 
-        public List<Course> SearchCoursesByStudent(CourseController courseController, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online) 
+        public List<Course> SearchCoursesByStudent(int studentId, CourseController courseController, EnrollmentRequestController erController, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online) 
         {
-            List<Course> availableCourses = GetAvailableCourses(courseController);
+            List<Course> availableCourses = GetAvailableCourses(studentId, courseController, erController);
             List<Course> filteredCourses = courseController.SearchCourses(availableCourses, language, level, startDate, duration, online);
             return filteredCourses;
+        }
+
+        public void GivePenaltyPoint(Student student)
+        {
+            _students.GivePenaltyPoint(student);
         }
 
     }

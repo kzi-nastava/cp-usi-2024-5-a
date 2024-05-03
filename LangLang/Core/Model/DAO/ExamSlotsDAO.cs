@@ -81,7 +81,19 @@ namespace LangLang.Core.Model.DAO
             }
 
         }
+        public void AddStudent(ExamSlot exam)
+        {
+            exam.Applicants++;
+            _repository.Save(_exams);
+            NotifyObservers();
+        }
 
+        public void RemoveStudent(ExamSlot exam)
+        {
+            exam.Applicants--;
+            _repository.Save(_exams);
+            NotifyObservers();
+        }
         //function for updating examslot takes new version of examslot and updates existing examslot to be same as new one
         //function saves changes and returns if updating was successful
         public bool UpdateExam(ExamSlot exam)
@@ -96,6 +108,7 @@ namespace LangLang.Core.Model.DAO
                 oldExam.TutorId = exam.TutorId;
                 oldExam.MaxStudents = exam.MaxStudents;
                 oldExam.TimeSlot = exam.TimeSlot;
+                oldExam.Modifiable = exam.Modifiable;
 
                 _repository.Save(_exams);
                 NotifyObservers();
@@ -105,7 +118,7 @@ namespace LangLang.Core.Model.DAO
             {
                 return false;
             }
-            
+
         }
 
 
@@ -132,7 +145,7 @@ namespace LangLang.Core.Model.DAO
         // takes exam slot, returns true if it is availbale or false if it isn't available
         public bool IsAvailable(ExamSlot exam, ExamAppRequestController examAppController)
         {
-            if(HasPassed(exam))
+            if (HasPassed(exam))
             {
                 return false;
             }
@@ -190,6 +203,12 @@ namespace LangLang.Core.Model.DAO
             return filteredExams;
         }
 
+
+        public bool ApplicationsVisible(int id)
+        {
+            ExamSlot examSlot = GetExamById(id);
+            return examSlot.ApplicationsVisible();
+        }
+
     }
-    
 }

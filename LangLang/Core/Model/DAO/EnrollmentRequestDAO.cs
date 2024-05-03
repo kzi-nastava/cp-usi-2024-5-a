@@ -1,4 +1,5 @@
-﻿using LangLang.Core.Model.Enums;
+﻿using LangLang.Core.Controller;
+using LangLang.Core.Model.Enums;
 using LangLang.Core.Observer;
 using LangLang.Core.Repository;
 using System;
@@ -33,6 +34,11 @@ namespace LangLang.Core.Model.DAO
             return _enrollmentRequests.Values.ToList();
         }
 
+        public EnrollmentRequest GetById(int id)
+        {
+            return _enrollmentRequests[id];
+        }
+
         public EnrollmentRequest Add(EnrollmentRequest enrollmentRequest)
         {
             enrollmentRequest.Id = GenerateId();
@@ -48,12 +54,12 @@ namespace LangLang.Core.Model.DAO
             if (oldRequest == null) return null;
 
             oldRequest.UpdateStatus(enrollmentRequest.Status);
-            oldRequest.IsCanceled = enrollmentRequest.IsCanceled;
-            oldRequest.LastModifiedTimestamp = DateTime.Now;
             _repository.Save(_enrollmentRequests);
             NotifyObservers();
             return oldRequest;
         }
+
+
 
         public EnrollmentRequest? Remove(int id)
         {
@@ -77,12 +83,17 @@ namespace LangLang.Core.Model.DAO
         }
 
         // returns true if the cancellation was successful, otherwise false
-        public bool CancelRequest(EnrollmentRequest enrollmentRequest, Course course)
+        public bool CancelRequest(int id, Course course)
         {
-            if (course.StartDateTime.Date - DateTime.Now.Date <= TimeSpan.FromDays(7))
-                return false; // course start date must be at least 7 days away
+            if (course.DaysUntilStart() < 7)
+                throw new Exception("Cancellation deadline passed.");
 
-            enrollmentRequest.IsCanceled = true;
+            EnrollmentRequest request = _enrollmentRequests[id];
+            if (request.IsCanceled)
+                throw new Exception("Already canceled.");
+
+            request.CancelRequest();
+            _repository.Save(_enrollmentRequests);
             return true;
         }
 
@@ -109,6 +120,38 @@ namespace LangLang.Core.Model.DAO
             {
                 if (request.Status == Status.Paused) request.UpdateStatus(Status.Pending);
             }
+        }
+
+        public EnrollmentRequest? GetActiveCourseRequest(int studentId, CourseController courseController, WithdrawalRequestController wrController)
+        {
+            var studentRequests = GetStudentRequests(studentId);
+
+            foreach (var request in studentRequests)
+            {
+                var course = courseController.GetById(request.CourseId);
+
+                if (IsCurrentCourseRequest(request, course, wrController))
+                    return request;
+            }
+
+            return null;
+        }
+
+        private bool IsCurrentCourseRequest(EnrollmentRequest request, Course course, WithdrawalRequestController wrController)
+        {
+            if (request.Status != Status.Accepted || course.IsCompleted())
+            {
+                return false;
+            }
+
+            return !wrController.HasAcceptedWithdrawal(request.Id);
+        }
+
+
+        public bool CanRequestWithdrawal(int id)
+        {
+            EnrollmentRequest er = GetById(id);
+            return er.CanWithdraw();
         }
 
     }

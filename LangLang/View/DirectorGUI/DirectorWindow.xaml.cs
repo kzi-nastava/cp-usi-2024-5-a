@@ -14,10 +14,10 @@ namespace LangLang.View
     {
         public ObservableCollection<TutorDTO> Tutors { get; set; }
         public TutorDTO SelectedTutor { get; set; }
-        private TutorController tutorsController { get; set; }
+        private TutorController tutorController { get; set; }
         private AppController appController;
         private Director currentlyLoggedIn;
-        private Dictionary<int, Tutor> data;
+        private List<Tutor> _tutors;
 
         public DirectorWindow(AppController appController, Profile currentlyLoggedIn)
         {
@@ -25,12 +25,13 @@ namespace LangLang.View
             DataContext = this;
             Tutors = new ObservableCollection<TutorDTO>();
 
-            this.tutorsController = appController.TutorController;
-            this.data = tutorsController.GetAllTutors();
+            appController = appController;
+            this.tutorController = appController.TutorController;
+            _tutors = tutorController.GetAllTutors();
             //this.currentlyLoggedIn =  // TODO: Set when the directory is loaded
-            this.appController = appController;
 
-            tutorsController.Subscribe(this);
+            tutorController.Subscribe(this);
+
             Update();
             SetUpWindow();
         }
@@ -39,7 +40,8 @@ namespace LangLang.View
         public void Update()
         {
             Tutors.Clear();
-            foreach (Tutor tutor in data.Values)
+
+            foreach (Tutor tutor in _tutors)
             {
                 Tutors.Add(new TutorDTO(tutor));
             }
@@ -83,7 +85,7 @@ namespace LangLang.View
 
                     if (SelectedTutor.IsValid)
                     {
-                        tutorsController.Update(SelectedTutor.ToTutor());
+                        tutorController.Update(SelectedTutor.ToTutor());
                         MessageBox.Show("Successfully completed!");
                         ClearFields();
                         DisableForm();
@@ -165,13 +167,13 @@ namespace LangLang.View
             if (levelCB.SelectedValue != null)
                 level = (LanguageLevel)levelCB.SelectedValue;
          
-            data = tutorsController.Search(languagetb.Text, date, level);
+            _tutors = tutorController.Search(languagetb.Text, date, level);
             Update();
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
-            data = tutorsController.GetAllTutors();
+            _tutors = tutorController.GetAllTutors();
             levelCB.SelectedItem = null;
             Update();
         }

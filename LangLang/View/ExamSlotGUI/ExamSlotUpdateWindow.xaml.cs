@@ -23,28 +23,25 @@ namespace LangLang.View.ExamSlotGUI
     /// </summary>
     public partial class ExamSlotUpdateWindow : Window
     {
-        public List<Course> Courses { get; set; }
+        public List<Course> Skills { get; set; }
         public Course SelectedCourse { get; set; }
         public ExamSlotDTO ExamSlot { get; set; }
-        private ExamSlotController examSlotsController { get; set; }
-        private bool canBeUpdated;
-        public ExamSlotUpdateWindow(ExamSlotDTO selectedExamSlot, Dictionary<int, Course> courses, ExamSlotController controller)
+        private ExamSlotController examSlotController { get; set; }
+        private bool canBeUpdated { get; set; }
+        public ExamSlotUpdateWindow(AppController appController, int selectedExamId, Tutor loggedIn)
         {
-            /*
-            Courses = courses.Values.ToList<Course>();
+            
+            //Courses = courses.Values.ToList<Course>();
             SelectedCourse = new Course();
-            SelectedCourse = courses[selectedExamSlot.CourseId];
-            Trace.WriteLine("Id od kursa selektovanog " + SelectedCourse.Id);
-            examSlotsController = controller;
-            ExamSlot = new ExamSlotDTO();
-            ExamSlot = selectedExamSlot;
-            canBeUpdated = controller.Update(selectedExamSlot.ToExamSlot());
-            Trace.WriteLine("Id od Exam selektovanog " + ExamSlot.Id);
+            examSlotController = appController.ExamSlotController;
+            ExamSlot = new ExamSlotDTO(examSlotController.GetById(selectedExamId));
+            canBeUpdated = examSlotController.Update(ExamSlot.ToExamSlot());
+            Skills = appController.CourseController.GetCoursesForSkills(loggedIn);
 
             //Prefill(ExamSlot);
             InitializeComponent();
             DataContext = this;
-            */
+            
         }
         public void Prefill(ExamSlotDTO selectedExamSlot)
         {
@@ -65,8 +62,8 @@ namespace LangLang.View.ExamSlotGUI
                 }
                 else
                 {
-                    
-                    examSlotsController.Update(ExamSlot.ToExamSlot());
+
+                    examSlotController.Update(ExamSlot.ToExamSlot());
                 }
                 Close();
 

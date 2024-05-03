@@ -332,7 +332,7 @@ namespace LangLang.View.DTO
 
         public Tutor ToTutor()
         {
-            return new Tutor(Id, name, lastName, gender, birthDate, phoneNumber, email, password, role, employmentDate, languages, levels);
+            return new Tutor(Id, name, lastName, gender, birthDate, phoneNumber, email, password, role,false, employmentDate, languages, levels);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -24,17 +24,17 @@ namespace LangLang.View
     /// </summary>
     public partial class ExamSlotCreateWindow : Window
     {
-        public List<Course> Courses { get; set; }
+        public List<Course> Skills { get; set; }
         public Course SelectedCourse { get; set; }
         public ExamSlotDTO ExamSlot { get; set; }
         private ExamSlotController examSlotsController { get; set; }
-        //public ExamSlotCreateWindow(Dictionary<int,Course> courses, ExamSlotController controller)
-        public ExamSlotCreateWindow(Dictionary<int,Course> courses,ExamSlotController controller)
+        public ExamSlotCreateWindow(AppController appController, Tutor loggedIn)
         {
-            Courses = courses.Values.ToList<Course>();
+            Skills = appController.CourseController.GetCoursesForSkills(loggedIn);
             SelectedCourse = new Course();
-            examSlotsController = controller;
+            examSlotsController = appController.ExamSlotController;
             ExamSlot = new ExamSlotDTO();
+            ExamSlot.TutorId = loggedIn.Id;
 
             InitializeComponent();
             DataContext = this;
@@ -46,16 +46,14 @@ namespace LangLang.View
             CourseController courseController = new CourseController();
             if (ExamSlot.IsValid)
             {
-                /*
-                if (ExamSlot.CourseId == -1)
+                
+                if (SelectedCourse==null)
                 {
-                    MessageBox.Show("Must select course.");
+                    MessageBox.Show("Must select language and level.");
 
                 }
                 else
                 {
-                    
-                    //ExamSlot.CourseId = SelectedCourse.Id;
                     bool added = examSlotsController.Add(ExamSlot.ToExamSlot(), courseController);
                     
                     if (!added)
@@ -71,24 +69,23 @@ namespace LangLang.View
 
                         Close();
                     }
-                    Close();
-
+                    
                 }
-                */
+                
             }
             else
             {
-                /*
-                if (ExamSlot.CourseId == -1)
+                
+                if (SelectedCourse==null)
                 {
-                    MessageBox.Show("Must select course.");
+                    MessageBox.Show("Must select language and level.");
 
                 }
                 else
                 {
                     MessageBox.Show("Exam slot can not be created. Not all fields are valid.");
                 }
-                */
+                
             }
         }
 
@@ -105,5 +102,6 @@ namespace LangLang.View
                 //CoursesDataGrid.SelectedItem = null;
             }
         }
+
     }
 }

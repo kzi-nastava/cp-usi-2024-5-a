@@ -1,3 +1,3 @@
-0|Novak|Djokovic|Male|1980-01-01|+36245621|nole@gmail.com|idemoo10|Student|tenis player
-1|Nikola|Jokic|Male|1980-01-01|+36245621|jokic1@gmail.com|sombor15|Student|basketball player
-2|Bogdan|Bogdanovic|Male|1998-05-08|+3816532598|bodan@gmail.com|partizan10|Student|basketball player
+0|Novak|Djokovic|Male|1980-01-01|+36245621|nole@gmail.com|idemoo10|Student|false|tenis player|0
+1|Nikola|Jokic|Male|1980-01-01|+36245621|jokic1@gmail.com|sombor15|Student|false|basketball player|0
+2|Bogdan|Bogdanovic|Male|1998-05-08|+3816532598|bodan@gmail.com|partizan10|Student|false|basketball player|0

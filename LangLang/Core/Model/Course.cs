@@ -150,6 +150,16 @@ namespace LangLang.Core.Model
                 }
             }
             return false;
+
+        public int DaysUntilEnd()
+        {
+            var endDate = TimeSlots[TimeSlots.Count - 1].GetEnd();
+            return (endDate - DateTime.Now).Days;
+        }
+
+        public int DaysUntilStart()
+        {
+            return (StartDateTime - DateTime.Now).Days;
         }
     }
 }

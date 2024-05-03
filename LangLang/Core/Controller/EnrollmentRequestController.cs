@@ -19,6 +19,11 @@ namespace LangLang.Core.Controller
             return _enrollmentRequests.GetAllEnrollmentRequests();
         }
 
+        public EnrollmentRequest GetById(int id)
+        { 
+            return _enrollmentRequests.GetById(id);
+        }
+
         public void Add(EnrollmentRequest enrollmentRequest)
         {
             _enrollmentRequests.Add(enrollmentRequest);
@@ -47,7 +52,7 @@ namespace LangLang.Core.Controller
         public bool CancelRequest(EnrollmentRequest enrollmentRequest, CourseController courseController)
         {
             Course course = courseController.GetById(enrollmentRequest.CourseId);
-            return _enrollmentRequests.CancelRequest(enrollmentRequest, course);
+            return _enrollmentRequests.CancelRequest(enrollmentRequest.Id, course);
         }
 
         // this method is invoked when the tutor approves the request for the student
@@ -61,5 +66,16 @@ namespace LangLang.Core.Controller
         {
             _enrollmentRequests.ResumePausedRequests(studentId);
         }
+
+        public bool CanRequestWithdrawal(int id)
+        {
+            return _enrollmentRequests.CanRequestWithdrawal(id);
+        }
+
+        public EnrollmentRequest? GetActiveCourseRequest(int studentId, CourseController courseController, WithdrawalRequestController wrController)
+        {
+            return _enrollmentRequests.GetActiveCourseRequest(studentId, courseController, wrController);
+        }
+        
     }
 }

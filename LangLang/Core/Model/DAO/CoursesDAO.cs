@@ -6,6 +6,7 @@ using LangLang.Core.Observer;
 using System;
 using LangLang.Core.Controller;
 using System.Windows.Ink;
+using System.Windows.Input;
 
 namespace LangLang.Core.Model.DAO;
 
@@ -261,4 +262,27 @@ public class CoursesDAO : Subject
         }
         return courses;
     }
+    public List<Course> GetCoursesForSkills(Tutor tutor)
+    {
+        List<Course> skills = new List<Course>();
+        Dictionary<int, Course> courses = _courses;
+
+        for (int i = 0; i < tutor.Skill.Language.Count; i++)
+        {
+            foreach (Course course in courses.Values)
+            {
+                if (course.Language == tutor.Skill.Language[i])
+                {
+                    if (course.Level == tutor.Skill.Level[i])
+                    {
+                        skills.Add(course);
+                        break;
+                    }
+                }
+            }
+        }
+        
+        return skills;
+    }
+
 }

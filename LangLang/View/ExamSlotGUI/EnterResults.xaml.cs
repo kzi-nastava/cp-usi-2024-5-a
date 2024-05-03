@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using LangLang.Core.Controller;
+using System.Windows;
 using System.Windows.Controls;
 
 
@@ -9,7 +10,7 @@ namespace LangLang.View.ExamSlotGUI
     /// </summary>
     public partial class EnterResults : Window
     {
-        public EnterResults()
+        public EnterResults(AppController appController)
         {
             InitializeComponent();
 
