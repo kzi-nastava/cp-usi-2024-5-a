@@ -175,5 +175,17 @@ namespace LangLang.Core.Model.DAO
             // TODO: Implement this method once the exam application class is implemented.
             return false;
         }
+
+        public void GivePenaltyPoint(Student student)
+        {
+            student.PenaltyPoints++;
+            //if student passed penalty points limit, deactivate acount
+            if(student.PenaltyPoints == 3)
+            {
+                student.Profile.IsDeleted = true;
+            }
+            _repository.Save(_students);
+            NotifyObservers();
+        }
     }
 }
