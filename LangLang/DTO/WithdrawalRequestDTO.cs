@@ -12,7 +12,7 @@ namespace LangLang.DTO
         public Status Status;
         public DateTime RequestSentAt;
         public DateTime RequestReceivedAt;
-        public string Reason;
+        public string Reason { get; set; }
 
         public WithdrawalRequestDTO() {}
 
