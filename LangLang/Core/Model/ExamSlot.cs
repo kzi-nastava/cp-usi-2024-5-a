@@ -18,8 +18,8 @@ namespace LangLang.Core.Model
         public ExamSlot(int id, string language, LanguageLevel level, TimeSlot timeSlot, int maxStudents, int tutorId, int applicants, bool modifiable)
         {
             Id = id;
-            Language = language;   
-            Level = Level;
+            Language = language;
+            Level = level;
             TutorId = tutorId;
             TimeSlot = timeSlot;
             MaxStudents = maxStudents;

@@ -117,6 +117,16 @@ namespace LangLang.Core.Controller
             return _courses.IsCompleted(id);
         }
 
+        public bool OverlappsWith(Course course, TimeSlot timeSlot)
+        {
+            return course.OverlappsWith(timeSlot);
+        }
+
+        public bool CanCreateOrUpdateCourse(Course course, ExamSlotController examSlotController)
+        {
+            return _courses.CanCreateOrUpdateCourse(course, examSlotController);
+        }
+      
         public List<Course> GetCoursesForSkills(Tutor tutor)
         {
             return _courses.GetCoursesForSkills(tutor);
