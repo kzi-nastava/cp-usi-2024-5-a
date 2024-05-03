@@ -186,14 +186,14 @@ namespace LangLang
 
         private void ButtonSeeApplications_Click(object sender, RoutedEventArgs e)
         {
-            if (examSlotController.ApplicationsVisible(SelectedExamSlot.Id))
+            if (examSlotController.ApplicationsVisible(SelectedExamSlot.Id) && SelectedExamSlot.Applicants != 0)
             {
                 ExamApplications applicationsWindow = new(appController, SelectedExamSlot);
                 applicationsWindow.Show();
             }
             else
             {
-                MessageBox.Show("It's possible to see applications only 7 days before the exam and during the exam!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("If there are applications, they can only be viewed 7 days before exam and during the exam.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
