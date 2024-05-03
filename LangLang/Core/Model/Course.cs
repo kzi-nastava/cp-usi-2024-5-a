@@ -142,7 +142,7 @@ namespace LangLang.Core.Model
         // this method checks if timeSlot overlapps with any of the course's timeslots
         public bool OverlappsWith(TimeSlot timeSlot)
         {
-            foreach(TimeSlot time in TimeSlots)
+            foreach (TimeSlot time in TimeSlots)
             {
                 if (time.OverlappsWith(timeSlot))
                 {
@@ -150,7 +150,7 @@ namespace LangLang.Core.Model
                 }
             }
             return false;
-
+        }
         public int DaysUntilEnd()
         {
             var endDate = TimeSlots[TimeSlots.Count - 1].GetEnd();
