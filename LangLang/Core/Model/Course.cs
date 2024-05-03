@@ -10,7 +10,7 @@ namespace LangLang.Core.Model
 {
     public class Course : ISerializable
     {
-        // Attributes
+        // Properties
         public int Id { get; set; }
         public int TutorId { get; set; }
         public string Language { get; set; }
