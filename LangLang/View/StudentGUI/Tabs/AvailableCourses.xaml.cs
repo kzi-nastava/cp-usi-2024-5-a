@@ -38,25 +38,19 @@ namespace LangLang.View.StudentGUI.Tabs
 
         public void SetDataForReview()
         {
-            var studentController = appController.StudentController;
-            var enrollmentController = appController.EnrollmentRequestController;
-
-            CoursesForReview = studentController.GetAvailableCourses(currentlyLoggedIn.Id, courseController, enrollmentController);
+            CoursesForReview = courseController.GetAvailableCourses(currentlyLoggedIn, appController);
         }
 
         private void AdjustButton()
         {
             var studentController = appController.StudentController;
-            var enrollmentController = appController.EnrollmentRequestController;
-            var withdrawalController = appController.WithdrawalRequestController;
-            if (!studentController.CanRequestEnroll(currentlyLoggedIn.Id, enrollmentController, courseController, withdrawalController))
+            if (!studentController.CanRequestEnroll(currentlyLoggedIn.Id, appController))
                 SendRequestBtn.IsEnabled = false;
         }
 
 
         private void SearchCourses(object sender, RoutedEventArgs e)
         {
-
             string? language = languagetb.Text;
             LanguageLevel? level = null;
             if (levelCoursecb.SelectedValue != null)
@@ -64,18 +58,13 @@ namespace LangLang.View.StudentGUI.Tabs
             DateTime courseStartDate = courseStartdp.SelectedDate ?? default;
             int.TryParse(durationtb.Text, out int duration);
            
-            var studentController = appController.StudentController;
-            var enrollmentController = appController.EnrollmentRequestController;
-            CoursesForReview = studentController.SearchCoursesByStudent(currentlyLoggedIn.Id, courseController, enrollmentController, language, level, courseStartDate, duration, !onlinecb.IsChecked);
+            CoursesForReview = courseController.SearchCoursesByStudent(appController, currentlyLoggedIn, language, level, courseStartDate, duration, !onlinecb.IsChecked);
             parentWindow.Update();
         }
 
         private void ClearCourseBtn_Click(object sender, RoutedEventArgs e)
         {
-            var studentController = appController.StudentController;
-            var enrollmentController = appController.EnrollmentRequestController;
-
-            CoursesForReview = studentController.GetAvailableCourses(currentlyLoggedIn.Id, courseController, enrollmentController);
+            CoursesForReview = courseController.GetAvailableCourses(currentlyLoggedIn, appController);
             levelCoursecb.SelectedItem = null;
             parentWindow.Update();
         }
@@ -95,8 +84,7 @@ namespace LangLang.View.StudentGUI.Tabs
 
             MessageBox.Show("Request sent. Please wait for approval.");
 
-            var studentController = appController.StudentController;
-            CoursesForReview = studentController.GetAvailableCourses(currentlyLoggedIn.Id, courseController, enrollmentController);
+            CoursesForReview = courseController.GetAvailableCourses(currentlyLoggedIn, appController);
             parentWindow.enrollmentRequestsTab.SetDataForReview();
             parentWindow.Update();
         }

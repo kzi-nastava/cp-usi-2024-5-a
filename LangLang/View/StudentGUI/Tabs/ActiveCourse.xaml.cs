@@ -25,9 +25,8 @@ namespace LangLang.View.StudentGUI.Tabs
         {
             var enrollmentController = appController.EnrollmentRequestController;
             var courseController = appController.CourseController;
-            var withdrawalController = appController.WithdrawalRequestController;
 
-            var enrollmentRequest = enrollmentController.GetActiveCourseRequest(currentlyLoggedIn.Id, courseController, withdrawalController);
+            var enrollmentRequest = enrollmentController.GetActiveCourseRequest(currentlyLoggedIn.Id, appController);
             if (enrollmentRequest == null)
             {
                 HideWithdrawalBtn();
@@ -55,7 +54,7 @@ namespace LangLang.View.StudentGUI.Tabs
                 MessageBox.Show("Request already submitted. Wait for response.");
                 return;
             }
-            WithdrawalRequestWindow wrWindow = new(appController.WithdrawalRequestController, acceptedRequestId, parentWindow);
+            WithdrawalRequestWindow wrWindow = new(appController, acceptedRequestId, parentWindow);
             wrWindow.Show();
         }
 

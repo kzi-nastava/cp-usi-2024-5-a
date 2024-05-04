@@ -10,6 +10,7 @@ using System.Windows.Input;
 using LangLang.Core.Controller;
 using LangLang.View.ExamSlotGUI;
 using System.Diagnostics;
+using LangLang.Core.Model.Enums;
 
 namespace LangLang.Core.Model.DAO
 {
@@ -250,10 +251,9 @@ namespace LangLang.Core.Model.DAO
 
             return SearchExams(exams, examDate, language, level);
         }
-        public List<ExamSlot> SearchExams(List<ExamSlot> exams, DateTime examDate, string language, LanguageLevel? level)
-        {
 
-            // Apply search criteria if they are not null
+        private List<ExamSlot> SearchExams(List<ExamSlot> exams, DateTime examDate, string language, LanguageLevel? level)
+        {
             List<ExamSlot> filteredExams = exams.Where(exam =>
                 (examDate == default || exam.TimeSlot.Time.Date == examDate.Date) &&
                 (language == "" || exam.Language == language) &&
@@ -269,6 +269,58 @@ namespace LangLang.Core.Model.DAO
             ExamSlot examSlot = GetExamById(id);
             return examSlot.ApplicationsVisible();
         }
+
+        public List<ExamSlot> SearchExamsByStudent(AppController appController, Student student, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
+        {
+            List<ExamSlot> availableExamSlots = GetAvailableExams(student, appController);
+            return SearchExams(availableExamSlots, examDate, courseLanguage, languageLevel);
+        }
+
+
+        // returns a list of exams that are available for student application
+        public List<ExamSlot> GetAvailableExams(Student student, AppController appController)
+        {
+            var courseController = appController.CourseController;
+            var enrollmentController = appController.EnrollmentRequestController;
+
+            if (student == null) return null;
+            List<ExamSlot> availableExams = new();
+
+            List<EnrollmentRequest> studentRequests = enrollmentController.GetStudentRequests(student.Id);
+
+            foreach (ExamSlot exam in GetAllExams().Values)
+            {
+                //don't include filled exams and exams that passed
+                if (!IsAvailable(exam))
+                {
+                    continue;
+                }
+
+                foreach (EnrollmentRequest enrollmentRequest in studentRequests)
+                {
+                    Course course = courseController.GetById(enrollmentRequest.CourseId);
+                    if (HasStudentAttendedCourse(course, enrollmentRequest, exam))
+                    {
+                        availableExams.Add(exam);
+                    }
+                }
+            }
+
+            return availableExams;
+        }
+
+        private bool HasStudentAttendedCourse(Course course, EnrollmentRequest enrollmentRequest, ExamSlot examSlot)
+        {
+            if (course.Language == examSlot.Language && course.Level == examSlot.Level)
+            {
+                if (enrollmentRequest.Status == Status.Accepted && course.IsCompleted())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
     }
 }

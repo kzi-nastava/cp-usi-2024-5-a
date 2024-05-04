@@ -122,15 +122,17 @@ namespace LangLang.Core.Model.DAO
             }
         }
 
-        public EnrollmentRequest? GetActiveCourseRequest(int studentId, CourseController courseController, WithdrawalRequestController wrController)
+        public EnrollmentRequest? GetActiveCourseRequest(int studentId, AppController appController)
         {
+            var courseController = appController.CourseController;
+            var withdrawalController = appController.WithdrawalRequestController;
             var studentRequests = GetStudentRequests(studentId);
 
             foreach (var request in studentRequests)
             {
                 var course = courseController.GetById(request.CourseId);
 
-                if (IsCurrentCourseRequest(request, course, wrController))
+                if (IsCurrentCourseRequest(request, course, withdrawalController))
                     return request;
             }
 
@@ -147,12 +149,19 @@ namespace LangLang.Core.Model.DAO
             return !wrController.HasAcceptedWithdrawal(request.Id);
         }
 
-
         public bool CanRequestWithdrawal(int id)
         {
             EnrollmentRequest er = GetById(id);
             return er.CanWithdraw();
         }
 
+        public bool IsRequestDuplicate(int studentId, Course course)
+        {
+            foreach (EnrollmentRequest er in GetAllEnrollmentRequests())
+            {
+                if (er.StudentId == studentId && er.CourseId == course.Id && !er.IsCanceled) return true;
+            }
+            return false;
+        }
     }
 }
