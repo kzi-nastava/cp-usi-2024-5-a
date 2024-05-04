@@ -72,10 +72,7 @@ namespace LangLang.Core.Controller
         {
             return _exams.HasPassed(exam);
         }
-        public bool IsAvailable(ExamSlot exam)
-        {
-            return _exams.IsAvailable(exam);
-        }
+       
         public void AddStudent(ExamSlot exam)
         {
             _exams.AddStudent(exam);
