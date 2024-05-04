@@ -7,11 +7,27 @@
              mc:Ignorable="d" 
              d:DesignHeight="662.4" d:DesignWidth="934.4">
     <Grid Margin="0,0,-3,-9" Background="#FFFAE0E0">
+        <Button x:Name="SendRequestBtn"
+            Width="129"
+            Height="104"
+            Margin="673,170,135,397"
+            Background="#FFFFDBDB"
+            BorderBrush="White"
+            Foreground="#FFD28383"
+            FontFamily="Segoe UI Black" Click="SendRequestBtn_Click">
+            <StackPanel>
+                <TextBlock Text="SEND" TextAlignment="Center"/>
+                <TextBlock Text="EXAM" TextAlignment="Center"/>
+                <TextBlock Text="APPLICATION" TextAlignment="Center"/>
+                <TextBlock Text="REQUEST" TextAlignment="Center"/>
+            </StackPanel>
+        </Button>
         <DataGrid Height="Auto"
           Width="Auto"
           AutoGenerateColumns="False"
           x:Name="ExamSlotsDataGrid"
           ItemsSource="{Binding ExamSlots, UpdateSourceTrigger=PropertyChanged}"
+          SelectedItem="{Binding SelectedExam, UpdateSourceTrigger=PropertyChanged}"
           SelectionMode="Single" IsReadOnly="True" Margin="326,40,326,267">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="*"/>
