@@ -31,9 +31,7 @@ namespace LangLang.View.StudentGUI.Tabs
         private void SetDataForReview()
         {
             var courseController = appController.CourseController;
-            var enrollmentController = appController.EnrollmentRequestController;
-            var withdrawalController = appController.WithdrawalRequestController;
-            completedCourses = courseController.GetCompletedCourses(currentlyLoggedIn.Id, enrollmentController, withdrawalController);
+            completedCourses = courseController.GetCompletedCourses(currentlyLoggedIn.Id, appController);
 
             foreach (var course in completedCourses)
                 Courses.Add(new CourseDTO(course, appController));

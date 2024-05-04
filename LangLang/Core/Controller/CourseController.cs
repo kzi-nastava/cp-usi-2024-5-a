@@ -94,22 +94,14 @@ namespace LangLang.Core.Controller
             return _courses.GetAllCourses()[courseId];
         }
 
-        public List<Course> SearchCoursesByTutor(int tutorId, string language, LanguageLevel level, DateTime startDate, int duration, bool online)
+        public List<Course> SearchCoursesByTutor(int tutorId, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
         {
-            List<Course> tutorsCourses = GetCoursesWithTutor(tutorId).Values.ToList();
-            return SearchCourses(tutorsCourses, language, level, startDate, duration, online);
+            return _courses.SearchCoursesByTutor(tutorId, language, level, startDate, duration, online);           
         }
 
-        public List<Course> SearchCourses(List<Course> searchableCourses, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
+        public List<Course> SearchCoursesByStudent(AppController appController, Student student, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
         {
-            List<Course> filteredCourses = searchableCourses.Where(course =>
-            (language == "" || course.Language.Contains(language)) && 
-            (level == null || course.Level == level) &&
-            (startDate == default || course.StartDateTime.Date == startDate.Date) &&
-            (duration == 0 || course.NumberOfWeeks == duration) &&
-            (online == false || course.Online == online)).ToList();
-
-            return filteredCourses;
+            return _courses.SearchCoursesByStudent(appController, student, language, level, startDate, duration, online);
         }
 
         public bool IsCompleted(int id)
@@ -132,15 +124,17 @@ namespace LangLang.Core.Controller
             return _courses.GetCoursesForSkills(tutor);
         }
 
-        public List<Course> GetCompletedCourses(int studentId, EnrollmentRequestController erController, WithdrawalRequestController wrController)
+        public List<Course> GetCompletedCourses(int studentId, AppController appController)
         {
+            var enrollmentController = appController.EnrollmentRequestController;
+            var withdrawalController = appController.WithdrawalRequestController;
+            var studentRequests = enrollmentController.GetStudentRequests(studentId);
             List<Course> courses = new();
-            var studentRequests = erController.GetStudentRequests(studentId);
 
             foreach (var request in studentRequests)
             {
                 Course course = GetById(request.CourseId);
-                if (StudentAttendedUntilEnd(course, request, wrController))
+                if (StudentAttendedUntilEnd(course, request, withdrawalController))
                     courses.Add(course);
             }
             return courses;
@@ -148,7 +142,13 @@ namespace LangLang.Core.Controller
 
         private bool StudentAttendedUntilEnd(Course course, EnrollmentRequest request, WithdrawalRequestController wrController)
         {
-            return course.IsCompleted() && request.Status == Status.Accepted && !wrController.HasAcceptedWithdrawal(request.Id);
+            return course.IsCompleted() && request.Status == Status.Accepted 
+                    && !wrController.HasAcceptedWithdrawal(request.Id);
+        }
+
+        public List<Course> GetAvailableCourses(Student student, AppController appController)
+        {
+            return _courses.GetAvailableCourses(student, appController);
         }
 
     }   

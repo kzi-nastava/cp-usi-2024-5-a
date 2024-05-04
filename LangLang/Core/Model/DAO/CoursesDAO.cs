@@ -285,4 +285,47 @@ public class CoursesDAO : Subject
         return skills;
     }
 
+    public List<Course> SearchCoursesByTutor(int tutorId, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
+    {
+        List<Course> tutorsCourses = GetCoursesWithTutor(tutorId).Values.ToList();
+        return SearchCourses(tutorsCourses, language, level, startDate, duration, online);
+    }
+
+    private List<Course> SearchCourses(List<Course> searchableCourses, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
+    {
+        List<Course> filteredCourses = searchableCourses.Where(course =>
+        (language == "" || course.Language.Contains(language)) &&
+        (level == null || course.Level == level) &&
+        (startDate == default || course.StartDateTime.Date == startDate.Date) &&
+        (duration == 0 || course.NumberOfWeeks == duration) &&
+        (online == false || course.Online == online)).ToList();
+
+        return filteredCourses;
+    }
+
+    public List<Course> SearchCoursesByStudent(AppController appController, Student student, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
+    {
+        List<Course> availableCourses = GetAvailableCourses(student, appController);
+        List<Course> filteredCourses = SearchCourses(availableCourses, language, level, startDate, duration, online);
+        return filteredCourses;
+    }
+
+    public List<Course> GetAvailableCourses(Student student, AppController appController)
+    {
+        var courseController = appController.CourseController;
+        var enrollmentController = appController.EnrollmentRequestController;
+
+        List<Course> availableCourses = new();
+        foreach (Course course in courseController.GetAllCourses().Values)
+        {
+            if (courseController.IsCourseAvailable(course.Id))
+            {
+                if (!enrollmentController.IsRequestDuplicate(student.Id, course))
+                    availableCourses.Add(course);
+            }
+        }
+        return availableCourses;
+    }
+
+    
 }

@@ -72,10 +72,15 @@ namespace LangLang.Core.Controller
             return _enrollmentRequests.CanRequestWithdrawal(id);
         }
 
-        public EnrollmentRequest? GetActiveCourseRequest(int studentId, CourseController courseController, WithdrawalRequestController wrController)
+        public EnrollmentRequest? GetActiveCourseRequest(int studentId, AppController appController)
         {
-            return _enrollmentRequests.GetActiveCourseRequest(studentId, courseController, wrController);
+            return _enrollmentRequests.GetActiveCourseRequest(studentId, appController);
         }
-        
+
+        public bool IsRequestDuplicate(int studentId, Course course)
+        {
+            return _enrollmentRequests.IsRequestDuplicate(studentId, course);
+        }
+
     }
 }

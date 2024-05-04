@@ -4,7 +4,6 @@ using LangLang.Core.Repository;
 using LangLang.Core.Observer;
 using LangLang.Core.Controller;
 using LangLang.Core.Model.Enums;
-using System;
 
 namespace LangLang.Core.Model.DAO
 {
@@ -76,109 +75,55 @@ namespace LangLang.Core.Model.DAO
             return oldStudent;
         }
 
-        public Student? RemoveStudent(int id, EnrollmentRequestController erController, ExamAppRequestController earController, ExamSlotController examSlotController)
+        public Student? RemoveStudent(Student student, AppController appController)
         {
-            Student? student = GetStudentById(id);
-            if (student == null) return null;
+            var enrollmentController = appController.EnrollmentRequestController;
+            var examAppController = appController.ExamAppRequestController;
+            var examController = appController.ExamSlotController;
+            int id = student.Id;
 
-            foreach (EnrollmentRequest er in erController.GetStudentRequests(id)) // delete all course enrollment requests
-                erController.Delete(er.Id);
+            foreach (EnrollmentRequest er in enrollmentController.GetStudentRequests(id)) // delete all course enrollment requests
+                enrollmentController.Delete(er.Id);
 
-            foreach (ExamAppRequest ar in earController.GetStudentRequests(id)) // delete all exam application requests
-                earController.Delete(ar.Id, examSlotController);
+            foreach (ExamAppRequest ar in examAppController.GetStudentRequests(id)) // delete all exam application requests
+                examAppController.Delete(ar.Id, examController);
 
-            _students[id].Profile.IsDeleted = true;
+            student.Profile.IsDeleted = true;
             _repository.Save(_students);
             NotifyObservers();
             return student;
         }
 
-        public List<Course> GetAvailableCourses(int studentId, CourseController courseController, List<EnrollmentRequest> studentRequests)
-        {
-            List<Course> availableCourses = new();
-            foreach (Course course in courseController.GetAllCourses().Values)
-            {
-                if (courseController.IsCourseAvailable(course.Id))
-                {
-                    if (!IsRequestDuplicate(studentId, course, studentRequests))
-                        availableCourses.Add(course);
-                }
-            }
-            return availableCourses;
-        }
 
-        private bool IsRequestDuplicate(int studentId, Course course, List<EnrollmentRequest> enrollmentRequests)
-        {
-            foreach (EnrollmentRequest er in enrollmentRequests)
-            {
-                if (er.StudentId == studentId && er.CourseId == course.Id && !er.IsCanceled) return true;
-            }
-            return false;
-        }
-
-        private bool HasStudentAttendedCourse(Course course, EnrollmentRequest enrollmentRequest, ExamSlot examSlot)
-        {
-
-            if (course.Language == examSlot.Language && course.Level == examSlot.Level)
-            {
-                if (enrollmentRequest.Status == Status.Accepted && course.IsCompleted())
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-        // returns a list of exams that are available for student application
-        public List<ExamSlot>? GetAvailableExams(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController erController)
-        {
-            if (student == null) return null;
-            Dictionary<int,ExamSlot> availableExams = new();
-
-            List<EnrollmentRequest> studentRequests = erController.GetStudentRequests(student.Id);
-            
-            foreach (ExamSlot exam in examSlotController.GetAllExams())
-            {
-                //don't include filled exams and exams that passed
-                if (!examSlotController.IsAvailable(exam))
-                {
-                    continue;
-                }
-
-                foreach (EnrollmentRequest enrollmentRequest in studentRequests)
-                {
-                    Course course = courseController.GetById(enrollmentRequest.CourseId);
-                    if (HasStudentAttendedCourse(course, enrollmentRequest, exam))
-                    {
-                        availableExams.Add(exam.Id,exam);
-                    }
-                }
-            }
-
-            return availableExams.Values.ToList();
-        }
-
-        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController, ExamAppRequestController earController, ExamSlotController examController)
+        public bool CanModifyInfo(Student student, AppController appController)
         {
             // can modify - student is not currently enrolled in any course and has not applied for any exams
-            return (CanRequestEnroll(studentId, erController, courseController, wrController) && !HasAppliedForExam(studentId, earController,examController));
+            return (CanRequestEnroll(student.Id, appController) && !HasAppliedForExam(student.Id, appController));
         }
 
-        public bool CanRequestEnroll(int id, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController)
+        public bool CanRequestEnroll(int id, AppController appController)
         {
-            foreach (EnrollmentRequest er in erController.GetStudentRequests(id))
+            var enrollmentController = appController.EnrollmentRequestController;
+            var courseController = appController.CourseController;
+            var withdrawalController = appController.WithdrawalRequestController;
+            
+            foreach (EnrollmentRequest er in enrollmentController.GetStudentRequests(id))
             {
                 if (er.Status == Status.Accepted && !er.IsCanceled)
                 {
-                    if (!courseController.IsCompleted(er.CourseId) && !wrController.HasAcceptedWithdrawal(er.Id)) 
+                    if (!courseController.IsCompleted(er.CourseId) && !withdrawalController.HasAcceptedWithdrawal(er.Id)) 
                         return false;
                 }
             }
             return true;
         }
 
-        public bool HasAppliedForExam(int studentId, ExamAppRequestController examAppController, ExamSlotController examSlotController)
+        public bool HasAppliedForExam(int studentId, AppController appController)
         {
-            List<ExamAppRequest> requests = examAppController.GetActiveStudentRequests(studentId,examSlotController);
+            var examAppController = appController.ExamAppRequestController;
+            var examController = appController.ExamSlotController;
+            List<ExamAppRequest> requests = examAppController.GetActiveStudentRequests(studentId, examController);
+            
             if(requests.Count == 0)
             {
                 return false;

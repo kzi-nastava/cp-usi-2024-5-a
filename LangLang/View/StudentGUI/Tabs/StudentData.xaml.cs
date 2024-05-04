@@ -81,12 +81,7 @@ namespace LangLang.View.StudentGUI.Tabs
         }
         private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
-            var enrollmentController = appController.EnrollmentRequestController;
-            var courseController = appController.CourseController;
-            var withdrawalController = appController.WithdrawalRequestController;
-            var applicationController = appController.ExamAppRequestController;
-            var examController = appController.ExamSlotController;
-            if (studentController.CanModifyInfo(currentlyLoggedIn.Id, enrollmentController, courseController, withdrawalController, applicationController, examController))
+            if (studentController.CanModifyInfo(currentlyLoggedIn, appController))
             {
                 EnableForm();
                 EditMode();
@@ -125,13 +120,10 @@ namespace LangLang.View.StudentGUI.Tabs
 
         private void DeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            var enrollmentController = appController.EnrollmentRequestController;
-            var applicationController = appController.ExamAppRequestController;
-            var examController = appController.ExamSlotController;
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to delete your account?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                studentController.Delete(currentlyLoggedIn.Id, enrollmentController, applicationController, examController);
+                studentController.Delete(currentlyLoggedIn, appController);
                 MessageBox.Show("Account is deactivated. All exams and courses have been canceled.");
                 parentWindow.Close();
             }

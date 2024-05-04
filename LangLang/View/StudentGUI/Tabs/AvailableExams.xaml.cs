@@ -4,7 +4,6 @@ using LangLang.DTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -20,6 +19,7 @@ namespace LangLang.View.StudentGUI.Tabs
         public ObservableCollection<ExamSlotDTO> ExamSlots { get; set; }
         private ExamAppRequest Request { get; set; }
         public ExamSlotDTO SelectedExam { get; set; }
+
         public AvailableExams(AppController appController, Student currentlyLoggedIn, StudentWindow parentWindow)
         {
             InitializeComponent();
@@ -35,13 +35,8 @@ namespace LangLang.View.StudentGUI.Tabs
 
         private void SetDataForReview()
         {
-
-            //TODO: Update to show only available exams tat student hasnt applied for
-            var studentController = appController.StudentController;
-            var enrollmentController = appController.EnrollmentRequestController;
-            var courseController = appController.CourseController;
-            //ExamsForReview = examController.GetAllExams();
-            ExamsForReview = studentController.GetAvailableExams(currentlyLoggedIn, courseController, examController, enrollmentController);
+            //TODO: Update to show only available exams tat student hasn't applied for
+            ExamsForReview = examController.GetAvailableExams(currentlyLoggedIn, appController);
         }
         private void SearchExams(object sender, RoutedEventArgs e)
         {
@@ -51,20 +46,13 @@ namespace LangLang.View.StudentGUI.Tabs
                 level = (LanguageLevel)levelExamcb.SelectedValue;
             DateTime examDate = examdatePicker.SelectedDate ?? default;
 
-            var studentController = appController.StudentController;
-            var enrollmentController = appController.EnrollmentRequestController;
-            var courseController = appController.CourseController;
-
-            ExamsForReview = studentController.SearchExamSlotsByStudent(examController, courseController, enrollmentController, currentlyLoggedIn.Id, examDate, language, level); ;
+            ExamsForReview = examController.SearchExamsByStudent(appController, currentlyLoggedIn, examDate, language, level); ;
             parentWindow.Update();
         }
 
         private void ClearExamBtn_Click(object sender, RoutedEventArgs e)
         {
-            var courseController = appController.CourseController;
-            var studentController = appController.StudentController;
-            var enrollmentController = appController.EnrollmentRequestController;
-            ExamsForReview = studentController.GetAvailableExams(currentlyLoggedIn, courseController, examController, enrollmentController);
+            ExamsForReview = examController.GetAvailableExams(currentlyLoggedIn, appController);
             levelExamcb.SelectedItem = null;
             parentWindow.Update();
         }
@@ -78,7 +66,7 @@ namespace LangLang.View.StudentGUI.Tabs
             var examAppRequestController = appController.ExamAppRequestController;
             examAppRequestController.Add(Request, examController);
 
-            MessageBox.Show("You successfuly applied for exam.");
+            MessageBox.Show("You successfully applied for exam.");
 
             SetDataForReview();
         }

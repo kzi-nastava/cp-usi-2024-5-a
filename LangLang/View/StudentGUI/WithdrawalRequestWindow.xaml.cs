@@ -14,12 +14,12 @@ namespace LangLang.View.StudentGUI
         private readonly StudentWindow parentWindow;
         private readonly int enrollmentRequestId;
 
-        public WithdrawalRequestWindow(WithdrawalRequestController wrController, int enrollmentRequestId, StudentWindow parentWindow)
+        public WithdrawalRequestWindow(AppController appController, int enrollmentRequestId, StudentWindow parentWindow)
         {
             InitializeComponent();
             DataContext = this;
             WithdrawalRequest = new WithdrawalRequestDTO();
-            WRController = wrController;
+            WRController = appController.WithdrawalRequestController;
             this.parentWindow = parentWindow;
             this.enrollmentRequestId = enrollmentRequestId;
         }

@@ -4,7 +4,6 @@ using LangLang.Core.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LangLang.Core.Repository;
 
 namespace LangLang.Core.Controller
 {
@@ -61,10 +60,11 @@ namespace LangLang.Core.Controller
             return _exams.SearchExamsByTutor(tutor, examDate, language, level);
         }
 
-        public List<ExamSlot> SearchExams(List<ExamSlot> exams, DateTime examDate, string language, LanguageLevel? level)
+        public List<ExamSlot> SearchExamsByStudent(AppController appController, Student student, DateTime examDate, string language, LanguageLevel? level)
         {
-            return _exams.SearchExams(exams, examDate, language, level);
+            return _exams.SearchExamsByStudent(appController, student, examDate, language, level);
         }
+
         public bool HasPassed(ExamSlot exam)
         {
             return _exams.HasPassed(exam);
@@ -82,5 +82,12 @@ namespace LangLang.Core.Controller
         {
             _exams.RemoveStudent(exam);
         }
+
+        // returns a list of exams that are available for student application
+        public List<ExamSlot>? GetAvailableExams(Student student, AppController appController)
+        {
+            return _exams.GetAvailableExams(student, appController);    
+        }
+
     }
 }
