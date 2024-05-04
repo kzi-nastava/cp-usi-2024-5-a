@@ -1,4 +1,5 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.Core;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.DTO;
 using System;
@@ -55,7 +56,7 @@ namespace LangLang.View.ExamSlotGUI
             {
                 if (!examSlotController.CanBeUpdated(ExamSlot.ToExamSlot()))
                 {
-                    MessageBox.Show("Exam can not be updated. There is less than 2 weeks left before the exam.");
+                    MessageBox.Show($"Exam can not be updated. There is less than {Constants.EXAM_MODIFY_PERIOD} weeks left before the exam.");
                 }
                 else
                 {

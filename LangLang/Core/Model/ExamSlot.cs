@@ -63,7 +63,7 @@ namespace LangLang.Core.Model
             int daysLeft = (TimeSlot.Time - DateTime.Now).Days; // days left until exam
             double timeLeft = (TimeSlot.GetEnd() - DateTime.Now).TotalMinutes; // time left until end of exam
 
-            if (daysLeft > 0 && daysLeft < 7) return true; // seven days before, applications are visible
+            if (daysLeft > 0 && daysLeft < Constants.PRE_START_VIEW_PERIOD) return true; // applications become visible when there are less than PRE_START_VIEW_PERIOD days left
             else if (daysLeft == 0 && timeLeft > 0) return true; // on the exam day, applications are visible until the end of exam
             return false;
         }

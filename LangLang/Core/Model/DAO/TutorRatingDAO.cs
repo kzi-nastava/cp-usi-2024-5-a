@@ -35,9 +35,9 @@ namespace LangLang.Core.Model.DAO
 
         public TutorRating Add(TutorRating rating)
         {
-            if (rating.Rating < 1 || rating.Rating > 10)
+            if (rating.Rating < Constants.MIN_GRADE || rating.Rating > Constants.MAX_GRADE)
             {
-                throw new ArgumentException("Rating must be between 1 and 10");
+                throw new ArgumentException($"Rating must be between {Constants.MIN_GRADE} and {Constants.MAX_GRADE}.");
             }
 
             rating.Id = GenerateId();

@@ -135,7 +135,7 @@ namespace LangLang.Core.Model.DAO
         {
             student.PenaltyPoints++;
             //if student passed penalty points limit, deactivate acount
-            if(student.PenaltyPoints == 3)
+            if(student.PenaltyPoints == Constants.MAX_PENALTY_POINTS)
             {
                 student.Profile.IsDeleted = true;
             }

@@ -34,7 +34,7 @@ namespace LangLang.Core.Model
             Profile = new Profile(values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7], values[8], values[9]);
 
             try {
-                EmploymentDate = DateTime.ParseExact(values[10], "yyyy-MM-dd", null);
+                EmploymentDate = DateTime.ParseExact(values[10], Constants.DATE_FORMAT, null);
             } catch 
             {
                 throw new FormatException("Date is not in the correct format.");
@@ -68,7 +68,7 @@ namespace LangLang.Core.Model
             List<string> csvValues = new List<string>();
 
             csvValues.Add(Profile.ToString());
-            csvValues.Add(EmploymentDate.ToString("yyyy-MM-dd"));
+            csvValues.Add(EmploymentDate.ToString(Constants.DATE_FORMAT));
 
             if (Skill.Language.Count > 0)
             {

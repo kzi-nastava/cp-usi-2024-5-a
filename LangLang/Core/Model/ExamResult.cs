@@ -64,11 +64,11 @@ namespace LangLang.Core.Model
 
         public void EvaluateOutcome()
         {
-            bool readingPassed = ReadingPoints >= 30;
-            bool speakingPassed = SpeakingPoints >= 25;
-            bool listeningPassed = ListeningPoints >= 20;
-            bool writingPassed = WritingPoints >= 30;
-            bool minimumAchieved = (ReadingPoints + SpeakingPoints + ListeningPoints + WritingPoints) >= 160;
+            bool readingPassed = ReadingPoints >= Constants.MIN_READING_POINTS;
+            bool speakingPassed = SpeakingPoints >= Constants.MIN_SPEAKING_POINTS;
+            bool listeningPassed = ListeningPoints >= Constants.MIN_LISTENING_POINTS;
+            bool writingPassed = WritingPoints >= Constants.MIN_WRITING_POINTS;
+            bool minimumAchieved = (ReadingPoints + SpeakingPoints + ListeningPoints + WritingPoints) >= Constants.MIN_TEST_POINTS;
 
             if (readingPassed && speakingPassed && writingPassed && listeningPassed && minimumAchieved) Outcome = ExamOutcome.Passed;
             Outcome =  ExamOutcome.Failed;

@@ -134,7 +134,7 @@ namespace LangLang.Core.Model
                 foreach(DayOfWeek day in Days)
                 {
                     DateTime currentDate = StartDateTime.AddDays(week * 7 + (day - StartDateTime.DayOfWeek));
-                    TimeSlots.Add(new TimeSlot(1.5, currentDate));
+                    TimeSlots.Add(new TimeSlot(Constants.SESSION_DURATION, currentDate));
                 }
             }
         }

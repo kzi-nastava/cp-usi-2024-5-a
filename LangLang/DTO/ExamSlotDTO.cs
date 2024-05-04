@@ -1,4 +1,5 @@
-﻿using LangLang.Core.Model;
+﻿using LangLang.Core;
+using LangLang.Core.Model;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -193,7 +194,7 @@ namespace LangLang.DTO
             string[] timeParts = _time.Split(':');
             int hour = int.Parse(timeParts[0]);
             int minute = int.Parse(timeParts[1]);
-            return new ExamSlot(Id, _language, _level, new TimeSlot(4,new DateTime(_examDate.Year, _examDate.Month, _examDate.Day, hour, minute, 0)),_maxStudents,_tutorId, _applicants, _modifiable, ResultsGenerated);
+            return new ExamSlot(Id, _language, _level, new TimeSlot(Constants.EXAM_DURATION,new DateTime(_examDate.Year, _examDate.Month, _examDate.Day, hour, minute, 0)),_maxStudents,_tutorId, _applicants, _modifiable, ResultsGenerated);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
