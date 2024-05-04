@@ -42,40 +42,20 @@ namespace LangLang.View.CourseGUI
         {
             if (Course.IsValid)
             {
-                if (Course.NotOnline)
+                if(courseController.CanCreateOrUpdateCourse(Course.ToCourse(), examController))
                 {
-                    /*
-                    if (courseController.CanUpdateLiveCourse(Course.ToCourse(), examController.GetAllExams()))
-                    {
-                        courseController.Update(Course.ToCourse());
-                        MessageBox.Show("Success!");
-                        Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("There seem to be time overlaps.");
-                    }
-                    */
+                    courseController.Update(Course.ToCourse());
+                    MessageBox.Show("Success!");
+                    Close();
                 }
                 else
                 {
-                    /*
-                    if (courseController.CanUpdateOnlineCourse(Course.ToCourse(), examController.GetExams(Course.TutorId)))
-                    {
-                        courseController.Update(Course.ToCourse());
-                        MessageBox.Show("Success!");
-                        Close();
-                    }
-                    else
-                    {
-                        MessageBox.Show("There seem to be time overlaps.");
-                    }
-                    */
+                    MessageBox.Show("The course cannot be updated, there are time overlaps or no available classroms (if the course is held in a classroom).");
                 }
             }
             else
             {
-                MessageBox.Show("Something went wrong. Please check all fields in registration form.");
+                MessageBox.Show("Something went wrong. Please check all fields in the form.");
             }
 
         }
@@ -85,11 +65,13 @@ namespace LangLang.View.CourseGUI
         private void ClasssroomCb_Checked(object sender, RoutedEventArgs e)
         {
             maxNumOfStudentsTb.IsEnabled = true;
+            inClassroomErrorTb.Text = "Please enter the maximal number of students, as it is required";
         }
 
         private void ClasssroomCb_Unchecked(object sender, RoutedEventArgs e)
         {
             maxNumOfStudentsTb.IsEnabled = false;
+            inClassroomErrorTb.Text = "";
         }
     }
 }
