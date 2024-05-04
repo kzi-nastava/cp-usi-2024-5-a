@@ -3,7 +3,7 @@ using LangLang.Core.Repository.Serialization;
 
 namespace LangLang.Core.Model
 {
-    public class Director : ISerializable
+    public class Director : ISerializable, IProfileHolder
     {
         public Profile Profile{ get; set; }
         public int Id => Profile.Id;
