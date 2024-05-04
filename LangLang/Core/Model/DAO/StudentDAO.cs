@@ -4,7 +4,6 @@ using LangLang.Core.Repository;
 using LangLang.Core.Observer;
 using LangLang.Core.Controller;
 using LangLang.Core.Model.Enums;
-using System;
 
 namespace LangLang.Core.Model.DAO
 {
@@ -12,7 +11,6 @@ namespace LangLang.Core.Model.DAO
     {
         private readonly Dictionary<int, Student> _students;
         private readonly Repository<Student> _repository;
-
 
         public StudentDAO()
         {
@@ -77,92 +75,80 @@ namespace LangLang.Core.Model.DAO
             return oldStudent;
         }
 
-        public Student? RemoveStudent(int id, EnrollmentRequestController enrollmentRequestController)
+        public Student? RemoveStudent(Student student, AppController appController)
         {
-            Student? student = GetStudentById(id);
-            if (student == null) return null;
+            var enrollmentController = appController.EnrollmentRequestController;
+            var examAppController = appController.ExamAppRequestController;
+            var examController = appController.ExamSlotController;
+            int id = student.Id;
 
-            foreach (EnrollmentRequest er in enrollmentRequestController.GetStudentRequests(id))
-            {
-                enrollmentRequestController.Delete(er.Id);
-            }
+            foreach (EnrollmentRequest er in enrollmentController.GetStudentRequests(id)) // delete all course enrollment requests
+                enrollmentController.Delete(er.Id);
 
-            _students[id].Profile.IsDeleted = true;
+            foreach (ExamAppRequest ar in examAppController.GetStudentRequests(id)) // delete all exam application requests
+                examAppController.Delete(ar.Id, examController);
+
+            student.Profile.IsDeleted = true;
             _repository.Save(_students);
             NotifyObservers();
             return student;
         }
 
-        public List<Course> GetAvailableCourses(CourseController courseController)
-        {
-            List<Course> availableCourses = new();
-            foreach (Course course in courseController.GetAllCourses().Values)
-            {
-                if (courseController.IsCourseAvailable(course.Id))
-                {
-                    availableCourses.Add(course);
-                }
-            }
-            return availableCourses;
-        }
 
-        private bool HasStudentAttendedCourse(Course course, EnrollmentRequest enrollmentRequest, ExamSlot examSlot)
-        {
-
-            if (course.Language == examSlot.Language && course.Level == examSlot.Level)
-            {
-                if (enrollmentRequest.Status == Status.Accepted && course.IsCompleted())
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public List<ExamSlot>? GetAvailableExamSlots(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController erController)
-        {
-            if (student == null) return null;
-            List<ExamSlot> availableExamSlots = new();
-
-            List<EnrollmentRequest> studentRequests = erController.GetStudentRequests(student.Id);
-            
-            foreach (ExamSlot examSlot in examSlotController.GetAllExams())
-            {
-                foreach (EnrollmentRequest enrollmentRequest in studentRequests)
-                {
-                    Course course = courseController.GetById(enrollmentRequest.CourseId);
-                    if (HasStudentAttendedCourse(course, enrollmentRequest, examSlot))
-                    {
-                        availableExamSlots.Add(examSlot);
-                    }
-                }
-            }
-
-            return availableExamSlots;
-        }
-
-        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController)
+        public bool CanModifyInfo(Student student, AppController appController)
         {
             // can modify - student is not currently enrolled in any course and has not applied for any exams
-            return (CanRequestEnroll(studentId, erController, courseController) && !HasRegisteredForExam());
+            return (CanRequestEnroll(student.Id, appController) && !HasAppliedForExam(student.Id, appController));
         }
 
-        public bool CanRequestEnroll(int id, EnrollmentRequestController erController, CourseController courseController)
+        public bool CanRequestEnroll(int id, AppController appController)
         {
-            foreach (EnrollmentRequest er in erController.GetStudentRequests(id))
+            var enrollmentController = appController.EnrollmentRequestController;
+            var courseController = appController.CourseController;
+            var withdrawalController = appController.WithdrawalRequestController;
+            
+            foreach (EnrollmentRequest er in enrollmentController.GetStudentRequests(id))
             {
                 if (er.Status == Status.Accepted && !er.IsCanceled)
                 {
-                    if (!courseController.IsCompleted(er.Id)) return false;
+                    if (!courseController.IsCompleted(er.CourseId) && !withdrawalController.HasAcceptedWithdrawal(er.Id)) 
+                        return false;
                 }
             }
             return true;
         }
 
-        public bool HasRegisteredForExam()
+        public bool HasAppliedForExam(int studentId, AppController appController)
         {
-            // TODO: Implement this method once the exam application class is implemented.
-            return false;
+            var examAppController = appController.ExamAppRequestController;
+            var examController = appController.ExamSlotController;
+            List<ExamAppRequest> requests = examAppController.GetActiveStudentRequests(studentId, examController);
+            
+            if(requests.Count == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public void GivePenaltyPoint(Student student)
+        {
+            student.PenaltyPoints++;
+            //if student passed penalty points limit, deactivate acount
+            if(student.PenaltyPoints == 3)
+            {
+                student.Profile.IsDeleted = true;
+            }
+            _repository.Save(_students);
+            NotifyObservers();
+        }
+
+        public void RemovePenaltyPoint(Student student)
+        {
+            if (student.PenaltyPoints > 0)
+            {
+                student.PenaltyPoints--;
+            }
         }
     }
 }

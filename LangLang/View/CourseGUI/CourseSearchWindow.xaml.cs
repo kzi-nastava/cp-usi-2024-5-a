@@ -65,7 +65,7 @@ namespace LangLang.View.CourseGUI
             DateTime courseStartDate = courseStartdp.SelectedDate ?? default;
             int duration = 0;
             int.TryParse(durationtb.Text, out duration);
-            coursesForReview =  this.courseController.SearchCourses(this.courseController.GetCoursesWithTutor(tutorId).Values.ToList<Course>(), language, level, courseStartDate, duration, !onlinecb.IsChecked);
+            coursesForReview =  this.courseController.SearchCoursesByTutor(tutorId, language, level, courseStartDate, duration, !onlinecb.IsChecked);
             Update();
         }
 

@@ -4,9 +4,6 @@ using LangLang.Core.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace LangLang.Core.Controller
 {
@@ -29,14 +26,22 @@ namespace LangLang.Core.Controller
             return _exams.AddExam(exam, courses);
         }
 
-        public bool Update(ExamSlot exam)
+        public void Update(ExamSlot exam)
         {
-            return _exams.UpdateExam(exam);
+            _exams.UpdateExam(exam);
         }
-
+        public bool CanBeUpdated(ExamSlot exam)
+        {
+            return _exams.CanBeUpdated(exam);
+        }
         public bool Delete(int examId)
         {
             return _exams.RemoveExam(examId);
+        }
+
+        public bool ApplicationsVisible(int id)
+        {
+            return _exams.ApplicationsVisible(id);
         }
 
         public void Subscribe(IObserver observer)
@@ -58,9 +63,34 @@ namespace LangLang.Core.Controller
             return _exams.SearchExamsByTutor(tutor, examDate, language, level);
         }
 
-        public List<ExamSlot> SearchExams(List<ExamSlot> exams, DateTime examDate, string language, LanguageLevel? level)
+        public List<ExamSlot> SearchExamsByStudent(AppController appController, Student student, DateTime examDate, string language, LanguageLevel? level)
         {
-            return _exams.SearchExams(exams, examDate, language, level);
+            return _exams.SearchExamsByStudent(appController, student, examDate, language, level);
         }
+
+        public bool HasPassed(ExamSlot exam)
+        {
+            return _exams.HasPassed(exam);
+        }
+        public bool IsAvailable(ExamSlot exam)
+        {
+            return _exams.IsAvailable(exam);
+        }
+        public void AddStudent(ExamSlot exam)
+        {
+            _exams.AddStudent(exam);
+        }
+
+        public void RemoveStudent(ExamSlot exam)
+        {
+            _exams.RemoveStudent(exam);
+        }
+
+        // returns a list of exams that are available for student application
+        public List<ExamSlot>? GetAvailableExams(Student student, AppController appController)
+        {
+            return _exams.GetAvailableExams(student, appController);    
+        }
+
     }
 }

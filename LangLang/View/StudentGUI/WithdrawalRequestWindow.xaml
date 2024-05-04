@@ -1,0 +1,21 @@
+﻿<Window x:Class="LangLang.View.StudentGUI.WithdrawalRequestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LangLang.View.StudentGUI"
+        xmlns:model="clr-namespace:LangLang.Core.Model"
+        mc:Ignorable="d"
+        Title="Reason for withdrawing from the course" Height="450" Width="450"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+
+    <Grid Background="#FFFAE0E0">
+        <TextBlock x:Name="reasonTextBlock" HorizontalAlignment="Center" Height="32" Margin="0,72,0,0" FontFamily="Broadway" TextWrapping="Wrap" Foreground="#FFD28383" Text="Please provide your explanation here. Why have you decided to withdraw from the course?" VerticalAlignment="Top" Width="348"/>
+        <TextBox x:Name="reasonTb" HorizontalAlignment="Center" Height="181" TextWrapping="Wrap" FontFamily="Broadway" VerticalAlignment="Center" Width="348"
+                 Text="{Binding Path=WithdrawalRequest.Reason, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+        <Button x:Name="submitBtn" Content="Submit" HorizontalAlignment="Left" Height="29" Margin="241,339,0,0" VerticalAlignment="Top" Width="120" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="SubmitBtn_Click"/>
+        <Button x:Name="cancelBtn" Content="Cancel" HorizontalAlignment="Left" Height="29" Margin="100,339,0,0" VerticalAlignment="Top" Width="120" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="CancelBtn_Click"/>
+
+    </Grid>
+</Window>

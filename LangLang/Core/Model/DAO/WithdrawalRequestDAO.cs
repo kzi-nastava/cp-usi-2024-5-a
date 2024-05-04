@@ -1,6 +1,8 @@
 ﻿
+using LangLang.Core.Model.Enums;
 using LangLang.Core.Observer;
 using LangLang.Core.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -66,6 +68,21 @@ namespace LangLang.Core.Model.DAO
                 }
             }
             return studentRequests;
+        }
+        public bool AlreadyExists(int enrollmentRequestId)
+        {
+            return GetAllWithdrawalRequests().Any(wr => wr.EnrollmentRequestId == enrollmentRequestId);
+        }
+
+        public bool HasAcceptedWithdrawal(int enrollmentRequestId)
+        {
+            return GetAllWithdrawalRequests().Any(wr => wr.EnrollmentRequestId == enrollmentRequestId && wr.Status == Status.Accepted);
+        }
+
+        public void UpdateStatus(int id, Status status)
+        {
+            WithdrawalRequest request = _withdrawalRequests[id];
+            request.UpdateStatus(status);
         }
 
     }

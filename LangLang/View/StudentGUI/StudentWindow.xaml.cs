@@ -1,10 +1,8 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
-using LangLang.Core.Model.DAO;
 using LangLang.Core.Observer;
 using LangLang.DTO;
-using System;
-using System.Collections.Generic;
+using LangLang.View.StudentGUI.Tabs;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,220 +13,71 @@ namespace LangLang.View.StudentGUI
     {
         public StudentDTO Student { get; set; }
         private AppController appController;
-        private StudentController studentController;
-        private EnrollmentRequestController enrollmentRequestController;
-        private CourseController courseController;
-        private ExamSlotController examSlotController;
         private Student currentlyLoggedIn;
-        private ObservableCollection<CourseDTO> courses;
-        private ObservableCollection<ExamSlotDTO> examSlots;
-        private List<Course> coursesForReview;
-        private List<ExamSlot> examSlotsForReview;
+        public AvailableCourses availableCoursesTab {  get; set; }
+        private AvailableExams availableExamsTab {  get; set; }
+        public EnrollmentRequests enrollmentRequestsTab {  get; set; }
 
         public StudentWindow(AppController appController, Profile currentlyLoggedIn)
         {
             InitializeComponent();
             DataContext = this;
-
             this.appController = appController;
-            this.studentController = appController.StudentController;
+
+            var studentController = appController.StudentController;
             this.currentlyLoggedIn = studentController.GetById(currentlyLoggedIn.Id);
-            this.courseController = appController.CourseController;
-            this.enrollmentRequestController = appController.EnrollmentRequestController;
-            this.examSlotController = appController.ExamSlotController;
-
-            this.courses = new ObservableCollection<CourseDTO>();
-            this.examSlots = new ObservableCollection<ExamSlotDTO>();
-
             Student = new(this.currentlyLoggedIn);
-            examSlotsForReview = this.studentController.GetAvailableExamSlots(this.currentlyLoggedIn, courseController, examSlotController, enrollmentRequestController);
-            coursesForReview = this.studentController.GetAvailableCourses(courseController);
 
-            gendercb.ItemsSource = Enum.GetValues(typeof(Gender));
-            levelExamcb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
-            levelCoursecb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
-            
-            this.studentController.Subscribe(this);
-            this.courseController.Subscribe(this);
-            this.enrollmentRequestController.Subscribe(this);
-            this.examSlotController.Subscribe(this);
-
-            FillData();
+            GenerateTabs();
             Update();
         }
 
-        public ObservableCollection<CourseDTO> Courses
+        private void GenerateTabs()
         {
-            get { return courses; }
-            set { courses = value; }
+            StudentData studentDataTab = new(appController, currentlyLoggedIn, this);
+            AddTab("Student data", studentDataTab);
+            ActiveCourse activeCourseTab = new(appController, currentlyLoggedIn, this);
+            AddTab("Active course", activeCourseTab);
+            availableCoursesTab = new(appController, currentlyLoggedIn, this);
+            AddTab("Available courses", availableCoursesTab);
+            availableExamsTab = new(appController, currentlyLoggedIn, this);
+            AddTab("Available exams", availableExamsTab);
+            CompletedCourses completedCoursesTab = new(appController, currentlyLoggedIn, this);
+            AddTab("Completed courses", completedCoursesTab);
+            enrollmentRequestsTab = new(appController, currentlyLoggedIn, this);
+            AddTab("Course enrollment requests", enrollmentRequestsTab);
         }
-
-        public ObservableCollection<ExamSlotDTO> ExamSlots
+        
+        private void AddTab(string header, UserControl content)
         {
-            get { return examSlots; }
-            set { examSlots = value; }
+            TabItem tabItem = new()
+            {
+                Header = header,
+                Content = content
+            };
+            tabControl.Items.Add(tabItem);
         }
 
 
         public void Update()
+        {   
+            availableCoursesTab.Courses.Clear();
+            foreach (var course in availableCoursesTab.CoursesForReview)
+                availableCoursesTab.Courses.Add(new CourseDTO(course));
+
+            availableExamsTab.ExamSlots.Clear();
+            foreach (var exam in availableExamsTab.ExamsForReview)
+                availableExamsTab.ExamSlots.Add(new ExamSlotDTO(exam));
+
+            enrollmentRequestsTab.StudentRequests.Clear();
+            foreach (EnrollmentRequest er in enrollmentRequestsTab.RequestsForReview)
+                enrollmentRequestsTab.StudentRequests.Add(new EnrollmentRequestDTO(er, appController));
+
+        }
+
+        private void SignOutBtn_Click(object sender, RoutedEventArgs e)
         {
-            Courses.Clear();
-            foreach (Course course in coursesForReview)
-            {
-                Courses.Add(new CourseDTO(course));
-            }
-            ExamSlots.Clear();
-            foreach (ExamSlot exam in examSlotsForReview)
-            {
-                ExamSlots.Add(new ExamSlotDTO(exam));
-            }
+            Close();
         }
-
-        private void EditMode()
-        {
-            savebtn.Visibility = Visibility.Visible;
-            discardbtn.Visibility = Visibility.Visible;
-        }
-
-        private void NormalMode()
-        {
-            savebtn.Visibility = Visibility.Collapsed;
-            discardbtn.Visibility = Visibility.Collapsed;
-        }
-
-        private void FillData()
-        {
-            currenttb.Text = Student.Name + " " + Student.LastName;
-            nametb.Text = Student.Name;
-            lastnametb.Text = Student.LastName;
-            emailtb.Text = Student.Email;
-            numbertb.Text = Student.PhoneNumber;
-            gendercb.SelectedItem = Student.Gender;
-            passwordtb.Text = Student.Password;
-            birthdp.SelectedDate = Student.BirthDate;
-            professiontb.Text = Student.Profession;
-            NormalMode();
-            DisableAll();
-        }
-
-        private void DisableAll()
-        {
-            nametb.IsEnabled = false;
-            lastnametb.IsEnabled = false;
-            emailtb.IsEnabled = false;
-            numbertb.IsEnabled = false;
-            gendercb.IsEnabled = false;
-            passwordtb.IsEnabled = false;
-            birthdp.IsEnabled = false;
-            professiontb.IsEnabled = false;
-        }
-
-        private void EnableAll()
-        {
-            nametb.IsEnabled = true;
-            lastnametb.IsEnabled = true;
-            emailtb.IsEnabled = true;
-            numbertb.IsEnabled = true;
-            gendercb.IsEnabled = true;
-            passwordtb.IsEnabled = true;
-            birthdp.IsEnabled = true;
-            professiontb.IsEnabled = true;
-        }
-
-        private void signoutbtn_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-        private void editbtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (studentController.CanModifyInfo(currentlyLoggedIn.Id, enrollmentRequestController, courseController))
-            {
-                EnableAll();
-                EditMode();
-            }
-            else
-            {
-                MessageBox.Show("You cannot modify your data as you have registered to attend a course or an exam.");
-            }
-
-        }
-
-        private void save_Click(object sender, RoutedEventArgs e)
-        {     
-            if (Student.IsValid)
-            {
-                if (appController.EmailExists(Student.Email, Student.Id, UserType.Student)) MessageBox.Show("Email already exists. Try with a different email address.");
-                else
-                {
-                    studentController.Update(Student.ToStudent());
-                    MessageBox.Show("Success.");
-                    NormalMode();
-                    DisableAll();
-                }
-            } else
-            {
-                MessageBox.Show("Something went wrong. Please check all fields in registration form.");
-            }
-        }
-
-        private void discard_Click(object sender, RoutedEventArgs e)
-        {
-            Student = new(currentlyLoggedIn);
-            FillData();
-            NormalMode();
-        }
-
-        private void delete_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBoxResult result = MessageBox.Show("Are you sure that you want to delete your account?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
-
-            if (result == MessageBoxResult.Yes)
-            {
-                studentController.Delete(currentlyLoggedIn.Id, enrollmentRequestController);
-                MessageBox.Show("Account is deactivated. All exams and courses have been canceled.");
-                this.Close();
-            }
-        }
-
-        private void SearchExams(object sender, RoutedEventArgs e)
-        {
-            string? language = languageExamtb.Text;
-            LanguageLevel? level = null;
-            if (levelExamcb.SelectedValue != null)
-                level = (LanguageLevel)levelExamcb.SelectedValue;
-            DateTime examDate = examdatePicker.SelectedDate ?? default;
-
-
-            examSlotsForReview = this.studentController.SearchExamSlotsByStudent(examSlotController, courseController, enrollmentRequestController, currentlyLoggedIn.Id, examDate, language, level); ;
-            Update();
-        }
-
-        private void SearchCourses(object sender, RoutedEventArgs e)
-        {
-            string? language = languagetb.Text;
-            LanguageLevel? level = null;
-            if (levelCoursecb.SelectedValue != null)
-                level = (LanguageLevel)levelCoursecb.SelectedValue;
-            DateTime courseStartDate = courseStartdp.SelectedDate ?? default;
-            int duration = 0;
-            int.TryParse(durationtb.Text, out duration);
-            coursesForReview = this.studentController.SearchCoursesByStudent(courseController, language, level, courseStartDate, duration, !onlinecb.IsChecked);
-            Update();
-        }
-
-        private void ClearExam_Click(object sender, RoutedEventArgs e)
-        {
-            examSlotsForReview = this.studentController.GetAvailableExamSlots(currentlyLoggedIn, this.courseController, examSlotController, enrollmentRequestController);
-            levelExamcb.SelectedItem = null;
-            Update();
-        }
-        private void Clear_Click(object sender, RoutedEventArgs e)
-        {
-            coursesForReview = this.studentController.GetAvailableCourses(this.courseController);
-            levelCoursecb.SelectedItem = null;
-            Update();
-        }
-
     }
 }

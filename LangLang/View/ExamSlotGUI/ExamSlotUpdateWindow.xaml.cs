@@ -23,28 +23,23 @@ namespace LangLang.View.ExamSlotGUI
     /// </summary>
     public partial class ExamSlotUpdateWindow : Window
     {
-        public List<Course> Courses { get; set; }
+        public List<Course> Skills { get; set; }
         public Course SelectedCourse { get; set; }
         public ExamSlotDTO ExamSlot { get; set; }
-        private ExamSlotController examSlotsController { get; set; }
-        private bool canBeUpdated;
-        public ExamSlotUpdateWindow(AppController appController, int courseId)
+        private ExamSlotController examSlotController { get; set; }
+        public ExamSlotUpdateWindow(AppController appController, int selectedExamId, Tutor loggedIn)
         {
-            /*
-            Courses = courses.Values.ToList<Course>();
+            
+            //Courses = courses.Values.ToList<Course>();
             SelectedCourse = new Course();
-            SelectedCourse = courses[selectedExamSlot.CourseId];
-            Trace.WriteLine("Id od kursa selektovanog " + SelectedCourse.Id);
-            examSlotsController = controller;
-            ExamSlot = new ExamSlotDTO();
-            ExamSlot = selectedExamSlot;
-            canBeUpdated = controller.Update(selectedExamSlot.ToExamSlot());
-            Trace.WriteLine("Id od Exam selektovanog " + ExamSlot.Id);
+            examSlotController = appController.ExamSlotController;
+            ExamSlot = new ExamSlotDTO(examSlotController.GetById(selectedExamId));
+            Skills = appController.CourseController.GetCoursesForSkills(loggedIn);
 
             //Prefill(ExamSlot);
             InitializeComponent();
             DataContext = this;
-            */
+            
         }
         public void Prefill(ExamSlotDTO selectedExamSlot)
         {
@@ -58,15 +53,13 @@ namespace LangLang.View.ExamSlotGUI
         {
             if (ExamSlot.IsValid)
             {
-                Trace.WriteLine(canBeUpdated);
-                if (!canBeUpdated)
+                if (!examSlotController.CanBeUpdated(ExamSlot.ToExamSlot()))
                 {
                     MessageBox.Show("Exam can not be updated. There is less than 2 weeks left before the exam.");
                 }
                 else
                 {
-                    
-                    examSlotsController.Update(ExamSlot.ToExamSlot());
+                    examSlotController.Update(ExamSlot.ToExamSlot());
                 }
                 Close();
 

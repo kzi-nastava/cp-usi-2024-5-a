@@ -77,10 +77,22 @@ namespace LangLang
 
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotUpdateWindow updateWindow = new (appController, SelectedExamSlot.Id);
+            ExamSlotUpdateWindow updateWindow = new (appController, SelectedExamSlot.Id, LoggedIn);
             updateWindow.Show();
         }
+        private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (!examSlotController.Delete(SelectedExamSlot.Id))
+            {
+                MessageBox.Show("Can't delete exam, there is less than 14 days before exam.");
+            }
+            else
+            {
+                MessageBox.Show("Exam slot successfully deleted.");
+            }
 
+            Update();
+        }
         private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
             CourseCreateWindow createWindow = new (appController, LoggedIn);
@@ -93,15 +105,7 @@ namespace LangLang
             searchWindow.Show();
         }
 
-        private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (!examSlotController.Delete(SelectedExamSlot.Id))
-            {
-                MessageBox.Show("Can't delete exam, there is less than 14 days before exam.");
-            }
-
-            Update();
-        }
+        
         private void CourseUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
             if (courseController.CanCourseBeChanged(SelectedCourse.Id))
@@ -185,10 +189,17 @@ namespace LangLang
             enterResultsBtn.IsEnabled = true;
         }
 
-        private void ButtonSeeStudentInfo_Click(object sender, RoutedEventArgs e)
+        private void ButtonSeeApplications_Click(object sender, RoutedEventArgs e)
         {
-            ExamApplications applicationsWindow = new (appController, SelectedExamSlot);
-            applicationsWindow.Show();
+            if (examSlotController.ApplicationsVisible(SelectedExamSlot.Id) && SelectedExamSlot.Applicants != 0)
+            {
+                ExamApplications applicationsWindow = new(appController, SelectedExamSlot);
+                applicationsWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("If there are applications, they can only be viewed 7 days before exam and during the exam.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void ButtonEnterResults_Click(object sender, RoutedEventArgs e)

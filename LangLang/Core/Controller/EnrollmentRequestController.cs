@@ -52,7 +52,7 @@ namespace LangLang.Core.Controller
         public bool CancelRequest(EnrollmentRequest enrollmentRequest, CourseController courseController)
         {
             Course course = courseController.GetById(enrollmentRequest.CourseId);
-            return _enrollmentRequests.CancelRequest(enrollmentRequest, course);
+            return _enrollmentRequests.CancelRequest(enrollmentRequest.Id, course);
         }
 
         // this method is invoked when the tutor approves the request for the student
@@ -66,5 +66,21 @@ namespace LangLang.Core.Controller
         {
             _enrollmentRequests.ResumePausedRequests(studentId);
         }
+
+        public bool CanRequestWithdrawal(int id)
+        {
+            return _enrollmentRequests.CanRequestWithdrawal(id);
+        }
+
+        public EnrollmentRequest? GetActiveCourseRequest(int studentId, AppController appController)
+        {
+            return _enrollmentRequests.GetActiveCourseRequest(studentId, appController);
+        }
+
+        public bool IsRequestDuplicate(int studentId, Course course)
+        {
+            return _enrollmentRequests.IsRequestDuplicate(studentId, course);
+        }
+
     }
 }

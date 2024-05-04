@@ -71,7 +71,7 @@ namespace LangLang.View.ExamSlotGUI
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to delete " + SelectedStudent.Name + " " + SelectedStudent.LastName  + " from the examination?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                studentController.Delete(SelectedStudent.Id, appController.EnrollmentRequestController);
+                studentController.Delete(SelectedStudent.ToStudent(), appController);
                 Update();
                 ShowSuccess();
             }

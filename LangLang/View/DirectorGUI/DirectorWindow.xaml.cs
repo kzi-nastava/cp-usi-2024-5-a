@@ -19,16 +19,15 @@ namespace LangLang.View
         private Director currentlyLoggedIn;
         private List<Tutor> _tutors;
 
-        public DirectorWindow(AppController appController, Profile currentlyLoggedIn)
+        public DirectorWindow(AppController appController)
         {
             InitializeComponent();
             DataContext = this;
             Tutors = new ObservableCollection<TutorDTO>();
 
-            appController = appController;
+            this.appController = appController;
             this.tutorController = appController.TutorController;
             _tutors = tutorController.GetAllTutors();
-            //this.currentlyLoggedIn =  // TODO: Set when the directory is loaded
 
             tutorController.Subscribe(this);
 
