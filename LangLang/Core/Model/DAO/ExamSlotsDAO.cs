@@ -9,6 +9,7 @@ using System.Collections;
 using System.Windows.Input;
 using LangLang.Core.Controller;
 using LangLang.View.ExamSlotGUI;
+using System.Diagnostics;
 
 namespace LangLang.Core.Model.DAO
 {
@@ -206,6 +207,7 @@ namespace LangLang.Core.Model.DAO
         // takes exam slot, returns true if it is availbale or false if it isn't available
         public bool IsAvailable(ExamSlot exam)
         {
+
             if (HasPassed(exam))
             {
                 return false;
@@ -222,7 +224,7 @@ namespace LangLang.Core.Model.DAO
 
         public bool HasPassed(ExamSlot exam)
         {
-            return exam.TimeSlot.Time > DateTime.Now;
+            return exam.TimeSlot.Time < DateTime.Now;
         }
         /*
         public int CountExamApplications(ExamSlot exam, ExamAppRequestController examAppController)
