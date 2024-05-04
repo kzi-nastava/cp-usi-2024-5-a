@@ -40,7 +40,7 @@ namespace LangLang.Core.Model
             MaxStudents = maxStudents;
             StartDateTime = startDateTime;
             CreatedByDirector = createdByDirector;
-            generateTimeSlots();
+            GenerateTimeSlots();
         }
         
         public Course()
@@ -116,7 +116,7 @@ namespace LangLang.Core.Model
             MaxStudents = int.Parse(values[8]);
             StartDateTime = DateTime.Parse(values[9]);
             CreatedByDirector = bool.Parse(values[10]);
-            generateTimeSlots();
+            GenerateTimeSlots();
         }
 
         public bool IsCompleted()
@@ -126,15 +126,26 @@ namespace LangLang.Core.Model
         }
 
         // this method generates all timeslots for a course based on number of weeks, days and start datetime
-        private void generateTimeSlots()
+        private void GenerateTimeSlots()
         {
             TimeSlots = new List<TimeSlot>();
-            for(int week = 0; week < NumberOfWeeks; week++)
+            int skipToNextWeek = 0;
+            for (int week = 0; week < NumberOfWeeks; week++)
             {
-                foreach(DayOfWeek day in Days)
-                {
-                    DateTime currentDate = StartDateTime.AddDays(week * 7 + (day - StartDateTime.DayOfWeek));
-                    TimeSlots.Add(new TimeSlot(1.5, currentDate));
+                foreach (DayOfWeek day in Days)
+                { 
+                    // if the start date is after some of the days,
+                    // skipped over to them in next week
+                    if (day - StartDateTime.DayOfWeek < 0) 
+                    {
+                        skipToNextWeek = 7;
+                    }
+                    else
+                    {
+                        skipToNextWeek = 0;
+                    }
+                    DateTime classDate = StartDateTime.AddDays(week * 7 + (skipToNextWeek + day - StartDateTime.DayOfWeek));
+                    TimeSlots.Add(new TimeSlot(1.5, classDate));
                 }
             }
         }
