@@ -20,18 +20,11 @@ namespace LangLang.Core.Model
             SentAt = sentAt;
         }
 
-        public void CancelExamAppRequest()
-        {
-            IsCanceled = true;
-            LastModifiedTimestamp = DateTime.Now;
-        }
-
         public void FromCSV(string[] values)
         {
             try
             {
-                RequestSentAt = DateTime.ParseExact(values[4], "yyyy-MM-dd", null);
-                LastModifiedTimestamp = DateTime.ParseExact(values[5], "yyyy-MM-dd", null);
+                SentAt = DateTime.ParseExact(values[3], "yyyy-MM-dd", null);
             }
             catch
             {
@@ -41,7 +34,6 @@ namespace LangLang.Core.Model
             Id = int.Parse(values[0]);
             StudentId = int.Parse(values[1]);
             ExamSlotId = int.Parse(values[2]);
-            IsCanceled = bool.Parse(values[3]);
         }
 
         public string[] ToCSV()
@@ -50,9 +42,7 @@ namespace LangLang.Core.Model
                 Id.ToString(),
                 StudentId.ToString(),
                 ExamSlotId.ToString(),
-                IsCanceled.ToString(),
-                RequestSentAt.ToString("yyyy-MM-dd"),
-                LastModifiedTimestamp.ToString("yyyy-MM-dd"),
+                SentAt.ToString("yyyy-MM-dd")
             };
         }
     }

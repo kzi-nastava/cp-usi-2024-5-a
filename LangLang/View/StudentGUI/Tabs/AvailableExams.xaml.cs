@@ -74,7 +74,7 @@ namespace LangLang.View.StudentGUI.Tabs
             Request = new();
             Request.ExamSlotId = SelectedExam.ToExamSlot().Id;
             Request.StudentId = currentlyLoggedIn.Id;
-            Request.RequestSentAt = DateTime.Now;
+            Request.SentAt = DateTime.Now;
             var examAppRequestController = appController.ExamAppRequestController;
             examAppRequestController.Add(Request, examController);
 

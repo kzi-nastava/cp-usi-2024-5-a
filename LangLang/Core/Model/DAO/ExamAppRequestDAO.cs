@@ -106,10 +106,16 @@ namespace LangLang.Core.Model.DAO
         // returns true if the cancellation was successful, otherwise false
         public bool CancelRequest(ExamAppRequest appRequest, ExamSlot exam)
         {
-            if (exam.TimeSlot.Time.Date - DateTime.Now.Date <= TimeSpan.FromDays(10))
+            if (!CanBeCanceled(appRequest, exam)) 
+            {
                 return false; // exam start date must be at least 10 days away
+            } 
             _appRequests.Remove(appRequest.Id);
             return true;
+        }
+        private bool CanBeCanceled(ExamAppRequest appRequest, ExamSlot exam)
+        {
+            return (exam.TimeSlot.Time.Date - DateTime.Now.Date) > TimeSpan.FromDays(10);
         }
 
     }
