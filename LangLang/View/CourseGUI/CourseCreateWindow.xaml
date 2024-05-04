@@ -149,11 +149,11 @@
                 </Label.Background>
             </Label>
             <ListBox x:Name="myListBox" SelectionMode="Multiple"  Background="#FFFFF3F3" Margin="5,0,5,0"  FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
-                <CheckBox IsChecked="{Binding Course.Mon, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" x:Name="mon" Content="Monday"/>
-                <CheckBox IsChecked="{Binding Course.Tue, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" x:Name="tue" Content="Tuesday"/>
-                <CheckBox IsChecked="{Binding Course.Wed, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" x:Name="wed" Content="Wednesday"/>
-                <CheckBox IsChecked="{Binding Course.Thu, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" x:Name="thu" Content="Thursday"/>
-                <CheckBox IsChecked="{Binding Course.Fri, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" x:Name="fri" Content="Friday"/>
+                <CheckBox IsChecked="{Binding Course.BooleanDays[0], UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" x:Name="mon" Content="Monday"/>
+                <CheckBox IsChecked="{Binding Course.BooleanDays[1], UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" x:Name="tue" Content="Tuesday"/>
+                <CheckBox IsChecked="{Binding Course.BooleanDays[2], UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" x:Name="wed" Content="Wednesday"/>
+                <CheckBox IsChecked="{Binding Course.BooleanDays[3], UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" x:Name="thu" Content="Thursday"/>
+                <CheckBox IsChecked="{Binding Course.BooleanDays[4], UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" x:Name="fri" Content="Friday"/>
             </ListBox>
 
             <!--label name and box for max number of students-->
@@ -240,7 +240,7 @@
 
             <!--label and box for online/live-->
             <CheckBox IsChecked="{Binding Course.NotOnline, UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True }" Unchecked="ClasssroomCb_Unchecked" Checked="ClasssroomCb_Checked" x:Name="classsroomCb" Margin="5,20,5,0" Content="In Classroom" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" />
-
+            <TextBox Margin="5,0,5,0" Foreground="IndianRed" x:Name="inClassroomErrorTb"  BorderThickness="0" BorderBrush="Transparent" IsReadOnly="True"/>
             <!--button for create-->
             <Button Click="CourseCreateBtn_Click" Margin="0,10,0,0" Height="30" Width="60" x:Name="courseCreateBtn" Content="Create" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black"/>
 
