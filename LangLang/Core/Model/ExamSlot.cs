@@ -1,6 +1,5 @@
 ﻿using LangLang.Core.Repository.Serialization;
 using System;
-using System.Diagnostics.Eventing.Reader;
 
 namespace LangLang.Core.Model
 {
@@ -12,10 +11,11 @@ namespace LangLang.Core.Model
         public int TutorId { get; set; }
         public TimeSlot TimeSlot { get; set; }
         public int MaxStudents { get; set; }
-        public bool Modifiable { get; set; }
         public int Applicants { get; set; }
+        public bool Modifiable { get; set; }
+        public bool GeneratedResults { get; set; }
 
-        public ExamSlot(int id, string language, LanguageLevel level, TimeSlot timeSlot, int maxStudents, int tutorId, int applicants, bool modifiable)
+        public ExamSlot(int id, string language, LanguageLevel level, TimeSlot timeSlot, int maxStudents, int tutorId, int applicants, bool modifiable, bool generatedResults)
         {
             Id = id;
             Language = language;
@@ -25,6 +25,7 @@ namespace LangLang.Core.Model
             MaxStudents = maxStudents;
             Applicants = applicants;
             Modifiable = modifiable;
+            GeneratedResults = generatedResults;
         }
 
         public ExamSlot() { }
@@ -39,7 +40,8 @@ namespace LangLang.Core.Model
             TimeSlot.ToString(),
             MaxStudents.ToString(),
             Applicants.ToString(),
-            Modifiable.ToString()
+            Modifiable.ToString(),
+            GeneratedResults.ToString()
             };
         }
 
@@ -53,6 +55,7 @@ namespace LangLang.Core.Model
             MaxStudents = int.Parse(values[6]);
             Applicants = int.Parse(values[7]);
             Modifiable = bool.Parse(values[8]);
+            GeneratedResults = bool.Parse(values[9]);
         }
 
         public bool ApplicationsVisible()

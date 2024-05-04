@@ -1,0 +1,77 @@
+﻿
+using LangLang.Core.Model.Enums;
+using LangLang.Core.Repository.Serialization;
+using System;
+
+namespace LangLang.Core.Model
+{
+    public class ExamResult : ISerializable
+    {
+        public int Id { get; set; }
+        public int StudentId { get; set; }
+        public int ExamSlotId { get; set; }
+        public int ReadingPoints { get; set; }
+        public int SpeakingPoints { get; set; }
+        public int WritingPoints { get; set; }
+        public int ListeningPoints { get; set; }
+        public ExamOutcome Outcome { get; set; }
+
+        public ExamResult(int id, int studentId, int examSlotId, int readingPoints, int speakingPoints, int listeningPoints, int writingPoints, ExamOutcome outcome)
+        {
+            Id = id;
+            StudentId = studentId;
+            ExamSlotId = examSlotId;
+            ReadingPoints = readingPoints;
+            SpeakingPoints = speakingPoints;
+            ListeningPoints = listeningPoints;
+            WritingPoints = writingPoints;
+            Outcome = outcome;
+        }
+
+        public ExamResult() {
+            ListeningPoints = 0;
+            SpeakingPoints = 0;
+            WritingPoints = 0;
+            ReadingPoints = 0;
+            Outcome = ExamOutcome.NotGraded;
+        }
+        public void FromCSV(string[] values)
+        {
+            Id = int.Parse(values[0]);
+            StudentId = int.Parse(values[1]);
+            ExamSlotId = int.Parse(values[2]);
+            ReadingPoints = int.Parse(values[3]);
+            SpeakingPoints = int.Parse(values[4]);
+            ListeningPoints = int.Parse(values[5]);
+            WritingPoints = int.Parse(values[6]);
+            Outcome = (ExamOutcome)Enum.Parse(typeof(ExamOutcome), values[7]);
+        }
+
+        public string[] ToCSV()
+        {
+            return new string[]
+            {
+                Id.ToString(),
+                StudentId.ToString(),
+                ExamSlotId.ToString(),
+                ReadingPoints.ToString(),
+                SpeakingPoints.ToString(),
+                ListeningPoints.ToString(),
+                WritingPoints.ToString(),
+                Outcome.ToString()
+            };
+        }
+
+        public void EvaluateOutcome()
+        {
+            bool readingPassed = ReadingPoints >= 30;
+            bool speakingPassed = SpeakingPoints >= 25;
+            bool listeningPassed = ListeningPoints >= 20;
+            bool writingPassed = WritingPoints >= 30;
+            bool minimumAchieved = (ReadingPoints + SpeakingPoints + ListeningPoints + WritingPoints) >= 160;
+
+            if (readingPassed && speakingPassed && writingPassed && listeningPassed && minimumAchieved) Outcome = ExamOutcome.Passed;
+            Outcome =  ExamOutcome.Failed;
+        }
+    }
+}

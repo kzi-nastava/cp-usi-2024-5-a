@@ -90,17 +90,17 @@ namespace LangLang.Core.Model.DAO
 
         }
 
-        public List<Student> GetExamRequests(int examId, StudentController studentController)
+        public List<ExamAppRequest> GetApplications(int examId)
         {
-            List<Student> students = new();
-            foreach (ExamAppRequest appRequest in GetAllAppRequests())
+            List<ExamAppRequest> applications = new();
+            foreach (ExamAppRequest application in GetAllAppRequests())
             {
-                if (appRequest.ExamSlotId == examId) {
-                    Student student = studentController.GetById(appRequest.StudentId);
-                    students.Add(student);
+                if (application.ExamSlotId == examId)
+                {
+                    applications.Add(application);
                 }
             }
-            return students;
+            return applications;
         }
 
         // returns true if the cancellation was successful, otherwise false

@@ -8,6 +8,7 @@ using LangLang.Core.Observer;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System;
 
 namespace LangLang
 {
@@ -203,8 +204,15 @@ namespace LangLang
 
         private void ButtonEnterResults_Click(object sender, RoutedEventArgs e)
         {
-            EnterResults resultsWindow = new (appController);
-            resultsWindow.Show();
+            if (SelectedExamSlot.ExamDate.AddHours(4) < DateTime.Now) // after the 4-hour exam concludes, it is possible to open a window.
+            {
+                EnterResults resultsWindow = new(appController, SelectedExamSlot);
+                resultsWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("This window can be opened once the exam is passed!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void ExamSlotsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -5,17 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LangLang.View.ExamSlotGUI"
         mc:Ignorable="d"
-        Title="EnterResults" Height="585" Width="800"
+        Title="EnterResults" Height="585" Width="870"
          WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
-    <Grid RenderTransformOrigin="0.5,0.511">
 
+    <!--VALIDATION-->
+    <Window.Resources>
+        <ControlTemplate x:Name="controltpl" x:Key="ValidationTemplate">
+            <StackPanel>
+                <TextBlock x:Name="errorTextBlock"
+                       Text="{Binding [0].ErrorContent}" 
+                       Foreground="IndianRed"
+                       Margin="0,23,0,0"
+                       HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            </StackPanel>
+        </ControlTemplate>
+    </Window.Resources>
+    <!--END OF VALIDATION-->
+    
+    <Grid RenderTransformOrigin="0.5,0.511">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="223*" />
-            <ColumnDefinition Width="177*" />
+            <ColumnDefinition Width="49*" />
+            <ColumnDefinition Width="31*" />
         </Grid.ColumnDefinitions>
 
-        <Label x:Name="Lsbl" Content="Students that entered exam and their points" Grid.Row="0" HorizontalAlignment="Center" Height="30" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.499,0.077" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
+        <!--LABEL ABOVE THE TABLE-->
+        <Label Content="Students that entered exam and their points" Grid.Row="0" HorizontalAlignment="Center" Height="30" Margin="0,24,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.499,0.077" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -33,21 +48,23 @@
             </Label.Background>
         </Label>
 
-        <!--start of table-->
-        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="studentsTable" Margin="10,57,0,88" SelectedItem="{Binding SelectedStudent, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="studentsDataGrid_SelectionChanged">
+        <!--START OF TABLE-->
+        <DataGrid EnableRowVirtualization="False" CanUserAddRows="False" AutoGenerateColumns="False" x:Name="resultsTable" Margin="10,70,329,51" SelectedItem="{Binding SelectedResult, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding ExamResults, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="ExamResultDataGrid_SelectionChanged" Grid.ColumnSpan="2">
             <DataGrid.Columns>
-                <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Name}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="LastName" Binding="{Binding LastName}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Email" Binding="{Binding Email}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Reading" Binding="{Binding PhoneNumber}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Listening" Binding="{Binding BirthDate}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Writing" Binding="{Binding BirthDate}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Speaking" Binding="{Binding BirthDate}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Lastname" Binding="{Binding LastName}" Width="*"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Email" Binding="{Binding Email}" Width="*"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Reading" Binding="{Binding ReadingPoints}" Width="*"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Listening" Binding="{Binding ListeningPoints}" Width="*"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Writing" Binding="{Binding WritingPoints}" Width="*"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Speaking" Binding="{Binding SpeakingPoints}" Width="*"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Outcome" Binding="{Binding Outcome}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
-        <!-- start of student info label-->
-        <Label x:Name="Lbl" Grid.Column="1" Content="Student information" Grid.Row="0" HorizontalAlignment="Center" Height="30" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.499,0.077" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
+
+        <!-- START OF STUDENT INFO LABEL-->
+        <Label x:Name="Lbl" Grid.Column="1" Content="Student information" Grid.Row="0" HorizontalAlignment="Center" Height="30" Margin="0,10,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.499,0.077" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -64,10 +81,9 @@
                 </LinearGradientBrush>
             </Label.Background>
         </Label>
-        <!-- end of student info label -->
 
         <!--NAME LABEL-->
-        <Label x:Name="nameLBL" Content="name" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,57,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+        <Label x:Name="nameLBL" Content="name" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,57,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -84,10 +100,11 @@
                 </LinearGradientBrush>
             </Label.Background>
         </Label>
+        
         <!--NAME TEXTBOX-->
-        <TextBox x:Name="nameTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,83,0,0" TextWrapping="Wrap" 
+        <TextBox x:Name="nameTB" Grid.Column="1" HorizontalAlignment="Center" Height="26"  Margin="0,83,0,0" TextWrapping="Wrap" 
                  Text="{Binding Path=Student.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                 VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
+                 VerticalAlignment="Top" Width="200" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
             <TextBox.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -95,8 +112,9 @@
                 </LinearGradientBrush>
             </TextBox.OpacityMask>
         </TextBox>
+        
         <!--LASTNAME LABEL-->
-        <Label x:Name="lastnameLBL" Grid.Column="1" Content="lastname" HorizontalAlignment="Center" Height="26" Margin="0,119,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+        <Label Grid.Column="1" Content="lastname" HorizontalAlignment="Center" Height="26" Margin="0,119,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -113,10 +131,11 @@
                 </LinearGradientBrush>
             </Label.Background>
         </Label>
+        
         <!--LASTNAME TEXTBOX-->
         <TextBox x:Name="lastnameTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,145,0,0" TextWrapping="Wrap" 
                  Text="{Binding Path=Student.LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                 VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3"
+                 VerticalAlignment="Top" Width="200" VerticalContentAlignment="Center" Background="#FFFFF3F3"
                  BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
             <TextBox.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -127,7 +146,7 @@
         </TextBox>
 
         <!--EMAIL LABEL-->
-        <Label x:Name="emailLBL" Content="email" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,181,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+        <Label Content="email" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,181,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -144,10 +163,11 @@
                 </LinearGradientBrush>
             </Label.Background>
         </Label>
+        
         <!--EMAIL TEXTBOX-->
         <TextBox x:Name="emailTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,207,0,0" TextWrapping="Wrap" 
                  Text="{Binding Path=Student.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                 VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
+                 VerticalAlignment="Top" Width="200" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
             <TextBox.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -155,8 +175,9 @@
                 </LinearGradientBrush>
             </TextBox.OpacityMask>
         </TextBox>
+        
         <!--READING POINTS LABEL-->
-        <Label x:Name="readingPointsLBL" Content="Reading points" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,243,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+        <Label Content="Reading points" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,243,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -173,10 +194,12 @@
                 </LinearGradientBrush>
             </Label.Background>
         </Label>
+        
         <!--READING POINTS TEXTBOX-->
         <TextBox x:Name="readingPointsTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,269,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Student.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                 VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
+                 Text="{Binding Path=SelectedResult.ReadingPoints, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}" 
+                 VerticalAlignment="Top" Width="200" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
             <TextBox.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -186,7 +209,7 @@
         </TextBox>
 
         <!--LISTENING POINTS LABEL-->
-        <Label x:Name="listeningPointsLBL" Content="Listening points" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,305,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+        <Label Content="Listening points" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,305,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -206,8 +229,9 @@
 
         <!--LISTENING POINTS TEXTBOX-->
         <TextBox x:Name="listeningPointsTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,331,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Student.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                 VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
+                 Text="{Binding Path=SelectedResult.ListeningPoints, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}" 
+                 VerticalAlignment="Top" Width="200" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
             <TextBox.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -217,7 +241,7 @@
         </TextBox>
 
         <!--WRITING POINTS LABEL-->
-        <Label x:Name="writingPointsLBL" Content="Writing points" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,367,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+        <Label Content="Writing points" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,367,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -237,8 +261,9 @@
 
         <!-- WRITING POINTS TEXTBOX-->
         <TextBox x:Name="writingPointsTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,393,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Student.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                 VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
+                 Text="{Binding Path=SelectedResult.WritingPoints, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}" 
+                 VerticalAlignment="Top" Width="200" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
             <TextBox.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -246,8 +271,9 @@
                 </LinearGradientBrush>
             </TextBox.OpacityMask>
         </TextBox>
+        
         <!-- SPEAKING POINTS LABEL-->
-        <Label x:Name="speakingPointsLBL" Content="Speaking points" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,429,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+        <Label Content="Speaking points" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,429,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -264,10 +290,12 @@
                 </LinearGradientBrush>
             </Label.Background>
         </Label>
+        
         <!-- SPEAKING POINTS TEXTBOX-->
         <TextBox x:Name="speakingPointsTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,455,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Student.PhoneNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                 VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
+                 Text="{Binding Path=SelectedResult.SpeakingPoints, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                 VerticalAlignment="Top" Width="200" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
             <TextBox.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -275,8 +303,8 @@
                 </LinearGradientBrush>
             </TextBox.OpacityMask>
         </TextBox>
-
-        <Button x:Name="confirmResultBtn" Content="Confirm results for student" HorizontalAlignment="Center" Height="35" Margin="0,501,0,0" VerticalAlignment="Top" Width="248" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" RenderTransformOrigin="0.676,0.745" Grid.Column="1"/>
-
+        
+        <!--CONFIRM BUTTON-->
+        <Button x:Name="confirmResultBtn" Content="Confirm results for student" HorizontalAlignment="Center" Height="35" Margin="0,501,0,0" VerticalAlignment="Top" Width="200" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" RenderTransformOrigin="0.676,0.745" Grid.Column="1" Click="confirmResultBtn_Click"/>
     </Grid>
 </Window>

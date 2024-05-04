@@ -30,13 +30,12 @@
         <!-- end of label -->
 
         <!--table for students-->
-        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="studentsTable" ItemsSource="{Binding Students, UpdateSourceTrigger=PropertyChanged}" Margin="49,43,49,82" SelectedItem="{Binding SelectedStudent, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="StudentsTable_SelectionChanged">
+        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="studentsTable" ItemsSource="{Binding Applications, UpdateSourceTrigger=PropertyChanged}" Margin="49,43,49,82" SelectedItem="{Binding SelectedApplication, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="ApplicationTable_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Name}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="LastName" Binding="{Binding LastName}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Email" Binding="{Binding Email}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Phone number" Binding="{Binding PhoneNumber}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="BirthDate" Binding="{Binding BirthDate}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding StudentName}" Width="*"/>
+                <DataGridTextColumn IsReadOnly="True" Header="LastName" Binding="{Binding StudentLastName}" Width="*"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Email" Binding="{Binding Email}" Width="*"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Phone number" Binding="{Binding PhoneNumber}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 

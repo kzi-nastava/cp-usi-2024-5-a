@@ -161,18 +161,18 @@ namespace LangLang.Core.Model.DAO
         //function saves changes and returns if updating was successful
         public void UpdateExam(ExamSlot exam)
         {
-            //should use const variable instead of 14
-            ExamSlot oldExam = GetExamById(exam.Id);
-            if (oldExam == null) return ;
+            ExamSlot? oldExam = GetExamById(exam.Id);
+            if (oldExam == null) return;
 
             oldExam.TutorId = exam.TutorId;
             oldExam.MaxStudents = exam.MaxStudents;
             oldExam.TimeSlot = exam.TimeSlot;
             oldExam.Modifiable = exam.Modifiable;
+            oldExam.GeneratedResults = exam.GeneratedResults;
+            oldExam.Applicants = exam.Applicants;
 
             _repository.Save(_exams);
             NotifyObservers();
-            
         }
 
         public bool CanBeUpdated(ExamSlot exam)
