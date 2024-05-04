@@ -58,14 +58,11 @@ namespace LangLang.View
                     
                     if (!added)
                     {
-                        //examSlotsController.Add(ExamSlot.ToExamSlot(), courseController);
-
                         MessageBox.Show("Choose another exam date or time.");
                     }
                     else
                     {
-                        //check this
-                        examSlotsController.Add(ExamSlot.ToExamSlot(), courseController);
+                        MessageBox.Show("Exam successfuly created.");
 
                         Close();
                     }
