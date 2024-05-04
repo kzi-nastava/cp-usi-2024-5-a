@@ -35,7 +35,7 @@ namespace LangLang.Core.Model
             {
                 if (value < Constants.MIN_GRADE || value > Constants.MAX_GRADE)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), $"Rating must be between {Constants.MIN_GRADE} and {Constants.MAX_GRADE}.");
+                    throw new ArgumentOutOfRangeException(nameof(value), $"Value must be between {Constants.MIN_GRADE} and {Constants.MAX_GRADE}.");
                 }
                 _gradeValue = value;
             }
