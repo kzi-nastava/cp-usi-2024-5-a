@@ -1,4 +1,9 @@
 ﻿using LangLang.Core.Controller;
+using LangLang.Core.Model;
+using LangLang.Core.Model.Enums;
+using LangLang.DTO;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -10,14 +15,51 @@ namespace LangLang.View.ExamSlotGUI
     /// </summary>
     public partial class EnterResults : Window
     {
-        public EnterResults(AppController appController)
+        public ExamResultDTO SelectedResult { get; set; }
+        public ObservableCollection<ExamResultDTO> ExamResults { get; set; }
+
+        private StudentController studentController;
+        private ExamResultController resultController;
+        private ExamSlotController examSlotController;
+        private ExamAppRequestController requestController;
+        private ExamSlotDTO exam;
+
+        public EnterResults(AppController appController, ExamSlotDTO selectedExam)
         {
             InitializeComponent();
+            DataContext = this;
 
-            disableForm();
+            this.studentController = appController.StudentController;
+            this.resultController = appController.ExamResultController;
+            this.requestController = appController.ExamAppRequestController;
+            this.examSlotController = appController.ExamSlotController;
+            this.exam = selectedExam;
+
+            ExamResults = new ();
+            SelectedResult = new();
+
+            DisableForm();
+            Update();
         }
 
-        private void disableForm()
+        private void Update()
+        {
+            ExamResults.Clear();
+
+            if (!exam.ResultsGenerated)
+            {
+                RefreshExam();
+                GenerateResults();
+            }
+
+            foreach (ExamResult exam in resultController.Get(exam.Id))
+            {
+                ExamResults.Add(new ExamResultDTO(exam, studentController));
+            }
+
+        }
+
+        private void DisableForm()
         {
             nameTB.IsEnabled = false;
             lastnameTB.IsEnabled = false;
@@ -29,7 +71,7 @@ namespace LangLang.View.ExamSlotGUI
             confirmResultBtn.IsEnabled = false;
         }
 
-        private void enableForm()
+        private void EnableForm()
         {
             readingPointsTB.IsEnabled = true;
             listeningPointsTB.IsEnabled = true;
@@ -38,15 +80,81 @@ namespace LangLang.View.ExamSlotGUI
             confirmResultBtn.IsEnabled = true;
         }
 
-        private void studentsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ExamResultDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // TODO: implement
+            if (SelectedResult != null)
+            {
+                FillForm();
+                EnableForm();
+
+            } else {
+                DisableForm();
+                ClearForm();
+            }
         }
 
-        private void fillForm()
+        private void FillForm()
         {
-
+            nameTB.Text = SelectedResult.Name;
+            lastnameTB.Text = SelectedResult.LastName;
+            emailTB.Text = SelectedResult.Email;
+            readingPointsTB.Text = SelectedResult.ReadingPoints.ToString();
+            listeningPointsTB.Text = SelectedResult.ListeningPoints.ToString();
+            writingPointsTB.Text = SelectedResult.WritingPoints.ToString();
+            speakingPointsTB.Text = SelectedResult.SpeakingPoints.ToString();
         }
 
+        private void ClearForm()
+        {
+            nameTB.Text = string.Empty;
+            lastnameTB.Text = string.Empty;
+            emailTB.Text = string.Empty;
+            readingPointsTB.Text = string.Empty;
+            listeningPointsTB.Text = string.Empty;
+            writingPointsTB.Text = string.Empty;
+            speakingPointsTB.Text = string.Empty;
+        }
+
+        private void confirmResultBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedResult.Outcome == ExamOutcome.NotGraded && SelectedResult.IsValid)
+            {
+                UpdateDTO();
+                resultController.Update(SelectedResult.ToExamResult());
+                ShowSuccess();
+                Update();
+            }
+            else
+            {
+                MessageBox.Show("The change can only be executed if the student is not graded and if the input is valid.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            ClearForm();
+        }
+
+        private void UpdateDTO()
+        {
+                SelectedResult.ListeningPoints = listeningPointsTB.Text;
+                SelectedResult.WritingPoints = writingPointsTB.Text;
+                SelectedResult.SpeakingPoints = speakingPointsTB.Text;
+                SelectedResult.ReadingPoints = readingPointsTB.Text;
+        }
+
+        private void RefreshExam()
+        {
+            exam.ResultsGenerated = true;
+            examSlotController.Update(exam.ToExamSlot());
+        }
+
+        private void GenerateResults()
+        {
+            List<Student> students = requestController.GetExamRequests(exam.Id, studentController);
+            resultController.GenerateResults(students, exam.Id);
+        }
+
+        private void ShowSuccess() // TODO: move to utils
+        {
+            MessageBox.Show("Successfully completed", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
     }
 }
+

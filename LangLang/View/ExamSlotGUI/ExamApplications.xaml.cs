@@ -41,7 +41,7 @@ namespace LangLang.View.ExamSlotGUI
         public void Update()
         {
             Students.Clear();
-
+            // TODO: temporarily until ExamApplicationsDTO is created
             foreach (Student student in requestController.GetExamRequests(examSlot.Id, studentController))
             {
                 Students.Add(new StudentDTO(student));
