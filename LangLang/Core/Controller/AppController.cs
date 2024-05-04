@@ -18,6 +18,7 @@ namespace LangLang.Core.Controller
         public readonly GradeController GradeController;
         public readonly ExamResultController ExamResultController;
         public readonly TutorRatingController TutorRatingController;
+        public readonly PenaltyPointController PenaltyPointController;
 
         public AppController()
         {
@@ -33,6 +34,7 @@ namespace LangLang.Core.Controller
             GradeController = new();
             TutorRatingController = new();
             ExamResultController = new();
+            PenaltyPointController = new();
         }
 
 
