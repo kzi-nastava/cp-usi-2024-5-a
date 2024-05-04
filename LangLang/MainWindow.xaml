@@ -77,9 +77,11 @@ ResizeMode="NoResize">
 
 
 
-        <Button x:Name="loginbtn" Content="Login" HorizontalAlignment="Center" Height="33" Margin="0,318,0,0" VerticalAlignment="Top" Width="144" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="loginbtn_Click" />
+        <Button x:Name="loginBtn" Content="Login" HorizontalAlignment="Center" Height="33" Margin="0,318,0,0" VerticalAlignment="Top" Width="144" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" 
+                Click="LoginBtn_Click" />
         <TextBlock x:Name="dontHaveAccount" HorizontalAlignment="Center" Height="20" Margin="0,410,0,0" TextWrapping="Wrap" Text="Don't have an account?" VerticalAlignment="Top" Width="144" TextAlignment="Center"/>
-        <Button x:Name="signupbtn" Content="Sign up" HorizontalAlignment="Center" Height="22" Margin="0,430,0,0" VerticalAlignment="Top" Width="100" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" VerticalContentAlignment="Stretch" Click="signupbtn_Click"/>
+        <Button x:Name="signupBtn" Content="Sign up" HorizontalAlignment="Center" Height="22" Margin="0,430,0,0" VerticalAlignment="Top" Width="100" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" VerticalContentAlignment="Stretch" 
+                Click="SignupBtn_Click"/>
         <TextBlock x:Name="errortb" HorizontalAlignment="Center" Height="29" Margin="0,284,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="204" TextAlignment="Center" Foreground="#FFAD8080"/>
     </Grid>
 </Window>

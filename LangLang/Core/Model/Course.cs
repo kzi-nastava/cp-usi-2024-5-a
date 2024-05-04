@@ -10,92 +10,20 @@ namespace LangLang.Core.Model
 {
     public class Course : ISerializable
     {
-        // Attributes
-        private int _id;
-        private int _tutorId;
-        private string _language;
-        private LanguageLevel _level;
-        private int _numberOfWeeks;
-        private List<DayOfWeek> _days;
-        private bool _online;
-        private int _numberOfStudents;
-        private int _maxStudents;
-        private DateTime _startDateTime;
-        private bool _createdByDirector;
-        private List<TimeSlot> _timeSlots;
-
         // Properties
+        public int Id { get; set; }
+        public int TutorId { get; set; }
+        public string Language { get; set; }
+        public LanguageLevel Level { get; set; }
+        public int NumberOfWeeks { get; set; }
+        public List<DayOfWeek> Days { get; set; }
+        public bool Online { get; set; }
+        public int NumberOfStudents { get; set; }
+        public int MaxStudents { get; set; }
+        public DateTime StartDateTime { get; set; }
+        public bool CreatedByDirector { get; set; }
+        public List<TimeSlot> TimeSlots { get; set; }
 
-        public int Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
-
-        public int TutorId
-        {
-            get { return _tutorId; }
-            set { _tutorId = value; }
-        }
-
-        public string Language
-        {
-            get { return _language; }
-            set { _language = value; }
-        }
-
-        public LanguageLevel Level
-        {
-            get { return _level; }
-            set { _level = value; }
-        }
-     
-        public int NumberOfWeeks
-        {
-            get { return _numberOfWeeks; }
-            set { _numberOfWeeks = value; }
-        }
-        public List<DayOfWeek> Days
-        {
-            get { return _days; }
-            set { _days = value; }
-        }
-        
-        public bool Online
-        {
-            get { return _online; }
-            set { _online = value; }
-        }
-
-        public int NumberOfStudents
-        {
-            get { return _numberOfStudents; }
-            set { _numberOfStudents = value; }
-        }
-
-        public int MaxStudents
-        {
-            get { return _maxStudents; }
-            set { _maxStudents = value; }
-        }
-
-        public DateTime StartDateTime 
-        {
-            get { return _startDateTime; }
-            set { _startDateTime = value; }
-        }
-
-        public bool CreatedByDirector
-        {
-            get { return _createdByDirector; }
-            set { _createdByDirector = value; }
-        }
-
-        public List<TimeSlot> TimeSlots
-        {
-            get { return _timeSlots; }
-            set { _timeSlots = value; }
-        }
         // Constructors
 
         public Course(int id, int tutorId, string language, LanguageLevel level, int numberOfWeeks, List<DayOfWeek> days,
@@ -197,6 +125,7 @@ namespace LangLang.Core.Model
             return DateTime.Now >= timeSlot.GetEnd();
         }
 
+        // this method generates all timeslots for a course based on number of weeks, days and start datetime
         private void generateTimeSlots()
         {
             TimeSlots = new List<TimeSlot>();
@@ -210,10 +139,27 @@ namespace LangLang.Core.Model
             }
         }
 
+        // this method checks if timeSlot overlapps with any of the course's timeslots
+        public bool OverlappsWith(TimeSlot timeSlot)
+        {
+            foreach (TimeSlot time in TimeSlots)
+            {
+                if (time.OverlappsWith(timeSlot))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public int DaysUntilEnd()
         {
             var endDate = TimeSlots[TimeSlots.Count - 1].GetEnd();
             return (endDate - DateTime.Now).Days;
+        }
+
+        public int DaysUntilStart()
+        {
+            return (StartDateTime - DateTime.Now).Days;
         }
     }
 }

@@ -19,14 +19,14 @@ namespace LangLang.Core.Controller
             return _appRequests.GetAllAppRequests();
         }
 
-        public void Add(ExamAppRequest appRequest)
+        public void Add(ExamAppRequest appRequest, ExamSlotController examSlotController)
         {
-            _appRequests.Add(appRequest);
+            _appRequests.Add(appRequest, examSlotController);
         }
 
-        public void Delete(int id)
+        public void Delete(int id, ExamSlotController examSlotController)
         {
-            _appRequests.Remove(id);
+            _appRequests.Remove(id, examSlotController);
         }
 
         
@@ -38,6 +38,10 @@ namespace LangLang.Core.Controller
         public List<ExamAppRequest> GetStudentRequests(int studentId)
         {
             return _appRequests.GetStudentRequests(studentId);
+        }
+        public List<ExamAppRequest> GetActiveStudentRequests(int studentId, ExamSlotController examSlotController)
+        {
+            return _appRequests.GetActiveStudentRequests(studentId, examSlotController);
         }
         public List<Student> GetExamRequests(int examId, StudentController studentController)
         {

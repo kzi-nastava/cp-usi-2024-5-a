@@ -26,7 +26,7 @@ namespace LangLang.View.StudentGUI
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void SubmitBtn_Click(object sender, RoutedEventArgs e)
@@ -45,8 +45,7 @@ namespace LangLang.View.StudentGUI
             WRController.Add(wr);
             MessageBox.Show("Request sent. Please wait for approval.");
 
-            parentWindow.CourseWithdrawalBtn.IsEnabled = false;
-            this.Close();
+            Close();
         }
 
 

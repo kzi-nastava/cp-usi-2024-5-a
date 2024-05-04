@@ -76,7 +76,7 @@ namespace LangLang.Core.Model.DAO
             return oldStudent;
         }
 
-        public Student? RemoveStudent(int id, EnrollmentRequestController erController, ExamAppRequestController earController)
+        public Student? RemoveStudent(int id, EnrollmentRequestController erController, ExamAppRequestController earController, ExamSlotController examSlotController)
         {
             Student? student = GetStudentById(id);
             if (student == null) return null;
@@ -85,7 +85,7 @@ namespace LangLang.Core.Model.DAO
                 erController.Delete(er.Id);
 
             foreach (ExamAppRequest ar in earController.GetStudentRequests(id)) // delete all exam application requests
-                earController.Delete(ar.Id);
+                earController.Delete(ar.Id, examSlotController);
 
             _students[id].Profile.IsDeleted = true;
             _repository.Save(_students);
@@ -111,7 +111,7 @@ namespace LangLang.Core.Model.DAO
         {
             foreach (EnrollmentRequest er in enrollmentRequests)
             {
-                if (er.StudentId == studentId && er.CourseId == course.Id) return true;
+                if (er.StudentId == studentId && er.CourseId == course.Id && !er.IsCanceled) return true;
             }
             return false;
         }
@@ -128,33 +128,39 @@ namespace LangLang.Core.Model.DAO
             }
             return false;
         }
-
-        public List<ExamSlot>? GetAvailableExamSlots(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController erController)
+        // returns a list of exams that are available for student application
+        public List<ExamSlot>? GetAvailableExams(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController erController)
         {
             if (student == null) return null;
-            List<ExamSlot> availableExamSlots = new();
+            Dictionary<int,ExamSlot> availableExams = new();
 
             List<EnrollmentRequest> studentRequests = erController.GetStudentRequests(student.Id);
             
-            foreach (ExamSlot examSlot in examSlotController.GetAllExams())
+            foreach (ExamSlot exam in examSlotController.GetAllExams())
             {
+                //don't include filled exams and exams that passed
+                if (!examSlotController.IsAvailable(exam))
+                {
+                    continue;
+                }
+
                 foreach (EnrollmentRequest enrollmentRequest in studentRequests)
                 {
                     Course course = courseController.GetById(enrollmentRequest.CourseId);
-                    if (HasStudentAttendedCourse(course, enrollmentRequest, examSlot))
+                    if (HasStudentAttendedCourse(course, enrollmentRequest, exam))
                     {
-                        availableExamSlots.Add(examSlot);
+                        availableExams.Add(exam.Id,exam);
                     }
                 }
             }
 
-            return availableExamSlots;
+            return availableExams.Values.ToList();
         }
 
-        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController)
+        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController, ExamAppRequestController earController, ExamSlotController examController)
         {
             // can modify - student is not currently enrolled in any course and has not applied for any exams
-            return (CanRequestEnroll(studentId, erController, courseController, wrController) && !HasRegisteredForExam());
+            return (CanRequestEnroll(studentId, erController, courseController, wrController) && !HasAppliedForExam(studentId, earController,examController));
         }
 
         public bool CanRequestEnroll(int id, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController)
@@ -170,10 +176,34 @@ namespace LangLang.Core.Model.DAO
             return true;
         }
 
-        public bool HasRegisteredForExam()
+        public bool HasAppliedForExam(int studentId, ExamAppRequestController examAppController, ExamSlotController examSlotController)
         {
-            // TODO: Implement this method once the exam application class is implemented.
-            return false;
+            List<ExamAppRequest> requests = examAppController.GetActiveStudentRequests(studentId,examSlotController);
+            if(requests.Count == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public void GivePenaltyPoint(Student student)
+        {
+            student.PenaltyPoints++;
+            //if student passed penalty points limit, deactivate acount
+            if(student.PenaltyPoints == 3)
+            {
+                student.Profile.IsDeleted = true;
+            }
+            _repository.Save(_students);
+            NotifyObservers();
+        }
+
+        public void RemovePenaltyPoint(Student student)
+        {
+            if (student.PenaltyPoints > 0)
+            {
+                student.PenaltyPoints--;
+            }
         }
     }
 }

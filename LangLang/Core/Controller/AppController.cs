@@ -16,7 +16,8 @@ namespace LangLang.Core.Controller
         public readonly LoginController LoginController;
         public readonly ExamAppRequestController ExamAppRequestController;
         public readonly GradeController GradeController;
-
+        public readonly TutorRatingController TutorRatingController;
+    
         public AppController()
         {
             TutorController = new();
@@ -29,7 +30,8 @@ namespace LangLang.Core.Controller
             LoginController = new(StudentController, TutorController, DirectorController);
             ExamAppRequestController = new();
             GradeController = new();
-    }
+            TutorRatingController = new();
+        }
 
 
         public bool EmailExists(string email)

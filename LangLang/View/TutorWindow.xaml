@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:LangLang"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="TutorWindow" Height="550" Width="600"
+        Title="TutorWindow" Height="550" Width="700"
         ResizeMode="NoResize">
     <TabControl>
         <!--COURSE TAB-->
@@ -102,22 +102,23 @@
                     </StackPanel>
                     <Button Content="Search exams" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotSearchBtn_Click" />
                     <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Width="289">
-                        <Button Content="Exam applications" Name = "examApplicationBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ButtonSeeStudentInfo_Click" Width="140" />
+                        <Button Content="Exam applications" Name = "examApplicationBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ButtonSeeApplications_Click" Width="140" />
                         <Button Content="Enter results" Name = "enterResultsBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ButtonEnterResults_Click" Width="129" />
                     </StackPanel>
                 </StackPanel>
 
                 <!--table for exam slots-->
                 <DataGrid Grid.Column="1" Margin="15,45,15,0" AutoGenerateColumns="False"
-                                  x:Name="ExamSlotsDataGrid"
-                                  ItemsSource="{Binding ExamSlots, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectedItem="{Binding SelectedExamSlot, UpdateSourceTrigger=PropertyChanged}"
-                                  SelectionMode="Single" IsReadOnly="True" SelectionChanged="ExamSlotsDataGrid_SelectionChanged">
+          x:Name="ExamSlotsDataGrid"
+          ItemsSource="{Binding ExamSlots, UpdateSourceTrigger=PropertyChanged}"
+          SelectedItem="{Binding SelectedExamSlot, UpdateSourceTrigger=PropertyChanged}"
+          SelectionMode="Single" IsReadOnly="True" SelectionChanged="ExamSlotsDataGrid_SelectionChanged">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Language" Binding="{Binding Language}"/>
-                        <DataGridTextColumn Header="Level" Binding="{Binding Level}"/>
-                        <DataGridTextColumn Header="Max students" Binding="{Binding MaxStudents}"/>
-                        <DataGridTextColumn Header="Date and time" Binding="{Binding ExamDate}"/>
+                        <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="*"/>
+                        <DataGridTextColumn Header="Level" Binding="{Binding Level}" Width="*"/>
+                        <DataGridTextColumn Header="Max students" Binding="{Binding MaxStudents}" Width="*"/>
+                        <DataGridTextColumn Header="Applicants" Binding="{Binding Applicants}" Width="*"/>
+                        <DataGridTextColumn Header="Date and time" Binding="{Binding ExamDate}" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
                 <!--end of exam slots table-->

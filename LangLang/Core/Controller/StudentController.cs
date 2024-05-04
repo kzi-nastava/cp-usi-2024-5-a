@@ -3,6 +3,7 @@ using LangLang.Core.Model;
 using System.Collections.Generic;
 using LangLang.Core.Observer;
 using System;
+using LangLang.Core.Repository;
 
 namespace LangLang.Core.Controller
 {
@@ -30,9 +31,9 @@ namespace LangLang.Core.Controller
             _students.AddStudent(student);
         }
 
-        public void Delete(int studentId, EnrollmentRequestController erController, ExamAppRequestController earController)
+        public void Delete(int studentId, EnrollmentRequestController erController, ExamAppRequestController earController, ExamSlotController examSlotController)
         {
-            _students.RemoveStudent(studentId, erController, earController);
+            _students.RemoveStudent(studentId, erController, earController, examSlotController);
         }
 
         public void Update(Student student)
@@ -51,14 +52,14 @@ namespace LangLang.Core.Controller
             return _students.GetAvailableCourses(studentId, courseController, studentRequests);
         }
         
-        public List<ExamSlot> GetAvailableExamSlots(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController enrollmentRequestController)
+        public List<ExamSlot> GetAvailableExams(Student student, CourseController courseController, ExamSlotController examSlotController, EnrollmentRequestController enrollmentRequestController)
         {
-            return _students.GetAvailableExamSlots(student, courseController, examSlotController, enrollmentRequestController);
+            return _students.GetAvailableExams(student, courseController, examSlotController, enrollmentRequestController);
         }
 
-        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController)
+        public bool CanModifyInfo(int studentId, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController, ExamAppRequestController earController, ExamSlotController examController)
         {
-            return _students.CanModifyInfo(studentId, erController, courseController, wrController);
+            return _students.CanModifyInfo(studentId, erController, courseController, wrController, earController,examController);
         }
 
         public bool CanRequestEnroll(int id, EnrollmentRequestController erController, CourseController courseController, WithdrawalRequestController wrController)
@@ -69,7 +70,7 @@ namespace LangLang.Core.Controller
         public List<ExamSlot> SearchExamSlotsByStudent(ExamSlotController examSlotController, CourseController courseController, EnrollmentRequestController enrollmentRequestController, int studentId, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
         {
             Student student = GetAllStudents()[studentId];
-            List<ExamSlot> availableExamSlots = GetAvailableExamSlots(student, courseController, examSlotController, enrollmentRequestController);
+            List<ExamSlot> availableExamSlots = GetAvailableExams(student, courseController, examSlotController, enrollmentRequestController);
             return examSlotController.SearchExams(availableExamSlots, examDate, courseLanguage, languageLevel);
         }
 
@@ -78,6 +79,16 @@ namespace LangLang.Core.Controller
             List<Course> availableCourses = GetAvailableCourses(studentId, courseController, erController);
             List<Course> filteredCourses = courseController.SearchCourses(availableCourses, language, level, startDate, duration, online);
             return filteredCourses;
+        }
+
+        public void GivePenaltyPoint(Student student)
+        {
+            _students.GivePenaltyPoint(student);
+        }
+
+        public void RemovePenaltyPoint(Student student)
+        {
+            _students.RemovePenaltyPoint(student);
         }
 
     }

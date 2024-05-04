@@ -83,12 +83,17 @@ namespace LangLang.Core.Model.DAO
         }
 
         // returns true if the cancellation was successful, otherwise false
-        public bool CancelRequest(EnrollmentRequest enrollmentRequest, Course course)
+        public bool CancelRequest(int id, Course course)
         {
-            if (course.StartDateTime.Date - DateTime.Now.Date <= TimeSpan.FromDays(7))
-                return false; // course start date must be at least 7 days away
+            if (course.DaysUntilStart() < 7)
+                throw new Exception("Cancellation deadline passed.");
 
-            enrollmentRequest.CancelRequest();
+            EnrollmentRequest request = _enrollmentRequests[id];
+            if (request.IsCanceled)
+                throw new Exception("Already canceled.");
+
+            request.CancelRequest();
+            _repository.Save(_enrollmentRequests);
             return true;
         }
 

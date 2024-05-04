@@ -19,7 +19,7 @@ namespace LangLang.DTO
         private string phoneNumber;
         private Gender gender;
         private DateTime birthDate;
-
+        private int penaltyPoints;
 
         public string Name
         {
@@ -125,6 +125,25 @@ namespace LangLang.DTO
             }
         }
 
+        public string PenaltyPoints
+        {
+            get { return penaltyPoints.ToString(); }
+            set
+            {
+
+                if (int.TryParse(value, out int result) && result >= 0)
+                {
+                    penaltyPoints = result;
+                    OnPropertyChanged("PenaltryPoints");
+                }
+                else
+                {
+                    penaltyPoints = 0;
+                }
+
+            }
+        }
+
         private readonly Regex _NumberRegex = new("^\\+?\\d+$");
         private readonly Regex _EmailRegex = new("^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$");
         private readonly Regex _NameRegex = new("^[A-Za-z\\-]+$");
@@ -195,7 +214,7 @@ namespace LangLang.DTO
 
         public Student ToStudent()
         {
-            return new Student(Id, name, lastName, gender, birthDate, phoneNumber, email, password, UserType.Student, false, profession);
+            return new Student(Id, name, lastName, gender, birthDate, phoneNumber, email, password, UserType.Student, false, profession, penaltyPoints);
         }
 
         public StudentDTO(Student student)
@@ -209,6 +228,7 @@ namespace LangLang.DTO
             birthDate = student.Profile.BirthDate;
             phoneNumber = student.Profile.PhoneNumber;
             profession = student.Profession;
+            penaltyPoints = student.PenaltyPoints;
         }
 
         public string Error => throw new NotImplementedException();
