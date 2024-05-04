@@ -20,8 +20,9 @@ namespace LangLang.DTO
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Language { get; set; }
-
         public LanguageLevel Level { get; set; }
+        public DateTime ExamDateTime { get; set; }
+
 
         public ExamAppRequest ToExamAppRequest()
         {
@@ -44,6 +45,7 @@ namespace LangLang.DTO
 
             Language = exam.Language;
             Level = exam.Level;
+            ExamDateTime = exam.TimeSlot.Time;
         }
 
     }
