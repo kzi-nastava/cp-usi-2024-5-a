@@ -1,7 +1,6 @@
 ﻿using LangLang.Core.Model;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 
@@ -9,29 +8,18 @@ namespace LangLang.DTO
 {
     public class ExamSlotDTO : INotifyPropertyChanged, IDataErrorInfo
     {
-        
+
         public int Id { get; set; }
 
-        private int _tutorId;
-        private string? _language;
+        public int TutorId { get; set; }
+        private string _language;
         private LanguageLevel _level;
         private int _maxStudents;
         private DateTime _examDate;
-        private string? _time;
+        private string _time;
         private int _applicants;
-        private bool _modifiable;
+        public bool Modifiable { get; set; }
         public bool ResultsGenerated { get; set; }
-
-        public int TutorId
-        {
-            get { return _tutorId; }
-            set
-            {
-                _tutorId = value;
-                //OnPropertyChanged("TutorId");
-            }
-        }
-
         public string Language
         {
             get { return _language; }
@@ -82,8 +70,11 @@ namespace LangLang.DTO
             get { return _examDate; }
             set
             {
-                _examDate = value;
-                OnPropertyChanged("ExamDate");
+                if (_examDate != value)
+                {
+                    _examDate = value;
+                    OnPropertyChanged("ExamDate");
+                }
             }
         }
 
@@ -93,32 +84,28 @@ namespace LangLang.DTO
             get { return _applicants; }
             set
             {
-                _applicants = value;
-                OnPropertyChanged("Applicants");
+                if (_applicants != value)
+                {
+                    _applicants = value;
+                    OnPropertyChanged("Applicants");
+                }
             }
         }
+
         public string Time
         {
             get { return _time; }
             set
             {
-                _time = value;
-                OnPropertyChanged("Time");
-            }
-        }
-
-
-        public bool Modifiable
-        {
-            get { return _modifiable; }
-            set
-            {
-                _modifiable = value;
+                if (_time != value)
+                {
+                    _time = value;
+                    OnPropertyChanged("Time");
+                }
             }
         }
 
         private readonly Regex _TimeRegex = new("^(?:[01]\\d|2[0-3]):(?:[0-5]\\d)$");
-
 
         public string this[string columnName]
         {
@@ -127,7 +114,6 @@ namespace LangLang.DTO
 
                 if (columnName == "MaxStudents")
                 {
-
                     if (string.IsNullOrEmpty(MaxStudents)) return "Max number of students is required";
                     if (!int.TryParse(MaxStudents, out int _maxStudents) || _maxStudents <= 0) return "Must input a positive integer for max number of students.";
                     else return "";
@@ -159,7 +145,6 @@ namespace LangLang.DTO
             {
                 foreach (var property in _validatedProperties)
                 {
-                    Trace.WriteLine(this[property]);
                     if (this[property] != "")
                         return false;
                 }
@@ -168,9 +153,7 @@ namespace LangLang.DTO
             }
         }
 
-        public ExamSlotDTO()
-        {
-        }
+        public ExamSlotDTO() { }
 
         public ExamSlotDTO(ExamSlot examSlot)
         {
@@ -183,17 +166,16 @@ namespace LangLang.DTO
             this.Time = examSlot.TimeSlot.Time.ToString("HH:mm");
             this.Applicants = examSlot.Applicants;
             this.Modifiable = examSlot.Modifiable;
-            this.ResultsGenerated = examSlot.GeneratedResults;
+            this.ResultsGenerated = examSlot.ResultsGenerated;
         }
         public string Error => null;
 
         public ExamSlot ToExamSlot()
         {
-            Trace.Write(_time);
             string[] timeParts = _time.Split(':');
             int hour = int.Parse(timeParts[0]);
             int minute = int.Parse(timeParts[1]);
-            return new ExamSlot(Id, _language, _level, new TimeSlot(4,new DateTime(_examDate.Year, _examDate.Month, _examDate.Day, hour, minute, 0)),_maxStudents,_tutorId, _applicants, _modifiable, ResultsGenerated);
+            return new ExamSlot(Id, _language, _level, new TimeSlot(4, new DateTime(_examDate.Year, _examDate.Month, _examDate.Day, hour, minute, 0)), _maxStudents, TutorId, _applicants, Modifiable, ResultsGenerated);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
