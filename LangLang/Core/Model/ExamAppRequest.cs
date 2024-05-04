@@ -8,20 +8,16 @@ namespace LangLang.Core.Model
         public int Id { get; set; }
         public int StudentId { get; set; }
         public int ExamSlotId { get; set; }
-        public DateTime RequestSentAt { get; set; }
-        public DateTime LastModifiedTimestamp { get; set; }
-        public bool IsCanceled { get; set; }
-
+        public DateTime SentAt { get; set; }
+        
         public ExamAppRequest() { }
 
-        public ExamAppRequest(int id, int studentId, int examSlotId, DateTime requestSentAt)
+        public ExamAppRequest(int id, int studentId, int examSlotId, DateTime sentAt)
         {
             Id = id;
             StudentId = studentId;
             ExamSlotId = examSlotId;
-            RequestSentAt = requestSentAt;
-            LastModifiedTimestamp = requestSentAt; //Later this will refer to the date of cancellation if student cancelled
-            IsCanceled = false;
+            SentAt = sentAt;
         }
 
         public void CancelExamAppRequest()
