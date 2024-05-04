@@ -114,7 +114,7 @@ namespace LangLang
             }
             else
             {
-                MessageBox.Show("Selected course cannot be updated, it has already started or there are less than 7 days before course start.");
+                MessageBox.Show("Selected course cannot be updated, it has already started or there are less than 7 days before the start of the course.");
             }
         }
 
@@ -124,11 +124,11 @@ namespace LangLang
             {
                 courseController.Delete(SelectedCourse.Id);
                 Update();
-                MessageBox.Show("The course has successfully been deleted.");
+                MessageBox.Show("The course has been successfully deleted.");
             }
             else
             {
-                MessageBox.Show("Selected course cannot be deleted, it has already started or there are less than 7 days before course start.");
+                MessageBox.Show("Selected course cannot be deleted, it has already started or there are less than 7 days before the start of the course.");
             }
         }
 
@@ -158,12 +158,16 @@ namespace LangLang
         {
             courseUpdateBtn.IsEnabled = false;
             courseDeleteBtn.IsEnabled = false;
+            courseEnrollmentBtn.IsEnabled = false;
+            courseEnterGradeBtn.IsEnabled = false;
         }
 
         private void EnableButtonsCourse()
         {
             courseUpdateBtn.IsEnabled = true;
             courseDeleteBtn.IsEnabled = true;
+            courseEnrollmentBtn.IsEnabled = true;
+            courseEnterGradeBtn.IsEnabled = true;
         }
 
         private void ExamSlotSearchBtn_Click(object sender, RoutedEventArgs e)
