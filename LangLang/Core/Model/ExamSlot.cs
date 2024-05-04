@@ -14,9 +14,9 @@ namespace LangLang.Core.Model
         public bool Modifiable { get; set; }
 
         // NOTE: if possible don't save number of registeredStudents, ask the database. If not, then add attribute.
-        
 
-        public ExamSlot(int id, string language, LanguageLevel level, TimeSlot timeSlot, int maxStudents, int tutorId, bool modifiable)
+        public bool GeneratedResults { get; set; }
+        public ExamSlot(int id, string language, LanguageLevel level, TimeSlot timeSlot, int maxStudents, int tutorId, bool modifiable, bool generatedResults)
         {
             Id = id;
             Language = language;
@@ -25,6 +25,7 @@ namespace LangLang.Core.Model
             TimeSlot = timeSlot;
             MaxStudents = maxStudents;
             Modifiable = modifiable;
+            GeneratedResults = generatedResults;
         }
 
         public ExamSlot() { }
@@ -38,7 +39,8 @@ namespace LangLang.Core.Model
             TutorId.ToString(),
             TimeSlot.ToString(),
             MaxStudents.ToString(),
-            Modifiable.ToString()
+            Modifiable.ToString(),
+            GeneratedResults.ToString()
             };
         }
 
@@ -51,6 +53,7 @@ namespace LangLang.Core.Model
             TimeSlot = new (values[4], values[5]);
             MaxStudents = int.Parse(values[6]);
             Modifiable = bool.Parse(values[7]);
+            GeneratedResults = bool.Parse(values[8]);
         }
 
     }

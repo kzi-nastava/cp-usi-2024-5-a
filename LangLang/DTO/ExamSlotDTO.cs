@@ -20,6 +20,7 @@ namespace LangLang.DTO
         private string _time;
         private int _numberStudents;
         private bool _modifiable;
+        public bool ResultsGenerated { get; set; }
 
         public int TutorId
         {
@@ -178,9 +179,10 @@ namespace LangLang.DTO
             this.Language = examSlot.Language;
             this.Level = examSlot.Level;
             this.MaxStudents = examSlot.MaxStudents.ToString();
-            this.ExamDate = examSlot.TimeSlot.Time.Date;
+            this.ExamDate = examSlot.TimeSlot.Time;
             this.Time = examSlot.TimeSlot.Time.ToString("HH:mm");
             this.Modifiable = examSlot.Modifiable;
+            this.ResultsGenerated = examSlot.GeneratedResults;
         }
 
         public ExamSlot ToExamSlot()
@@ -188,7 +190,7 @@ namespace LangLang.DTO
             string[] timeParts = _time.Split(':');
             int hour = int.Parse(timeParts[0]);
             int minute = int.Parse(timeParts[1]);
-            return new ExamSlot(Id, _language,_level, new TimeSlot(4,new DateTime(_examDate.Year, _examDate.Month, _examDate.Day, hour, minute, 0)),_maxStudents,_tutorId, _modifiable);
+            return new ExamSlot(Id, _language,_level, new TimeSlot(4,new DateTime(_examDate.Year, _examDate.Month, _examDate.Day, hour, minute, 0)),_maxStudents,_tutorId, _modifiable, ResultsGenerated);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
