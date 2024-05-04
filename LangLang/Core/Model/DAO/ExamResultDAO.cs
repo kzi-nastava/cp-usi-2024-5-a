@@ -40,7 +40,6 @@ namespace LangLang.Core.Model.DAO
             return _examResults.Values.ToList();
         }
 
-        // NOTE: IT'S NOT FINAL VERSION - will be updated when ExamApplicationDTO is implemented
         public void Add(int studentId, int examId)
         {
             ExamResult examResult = new();
@@ -77,15 +76,6 @@ namespace LangLang.Core.Model.DAO
                 if (examResult.ExamSlotId == examId) results.Add(examResult);
             }
             return results;
-        }
-
-        // TODO: change after implementing the examApplicationDTO
-        public void GenerateResults(List<Student>students, int examId)
-        {
-            foreach (Student student in students)
-            {
-                Add(student.Id, examId);
-            }
         }
 
     }

@@ -16,15 +16,16 @@ namespace LangLang.Core.Controller
             _examResults = new ();
         }
 
+        public void Add(int studentId, int examId)
+        {
+            _examResults.Add(studentId, examId);
+        }
+
         public List<ExamResult> Get(int examId)
         {
             return _examResults.Get(examId);
         }
 
-        public void GenerateResults(List<Student> students, int examId)
-        {
-            _examResults.GenerateResults(students, examId);
-        }
         internal void Update(ExamResult examResult)
         {
             _examResults.Update(examResult);
