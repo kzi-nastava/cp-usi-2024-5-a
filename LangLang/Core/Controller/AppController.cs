@@ -62,15 +62,21 @@ namespace LangLang.Core.Controller
                     if ((student.Profile.Email == email) && (student.Profile.Id != id)) return true;
                 }
             }
-            else
+            else if (role == UserType.Tutor)
             {
                 foreach (Tutor tutor in TutorController.GetAllTutors())
                 {
                     if ((tutor.Profile.Email == email) && (tutor.Profile.Id != id)) return true;
                 }
             }
+            else
+            {
+                foreach (Director director in DirectorController.GetAllDirectors())
+                {
+                    if ((director.Profile.Email == email) && (director.Profile.Id != id)) return true;
+                }
+            }
 
-            // TODO: check if it is the same as directors
             return false;
         }
     }

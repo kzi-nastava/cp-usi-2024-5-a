@@ -60,7 +60,7 @@ namespace LangLang
                 tutorWindow.Show();
             } else if (profile.Role == UserType.Director)
             {
-                DirectorWindow directorWindow = new(appController, profile);
+                DirectorWindow directorWindow = new(appController);
                 directorWindow.Show();
             }
         }
