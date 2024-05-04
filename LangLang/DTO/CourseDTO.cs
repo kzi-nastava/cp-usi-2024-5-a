@@ -10,107 +10,37 @@ using System.Xml.Linq;
 using System.Reflection;
 using System.Windows;
 using LangLang.Core.Controller;
+using System.Windows.Input;
 
 
 namespace LangLang.DTO
 {
     public class CourseDTO : INotifyPropertyChanged, IDataErrorInfo
     {
-        public string StringDays { get; }
+        public string StringDays { get; set; }
 
         public int Id { get; set; }
         private int tutorId;
         private string language;
         private LanguageLevel level;
         private int numberOfWeeks;
-        private List<DayOfWeek> days;
         private bool online;
         private int maxStudents;
         private DateTime startDate;
         private bool createdByDirector;
         private string time;
-        private bool mon;
-        private bool tue;
-        private bool wed;
-        private bool thu;
-        private bool fri;
+        private List<bool> booleanDays;
         public string TutorFullName { get; set; }
 
         public int NumberOfStudents { get; set; }
-        public bool Mon
-        {
-            get
-            {
-                return mon;
-            }
-            set
-            {
-                if (value != mon)
-                {
-                    mon = value;
-                    OnPropertyChanged("Mon");
-                }
-            }
-        }
-        public bool Tue
-        {
-            get
-            {
-                return tue;
-            }
-            set
-            {
-                if (value != tue)
-                {
-                    tue = value;
-                    OnPropertyChanged("Tue");
-                }
-            }
-        }
-        public bool Wed
-        {
-            get
-            {
-                return wed;
-            }
-            set
-            {
-                if (value != wed)
-                {
-                    wed = value;
-                    OnPropertyChanged("Wed");
-                }
-            }
-        }
 
-        public bool Thu
+        public List<bool> BooleanDays
         {
-            get
-            {
-                return thu;
-            }
+            get => booleanDays;
             set
             {
-                if (value != thu)
-                {
-                    thu = value;
-                    OnPropertyChanged("Thu");
-                }
-            }
-        }
-        public bool Fri
-        {
-            get
-            {
-                return fri;
-            }
-            set
-            {
-                if (value != fri)
-                {
-                    fri = value;
-                    OnPropertyChanged("Fri");
-                }
+                booleanDays = value;
+                OnPropertyChanged(nameof(BooleanDays));
             }
         }
         public string Language
@@ -157,22 +87,6 @@ namespace LangLang.DTO
                 {
                     startDate = value;
                     OnPropertyChanged("StartDate");
-                }
-            }
-        }
-
-        public List<DayOfWeek> Days
-        {
-            get
-            {
-                return days;
-            }
-            set
-            {
-                if (value != days)
-                {
-                    days = value;
-                    OnPropertyChanged("Days");
                 }
             }
         }
@@ -309,6 +223,7 @@ namespace LangLang.DTO
                 }
                 if (columnName == "MaxStudents")
                 {
+                    if (online) return "";
                     if (!int.TryParse(MaxStudents, out int _maxStudents) || _maxStudents <= 0) return "Maximal number of students must be a positive number";
                     else return "";
                 }
@@ -316,56 +231,26 @@ namespace LangLang.DTO
             }
         }
 
-        private string[] _validatedProperties = {"StartDate", "Language", "Level", "NumberOfWeeks", "Time" };
-
-        public string ConcatenatedDays
-        {
-            get { return string.Join(", ", Days); }
-        }
+        private string[] _validatedProperties = {"NotOnline", "MaxStudents", "StartDate", "Language", "Level", "NumberOfWeeks", "Time" };
 
         // checks if all properties are valid
         public bool IsValid
         {
             get
             {
-                // if the course is held in person add validation for maximal number of student, otherwize remove it
-                if (online == false) 
-                {
-                    _validatedProperties = _validatedProperties.Append("MaxStudents").ToArray();
-                }
-                else
-                {
-                    int index = Array.IndexOf(_validatedProperties, "MaxStudents");
-                    if (index != -1)
-                    {
-                        // Create a new array with one less element
-                        string[] newArray = new string[_validatedProperties.Length - 1];
-
-                        // Copy elements from the original array to the new array, excluding the element to delete
-                        Array.Copy(_validatedProperties, 0, newArray, 0, index);
-                        Array.Copy(_validatedProperties, index + 1, newArray, index, _validatedProperties.Length - index - 1);
-
-                        // Replace the original array with the new array
-                        _validatedProperties = newArray;
-                    }
-                }
 
                 foreach (var property in _validatedProperties)
                 {
                     if (this[property] != "") return false;
                 }
 
-                List<DayOfWeek> _days = new List<DayOfWeek>();
+                //check whether at least one day is selected
+                for (int i = 0; i < 5; i++)
+                {
+                    if (BooleanDays[i]) return true;
+                }
 
-                if (mon) _days.Add(DayOfWeek.Monday);
-                if (tue) _days.Add(DayOfWeek.Tuesday);
-                if (wed) _days.Add(DayOfWeek.Wednesday);
-                if (thu) _days.Add(DayOfWeek.Thursday);
-                if (fri) _days.Add(DayOfWeek.Friday);
-
-                if(_days.Count == 0) return false;
-                days = _days;
-                return true;
+                return false;
             }
         }
 
@@ -373,14 +258,10 @@ namespace LangLang.DTO
 
         public CourseDTO()
         {
-            days = new List<DayOfWeek>();
             online = true;
-            mon = false;
-            tue = false;
-            fri = false;
-            wed = false;
-            thu = false;
-            NumberOfStudents = 0;   
+            BooleanDays = new List<bool> { false, false, false, false, false };
+            NumberOfStudents = 0;
+            StartDate = DateTime.Now;
         }
 
         public Course ToCourse()
@@ -388,6 +269,11 @@ namespace LangLang.DTO
             string[] timeParts = time.Split(':');
             int hour = int.Parse(timeParts[0]);
             int minute = int.Parse(timeParts[1]);
+            List<DayOfWeek> days = new();
+            for (int i = 0; i < 5; i++)
+            {
+                if (booleanDays[i]) { days.Add((DayOfWeek)(i + 1)); }
+            }
             return new Course(Id, tutorId, language, level, numberOfWeeks, days, online, maxStudents, new DateTime(startDate.Year, startDate.Month, startDate.Day, hour, minute, 0), createdByDirector);
         }
 
@@ -399,13 +285,22 @@ namespace LangLang.DTO
             NotOnline = !course.Online;
             CreatedByDirector = course.CreatedByDirector;
             TutorId = course.TutorId;
-            Days = course.Days;
             NumberOfStudents = course.NumberOfStudents;
-            StringDays = ConcatenatedDays;
             StartDate = course.StartDateTime;
             NumberOfWeeks = course.NumberOfWeeks.ToString();
             MaxStudents = course.MaxStudents.ToString();
             Time = course.StartDateTime.ToString("HH:mm");
+            SetDaysProperties(course.Days);
+        }
+
+        private void  SetDaysProperties(List<DayOfWeek> days)
+        {
+            BooleanDays = new List<bool> { false, false, false, false, false };
+            StringDays = string.Join(", ", days);
+            for(int i = 0; i < 5; i++)
+            {
+                if (days.Contains((DayOfWeek)(i + 1))) { booleanDays[i] = true; }
+            }
         }
 
         public CourseDTO(Course course, AppController appController)

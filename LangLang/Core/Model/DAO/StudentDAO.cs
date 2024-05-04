@@ -131,24 +131,28 @@ namespace LangLang.Core.Model.DAO
             return true;
         }
 
-        public void GivePenaltyPoint(Student student)
+        public void GivePenaltyPoint(Student student, AppController appController)
         {
-            student.PenaltyPoints++;
-            //if student passed penalty points limit, deactivate acount
-            if(student.PenaltyPoints == Constants.MAX_PENALTY_POINTS)
+
+            _students[student.Profile.Id].PenaltyPoints++;
+            if(ShouldDeactivate(student))
             {
-                student.Profile.IsDeleted = true;
+                RemoveStudent(student, appController);
             }
             _repository.Save(_students);
             NotifyObservers();
         }
 
+        private bool ShouldDeactivate(Student student)
+        {
+            return student.PenaltyPoints == Constants.MAX_PENALTY_POINTS;
+        }
+
         public void RemovePenaltyPoint(Student student)
         {
-            if (student.PenaltyPoints > 0)
-            {
-                student.PenaltyPoints--;
-            }
+            _students[student.Profile.Id].PenaltyPoints--;
+            _repository.Save(_students);
+            NotifyObservers();
         }
     }
 }

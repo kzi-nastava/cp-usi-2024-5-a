@@ -168,7 +168,7 @@ namespace LangLang.Core.Model.DAO
             oldExam.MaxStudents = exam.MaxStudents;
             oldExam.TimeSlot = exam.TimeSlot;
             oldExam.Modifiable = exam.Modifiable;
-            oldExam.GeneratedResults = exam.GeneratedResults;
+            oldExam.ResultsGenerated = exam.ResultsGenerated;
             oldExam.Applicants = exam.Applicants;
 
             _repository.Save(_exams);

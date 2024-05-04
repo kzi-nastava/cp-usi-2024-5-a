@@ -126,7 +126,7 @@ namespace LangLang
             {
                 courseController.Delete(SelectedCourse.Id);
                 Update();
-                MessageBox.Show("The course has successfully been deleted.");
+                MessageBox.Show("The course has been successfully deleted.");
             }
             else
             {
@@ -160,12 +160,16 @@ namespace LangLang
         {
             courseUpdateBtn.IsEnabled = false;
             courseDeleteBtn.IsEnabled = false;
+            courseEnrollmentBtn.IsEnabled = false;
+            courseEnterGradeBtn.IsEnabled = false;
         }
 
         private void EnableButtonsCourse()
         {
             courseUpdateBtn.IsEnabled = true;
             courseDeleteBtn.IsEnabled = true;
+            courseEnrollmentBtn.IsEnabled = true;
+            courseEnterGradeBtn.IsEnabled = true;
         }
 
         private void ExamSlotSearchBtn_Click(object sender, RoutedEventArgs e)

@@ -13,7 +13,7 @@ namespace LangLang.Core.Model
         public int MaxStudents { get; set; }
         public int Applicants { get; set; }
         public bool Modifiable { get; set; }
-        public bool GeneratedResults { get; set; }
+        public bool ResultsGenerated { get; set; }
 
         public ExamSlot(int id, string language, LanguageLevel level, TimeSlot timeSlot, int maxStudents, int tutorId, int applicants, bool modifiable, bool generatedResults)
         {
@@ -25,7 +25,7 @@ namespace LangLang.Core.Model
             MaxStudents = maxStudents;
             Applicants = applicants;
             Modifiable = modifiable;
-            GeneratedResults = generatedResults;
+            ResultsGenerated = generatedResults;
         }
 
         public ExamSlot() { }
@@ -41,7 +41,7 @@ namespace LangLang.Core.Model
             MaxStudents.ToString(),
             Applicants.ToString(),
             Modifiable.ToString(),
-            GeneratedResults.ToString()
+            ResultsGenerated.ToString()
             };
         }
 
@@ -55,7 +55,7 @@ namespace LangLang.Core.Model
             MaxStudents = int.Parse(values[6]);
             Applicants = int.Parse(values[7]);
             Modifiable = bool.Parse(values[8]);
-            GeneratedResults = bool.Parse(values[9]);
+            ResultsGenerated = bool.Parse(values[9]);
         }
 
         public bool ApplicationsVisible()
