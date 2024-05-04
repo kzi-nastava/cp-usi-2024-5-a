@@ -158,29 +158,25 @@ namespace LangLang.Core.Model.DAO
         }
         //function for updating examslot takes new version of examslot and updates existing examslot to be same as new one
         //function saves changes and returns if updating was successful
-        public bool UpdateExam(ExamSlot exam)
+        public void UpdateExam(ExamSlot exam)
         {
             //should use const variable instead of 14
+            ExamSlot oldExam = GetExamById(exam.Id);
+            if (oldExam == null) return ;
 
-            if ((exam.TimeSlot.Time - DateTime.Now).TotalDays >= 14)
-            {
-                ExamSlot oldExam = GetExamById(exam.Id);
-                if (oldExam == null) return false;
+            oldExam.TutorId = exam.TutorId;
+            oldExam.MaxStudents = exam.MaxStudents;
+            oldExam.TimeSlot = exam.TimeSlot;
+            oldExam.Modifiable = exam.Modifiable;
 
-                oldExam.TutorId = exam.TutorId;
-                oldExam.MaxStudents = exam.MaxStudents;
-                oldExam.TimeSlot = exam.TimeSlot;
-                oldExam.Modifiable = exam.Modifiable;
+            _repository.Save(_exams);
+            NotifyObservers();
+            
+        }
 
-                _repository.Save(_exams);
-                NotifyObservers();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+        public bool CanBeUpdated(ExamSlot exam)
+        {
+            return (exam.TimeSlot.Time - DateTime.Now).TotalDays >= 14;
         }
 
 
