@@ -12,10 +12,10 @@ namespace LangLang.View.ExamSlotGUI
     /// </summary>
     public partial class ExamApplications : Window
     {
-        public StudentDTO SelectedStudent { get; set; }
-        public ObservableCollection<StudentDTO> Students { get; set; }
+        public ExamAppRequestDTO SelectedApplication { get; set; }
+        public ObservableCollection<ExamAppRequestDTO> Applications { get; set; }
         private AppController appController;
-        private ExamAppRequestController requestController;
+        private ExamAppRequestController applicationController;
         private ExamSlotController examSlotController;
         private StudentController studentController;
         private ExamSlotDTO examSlot;
@@ -27,11 +27,11 @@ namespace LangLang.View.ExamSlotGUI
 
             this.appController = appController;
             this.examSlot = examSlot;
-            requestController = appController.ExamAppRequestController;
+            applicationController = appController.ExamAppRequestController;
             examSlotController = appController.ExamSlotController;
             studentController = appController.StudentController;
 
-            Students = new ObservableCollection<StudentDTO>();
+            Applications = new();
 
             AdjustButtons();
 
@@ -40,11 +40,10 @@ namespace LangLang.View.ExamSlotGUI
 
         public void Update()
         {
-            Students.Clear();
-            // TODO: temporarily until ExamApplicationsDTO is created
-            foreach (Student student in requestController.GetExamRequests(examSlot.Id, studentController))
+            Applications.Clear();
+            foreach (ExamAppRequest application in applicationController.GetApplications(examSlot.Id))
             {
-                Students.Add(new StudentDTO(student));
+                Applications.Add(new ExamAppRequestDTO(application, appController));
             }
         }
 
@@ -68,10 +67,11 @@ namespace LangLang.View.ExamSlotGUI
 
         private void DeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure that you want to delete " + SelectedStudent.Name + " " + SelectedStudent.LastName  + " from the examination?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Are you sure that you want to delete " + SelectedApplication.StudentName + " " + SelectedApplication.StudentLastName  + " from the examination?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                studentController.Delete(SelectedStudent.ToStudent(), appController);
+                Student student = studentController.GetById(SelectedApplication.StudentId);
+                studentController.Delete(student, appController);
                 Update();
                 ShowSuccess();
             }
@@ -83,9 +83,9 @@ namespace LangLang.View.ExamSlotGUI
             MessageBox.Show("Successfully completed", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void StudentsTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ApplicationTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (SelectedStudent != null)
+            if (SelectedApplication != null)
                 deleteBtn.IsEnabled = true;
             else
                 deleteBtn.IsEnabled = false;
