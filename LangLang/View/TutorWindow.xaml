@@ -60,6 +60,7 @@
                         <DataGridTextColumn IsReadOnly="True" Header="Weeks" Binding="{Binding NumberOfWeeks}"/>
                         <DataGridTextColumn IsReadOnly="True" Header="Days" Binding="{Binding StringDays}"/>
                         <DataGridTextColumn IsReadOnly="True" Header="Start Date and Class Time" Width="*" Binding="{Binding StartDate, StringFormat={}{0:MM/dd/yyyy HH:mm}}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="In classroom" Binding="{Binding NotOnline}"/>
                     </DataGrid.Columns>
                 </DataGrid>
                 <!--end of table for courses-->
