@@ -27,11 +27,14 @@ namespace LangLang.Core.Controller
             return _exams.AddExam(exam, courses);
         }
 
-        public bool Update(ExamSlot exam)
+        public void Update(ExamSlot exam)
         {
-            return _exams.UpdateExam(exam);
+            _exams.UpdateExam(exam);
         }
-
+        public bool CanBeUpdated(ExamSlot exam)
+        {
+            return _exams.CanBeUpdated(exam);
+        }
         public bool Delete(int examId)
         {
             return _exams.RemoveExam(examId);

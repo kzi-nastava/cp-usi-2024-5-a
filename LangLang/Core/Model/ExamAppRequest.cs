@@ -8,34 +8,23 @@ namespace LangLang.Core.Model
         public int Id { get; set; }
         public int StudentId { get; set; }
         public int ExamSlotId { get; set; }
-        public DateTime RequestSentAt { get; set; }
-        public DateTime LastModifiedTimestamp { get; set; }
-        public bool IsCanceled { get; set; }
-
+        public DateTime SentAt { get; set; }
+        
         public ExamAppRequest() { }
 
-        public ExamAppRequest(int id, int studentId, int examSlotId, DateTime requestSentAt)
+        public ExamAppRequest(int id, int studentId, int examSlotId, DateTime sentAt)
         {
             Id = id;
             StudentId = studentId;
             ExamSlotId = examSlotId;
-            RequestSentAt = requestSentAt;
-            LastModifiedTimestamp = requestSentAt; //Later this will refer to the date of cancellation if student cancelled
-            IsCanceled = false;
-        }
-
-        public void CancelExamAppRequest()
-        {
-            IsCanceled = true;
-            LastModifiedTimestamp = DateTime.Now;
+            SentAt = sentAt;
         }
 
         public void FromCSV(string[] values)
         {
             try
             {
-                RequestSentAt = DateTime.ParseExact(values[4], "yyyy-MM-dd", null);
-                LastModifiedTimestamp = DateTime.ParseExact(values[5], "yyyy-MM-dd", null);
+                SentAt = DateTime.ParseExact(values[3], "yyyy-MM-dd", null);
             }
             catch
             {
@@ -45,7 +34,6 @@ namespace LangLang.Core.Model
             Id = int.Parse(values[0]);
             StudentId = int.Parse(values[1]);
             ExamSlotId = int.Parse(values[2]);
-            IsCanceled = bool.Parse(values[3]);
         }
 
         public string[] ToCSV()
@@ -54,9 +42,7 @@ namespace LangLang.Core.Model
                 Id.ToString(),
                 StudentId.ToString(),
                 ExamSlotId.ToString(),
-                IsCanceled.ToString(),
-                RequestSentAt.ToString("yyyy-MM-dd"),
-                LastModifiedTimestamp.ToString("yyyy-MM-dd"),
+                SentAt.ToString("yyyy-MM-dd")
             };
         }
     }
