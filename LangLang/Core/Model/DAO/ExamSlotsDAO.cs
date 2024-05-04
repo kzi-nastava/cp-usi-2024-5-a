@@ -131,7 +131,7 @@ namespace LangLang.Core.Model.DAO
             if (exam == null) return false;
 
             //should use const variable instead of 14
-            if ((exam.TimeSlot.Time - DateTime.Now).TotalDays >= 14)
+            if ((exam.TimeSlot.Time - DateTime.Now).TotalDays >= Constants.EXAM_MODIFY_PERIOD)
             {
                 _exams.Remove(id);
                 _repository.Save(_exams);
@@ -177,7 +177,7 @@ namespace LangLang.Core.Model.DAO
 
         public bool CanBeUpdated(ExamSlot exam)
         {
-            return (exam.TimeSlot.Time - DateTime.Now).TotalDays >= 14;
+            return (exam.TimeSlot.Time - DateTime.Now).TotalDays >= Constants.EXAM_MODIFY_PERIOD;
         }
 
 

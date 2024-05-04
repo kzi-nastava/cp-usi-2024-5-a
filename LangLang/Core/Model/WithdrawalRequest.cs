@@ -36,8 +36,8 @@ namespace LangLang.Core.Model
         {
             try
             {
-                RequestSentAt = DateTime.ParseExact(values[4], "yyyy-MM-dd", null);
-                RequestReceivedAt = DateTime.ParseExact(values[5], "yyyy-MM-dd", null);
+                RequestSentAt = DateTime.ParseExact(values[4], Constants.DATE_FORMAT, null);
+                RequestReceivedAt = DateTime.ParseExact(values[5], Constants.DATE_FORMAT, null);
             }
             catch
             {
@@ -57,8 +57,8 @@ namespace LangLang.Core.Model
                 EnrollmentRequestId.ToString(),
                 Reason,
                 Status.ToString(),
-                RequestSentAt.ToString("yyyy-MM-dd"),
-                RequestReceivedAt.ToString("yyyy-MM-dd"),
+                RequestSentAt.ToString(Constants.DATE_FORMAT),
+                RequestReceivedAt.ToString(Constants.DATE_FORMAT),
             };
         }
     }

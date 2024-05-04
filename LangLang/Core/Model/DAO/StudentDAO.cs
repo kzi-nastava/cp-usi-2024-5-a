@@ -133,6 +133,7 @@ namespace LangLang.Core.Model.DAO
 
         public void GivePenaltyPoint(Student student, AppController appController)
         {
+
             _students[student.Profile.Id].PenaltyPoints++;
             if(ShouldDeactivate(student))
             {
@@ -144,7 +145,7 @@ namespace LangLang.Core.Model.DAO
 
         private bool ShouldDeactivate(Student student)
         {
-            return student.PenaltyPoints == 3;
+            return student.PenaltyPoints == Constants.MAX_PENALTY_POINTS;
         }
 
         public void RemovePenaltyPoint(Student student)

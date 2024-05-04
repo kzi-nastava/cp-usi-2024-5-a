@@ -43,7 +43,7 @@ namespace LangLang.Core.Model
         public Profile(string id, string name, string lastName, string gender, string birthDate, string phoneNumber, string email, string password, string role, string isDeleted)
         {
             try {
-                BirthDate = DateTime.ParseExact(birthDate, "yyyy-MM-dd", null);
+                BirthDate = DateTime.ParseExact(birthDate, Constants.DATE_FORMAT, null);
             } 
             catch {
                 throw new FormatException("Date is not in the correct format.");
@@ -62,7 +62,7 @@ namespace LangLang.Core.Model
 
         public override string ToString()
         {
-            return string.Join("|", new object[] { Id, Name, LastName, Gender, BirthDate.ToString("yyyy-MM-dd"), PhoneNumber, Email, Password, Role, IsDeleted });
+            return string.Join("|", new object[] { Id, Name, LastName, Gender, BirthDate.ToString(Constants.DATE_FORMAT), PhoneNumber, Email, Password, Role, IsDeleted });
         }
 
     }

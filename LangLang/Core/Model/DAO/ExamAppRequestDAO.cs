@@ -115,7 +115,7 @@ namespace LangLang.Core.Model.DAO
         }
         private bool CanBeCanceled(ExamAppRequest appRequest, ExamSlot exam)
         {
-            return (exam.TimeSlot.Time.Date - DateTime.Now.Date) > TimeSpan.FromDays(10);
+            return (exam.TimeSlot.Time.Date - DateTime.Now.Date) > TimeSpan.FromDays(Constants.EXAM_CANCELATION_PERIOD);
         }
 
     }
