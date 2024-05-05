@@ -16,7 +16,6 @@ namespace LangLang
             InitializeComponent();
             appController = new();
             PenaltyPointReducer reducer = new PenaltyPointReducer();
-            reducer.Load();
             reducer.UpdatePenaltyPoints(appController);
         }
 

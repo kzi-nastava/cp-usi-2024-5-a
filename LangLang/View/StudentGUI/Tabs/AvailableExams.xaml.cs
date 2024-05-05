@@ -4,8 +4,10 @@ using LangLang.DTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace LangLang.View.StudentGUI.Tabs
 {
@@ -58,19 +60,28 @@ namespace LangLang.View.StudentGUI.Tabs
         }
         private void SendRequestBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedExam == null) return;
-            Request = new();
-            Request.ExamSlotId = SelectedExam.ToExamSlot().Id;
-            Request.StudentId = currentlyLoggedIn.Id;
-            Request.SentAt = DateTime.Now;
-            var examAppRequestController = appController.ExamAppRequestController;
-            examAppRequestController.Add(Request, examController);
+            bool canApplyForExams = appController.StudentController.CanApplyForExams(currentlyLoggedIn, appController);
+            if (canApplyForExams)
+            {
+                if (SelectedExam == null) return;
+                Request = new();
+                Request.ExamSlotId = SelectedExam.ToExamSlot().Id;
+                Request.StudentId = currentlyLoggedIn.Id;
+                Request.SentAt = DateTime.Now;
+                var examAppRequestController = appController.ExamAppRequestController;
+                examAppRequestController.Add(Request, examController);
 
-            MessageBox.Show("You successfully applied for exam.");
+                MessageBox.Show("You successfully applied for exam.");
 
-            SetDataForReview();
-            parentWindow.examApplicationsTab.SetDataForReview();
-            parentWindow.Update();
+                SetDataForReview();
+                parentWindow.examApplicationsTab.SetDataForReview();
+                parentWindow.Update();
+            }
+            else
+            {
+                MessageBox.Show("Can't apply for the exam as all results have not yet been received.");
+            }
+            
         }
     }
 }

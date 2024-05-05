@@ -12,6 +12,7 @@ public class PenaltyPointReducer
     public PenaltyPointReducer()
     {
         fileName = Constants.REDUCER_FILE_NAME;
+        Load();
     }
 
     public PenaltyPointReducer(DateTime lastReduced)
@@ -19,19 +20,19 @@ public class PenaltyPointReducer
         LastReduced = lastReduced;
     }
 
-    public PenaltyPointReducer Load()
+    public void Load()
     {
         if (!File.Exists(fileName))
         {
-            return new PenaltyPointReducer();
+            return;
         }
         DateTime dateTime = DateTime.MinValue;
         if (File.Exists(fileName))
         {
             string content = File.ReadAllText(fileName);
             DateTime.TryParse(content, out dateTime);
+            LastReduced = dateTime;
         }
-        return new PenaltyPointReducer(dateTime);
     }
 
     public void Write()
@@ -42,12 +43,11 @@ public class PenaltyPointReducer
     public void UpdatePenaltyPoints(AppController appController)
     {
         DateTime currentMonth = DateTime.Today;
+        
         if (currentMonth.Month != LastReduced.Month)
         {
-            // Update last reduced to current month
             LastReduced = currentMonth;
 
-            // Call RemovePenaltyPoint for each student
             foreach (var student in appController.StudentController.GetAllStudents())
             {
                 appController.PenaltyPointController.RemovePenaltyPoint(student);
@@ -55,6 +55,5 @@ public class PenaltyPointReducer
 
             Write();
         }
-        Trace.WriteLine("reducer pozvan");
     }
 }

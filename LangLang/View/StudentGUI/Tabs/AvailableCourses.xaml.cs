@@ -5,6 +5,7 @@ using LangLang.DTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -71,22 +72,33 @@ namespace LangLang.View.StudentGUI.Tabs
 
         private void SendRequestBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedCourse == null) return;
-            EnrollmentRequest.CourseId = SelectedCourse.Id;
-            EnrollmentRequest.StudentId = currentlyLoggedIn.Id;
-            EnrollmentRequest.Status = Status.Pending;
-            EnrollmentRequest.RequestSentAt = DateTime.Now;
-            EnrollmentRequest.LastModifiedTimestamp = DateTime.Now;
-            EnrollmentRequest.IsCanceled = false;
+            bool canApplyForCourses = appController.StudentController.CanApplyForCourses(currentlyLoggedIn, appController);
+            if (canApplyForCourses)
+            {
+                if (SelectedCourse == null) return;
+                EnrollmentRequest.CourseId = SelectedCourse.Id;
+                EnrollmentRequest.StudentId = currentlyLoggedIn.Id;
+                EnrollmentRequest.Status = Status.Pending;
+                EnrollmentRequest.RequestSentAt = DateTime.Now;
+                EnrollmentRequest.LastModifiedTimestamp = DateTime.Now;
+                EnrollmentRequest.IsCanceled = false;
 
-            var enrollmentController = appController.EnrollmentRequestController;
-            enrollmentController.Add(EnrollmentRequest.ToEnrollmentRequest());
+                var enrollmentController = appController.EnrollmentRequestController;
+                enrollmentController.Add(EnrollmentRequest.ToEnrollmentRequest());
 
-            MessageBox.Show("Request sent. Please wait for approval.");
+                MessageBox.Show("Request sent. Please wait for approval.");
 
-            CoursesForReview = courseController.GetAvailableCourses(currentlyLoggedIn, appController);
-            parentWindow.enrollmentRequestsTab.SetDataForReview();
-            parentWindow.Update();
+                CoursesForReview = courseController.GetAvailableCourses(currentlyLoggedIn, appController);
+                parentWindow.enrollmentRequestsTab.SetDataForReview();
+                parentWindow.Update();
+            }
+            else
+            {
+                MessageBox.Show("Can't apply for the course as all not all your exams have been graded.");
+            }
+
+
+            
         }
 
     }
