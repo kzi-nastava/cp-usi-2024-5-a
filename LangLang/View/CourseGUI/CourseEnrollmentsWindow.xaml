@@ -30,10 +30,10 @@
         <!-- end of label -->
 
         <!--table for students-->
-        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="studentsTable" Margin="49,43,49,82" SelectedItem="{Binding SelectedStudent, UpdateSourceTrigger=PropertyChanged}">
+        <DataGrid SelectionChanged="EnrollmentTable_SelectionChanged"  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="enrollmentTable" Margin="49,43,49,82" ItemsSource="{Binding Enrollments, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedEnrollment, UpdateSourceTrigger=PropertyChanged}">
             <DataGrid.Columns>
-                <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Name}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="LastName" Binding="{Binding LastName}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding StudentName}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="LastName" Binding="{Binding StudentLastName}"/>
                 <DataGridTextColumn IsReadOnly="True" Header="Email" Binding="{Binding Email}"/>
                 <DataGridTextColumn IsReadOnly="True" Header="Phone number" Binding="{Binding PhoneNumber}"/>
                 <DataGridTextColumn IsReadOnly="True" Header="BirthDate" Binding="{Binding BirthDate}"/>

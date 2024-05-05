@@ -154,7 +154,7 @@
             </TextBox.OpacityMask>
         </TextBox>
         <!--GRADE OF KNOWLEDGE LABEL-->
-        <Label x:Name="knowledgeGradeLBL" Content="knowldege grade" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,243,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
+        <Label x:Name="gradeLBL" Content="grade" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,243,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -172,7 +172,7 @@
             </Label.Background>
         </Label>
         <!-- GRADE OF KNOWLDEGE COMBOBOX-->
-        <ComboBox x:Name="knowledgeGradeCb" Grid.Column="1" HorizontalAlignment="Center" Margin="0,268,0,275" Height="26"
+        <ComboBox x:Name="gradeCb" Grid.Column="1" HorizontalAlignment="Center" Margin="0,268,0,275" Height="26"
             Text="{Binding Path=Course.Level}" Width="310"  VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" Foreground ="#FFF3B0B0" >
             <ComboBox.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -182,37 +182,7 @@
             </ComboBox.OpacityMask>
         </ComboBox>
 
-        <!--ACTIVITY GRADE LABEL-->
-        <Label x:Name="ativityGradeLBL" Content="activity grade" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,305,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
-            <Label.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
-                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
-                </LinearGradientBrush>
-            </Label.Background>
-        </Label>
-
-        <!-- GRADE OF KNOWLDEGE COMBOBOX-->
-        <ComboBox x:Name="activityGradeCb" Grid.Column="1" HorizontalAlignment="Center" Margin="0,331,0,212" Height="26"
-    Text="{Binding Path=Course.Level}" Width="310"  VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" Foreground ="#FFF3B0B0" >
-            <ComboBox.OpacityMask>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black"/>
-                    <GradientStop Color="White" Offset="1"/>
-                </LinearGradientBrush>
-            </ComboBox.OpacityMask>
-        </ComboBox>
-
-        <Button x:Name="confirmGradesBtn" Content="Confirm grades for student" HorizontalAlignment="Center" Height="35" Margin="0,400,0,0" VerticalAlignment="Top" Width="248" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" RenderTransformOrigin="0.676,0.745" Grid.Column="1"/>
+        <Button x:Name="confirmGradesBtn" Content="Confirm grades for student" HorizontalAlignment="Center" Height="35" Margin="0,340,0,0" VerticalAlignment="Top" Width="248" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" RenderTransformOrigin="0.676,0.745" Grid.Column="1"/>
 
     </Grid>
 </Window>

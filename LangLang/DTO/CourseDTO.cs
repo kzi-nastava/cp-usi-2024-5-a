@@ -31,7 +31,7 @@ namespace LangLang.DTO
         private string time;
         private List<bool> booleanDays;
         public string TutorFullName { get; set; }
-
+        public bool Modifiable { get; set; }
         public int NumberOfStudents { get; set; }
 
         public List<bool> BooleanDays
@@ -262,6 +262,7 @@ namespace LangLang.DTO
             BooleanDays = new List<bool> { false, false, false, false, false };
             NumberOfStudents = 0;
             StartDate = DateTime.Now;
+            Modifiable = true;
         }
 
         public Course ToCourse()
@@ -274,7 +275,7 @@ namespace LangLang.DTO
             {
                 if (booleanDays[i]) { days.Add((DayOfWeek)(i + 1)); }
             }
-            return new Course(Id, tutorId, language, level, numberOfWeeks, days, online, maxStudents, new DateTime(startDate.Year, startDate.Month, startDate.Day, hour, minute, 0), createdByDirector);
+            return new Course(Id, tutorId, language, level, numberOfWeeks, days, online, maxStudents, new DateTime(startDate.Year, startDate.Month, startDate.Day, hour, minute, 0), createdByDirector, Modifiable);
         }
 
         public CourseDTO(Course course)
@@ -290,6 +291,7 @@ namespace LangLang.DTO
             NumberOfWeeks = course.NumberOfWeeks.ToString();
             MaxStudents = course.MaxStudents.ToString();
             Time = course.StartDateTime.ToString("HH:mm");
+            Modifiable = course.Modifiable;
             SetDaysProperties(course.Days);
         }
 
