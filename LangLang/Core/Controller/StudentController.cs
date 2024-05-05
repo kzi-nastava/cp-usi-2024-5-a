@@ -54,15 +54,5 @@ namespace LangLang.Core.Controller
             return _students.CanRequestEnroll(id, appController);
         }
 
-        public void GivePenaltyPoint(Student student, AppController appController)
-        {
-            _students.GivePenaltyPoint(student, appController);
-        }
-
-        public void RemovePenaltyPoint(Student student)
-        {
-            _students.RemovePenaltyPoint(student);
-        }
-
     }
 }
