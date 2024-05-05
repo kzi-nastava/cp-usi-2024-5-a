@@ -44,9 +44,10 @@
                         <Button x:Name="courseUpdateBtn" Click="CourseUpdateWindowBtn_Click" Content="Update course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
                     </StackPanel>
                     <Button Click="CourseSearchWindowBtn_Click" x:Name="courseSearchBtn" Content="Search courses" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
-                    <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Width="289">
-                        <Button Click="CourseEnrollmentBtn_Click" Content="Course enrollments" Name = "courseEnrollmentBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Width="140" />
-                        <Button Click="EnterGradeBtn_Click" Content="Enter grade" Name = "courseEnterGradeBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Width="140" />
+                    <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Width="310">
+                        <Button Click="CourseEnrollmentBtn_Click" Content="Enrollments" Name = "courseEnrollmentBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black"  />
+                        <Button Click="DurationOfCourseBtn_Click" Content="Course duration" Name = "courseDurationBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                        <Button Click="EnterGradeBtn_Click" Content="Enter grades" Name = "courseEnterGradeBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
                     </StackPanel>
                 </StackPanel>
 

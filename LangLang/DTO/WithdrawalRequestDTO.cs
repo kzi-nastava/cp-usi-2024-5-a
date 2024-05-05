@@ -12,6 +12,7 @@ namespace LangLang.DTO
         public Status Status;
         public DateTime RequestSentAt;
         public DateTime RequestReceivedAt;
+        public Student Student { get; set; }
         public string Reason { get; set; }
 
         public WithdrawalRequestDTO() {}
@@ -24,6 +25,7 @@ namespace LangLang.DTO
             Status = request.Status;
             RequestSentAt = request.RequestSentAt;
             RequestReceivedAt = request.RequestReceivedAt;
+            Student = appController.StudentController.GetById(appController.EnrollmentRequestController.GetById(EnrollmentRequestId).StudentId);
         }
 
         public WithdrawalRequest ToWithdrawalRequest()

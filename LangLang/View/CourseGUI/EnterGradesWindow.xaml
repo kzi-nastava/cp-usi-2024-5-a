@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LangLang.View.ExamSlotGUI"
+        xmlns:local="clr-namespace:LangLang.View.CourseGUI"
         mc:Ignorable="d"
         Title="EnterResults" Height="500" Width="800"
          WindowStartupLocation="CenterScreen"
@@ -12,7 +12,7 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="223*" />
-            <ColumnDefinition Width="177*" />
+            <ColumnDefinition Width="250*" />
         </Grid.ColumnDefinitions>
 
         <Label x:Name="Lsbl" Content="Students that have attended the course" Grid.Row="0" HorizontalAlignment="Center" Height="30" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.499,0.077" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
@@ -34,13 +34,12 @@
         </Label>
 
         <!--start of table-->
-        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="studentsTable" Margin="10,57,0,32">
+        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="studentsTable" Margin="10,57,0,32" SelectionChanged="StudentsTable_SelectionChanged" SelectedItem="{Binding SelectedStudent, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Students, UpdateSourceTrigger=PropertyChanged}">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Name}"/>
                 <DataGridTextColumn IsReadOnly="True" Header="LastName" Binding="{Binding LastName}"/>
                 <DataGridTextColumn IsReadOnly="True" Header="Email" Binding="{Binding Email}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Showed knowledge grade" Binding="{Binding KnowledgeGrade}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Activity grade" Binding="{Binding ActivityGrade}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Grade" Binding="{Binding Grade}"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -83,7 +82,7 @@
             </Label.Background>
         </Label>
         <!--NAME TEXTBOX-->
-        <TextBox x:Name="nameTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,83,0,0" TextWrapping="Wrap" 
+        <TextBox IsReadOnly="True" x:Name="nameTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,83,0,0" TextWrapping="Wrap" 
                  Text="{Binding Path=Student.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                  VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
             <TextBox.OpacityMask>
@@ -112,7 +111,7 @@
             </Label.Background>
         </Label>
         <!--LASTNAME TEXTBOX-->
-        <TextBox x:Name="lastnameTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,145,0,0" TextWrapping="Wrap" 
+        <TextBox IsReadOnly="True" x:Name="lastnameTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,145,0,0" TextWrapping="Wrap" 
                  Text="{Binding Path=Student.LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                  VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3"
                  BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
@@ -143,7 +142,7 @@
             </Label.Background>
         </Label>
         <!--EMAIL TEXTBOX-->
-        <TextBox x:Name="emailTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,207,0,0" TextWrapping="Wrap" 
+        <TextBox IsReadOnly="True" x:Name="emailTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,207,0,0" TextWrapping="Wrap" 
                  Text="{Binding Path=Student.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                  VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
             <TextBox.OpacityMask>

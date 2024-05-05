@@ -43,5 +43,9 @@ namespace LangLang.Core.Controller
             _points.RemovePenaltyPoint(student);
         }
 
+        public bool HasAlreadyGivenPenaltyPoint(Student student, Tutor tutor, Course course, AppController appController)
+        {
+            return _points.HasAlreadyGivenPenaltyPoint(student, tutor, course, appController);
+        }
     }
 }

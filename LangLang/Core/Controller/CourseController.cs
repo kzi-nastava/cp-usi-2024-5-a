@@ -109,6 +109,11 @@ namespace LangLang.Core.Controller
             return _courses.IsCompleted(id);
         }
 
+        public bool IsActive(Course course)
+        {
+            return _courses.IsActive(course);
+        }
+
         public bool OverlappsWith(Course course, TimeSlot timeSlot)
         {
             return course.OverlappsWith(timeSlot);

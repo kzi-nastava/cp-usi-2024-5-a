@@ -1,0 +1,90 @@
+﻿<Window x:Class="LangLang.View.CourseGUI.DurationOfCourseWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LangLang.View.CourseGUI"
+        mc:Ignorable="d"
+        Title="DurationOfCourseWindow" Height="500" Width="550">
+    <TabControl>
+        <TabItem Header="Students attending the course">
+            <Grid>
+                <!-- label-->
+                <Label x:Name="coursesLbl" Content="Attending students" Grid.Row="0" HorizontalAlignment="Center" Height="28" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.499,0.077" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleX="0"/>
+                            <RotateTransform/>
+                            <TranslateTransform X="0"/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="1"/>
+                            <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                            <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                        </LinearGradientBrush>
+                    </Label.Background>
+                </Label>
+                <!-- end of label -->
+
+                <!--table for students-->
+                <DataGrid SelectionChanged="StudentTable_SelectionChanged"  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="studentTable" Margin="49,43,49,82" ItemsSource="{Binding Students, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedStudent, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Name}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="LastName" Binding="{Binding LastName}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Email" Binding="{Binding Email}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Phone number" Binding="{Binding PhoneNumber}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="BirthDate" Binding="{Binding BirthDate}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,350,0,0" VerticalAlignment="Center">
+                    <Button x:Name="penaltyPointBtn" Content="Give penalty point" Padding="5" Margin="5" Height="40" Width="160" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="PenaltyBtn_Click"/>
+                </StackPanel>
+
+            </Grid>
+        </TabItem>
+        <TabItem Header="Withdrawal Requests">
+            <Grid>
+                <!-- label-->
+                <Label x:Name="withdrawalLbl" Content="Withdrawals" Grid.Row="0" HorizontalAlignment="Center" Height="28" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.499,0.077" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
+                    <Label.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform AngleX="0"/>
+                            <RotateTransform/>
+                            <TranslateTransform X="0"/>
+                        </TransformGroup>
+                    </Label.RenderTransform>
+                    <Label.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" Offset="1"/>
+                            <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                            <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                        </LinearGradientBrush>
+                    </Label.Background>
+                </Label>
+                <!-- end of label -->
+
+                <!--table for students-->
+                <DataGrid SelectionChanged="WithdrawalTable_SelectionChanged"  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="withdrawalTable" Margin="49,43,49,82" ItemsSource="{Binding Withdrawals, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedWithdrawal, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Student.Profile.Name}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="LastName" Binding="{Binding Student.Profile.LastName}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Email" Binding="{Binding Student.Profile.Email}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Phone number" Binding="{Binding Studnet.Profile.PhoneNumber}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Reason" Binding="{Binding Reason}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,350,0,0" VerticalAlignment="Center">
+                    <Button x:Name="acceptBtn" Content="Accept withdrawal" Padding="5" Margin="5" Height="40" Width="160" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="AcceptBtn_Click"/>
+                    <Button x:Name="rejectBtn" Content="Reject withdrawal" Padding="5" Margin="5" Height="40" Width="160" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="RejectBtn_Click"/>
+                </StackPanel>
+
+            </Grid>
+        </TabItem>
+    </TabControl>
+</Window>

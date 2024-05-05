@@ -69,6 +69,19 @@ namespace LangLang.Core.Model.DAO
             }
             return studentRequests;
         }
+        public List<WithdrawalRequest> GetCourseRequests(int courseId, List<EnrollmentRequest> allEnrollmentRequests)
+        {
+            List<WithdrawalRequest> courseRequests = new();
+            foreach (WithdrawalRequest request in GetAllWithdrawalRequests())
+            {
+                EnrollmentRequest enrollmentRequest = allEnrollmentRequests[request.EnrollmentRequestId];
+                if (enrollmentRequest.CourseId == courseId)
+                {
+                    courseRequests.Add(request);
+                }
+            }
+            return courseRequests;
+        }
         public bool AlreadyExists(int enrollmentRequestId)
         {
             return GetAllWithdrawalRequests().Any(wr => wr.EnrollmentRequestId == enrollmentRequestId);
@@ -83,6 +96,7 @@ namespace LangLang.Core.Model.DAO
         {
             WithdrawalRequest request = _withdrawalRequests[id];
             request.UpdateStatus(status);
+            _repository.Save(_withdrawalRequests);
         }
 
     }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LangLang.Core.Controller;
+using LangLang.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,15 @@ namespace LangLang.View.CourseGUI
     /// </summary>
     public partial class EnterGradesWindow : Window
     {
-        public EnterGradesWindow()
+
+        public EnterGradesWindow(AppController appController, CourseDTO course)
         {
             InitializeComponent();
+        }
+
+        private void StudentsTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
