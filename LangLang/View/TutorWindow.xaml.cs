@@ -115,7 +115,7 @@ namespace LangLang
             }
             else
             {
-                MessageBox.Show("Selected course cannot be updated, it has already started or there are less than 7 days before the start of the course.");
+                MessageBox.Show("Selected course cannot be updated, it has already started or there are less than 7 days before the start of the course.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -125,11 +125,11 @@ namespace LangLang
             {
                 courseController.Delete(SelectedCourse.Id);
                 Update();
-                MessageBox.Show("The course has been successfully deleted.");
+                MessageBox.Show("The course has been successfully deleted.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
-                MessageBox.Show("Selected course cannot be deleted, it has already started or there are less than 7 days before the start of the course.");
+                MessageBox.Show("Selected course cannot be deleted, it has already started or there are less than 7 days before the start of the course.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -141,8 +141,15 @@ namespace LangLang
 
         private void CourseEnrollmentBtn_Click(object sender, RoutedEventArgs e)
         {
-            CourseEnrollmentsWindow enrollmentsWindow = new (appController, SelectedCourse);
-            enrollmentsWindow.Show();
+            if (SelectedCourse.Modifiable)
+            {
+                CourseEnrollmentsWindow enrollmentsWindow = new(appController, SelectedCourse);
+                enrollmentsWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("The enrollments for this course have already been confirmed. No further changes are allowed.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
         private void CoursesTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
