@@ -54,5 +54,11 @@ namespace LangLang.Core.Controller
             return _appRequests.CancelRequest(appRequest, exam);
         }
 
+        //Checks if student has taken exams that don't have generated results yet
+        public bool HasNoGeneratedResults(Student student, ExamSlotController examSlotController)
+        {
+            return _appRequests.HasNoGeneratedResults(student, examSlotController);
+        }
+
     }
 }
