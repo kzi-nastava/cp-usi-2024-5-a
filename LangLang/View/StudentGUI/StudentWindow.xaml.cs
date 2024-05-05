@@ -49,7 +49,8 @@ namespace LangLang.View.StudentGUI
             AddTab("Completed courses", completedCoursesTab);
             enrollmentRequestsTab = new(appController, currentlyLoggedIn, this);
             AddTab("Course enrollment requests", enrollmentRequestsTab);
-            
+            Notifications notificationsTab = new(appController, currentlyLoggedIn, this);
+            AddTab("Notifications", notificationsTab);
         }
         
         private void AddTab(string header, UserControl content)

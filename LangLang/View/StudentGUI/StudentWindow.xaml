@@ -8,7 +8,7 @@
         Title="Student" Height="750" Width="1000"
         WindowStartupLocation="CenterScreen">
     <Grid VerticalAlignment="Center">
-        <Button x:Name="signoutbtn" Content="Sign out" HorizontalAlignment="Left" Height="25" Margin="818,18,0,0" VerticalAlignment="Top" Width="140" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="SignOutBtn_Click"/>
+        <Button x:Name="signoutbtn" Content="Sign out" HorizontalAlignment="Left" Height="25" Margin="850,0,0,0" VerticalAlignment="Top" Width="140" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="SignOutBtn_Click"/>
         <TabControl x:Name="tabControl" HorizontalAlignment="Center" Height="694" VerticalAlignment="Top" Width="945" Margin="0,35,0,0" />
     </Grid>
 </Window>
