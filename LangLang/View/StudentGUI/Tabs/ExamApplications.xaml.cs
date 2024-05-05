@@ -59,6 +59,7 @@ namespace LangLang.View.StudentGUI.Tabs
             {
                 appController.ExamAppRequestController.CancelRequest(SelectedApplication.ToExamAppRequest(), examSlotController);
                 MessageBox.Show("Cancelation was successful.");
+                SetDataForReview();
                 parentWindow.availableExamsTab.SetDataForReview();
                 parentWindow.Update();
             }
