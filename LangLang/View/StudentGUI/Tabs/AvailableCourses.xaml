@@ -20,7 +20,7 @@
                 <DataGridTextColumn Header="Language level" Binding="{Binding Level}" Width="*"/>
                 <DataGridTextColumn Header="Duration (weeks)" Binding="{Binding NumberOfWeeks}" Width="*"/>
                 <DataGridTextColumn Header="In classroom" Binding="{Binding NotOnline}" Width="*"/>
-                <DataGridTextColumn Header="Days" Binding="{Binding ConcatenatedDays}" Width="*"/>
+                <DataGridTextColumn Header="Days" Binding="{Binding StringDays}" Width="*"/>
                 <DataGridTextColumn Header="Start date" Binding="{Binding StartDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
