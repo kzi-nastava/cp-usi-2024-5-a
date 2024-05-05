@@ -47,7 +47,7 @@ namespace LangLang.DTO
             StudentLastName = student.Profile.LastName;
             Email = student.Profile.Email;
             PhoneNumber = student.Profile.PhoneNumber;
-            BirthDate = student.Profile.BirthDate.Date.ToString();
+            BirthDate = student.Profile.BirthDate.ToString("MM/dd/yyyy");
         }
 
     }
