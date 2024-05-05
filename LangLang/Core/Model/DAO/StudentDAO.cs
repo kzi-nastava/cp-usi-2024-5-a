@@ -130,6 +130,19 @@ namespace LangLang.Core.Model.DAO
             }
             return true;
         }
-
+        public bool CanApplyForCourses(Student student, AppController appController)
+        {
+            bool hasNoResults = appController.ExamAppRequestController.HasNoGeneratedResults(student, appController.ExamSlotController);
+            bool hasNotGradedExams = appController.ExamResultController.HasNotGradedResults(student);
+            return !hasNoResults && !hasNotGradedExams;
+        }
+        public bool CanApplyForExams(Student student, AppController appController)
+        {
+            if (CanApplyForCourses(student, appController)){
+                bool hasPreliminaryResults = appController.ExamResultController.HasPreliminaryResults(student);
+                return !hasPreliminaryResults;
+            }
+            return false;
+        }
     }
 }
