@@ -213,6 +213,12 @@ public class CoursesDAO : Subject
         return course.TimeSlots[course.TimeSlots.Count-1].GetEnd();
     }
 
+    public bool IsActive(Course course)
+    {
+        if (course.StartDateTime <= DateTime.Now && GetCourseEnd(course) >= DateTime.Now) return true;
+        return false;
+    }
+
     public List<DateTime> CalculateClassDates(DateTime startDate, DateTime endDate, List<DayOfWeek> weekdays, TimeSpan classTime)
     {
         List<DateTime> classDates = new List<DateTime>();
