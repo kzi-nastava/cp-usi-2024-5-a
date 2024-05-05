@@ -1,5 +1,9 @@
-﻿using System;
+﻿using LangLang.Core.Controller;
+using LangLang.Core.Model;
+using LangLang.DTO;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace LangLang.View.CourseGUI
 {
@@ -19,19 +24,81 @@ namespace LangLang.View.CourseGUI
     /// </summary>
     public partial class CourseEnrollmentsWindow : Window
     {
-        public CourseEnrollmentsWindow()
+        public EnrollmentRequestDTO SelectedEnrollment { get; set; }
+        public ObservableCollection<EnrollmentRequestDTO> Enrollments { get; set; }
+        private AppController appController;
+        private EnrollmentRequestController enrollmentController;
+        private CourseController courseController;
+        private StudentController studentController;
+        private CourseDTO course;
+        public CourseEnrollmentsWindow(AppController appController, CourseDTO course)
         {
             InitializeComponent();
+            DataContext = this;
+
+            this.appController = appController;
+            this.course = course;
+            enrollmentController = appController.EnrollmentRequestController;
+            courseController = appController.CourseController;
+            studentController = appController.StudentController;
+
+            Enrollments = new();
+
+            rejectBtn.IsEnabled = false;
+            // if there is less then 7 days before course start, no enrollments can be accepted
+            if (!courseController.CanCourseBeChanged(this.course.Id) || course.Modifiable == false)
+            {
+                conifrmListBtn.IsEnabled = false;
+            }
+
+            Update();
         }
 
         private void RejectBtn_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show("Are you sure that you want to delete " + SelectedEnrollment.StudentName + " " + SelectedEnrollment.StudentLastName + " from the examination?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                Student student = studentController.GetById(SelectedEnrollment.StudentId);
+                studentController.Delete(student, appController);
+                Update();
+                ShowSuccess();
+            }
+        }
 
+        public void Update()
+        {
+            Enrollments.Clear();
+            foreach (EnrollmentRequest enrollment in enrollmentController.GetEnrollments(course.Id))
+            {
+                Enrollments.Add(new EnrollmentRequestDTO(enrollment, appController));
+            }
         }
 
         private void AcceptListBtn_Click(object sender, RoutedEventArgs e)
         {
+            MessageBoxResult result = MessageBox.Show("Are you sure that you want to confirm list?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                course.Modifiable = false;
+                courseController.Update(course.ToCourse());
+                rejectBtn.IsEnabled = false;
+                conifrmListBtn.IsEnabled = false;
+                ShowSuccess();
+            }
+        }
 
+        private void ShowSuccess()
+        {
+            MessageBox.Show("Successfully completed", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void EnrollmentTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (SelectedEnrollment != null)
+                rejectBtn.IsEnabled = true;
+            else
+                rejectBtn.IsEnabled = false;
         }
     }
 }
