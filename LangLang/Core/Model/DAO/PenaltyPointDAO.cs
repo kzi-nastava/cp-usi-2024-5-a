@@ -102,5 +102,15 @@ namespace LangLang.Core.Model.DAO
             return oldestPoint;
         }
 
+        public bool HasAlreadyGivenPenaltyPoint(Student student, Tutor tutor, Course course, AppController appController)
+        {
+            List<PenaltyPoint> studentPenaltyPoints = GetPenaltyPoints(student);
+            foreach(PenaltyPoint point in studentPenaltyPoints)
+            {
+                if (point.CourseId == course.Id && point.Date.Date == DateTime.Now.Date) return true;
+            }
+            return false;
+        }
+
     }
 }
