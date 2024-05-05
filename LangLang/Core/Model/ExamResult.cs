@@ -15,8 +15,9 @@ namespace LangLang.Core.Model
         public int WritingPoints { get; set; }
         public int ListeningPoints { get; set; }
         public ExamOutcome Outcome { get; set; }
+        public ResultStatus Status { get; set; }
 
-        public ExamResult(int id, int studentId, int examSlotId, int readingPoints, int speakingPoints, int listeningPoints, int writingPoints, ExamOutcome outcome)
+        public ExamResult(int id, int studentId, int examSlotId, int readingPoints, int speakingPoints, int listeningPoints, int writingPoints, ExamOutcome outcome, ResultStatus status)
         {
             Id = id;
             StudentId = studentId;
@@ -26,6 +27,7 @@ namespace LangLang.Core.Model
             ListeningPoints = listeningPoints;
             WritingPoints = writingPoints;
             Outcome = outcome;
+            Status = status;
         }
 
         public ExamResult() {
@@ -34,6 +36,7 @@ namespace LangLang.Core.Model
             WritingPoints = 0;
             ReadingPoints = 0;
             Outcome = ExamOutcome.NotGraded;
+            Status = ResultStatus.Preliminary;
         }
         public void FromCSV(string[] values)
         {
@@ -45,6 +48,7 @@ namespace LangLang.Core.Model
             ListeningPoints = int.Parse(values[5]);
             WritingPoints = int.Parse(values[6]);
             Outcome = (ExamOutcome)Enum.Parse(typeof(ExamOutcome), values[7]);
+            Status = (ResultStatus)Enum.Parse(typeof(ResultStatus), values[8]);
         }
 
         public string[] ToCSV()
@@ -58,7 +62,8 @@ namespace LangLang.Core.Model
                 SpeakingPoints.ToString(),
                 ListeningPoints.ToString(),
                 WritingPoints.ToString(),
-                Outcome.ToString()
+                Outcome.ToString(),
+                Status.ToString()
             };
         }
 
