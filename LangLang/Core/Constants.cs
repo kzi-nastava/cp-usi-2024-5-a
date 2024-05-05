@@ -3,6 +3,8 @@ namespace LangLang.Core
 {
     static class Constants
     {
+        public const string REDUCER_FILE_NAME = @"../../../../LangLang/Data/reducer.csv";
+
         public const string DATE_FORMAT = "yyyy-MM-dd";
         public const string DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
 
