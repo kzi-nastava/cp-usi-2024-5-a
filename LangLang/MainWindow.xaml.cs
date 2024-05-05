@@ -15,6 +15,9 @@ namespace LangLang
         {
             InitializeComponent();
             appController = new();
+            PenaltyPointReducer reducer = new PenaltyPointReducer();
+            reducer.Load();
+            reducer.UpdatePenaltyPoints(appController);
         }
 
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
