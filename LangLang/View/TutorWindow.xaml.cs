@@ -141,7 +141,8 @@ namespace LangLang
 
         private void CourseEnrollmentBtn_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: implement
+            CourseEnrollmentsWindow enrollmentsWindow = new (appController, SelectedCourse);
+            enrollmentsWindow.Show();
         }
         private void CoursesTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
