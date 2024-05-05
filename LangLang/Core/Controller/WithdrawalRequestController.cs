@@ -46,6 +46,11 @@ namespace LangLang.Core.Controller
             List<EnrollmentRequest> allEnrollmentRequests = erController.GetAll();
             return _withdrawalRequests.GetStudentRequests(studentId, allEnrollmentRequests);
         }
+        public List<WithdrawalRequest> GetCourseRequests(int courseId, EnrollmentRequestController erController)
+        {
+            List<EnrollmentRequest> allEnrollmentRequests = erController.GetAll();
+            return _withdrawalRequests.GetCourseRequests(courseId, allEnrollmentRequests);
+        }
 
         public bool AlreadyExists(int enrollmentRequestId)
         {
