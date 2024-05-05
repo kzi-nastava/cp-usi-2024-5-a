@@ -204,14 +204,17 @@ namespace LangLang.Core.Model.DAO
         // takes exam slot, returns true if it is availbale or false if it isn't available
         public bool IsAvailable(ExamSlot exam)
         {
-
             if (HasPassed(exam))
             {
                 return false;
             }
 
-
             if (IsFullyBooked(exam))
+            {
+                return false;
+            }
+
+            if (IsLessThanMonthAway(exam))
             {
                 return false;
             }
@@ -237,11 +240,21 @@ namespace LangLang.Core.Model.DAO
             return count;
         }
         */
+
         public bool IsFullyBooked(ExamSlot exam)
         {
             return exam.MaxStudents == exam.Applicants;
         }
 
+        // Check if exam is less than 30 days away
+        private bool IsLessThanMonthAway(ExamSlot exam)
+        {
+            DateTime currentDate = DateTime.Now;
+
+            TimeSpan difference = exam.TimeSlot.Time - currentDate;
+
+            return difference.TotalDays < 30;
+        }
         // Method to search exam slots by tutor and criteria
         public List<ExamSlot> SearchExamsByTutor(Tutor tutor, DateTime examDate, string language, LanguageLevel? level)
         {
@@ -290,7 +303,7 @@ namespace LangLang.Core.Model.DAO
 
             foreach (ExamSlot exam in GetAllExams().Values)
             {
-                //don't include filled exams and exams that passed
+                //don't include filled exams and exams that passed or are less then a month away
                 if (!IsAvailable(exam))
                 {
                     continue;

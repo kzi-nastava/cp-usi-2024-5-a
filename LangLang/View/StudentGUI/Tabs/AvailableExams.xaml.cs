@@ -33,7 +33,7 @@ namespace LangLang.View.StudentGUI.Tabs
             levelExamcb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
         }
 
-        private void SetDataForReview()
+        public void SetDataForReview()
         {
             //TODO: Update to show only available exams tat student hasn't applied for
             ExamsForReview = examController.GetAvailableExams(currentlyLoggedIn, appController);
@@ -69,6 +69,8 @@ namespace LangLang.View.StudentGUI.Tabs
             MessageBox.Show("You successfully applied for exam.");
 
             SetDataForReview();
+            parentWindow.examApplicationsTab.SetDataForReview();
+            parentWindow.Update();
         }
     }
 }
