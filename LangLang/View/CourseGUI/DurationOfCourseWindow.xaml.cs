@@ -68,7 +68,7 @@ namespace LangLang.View.CourseGUI
             {
                 if (enrollment.Status == Status.Accepted && !withdrawalController.HasAcceptedWithdrawal(enrollment.Id))
                 {
-                    Students.Add(new StudentDTO(studentController.GetById(enrollment.StudentId)));
+                    Students.Add(new StudentDTO(studentController.Get(enrollment.StudentId)));
                 }
             }
             Withdrawals.Clear();

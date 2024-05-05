@@ -45,7 +45,7 @@ namespace LangLang.View.StudentGUI.Tabs
         private void AdjustButton()
         {
             var studentController = appController.StudentController;
-            if (!studentController.CanRequestEnroll(currentlyLoggedIn.Id, appController))
+            if (!studentController.CanRequestEnrollment(currentlyLoggedIn, appController))
                 SendRequestBtn.IsEnabled = false;
         }
 

@@ -24,28 +24,19 @@ namespace LangLang.Core.Model.DAO
             return _students.Keys.Max() + 1;
         }
 
-        public Student? GetStudentById(int id)
+        public Student? Get(int id)
         {
             return _students[id];
         }
 
-        public List<Student> GetAllStudents()
+        public List<Student> GetAll()
         {
             return _students.Values.ToList();
         }
 
-        public List<Student> GetUndeletedStudents()
-        {
-            List<Student> undeletedStudents = new();
-            foreach (var student in GetAllStudents())
-            {
-                if (!student.Profile.IsDeleted) undeletedStudents.Add(student);
-            }
 
-            return undeletedStudents;
-        }
 
-        public Student AddStudent(Student student)
+        public Student Add(Student student)
         {
             student.Profile.Id = GenerateId();
             _students.Add(student.Profile.Id, student);
@@ -54,9 +45,9 @@ namespace LangLang.Core.Model.DAO
             return student;
         }
 
-        public Student? UpdateStudent(Student student)
+        public Student? Update(Student student)
         {
-            Student? oldStudent = GetStudentById(student.Profile.Id);
+            Student? oldStudent = Get(student.Profile.Id);
             if (oldStudent == null) return null;
 
             oldStudent.Profile.Id = student.Profile.Id;
@@ -75,33 +66,34 @@ namespace LangLang.Core.Model.DAO
             return oldStudent;
         }
 
-        public Student? RemoveStudent(Student student, AppController appController)
+        public void Remove(int id, AppController appController)
         {
+            Student student = Get(id);
+            if (student == null) return;
+
             var enrollmentController = appController.EnrollmentRequestController;
             var examAppController = appController.ExamAppRequestController;
             var examController = appController.ExamSlotController;
-            int id = student.Id;
-
+            
             foreach (EnrollmentRequest er in enrollmentController.GetStudentRequests(id)) // delete all course enrollment requests
                 enrollmentController.Delete(er.Id);
 
             foreach (ExamAppRequest ar in examAppController.GetStudentRequests(id)) // delete all exam application requests
                 examAppController.Delete(ar.Id, examController);
 
-            student.Profile.IsDeleted = true;
+            _students[id].Profile.IsDeleted = true;
             _repository.Save(_students);
             NotifyObservers();
-            return student;
         }
 
 
-        public bool CanModifyInfo(Student student, AppController appController)
+        public bool CanModifyData(Student student, AppController appController)
         {
             // can modify - student is not currently enrolled in any course and has not applied for any exams
-            return (CanRequestEnroll(student.Id, appController) && !HasAppliedForExam(student.Id, appController));
+            return (CanRequestEnrollment(student.Id, appController) && !HasAppliedForExam(student.Id, appController));
         }
 
-        public bool CanRequestEnroll(int id, AppController appController)
+        public bool CanRequestEnrollment(int id, AppController appController)
         {
             var enrollmentController = appController.EnrollmentRequestController;
             var courseController = appController.CourseController;
@@ -123,12 +115,8 @@ namespace LangLang.Core.Model.DAO
             var examAppController = appController.ExamAppRequestController;
             var examController = appController.ExamSlotController;
             List<ExamAppRequest> requests = examAppController.GetActiveStudentRequests(studentId, examController);
-            
-            if(requests.Count == 0)
-            {
-                return false;
-            }
-            return true;
+
+            return requests.Count != 0;
         }
         public bool CanApplyForCourses(Student student, AppController appController)
         {
@@ -136,9 +124,10 @@ namespace LangLang.Core.Model.DAO
             bool hasNotGradedExams = appController.ExamResultController.HasNotGradedResults(student);
             return !hasNoResults && !hasNotGradedExams;
         }
+
         public bool CanApplyForExams(Student student, AppController appController)
         {
-            if (CanApplyForCourses(student, appController)){
+            if (CanApplyForCourses(student, appController)) {
                 bool hasPreliminaryResults = appController.ExamResultController.HasPreliminaryResults(student);
                 return !hasPreliminaryResults;
             }

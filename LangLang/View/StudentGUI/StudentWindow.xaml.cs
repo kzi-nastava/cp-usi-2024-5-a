@@ -26,7 +26,7 @@ namespace LangLang.View.StudentGUI
             this.appController = appController;
 
             var studentController = appController.StudentController;
-            this.currentlyLoggedIn = studentController.GetById(currentlyLoggedIn.Id);
+            this.currentlyLoggedIn = studentController.Get(currentlyLoggedIn.Id);
             Student = new(this.currentlyLoggedIn);
 
             GenerateTabs();

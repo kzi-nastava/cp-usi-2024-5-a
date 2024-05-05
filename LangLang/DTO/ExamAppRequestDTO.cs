@@ -32,7 +32,7 @@ namespace LangLang.DTO
         public ExamAppRequestDTO(ExamAppRequest appRequest, AppController appController)
         {
             ExamSlot exam = appController.ExamSlotController.GetById(appRequest.ExamSlotId);
-            Student student = appController.StudentController.GetById(appRequest.StudentId);
+            Student student = appController.StudentController.Get(appRequest.StudentId);
             Id = appRequest.Id;
             ExamSlotId = appRequest.ExamSlotId;
             StudentId = appRequest.StudentId;

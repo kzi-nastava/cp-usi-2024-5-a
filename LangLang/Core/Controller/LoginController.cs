@@ -23,7 +23,7 @@ namespace LangLang.Core.Controller
         {
             try
             {
-                var profile = (GetProfile(studentController.GetAllStudents(), email, password)
+                var profile = (GetProfile(studentController.GetAll(), email, password)
                               ?? GetProfile(tutorController.GetAllTutors(), email, password)) 
                               ?? GetProfile(directorController.GetAllDirectors(), email, password)
                               ?? throw new AuthenticationException("Invalid email address.");

@@ -42,7 +42,7 @@ namespace LangLang.Core.Controller
         {
             return role switch
             {
-                UserType.Student => StudentController.GetById(id)?.Profile,
+                UserType.Student => StudentController.Get(id)?.Profile,
                 UserType.Tutor => TutorController.GetById(id)?.Profile,
                 UserType.Director => DirectorController.GetAllDirectors()?.FirstOrDefault()?.Profile,
                 _ => null,
@@ -52,7 +52,7 @@ namespace LangLang.Core.Controller
         public bool EmailExists(string email)
         {
 
-            foreach (Student student in StudentController.GetAllStudents())
+            foreach (Student student in StudentController.GetAll())
             {
                 if (student.Profile.Email == email) return true;
             }
@@ -74,7 +74,7 @@ namespace LangLang.Core.Controller
         {
             if (role == UserType.Student)
             {
-                foreach (Student student in StudentController.GetAllStudents())
+                foreach (Student student in StudentController.GetAll())
                 {
                     if ((student.Profile.Email == email) && (student.Profile.Id != id)) return true;
                 }

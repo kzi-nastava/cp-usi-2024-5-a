@@ -35,7 +35,7 @@ namespace LangLang.DTO
             Id = enrollmentRequest.Id;
             CourseId = enrollmentRequest.CourseId;
             StudentId = enrollmentRequest.StudentId;
-            Student student = appController.StudentController.GetById(StudentId);
+            Student student = appController.StudentController.Get(StudentId);
 
             Status = enrollmentRequest.Status;
             RequestSentAt = enrollmentRequest.RequestSentAt;
