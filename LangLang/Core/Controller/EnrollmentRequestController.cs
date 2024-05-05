@@ -18,6 +18,10 @@ namespace LangLang.Core.Controller
         {
             return _enrollmentRequests.GetAllEnrollmentRequests();
         }
+        public List<EnrollmentRequest> GetEnrollments(int courseId)
+        {
+            return _enrollmentRequests.GetEnrollments(courseId);
+        }
 
         public EnrollmentRequest GetById(int id)
         { 

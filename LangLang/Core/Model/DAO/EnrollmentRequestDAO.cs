@@ -39,6 +39,18 @@ namespace LangLang.Core.Model.DAO
             return _enrollmentRequests[id];
         }
 
+        public List<EnrollmentRequest> GetEnrollments(int courseId)
+        {
+            List<EnrollmentRequest> enrollments = new();
+            foreach (EnrollmentRequest enrollment in GetAllEnrollmentRequests())
+            {
+                if (enrollment.CourseId == courseId)
+                {
+                    enrollments.Add(enrollment);
+                }
+            }
+            return enrollments;
+        }
         public EnrollmentRequest Add(EnrollmentRequest enrollmentRequest)
         {
             enrollmentRequest.Id = GenerateId();
