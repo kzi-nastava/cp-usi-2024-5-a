@@ -78,5 +78,39 @@ namespace LangLang.Core.Model.DAO
             return results;
         }
 
+        public List<ExamResult> Get(Student student)
+        {
+            List<ExamResult> results = new();
+            foreach (ExamResult examResult in GetAll())
+            {
+                if (examResult.StudentId == student.Id) results.Add(examResult);
+            }
+            return results;
+        }
+
+
+        public bool HasNotGradedResults(Student student)
+        {
+            foreach (var examResult in Get(student))
+            {
+                if (examResult.Outcome == ExamOutcome.NotGraded)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool HasPreliminaryResults(Student student)
+        {
+            foreach (var examResult in Get(student))
+            {
+                if (examResult.Status == ResultStatus.Preliminary)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }
