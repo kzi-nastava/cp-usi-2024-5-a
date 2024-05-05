@@ -1,5 +1,6 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
+using LangLang.Core.Model.Enums;
 using LangLang.DTO;
 using System;
 using System.Collections.Generic;
@@ -55,10 +56,12 @@ namespace LangLang.View.CourseGUI
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to reject " + SelectedEnrollment.StudentName + " " + SelectedEnrollment.StudentLastName + " from the course?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                Student student = studentController.GetById(SelectedEnrollment.StudentId);
-                studentController.Delete(student, appController);
+                EnrollmentRequest enrollment = SelectedEnrollment.ToEnrollmentRequest();
+                enrollment.UpdateStatus(Status.Rejected);
+                enrollmentController.Update(enrollment);
                 Update();
                 ShowSuccess();
+                //TO DO send message to student
             }
         }
 
@@ -67,7 +70,10 @@ namespace LangLang.View.CourseGUI
             Enrollments.Clear();
             foreach (EnrollmentRequest enrollment in enrollmentController.GetEnrollments(course.Id))
             {
-                Enrollments.Add(new EnrollmentRequestDTO(enrollment, appController));
+                if(enrollment.Status != Status.Paused)
+                {
+                    Enrollments.Add(new EnrollmentRequestDTO(enrollment, appController));
+                }
             }
         }
 
@@ -82,13 +88,23 @@ namespace LangLang.View.CourseGUI
                     MessageBox.Show("You have exceded the maximal number of students for this course.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
-                {
+                { 
+                    foreach (EnrollmentRequestDTO enrollmentDTO in Enrollments)
+                    {
+                        EnrollmentRequest enrollment = enrollmentDTO.ToEnrollmentRequest();
+                        if(enrollment.Status != Core.Model.Enums.Status.Rejected)
+                        {
+                            enrollment.UpdateStatus(Status.Accepted);
+                            enrollmentController.Update(enrollment);
+                        }
+                    }
                     course.Modifiable = false;
                     course.NumberOfStudents = Enrollments.Count;
                     courseController.Update(course.ToCourse());
                     rejectBtn.IsEnabled = false;
                     conifrmListBtn.IsEnabled = false;
                     ShowSuccess();
+                    Close();
                 }
             }
         }
