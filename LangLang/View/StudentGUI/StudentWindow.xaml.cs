@@ -15,7 +15,8 @@ namespace LangLang.View.StudentGUI
         private AppController appController;
         private Student currentlyLoggedIn;
         public AvailableCourses availableCoursesTab {  get; set; }
-        private AvailableExams availableExamsTab {  get; set; }
+        public AvailableExams availableExamsTab {  get; set; }
+        public ExamApplications examApplicationsTab { get; set; }
         public EnrollmentRequests enrollmentRequestsTab {  get; set; }
 
         public StudentWindow(AppController appController, Profile currentlyLoggedIn)
@@ -42,10 +43,13 @@ namespace LangLang.View.StudentGUI
             AddTab("Available courses", availableCoursesTab);
             availableExamsTab = new(appController, currentlyLoggedIn, this);
             AddTab("Available exams", availableExamsTab);
+            examApplicationsTab = new(appController, currentlyLoggedIn, this);
+            AddTab("Exam applications", examApplicationsTab);
             CompletedCourses completedCoursesTab = new(appController, currentlyLoggedIn, this);
             AddTab("Completed courses", completedCoursesTab);
             enrollmentRequestsTab = new(appController, currentlyLoggedIn, this);
             AddTab("Course enrollment requests", enrollmentRequestsTab);
+            
         }
         
         private void AddTab(string header, UserControl content)
@@ -68,6 +72,10 @@ namespace LangLang.View.StudentGUI
             availableExamsTab.ExamSlots.Clear();
             foreach (var exam in availableExamsTab.ExamsForReview)
                 availableExamsTab.ExamSlots.Add(new ExamSlotDTO(exam));
+
+            examApplicationsTab.Applications.Clear();
+            foreach (var app in examApplicationsTab.ApplicationsForReview)
+                examApplicationsTab.Applications.Add(new ExamAppRequestDTO(app,appController));
 
             enrollmentRequestsTab.StudentRequests.Clear();
             foreach (EnrollmentRequest er in enrollmentRequestsTab.RequestsForReview)

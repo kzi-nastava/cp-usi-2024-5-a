@@ -97,7 +97,7 @@ namespace LangLang.Core.Model.DAO
         // returns true if the cancellation was successful, otherwise false
         public bool CancelRequest(int id, Course course)
         {
-            if (course.DaysUntilStart() < 7)
+            if (course.DaysUntilStart() < Constants.COURSE_CANCELLATION_PERIOD)
                 throw new Exception("Cancellation deadline passed.");
 
             EnrollmentRequest request = _enrollmentRequests[id];

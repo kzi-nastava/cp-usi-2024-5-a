@@ -24,7 +24,7 @@ namespace LangLang.Core.Model
         {
             try
             {
-                SentAt = DateTime.ParseExact(values[3], "yyyy-MM-dd", null);
+                SentAt = DateTime.ParseExact(values[3], Constants.DATE_FORMAT, null);
             }
             catch
             {
@@ -42,7 +42,7 @@ namespace LangLang.Core.Model
                 Id.ToString(),
                 StudentId.ToString(),
                 ExamSlotId.ToString(),
-                SentAt.ToString("yyyy-MM-dd")
+                SentAt.ToString(Constants.DATE_FORMAT)
             };
         }
     }

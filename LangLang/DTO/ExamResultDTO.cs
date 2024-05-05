@@ -1,4 +1,5 @@
 ﻿
+using LangLang.Core;
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Model.Enums;
@@ -98,7 +99,7 @@ namespace LangLang.DTO
                 {
                     if (string.IsNullOrEmpty(ListeningPoints)) return "Listening points are required";
                     if (!_numberRegex.Match(ListeningPoints).Success) return "The field must consist of numbers.";
-                    if (int.Parse(listeningPoints) > 40)  return "The maximum number of points is 40.";
+                    if (int.Parse(listeningPoints) > Constants.MAX_LISTENING_POINTS)  return $"The maximum number of points is {Constants.MAX_LISTENING_POINTS}.";
                     else return "";
                 }
 
@@ -106,7 +107,7 @@ namespace LangLang.DTO
                 {
                     if (string.IsNullOrEmpty(ReadingPoints)) return "Reading points are required";
                     if (!_numberRegex.Match(ReadingPoints).Success) return "The field must consist of numbers.";
-                    if (int.Parse(ReadingPoints) > 60) return "The maximum number of points is 60.";
+                    if (int.Parse(ReadingPoints) > Constants.MAX_READING_POINTS) return $"The maximum number of points is {Constants.MAX_READING_POINTS}.";
                     else return "";
                 }
 
@@ -114,7 +115,7 @@ namespace LangLang.DTO
                 {
                     if (string.IsNullOrEmpty(SpeakingPoints)) return "Speaking points are required";
                     if (!_numberRegex.Match(SpeakingPoints).Success) return "The field must consist of numbers.";
-                    if (int.Parse(SpeakingPoints) > 50) return "The maximum number of points is 50";
+                    if (int.Parse(SpeakingPoints) > Constants.MAX_SPEAKING_POINTS) return $"The maximum number of points is {Constants.MAX_SPEAKING_POINTS}";
                     else return "";
                 }
 
@@ -122,7 +123,7 @@ namespace LangLang.DTO
                 {
                     if (string.IsNullOrEmpty(WritingPoints)) return "Writing points are required.";
                     if (!_numberRegex.Match(WritingPoints).Success) return "The field must consist of numbers.";
-                    if (int.Parse(WritingPoints) > 60) return "The maximum number of points is 60.";
+                    if (int.Parse(WritingPoints) > Constants.MAX_WRITING_POINTS) return $"The maximum number of points is {Constants.MAX_WRITING_POINTS}.";
                     else return "";
                 }
                 return "";

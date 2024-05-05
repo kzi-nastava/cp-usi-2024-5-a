@@ -192,7 +192,7 @@ public class CoursesDAO : Subject
     {
         Course course = GetCourseById(courseId);
         TimeSpan difference = course.StartDateTime - DateTime.Now;
-        if (difference.TotalDays > 7)
+        if (difference.TotalDays > Constants.COURSE_AVAILABILITY_CHECK_PERIOD)
         {
             if (course.Online) return true;
             else return course.NumberOfStudents < course.MaxStudents;
@@ -204,7 +204,7 @@ public class CoursesDAO : Subject
     public bool CanCourseBeChanged(int courseId)
     {
         Course course = GetCourseById(courseId);
-        DateTime oneWeekFromNow = DateTime.Now.AddDays(7);
+        DateTime oneWeekFromNow = DateTime.Now.AddDays(Constants.COURSE_MODIFY_PERIOD);
         return course.StartDateTime >= oneWeekFromNow;
     }
 

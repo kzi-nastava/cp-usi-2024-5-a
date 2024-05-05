@@ -20,7 +20,7 @@ namespace LangLang.Core.Model
         {
             try
             {
-                Time = DateTime.ParseExact(time, "yyyy-MM-dd HH:mm", null);
+                Time = DateTime.ParseExact(time, Constants.DATE_TIME_FORMAT, null);
             }
             catch
             {
@@ -45,7 +45,7 @@ namespace LangLang.Core.Model
 
         public string ToString()
         {
-            return Duration.ToString() + '|' + Time.ToString("yyyy-MM-dd HH:mm");
+            return Duration.ToString() + '|' + Time.ToString(Constants.DATE_TIME_FORMAT);
         }
 
         public DateTime GetEnd()

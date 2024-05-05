@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System;
+using LangLang.Core;
 
 namespace LangLang
 {
@@ -84,7 +85,7 @@ namespace LangLang
         {
             if (!examSlotController.Delete(SelectedExamSlot.Id))
             {
-                MessageBox.Show("Can't delete exam, there is less than 14 days before exam.");
+                MessageBox.Show($"Can't delete exam, there is less than {Constants.EXAM_MODIFY_PERIOD} days before exam.");
             }
             else
             {
@@ -115,7 +116,7 @@ namespace LangLang
             }
             else
             {
-                MessageBox.Show("Selected course cannot be updated, it has already started or there are less than 7 days before the start of the course.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Selected course cannot be updated, it has already started or there are less than {Constants.COURSE_MODIFY_PERIOD} days before course start.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -129,7 +130,7 @@ namespace LangLang
             }
             else
             {
-                MessageBox.Show("Selected course cannot be deleted, it has already started or there are less than 7 days before the start of the course.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"Selected course cannot be deleted, it has already started or there are less than {Constants.COURSE_MODIFY_PERIOD} days before course start.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -210,13 +211,13 @@ namespace LangLang
             }
             else
             {
-                MessageBox.Show("If there are applications, they can only be viewed 7 days before exam and during the exam.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"If there are applications, they can only be viewed {Constants.PRE_START_VIEW_PERIOD} days before exam and during the exam.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
         private void ButtonEnterResults_Click(object sender, RoutedEventArgs e)
         {
-            if (SelectedExamSlot.ExamDate.AddHours(4) < DateTime.Now) // after the 4-hour exam concludes, it is possible to open a window.
+            if (SelectedExamSlot.ExamDate.AddHours(Constants.EXAM_DURATION) < DateTime.Now) // after the EXAM_DURATION-hour exam concludes, it is possible to open a window.
             {
                 EnterResults resultsWindow = new(appController, SelectedExamSlot);
                 resultsWindow.Show();

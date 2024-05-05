@@ -150,7 +150,7 @@ namespace LangLang.Core.Model
                         skipToNextWeek = 0;
                     }
                     DateTime classDate = StartDateTime.AddDays(week * 7 + (skipToNextWeek + day - StartDateTime.DayOfWeek));
-                    TimeSlots.Add(new TimeSlot(1.5, classDate));
+                    TimeSlots.Add(new TimeSlot(Constants.SESSION_DURATION, classDate));
                 }
             }
         }

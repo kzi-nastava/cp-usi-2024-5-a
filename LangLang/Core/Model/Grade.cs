@@ -33,9 +33,9 @@ namespace LangLang.Core.Model
             get => _gradeValue;
             set
             {
-                if (value < 1 || value > 10)
+                if (value < Constants.MIN_GRADE || value > Constants.MAX_GRADE)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Value must be between 1 and 10.");
+                    throw new ArgumentOutOfRangeException(nameof(value), $"Value must be between {Constants.MIN_GRADE} and {Constants.MAX_GRADE}.");
                 }
                 _gradeValue = value;
             }

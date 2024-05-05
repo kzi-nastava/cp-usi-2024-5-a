@@ -26,7 +26,7 @@ namespace LangLang.Core.Controller
         {
             return _points.GetAllPoints().Values.ToList();
         }
-
+        // Allows a tutor to assign a penalty point to a student for a specific course and deactivate the student's account if required
         public void GivePenaltyPoint(Student student, Tutor tutor, Course course, AppController appController)
         {
             _points.GivePenaltyPoint(student,tutor, course, appController);
@@ -37,9 +37,10 @@ namespace LangLang.Core.Controller
         {
             return _points.GetPenaltyPoints(student);
         }
-        public void RemovePenaltyPoint(Student student, AppController appController)
+        //Removes students oldest penalty point
+        public void RemovePenaltyPoint(Student student)
         {
-            _points.RemovePenaltyPoint(student, appController);
+            _points.RemovePenaltyPoint(student);
         }
 
     }

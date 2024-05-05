@@ -34,19 +34,30 @@ namespace LangLang.Core.Model.DAO
         {
             return _points;
         }
-
-        // Allows a tutor to assign a penalty point to a student for a specific course and deactivate the student's account if required
-        public void GivePenaltyPoint(Student student, Tutor tutor, Course course, AppController appController)
+        private void AddPenaltyPoint(Student student, Tutor tutor, Course course)
         {
-            PenaltyPoint point = new PenaltyPoint(GenerateId(),student.Profile.Id, tutor.Profile.Id, course.Id,DateTime.Now);
+            PenaltyPoint point = new PenaltyPoint(GenerateId(), student.Profile.Id, tutor.Profile.Id, course.Id, DateTime.Now);
             _points[point.Id] = point;
             _repository.Save(_points);
             NotifyObservers();
-
-            appController.StudentController.GivePenaltyPoint(student, appController);
-            
         }
-
+        public void GivePenaltyPoint(Student student, Tutor tutor, Course course, AppController appController)
+        {
+            AddPenaltyPoint(student,tutor, course);
+            if (ShouldDeactivate(student))
+            {
+                appController.StudentController.Delete(student, appController);
+            }
+        }
+        private bool ShouldDeactivate(Student student)
+        {
+            List<PenaltyPoint> studentPoints = GetPenaltyPoints(student);
+            if(studentPoints.Count == Constants.MAX_PENALTY_POINTS)
+            {
+                return true;
+            }
+            return false;
+        }
         public List<PenaltyPoint> GetPenaltyPoints(Student student)
         {
             List<PenaltyPoint> points = new List<PenaltyPoint>();
@@ -61,18 +72,34 @@ namespace LangLang.Core.Model.DAO
 
             return points;
         }
-        public void RemovePenaltyPoint(Student student, AppController appController)
+        public void RemovePenaltyPoint(Student student)
         {
             List<PenaltyPoint> points = GetPenaltyPoints(student);
             if (points.Count > 0)
             {
-                _points.Remove(points[0].Id);
+                PenaltyPoint toRemove = GetOldestPenaltyPoint(GetPenaltyPoints(student));
+                _points.Remove(toRemove.Id);
                 _repository.Save(_points);
                 NotifyObservers();
 
-                appController.StudentController.RemovePenaltyPoint(student);
-
             }
+        }
+
+        public PenaltyPoint GetOldestPenaltyPoint(List<PenaltyPoint> points)
+        {           
+            PenaltyPoint oldestPoint = null;
+            DateTime oldestDate = DateTime.MaxValue;
+
+            foreach (var point in points)
+            {
+                if (point.Date < oldestDate)
+                {
+                    oldestPoint = point;
+                    oldestDate = point.Date;
+                }
+            }
+
+            return oldestPoint;
         }
 
     }

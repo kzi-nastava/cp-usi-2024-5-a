@@ -47,14 +47,14 @@ namespace LangLang.Core.Model
 
         public bool CanWithdraw()
         {
-            return (DateTime.Now - LastModifiedTimestamp).Days > 7;
+            return (DateTime.Now - LastModifiedTimestamp).Days > Constants.COURSE_CANCELLATION_PERIOD;
         }
 
         public void FromCSV(string[] values)
         {
             try {
-                RequestSentAt = DateTime.ParseExact(values[4], "yyyy-MM-dd", null);
-                LastModifiedTimestamp = DateTime.ParseExact(values[5], "yyyy-MM-dd", null);
+                RequestSentAt = DateTime.ParseExact(values[4], Constants.DATE_FORMAT, null);
+                LastModifiedTimestamp = DateTime.ParseExact(values[5], Constants.DATE_FORMAT, null);
             }
             catch {
                 throw new FormatException("Date is not in the correct format.");
@@ -74,8 +74,8 @@ namespace LangLang.Core.Model
                 StudentId.ToString(),
                 CourseId.ToString(),
                 Status.ToString(),
-                RequestSentAt.ToString("yyyy-MM-dd"),
-                LastModifiedTimestamp.ToString("yyyy-MM-dd"),
+                RequestSentAt.ToString(Constants.DATE_FORMAT),
+                LastModifiedTimestamp.ToString(Constants.DATE_FORMAT),
                 IsCanceled.ToString()
             };
         }

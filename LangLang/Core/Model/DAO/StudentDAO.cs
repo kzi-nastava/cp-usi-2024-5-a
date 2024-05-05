@@ -131,27 +131,5 @@ namespace LangLang.Core.Model.DAO
             return true;
         }
 
-        public void GivePenaltyPoint(Student student, AppController appController)
-        {
-            _students[student.Profile.Id].PenaltyPoints++;
-            if(ShouldDeactivate(student))
-            {
-                RemoveStudent(student, appController);
-            }
-            _repository.Save(_students);
-            NotifyObservers();
-        }
-
-        private bool ShouldDeactivate(Student student)
-        {
-            return student.PenaltyPoints == 3;
-        }
-
-        public void RemovePenaltyPoint(Student student)
-        {
-            _students[student.Profile.Id].PenaltyPoints--;
-            _repository.Save(_students);
-            NotifyObservers();
-        }
     }
 }
