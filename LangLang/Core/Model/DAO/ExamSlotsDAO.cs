@@ -309,6 +309,13 @@ namespace LangLang.Core.Model.DAO
                     continue;
                 }
 
+                //don't include exams for which student has already applied
+                bool hasAlreadyApplied = appController.ExamAppRequestController.HasApplied(student, exam);
+                if (hasAlreadyApplied)
+                {
+                    continue;
+                }
+
                 foreach (EnrollmentRequest enrollmentRequest in studentRequests)
                 {
                     Course course = courseController.GetById(enrollmentRequest.CourseId);
@@ -321,7 +328,7 @@ namespace LangLang.Core.Model.DAO
 
             return availableExams;
         }
-
+        
         private bool HasStudentAttendedCourse(Course course, EnrollmentRequest enrollmentRequest, ExamSlot examSlot)
         {
             if (course.Language == examSlot.Language && course.Level == examSlot.Level)
@@ -334,6 +341,6 @@ namespace LangLang.Core.Model.DAO
             return false;
         }
 
-
+        
     }
 }
