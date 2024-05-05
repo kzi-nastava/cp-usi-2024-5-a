@@ -17,6 +17,8 @@ namespace LangLang.DTO
         public string Name { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public ResultStatus Status { get; set; }
+
         private string readingPoints;
         private string speakingPoints;
         private string writingPoints;
@@ -149,7 +151,7 @@ namespace LangLang.DTO
 
         public ExamResult ToExamResult()
         {
-            return new ExamResult(Id, StudentId, ExamId, int.Parse(readingPoints), int.Parse(speakingPoints), int.Parse(listeningPoints), int.Parse(writingPoints), outcome);
+            return new ExamResult(Id, StudentId, ExamId, int.Parse(readingPoints), int.Parse(speakingPoints), int.Parse(listeningPoints), int.Parse(writingPoints), outcome, Status);
         }
 
         public ExamResultDTO(ExamResult examResult, StudentController studentController)
@@ -166,6 +168,7 @@ namespace LangLang.DTO
             ListeningPoints = examResult.ListeningPoints.ToString();
             WritingPoints = examResult.WritingPoints.ToString();
             Outcome = examResult.Outcome;
+            Status = examResult.Status;
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using LangLang.Core.Model;
 using LangLang.Core.Model.DAO;
+using LangLang.Core.Model.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,14 @@ namespace LangLang.Core.Controller
         internal void Update(ExamResult examResult)
         {
             _examResults.Update(examResult);
+        }
+        public bool HasNotGradedResults(Student student)
+        {
+            return _examResults.HasNotGradedResults(student);
+        }
+        public bool HasPreliminaryResults(Student student)
+        {
+            return _examResults.HasPreliminaryResults(student);
         }
     }
 }
