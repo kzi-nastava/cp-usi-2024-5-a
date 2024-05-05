@@ -262,6 +262,7 @@ namespace LangLang.DTO
             BooleanDays = new List<bool> { false, false, false, false, false };
             NumberOfStudents = 0;
             StartDate = DateTime.Now;
+            Modifiable = true;
         }
 
         public Course ToCourse()
@@ -290,6 +291,7 @@ namespace LangLang.DTO
             NumberOfWeeks = course.NumberOfWeeks.ToString();
             MaxStudents = course.MaxStudents.ToString();
             Time = course.StartDateTime.ToString("HH:mm");
+            Modifiable = course.Modifiable;
             SetDaysProperties(course.Days);
         }
 
