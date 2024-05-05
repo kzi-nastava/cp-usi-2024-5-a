@@ -23,11 +23,13 @@ namespace LangLang.Core.Model
         public DateTime StartDateTime { get; set; }
         public bool CreatedByDirector { get; set; }
         public List<TimeSlot> TimeSlots { get; set; }
+        public bool Modifiable { get; set; }
+
 
         // Constructors
 
         public Course(int id, int tutorId, string language, LanguageLevel level, int numberOfWeeks, List<DayOfWeek> days,
-            bool online, int maxStudents, DateTime startDateTime, bool createdByDirector)
+            bool online, int maxStudents, DateTime startDateTime, bool createdByDirector, bool modifiable)
         {
             Id = id;
             TutorId = tutorId;
@@ -40,6 +42,7 @@ namespace LangLang.Core.Model
             MaxStudents = maxStudents;
             StartDateTime = startDateTime;
             CreatedByDirector = createdByDirector;
+            Modifiable = modifiable;
             GenerateTimeSlots();
         }
         
@@ -61,7 +64,7 @@ namespace LangLang.Core.Model
                 sbDays.Remove(sbDays.Length - 1, 1);
             }
 
-            return $"ID: {Id,5} | TutorId: {TutorId,5} | Language: {Language,20} | Level: {Level,5} | NumberOfWeeks: {NumberOfWeeks,5} | Days: {sbDays, 10} | Online: {Online,5} | NumberOfStudents : {NumberOfStudents,5} | MaxStudents : {MaxStudents,5} | StartDateTime : {StartDateTime,10} | CreatedByDirector : {CreatedByDirector,5} |";
+            return $"ID: {Id,5} | TutorId: {TutorId,5} | Language: {Language,20} | Level: {Level,5} | NumberOfWeeks: {NumberOfWeeks,5} | Days: {sbDays, 10} | Online: {Online,5} | NumberOfStudents : {NumberOfStudents,5} | MaxStudents : {MaxStudents,5} | StartDateTime : {StartDateTime,10} | CreatedByDirector : {CreatedByDirector,5} | Modifiable : {Modifiable, 5} |";
         }
 
         public string[] ToCSV()
@@ -90,7 +93,8 @@ namespace LangLang.Core.Model
                 NumberOfStudents.ToString(),
                 MaxStudents.ToString(),
                 StartDateTime.ToString(),
-                CreatedByDirector.ToString()
+                CreatedByDirector.ToString(),
+                Modifiable.ToString()
             };
             return csvValues;
         }
@@ -116,6 +120,7 @@ namespace LangLang.Core.Model
             MaxStudents = int.Parse(values[8]);
             StartDateTime = DateTime.Parse(values[9]);
             CreatedByDirector = bool.Parse(values[10]);
+            Modifiable = bool.Parse(values[11]);
             GenerateTimeSlots();
         }
 

@@ -50,6 +50,7 @@ public class CoursesDAO : Subject
         oldCourse.MaxStudents = course.MaxStudents;
         oldCourse.StartDateTime = course.StartDateTime;
         oldCourse.TutorId = course.TutorId;
+        oldCourse.Modifiable = course.Modifiable;
 
         _repository.Save(_courses);
         NotifyObservers();
