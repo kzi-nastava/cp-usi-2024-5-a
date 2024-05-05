@@ -45,18 +45,14 @@ namespace LangLang.View.CourseGUI
             Enrollments = new();
 
             rejectBtn.IsEnabled = false;
-            // if there is less then 7 days before course start, no enrollments can be accepted
-            if (!courseController.CanCourseBeChanged(this.course.Id) || course.Modifiable == false)
-            {
-                conifrmListBtn.IsEnabled = false;
-            }
+            conifrmListBtn.IsEnabled = true;
 
             Update();
         }
 
         private void RejectBtn_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure that you want to delete " + SelectedEnrollment.StudentName + " " + SelectedEnrollment.StudentLastName + " from the examination?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Are you sure that you want to reject " + SelectedEnrollment.StudentName + " " + SelectedEnrollment.StudentLastName + " from the course?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
                 Student student = studentController.GetById(SelectedEnrollment.StudentId);
@@ -80,11 +76,20 @@ namespace LangLang.View.CourseGUI
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to confirm list?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                course.Modifiable = false;
-                courseController.Update(course.ToCourse());
-                rejectBtn.IsEnabled = false;
-                conifrmListBtn.IsEnabled = false;
-                ShowSuccess();
+                // if the course is not online and the number of enrollments excedes the maximal number of students
+                if(course.NotOnline && Enrollments.Count > course.ToCourse().MaxStudents)
+                {
+                    MessageBox.Show("You have exceded the maximal number of students for this course.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    course.Modifiable = false;
+                    course.NumberOfStudents = Enrollments.Count;
+                    courseController.Update(course.ToCourse());
+                    rejectBtn.IsEnabled = false;
+                    conifrmListBtn.IsEnabled = false;
+                    ShowSuccess();
+                }
             }
         }
 
@@ -92,10 +97,9 @@ namespace LangLang.View.CourseGUI
         {
             MessageBox.Show("Successfully completed", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
         private void EnrollmentTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (SelectedEnrollment != null)
+            if (SelectedEnrollment != null && course.Modifiable)
                 rejectBtn.IsEnabled = true;
             else
                 rejectBtn.IsEnabled = false;
