@@ -71,7 +71,7 @@ namespace LangLang.Core.Model.DAO
             }
             return studentRequests;
         }
-        //returns list of all students application requests for exams (without canceled ones and ones that passed)
+        //returns list of all students application requests for exams (without ones that passed)
         public List<ExamAppRequest> GetActiveStudentRequests(int studentId, ExamSlotController examSlotController)
         {
             List<ExamAppRequest> studentRequests = new();
@@ -118,5 +118,19 @@ namespace LangLang.Core.Model.DAO
             return (exam.TimeSlot.Time.Date - DateTime.Now.Date) > TimeSpan.FromDays(Constants.EXAM_CANCELATION_PERIOD);
         }
 
+        public bool HasNoGeneratedResults(Student student, ExamSlotController examSlotController)
+        {
+            foreach (ExamAppRequest application in GetStudentRequests(student.Id))
+            {
+                ExamSlot exam = examSlotController.GetById(application.ExamSlotId);
+                bool hasPassed = examSlotController.HasPassed(exam);
+
+                if (hasPassed && !exam.ResultsGenerated)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
