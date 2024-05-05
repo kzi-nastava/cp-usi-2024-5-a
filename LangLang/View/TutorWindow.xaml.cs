@@ -136,15 +136,28 @@ namespace LangLang
 
         private void EnterGradeBtn_Click(object sender, RoutedEventArgs e)
         {
-            EnterGradesWindow gradesWindow = new ();
+            EnterGradesWindow gradesWindow = new (appController, SelectedCourse);
             gradesWindow.Show();
+        }
+        private void DurationOfCourseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (courseController.IsActive(SelectedCourse.ToCourse()))
+            {
+                DurationOfCourseWindow courseWindow = new(appController, SelectedCourse);
+                courseWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("The course is not active.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
         }
 
         private void CourseEnrollmentBtn_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedCourse.Modifiable)
             {
-                CourseEnrollmentsWindow enrollmentsWindow = new(appController, SelectedCourse);
+                CourseEnrollmentsWindow enrollmentsWindow = new (appController, SelectedCourse);
                 enrollmentsWindow.Show();
             }
             else
@@ -170,6 +183,7 @@ namespace LangLang
             courseDeleteBtn.IsEnabled = false;
             courseEnrollmentBtn.IsEnabled = false;
             courseEnterGradeBtn.IsEnabled = false;
+            courseDurationBtn.IsEnabled = false;
         }
 
         private void EnableButtonsCourse()
@@ -178,6 +192,7 @@ namespace LangLang
             courseDeleteBtn.IsEnabled = true;
             courseEnrollmentBtn.IsEnabled = true;
             courseEnterGradeBtn.IsEnabled = true;
+            courseDurationBtn.IsEnabled = true;
         }
 
         private void ExamSlotSearchBtn_Click(object sender, RoutedEventArgs e)
