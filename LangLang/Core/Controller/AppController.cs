@@ -1,6 +1,5 @@
 ﻿using LangLang.Core.Model;
-using LangLang.Core.Repository;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace LangLang.Core.Controller
 {
@@ -19,6 +18,7 @@ namespace LangLang.Core.Controller
         public readonly ExamResultController ExamResultController;
         public readonly TutorRatingController TutorRatingController;
         public readonly PenaltyPointController PenaltyPointController;
+        public readonly MessageController MessageController;
 
         public AppController()
         {
@@ -35,8 +35,19 @@ namespace LangLang.Core.Controller
             TutorRatingController = new();
             ExamResultController = new();
             PenaltyPointController = new();
+            MessageController = new();
         }
 
+        public Profile? GetProfile(int id, UserType role)
+        {
+            return role switch
+            {
+                UserType.Student => StudentController.GetById(id)?.Profile,
+                UserType.Tutor => TutorController.GetById(id)?.Profile,
+                UserType.Director => DirectorController.GetAllDirectors()?.FirstOrDefault()?.Profile,
+                _ => null,
+            };
+        }
 
         public bool EmailExists(string email)
         {
