@@ -28,12 +28,15 @@ namespace LangLang.View.ExamSlotGUI
         public Course SelectedCourse { get; set; }
         public ExamSlotDTO ExamSlot { get; set; }
         private ExamSlotController examSlotController { get; set; }
+        private AppController appController { get; set; }
+
         public ExamSlotUpdateWindow(AppController appController, int selectedExamId, Tutor loggedIn)
         {
             
             //Courses = courses.Values.ToList<Course>();
             SelectedCourse = new Course();
             examSlotController = appController.ExamSlotController;
+            this.appController = appController;
             ExamSlot = new ExamSlotDTO(examSlotController.GetById(selectedExamId));
             Skills = appController.CourseController.GetCoursesForSkills(loggedIn);
 
@@ -57,14 +60,19 @@ namespace LangLang.View.ExamSlotGUI
                 if (!examSlotController.CanBeUpdated(ExamSlot.ToExamSlot()))
                 {
                     MessageBox.Show($"Exam can not be updated. There is less than {Constants.EXAM_MODIFY_PERIOD} weeks left before the exam.");
+                }else if (!examSlotController.CanCreateExamSlot(ExamSlot.ToExamSlot(), appController.CourseController))
+                {
+                    MessageBox.Show($"Exam can not be updated. You must change exams date or time.");
+
                 }
                 else
                 {
                     examSlotController.Update(ExamSlot.ToExamSlot());
+                    MessageBox.Show($"Exam successfuly updated.");
+                    Close();
                 }
-                Close();
 
-                
+
             }
             else
             {
