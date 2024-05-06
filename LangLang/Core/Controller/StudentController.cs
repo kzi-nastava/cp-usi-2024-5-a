@@ -51,7 +51,7 @@ namespace LangLang.Core.Controller
 
         public bool CanRequestEnrollment(Student student, AppController appController)
         {
-            return _students.CanRequestEnrollment(student.Id, appController);
+            return _students.CanRequestEnrollment(student, appController);
         }
 
         //Checks if student can apply for courses (doesn't have exams with no generated results or not graded exams)

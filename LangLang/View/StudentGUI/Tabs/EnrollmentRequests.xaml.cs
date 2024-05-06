@@ -33,7 +33,7 @@ namespace LangLang.View.StudentGUI.Tabs
         public void SetDataForReview()
         {
             var enrollmentController = appController.EnrollmentRequestController;
-            RequestsForReview = enrollmentController.GetStudentRequests(currentlyLoggedIn.Id);
+            RequestsForReview = enrollmentController.GetRequests(currentlyLoggedIn);
         }
 
         private void CancelRequestBtn_Click(object sender, RoutedEventArgs e)

@@ -62,12 +62,12 @@ namespace LangLang.Core.Model.DAO
             return appRequest;
         }
         //returns list of all students application requests for exams
-        public List<ExamAppRequest> GetStudentRequests(int studentId)
+        public List<ExamAppRequest> GetRequests(Student student)
         {
             List<ExamAppRequest> studentRequests = new();
             foreach (ExamAppRequest appRequest in GetAllAppRequests())
             {
-                if (appRequest.StudentId == studentId) studentRequests.Add(appRequest);
+                if (appRequest.StudentId == student.Id) studentRequests.Add(appRequest);
             }
             return studentRequests;
         }
@@ -120,7 +120,7 @@ namespace LangLang.Core.Model.DAO
 
         public bool HasNoGeneratedResults(Student student, ExamSlotController examSlotController)
         {
-            foreach (ExamAppRequest application in GetStudentRequests(student.Id))
+            foreach (ExamAppRequest application in GetRequests(student))
             {
                 ExamSlot exam = examSlotController.GetById(application.ExamSlotId);
                 bool hasPassed = examSlotController.HasPassed(exam);

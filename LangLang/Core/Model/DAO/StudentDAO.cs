@@ -75,10 +75,10 @@ namespace LangLang.Core.Model.DAO
             var examAppController = appController.ExamAppRequestController;
             var examController = appController.ExamSlotController;
             
-            foreach (EnrollmentRequest er in enrollmentController.GetStudentRequests(id)) // delete all course enrollment requests
+            foreach (EnrollmentRequest er in enrollmentController.GetRequests(student)) // delete all course enrollment requests
                 enrollmentController.Delete(er.Id);
 
-            foreach (ExamAppRequest ar in examAppController.GetStudentRequests(id)) // delete all exam application requests
+            foreach (ExamAppRequest ar in examAppController.GetRequests(student)) // delete all exam application requests
                 examAppController.Delete(ar.Id, examController);
 
             _students[id].Profile.IsDeleted = true;
@@ -90,16 +90,16 @@ namespace LangLang.Core.Model.DAO
         public bool CanModifyData(Student student, AppController appController)
         {
             // can modify - student is not currently enrolled in any course and has not applied for any exams
-            return (CanRequestEnrollment(student.Id, appController) && !HasAppliedForExam(student.Id, appController));
+            return (CanRequestEnrollment(student, appController) && !HasAppliedForExam(student.Id, appController));
         }
 
-        public bool CanRequestEnrollment(int id, AppController appController)
+        public bool CanRequestEnrollment(Student student, AppController appController)
         {
             var enrollmentController = appController.EnrollmentRequestController;
             var courseController = appController.CourseController;
             var withdrawalController = appController.WithdrawalRequestController;
             
-            foreach (EnrollmentRequest er in enrollmentController.GetStudentRequests(id))
+            foreach (EnrollmentRequest er in enrollmentController.GetRequests(student))
             {
                 if (er.Status == Status.Accepted && !er.IsCanceled)
                 {

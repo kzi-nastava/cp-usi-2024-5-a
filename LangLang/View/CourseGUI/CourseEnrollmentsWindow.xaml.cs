@@ -68,7 +68,7 @@ namespace LangLang.View.CourseGUI
         public void Update()
         {
             Enrollments.Clear();
-            foreach (EnrollmentRequest enrollment in enrollmentController.GetEnrollments(course.Id))
+            foreach (EnrollmentRequest enrollment in enrollmentController.GetRequests(course.ToCourse()))
             {
                 if(enrollment.Status != Status.Paused)
                 {

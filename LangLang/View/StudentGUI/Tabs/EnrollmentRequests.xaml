@@ -18,7 +18,7 @@
                 <DataGridTextColumn Header="Language" Binding="{Binding Course.Language}" Width="*"/>
                 <DataGridTextColumn Header="Language level" Binding="{Binding Course.Level}" Width="*"/>
                 <DataGridTextColumn Header="Sent on" Binding="{Binding RequestSentAt, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
-                <DataGridTextColumn Header="Last request update" Binding="{Binding LastModifiedTimestamp, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
+                <DataGridTextColumn Header="Last request update" Binding="{Binding LastModifiedAt, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"/>
                 <DataGridTextColumn Header="Canceled" Binding="{Binding IsCanceled}" Width="*"/>
             </DataGrid.Columns>

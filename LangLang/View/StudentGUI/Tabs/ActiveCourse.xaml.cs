@@ -26,7 +26,7 @@ namespace LangLang.View.StudentGUI.Tabs
             var enrollmentController = appController.EnrollmentRequestController;
             var courseController = appController.CourseController;
 
-            var enrollmentRequest = enrollmentController.GetActiveCourseRequest(currentlyLoggedIn.Id, appController);
+            var enrollmentRequest = enrollmentController.GetActiveCourseRequest(currentlyLoggedIn, appController);
             if (enrollmentRequest == null)
             {
                 HideWithdrawalBtn();

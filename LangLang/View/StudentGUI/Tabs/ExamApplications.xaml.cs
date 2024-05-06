@@ -41,12 +41,12 @@ namespace LangLang.View.StudentGUI.Tabs
 
         public void SetDataForReview()
         {
-            ApplicationsForReview = applicationController.GetStudentRequests(currentlyLoggedIn.Profile.Id);
+            ApplicationsForReview = applicationController.GetRequests(currentlyLoggedIn);
         }
         public void Update()
         {
             Applications.Clear();
-            foreach (ExamAppRequest application in applicationController.GetStudentRequests(currentlyLoggedIn.Profile.Id))
+            foreach (ExamAppRequest application in applicationController.GetRequests(currentlyLoggedIn))
             {
                 Applications.Add(new ExamAppRequestDTO(application, appController));
             }

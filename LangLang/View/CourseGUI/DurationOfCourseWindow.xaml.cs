@@ -64,7 +64,7 @@ namespace LangLang.View.CourseGUI
         {
             Students.Clear();
             //All studnets that attend the course and do not have accepted withdrawals
-            foreach (EnrollmentRequest enrollment in enrollmentController.GetEnrollments(course.Id))
+            foreach (EnrollmentRequest enrollment in enrollmentController.GetRequests(course.ToCourse()))
             {
                 if (enrollment.Status == Status.Accepted && !withdrawalController.HasAcceptedWithdrawal(enrollment.Id))
                 {

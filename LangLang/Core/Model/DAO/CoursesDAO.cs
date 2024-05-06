@@ -7,6 +7,7 @@ using System;
 using LangLang.Core.Controller;
 using System.Windows.Ink;
 using System.Windows.Input;
+using LangLang.Core.Model.Enums;
 
 namespace LangLang.Core.Model.DAO;
 
@@ -327,12 +328,34 @@ public class CoursesDAO : Subject
         {
             if (courseController.IsCourseAvailable(course.Id))
             {
-                if (!enrollmentController.IsRequestDuplicate(student.Id, course))
+                if (!enrollmentController.AlreadyExists(student, course))
                     availableCourses.Add(course);
             }
         }
         return availableCourses;
     }
 
-    
+    public List<Course> GetCompletedCourses(Student student, AppController appController)
+    {
+        var enrollmentController = appController.EnrollmentRequestController;
+        var withdrawalController = appController.WithdrawalRequestController;
+        var studentRequests = enrollmentController.GetRequests(student);
+        List<Course> courses = new();
+
+        foreach (var request in studentRequests)
+        {
+            Course course = GetCourseById(request.CourseId);
+            if (StudentAttendedUntilEnd(course, request, withdrawalController))
+                courses.Add(course);
+        }
+        return courses;
+    }
+
+    private bool StudentAttendedUntilEnd(Course course, EnrollmentRequest request, WithdrawalRequestController wrController)
+    {
+        return course.IsCompleted() && request.Status == Status.Accepted
+                && !wrController.HasAcceptedWithdrawal(request.Id);
+    }
+
+
 }

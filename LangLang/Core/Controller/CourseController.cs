@@ -129,26 +129,9 @@ namespace LangLang.Core.Controller
             return _courses.GetCoursesForSkills(tutor);
         }
 
-        public List<Course> GetCompletedCourses(int studentId, AppController appController)
+        public List<Course> GetCompletedCourses(Student student, AppController appController)
         {
-            var enrollmentController = appController.EnrollmentRequestController;
-            var withdrawalController = appController.WithdrawalRequestController;
-            var studentRequests = enrollmentController.GetStudentRequests(studentId);
-            List<Course> courses = new();
-
-            foreach (var request in studentRequests)
-            {
-                Course course = GetById(request.CourseId);
-                if (StudentAttendedUntilEnd(course, request, withdrawalController))
-                    courses.Add(course);
-            }
-            return courses;
-        }
-
-        private bool StudentAttendedUntilEnd(Course course, EnrollmentRequest request, WithdrawalRequestController wrController)
-        {
-            return course.IsCompleted() && request.Status == Status.Accepted 
-                    && !wrController.HasAcceptedWithdrawal(request.Id);
+            return _courses.GetCompletedCourses(student, appController);
         }
 
         public List<Course> GetAvailableCourses(Student student, AppController appController)

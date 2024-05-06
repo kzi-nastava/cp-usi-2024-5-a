@@ -299,7 +299,7 @@ namespace LangLang.Core.Model.DAO
             if (student == null) return null;
             List<ExamSlot> availableExams = new();
 
-            List<EnrollmentRequest> studentRequests = enrollmentController.GetStudentRequests(student.Id);
+            List<EnrollmentRequest> studentRequests = enrollmentController.GetRequests(student);
 
             foreach (ExamSlot exam in GetAllExams().Values)
             {

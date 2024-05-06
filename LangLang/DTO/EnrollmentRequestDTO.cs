@@ -2,7 +2,6 @@
 using LangLang.Core.Model;
 using LangLang.Core.Model.Enums;
 using System;
-using System.ComponentModel;
 
 namespace LangLang.DTO
 {
@@ -21,13 +20,13 @@ namespace LangLang.DTO
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string BirthDate { get; set; }
-        public DateTime LastModifiedTimestamp { get; set; }
+        public DateTime LastModifiedAt { get; set; }
         public bool IsCanceled {  get; set; }
         public Course Course {  get; set; }
 
         public EnrollmentRequest ToEnrollmentRequest()
         {
-            return new EnrollmentRequest(Id, StudentId, CourseId, Status, RequestSentAt, LastModifiedTimestamp, IsCanceled);
+            return new EnrollmentRequest(Id, StudentId, CourseId, Status, RequestSentAt, LastModifiedAt, IsCanceled);
         }
 
         public EnrollmentRequestDTO(EnrollmentRequest enrollmentRequest, AppController appController)
@@ -39,7 +38,7 @@ namespace LangLang.DTO
 
             Status = enrollmentRequest.Status;
             RequestSentAt = enrollmentRequest.RequestSentAt;
-            LastModifiedTimestamp = enrollmentRequest.LastModifiedTimestamp;
+            LastModifiedAt = enrollmentRequest.LastModifiedAt;
             IsCanceled = enrollmentRequest.IsCanceled;
             Course = appController.CourseController.GetById(CourseId);
 
