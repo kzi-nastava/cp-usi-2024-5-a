@@ -57,19 +57,20 @@ namespace LangLang.View.CourseGUI
 
         private void RejectBtn_Click(object sender, RoutedEventArgs e)
         {
+            DisableForm();
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to reject " + SelectedEnrollment.StudentName + " " + SelectedEnrollment.StudentLastName + " from the course?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                DisableForm();
                 EnrollmentRequest enrollment = SelectedEnrollment.ToEnrollmentRequest();
                 enrollment.UpdateStatus(Status.Rejected);
                 enrollmentController.Update(enrollment);
                 Update();
                 InputPopupWindow inputPopup = new InputPopupWindow();
-                inputPopup.Show();
+                inputPopup.ShowDialog();
                 NotifyStudentAboutRejection(enrollment.StudentId, inputPopup.EnteredText);
-                conifrmListBtn.IsEnabled = true;
+                ShowSuccess();
             }
+            conifrmListBtn.IsEnabled = true;
         }
 
         public void Update()
@@ -120,7 +121,6 @@ namespace LangLang.View.CourseGUI
         {
             Message message = new Message(0, tutorController.GetById(course.TutorId).Profile, studentController.GetById(studentId).Profile, "You have been accepted to the course: " + course.Id + " " + course.Language);
             messageController.Add(message);
-            ShowSuccess();
         }
         private void NotifyStudentAboutRejection(int studentId, string reason)
         {
