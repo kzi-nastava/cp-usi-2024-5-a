@@ -76,7 +76,7 @@ namespace LangLang.Core.Model
             bool minimumAchieved = (ReadingPoints + SpeakingPoints + ListeningPoints + WritingPoints) >= Constants.MIN_TEST_POINTS;
 
             if (readingPassed && speakingPassed && writingPassed && listeningPassed && minimumAchieved) Outcome = ExamOutcome.Passed;
-            Outcome =  ExamOutcome.Failed;
+            else Outcome =  ExamOutcome.Failed;
         }
     }
 }

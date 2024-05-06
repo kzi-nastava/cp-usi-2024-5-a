@@ -104,18 +104,28 @@ namespace LangLang.Core.Model.DAO
         }
 
         // returns true if the cancellation was successful, otherwise false
-        public bool CancelRequest(ExamAppRequest appRequest, ExamSlot exam)
+        public bool CancelRequest(ExamAppRequest appRequest, ExamSlot exam,ExamSlotController examSlotController)
         {
             if (!CanBeCanceled(appRequest, exam)) 
             {
                 return false; // exam start date must be at least 10 days away
             } 
-            _appRequests.Remove(appRequest.Id);
+            Remove(appRequest.Id, examSlotController);
             return true;
         }
         private bool CanBeCanceled(ExamAppRequest appRequest, ExamSlot exam)
         {
             return (exam.TimeSlot.Time.Date - DateTime.Now.Date) > TimeSpan.FromDays(Constants.EXAM_CANCELATION_PERIOD);
+        }
+
+        public bool HasApplied(Student student, ExamSlot exam)
+        {
+            List<ExamAppRequest> studentRequests = GetRequests(student);
+            foreach (ExamAppRequest appRequest in studentRequests)
+            {
+                if (appRequest.ExamSlotId == exam.Id) return true;
+            }
+            return false;
         }
 
         public bool HasNoGeneratedResults(Student student, ExamSlotController examSlotController)

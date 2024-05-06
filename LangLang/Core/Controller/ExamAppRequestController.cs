@@ -47,11 +47,15 @@ namespace LangLang.Core.Controller
         {
             return _appRequests.GetApplications(examId);
         }
-
+        //Checks if student has applied for exam
+        public bool HasApplied(Student student, ExamSlot exam)
+        {
+            return _appRequests.HasApplied(student, exam);
+        }
         public bool CancelRequest(ExamAppRequest appRequest, ExamSlotController examSlotController)
         {
             ExamSlot exam = examSlotController.GetById(appRequest.ExamSlotId);
-            return _appRequests.CancelRequest(appRequest, exam);
+            return _appRequests.CancelRequest(appRequest, exam,examSlotController);
         }
 
         //Checks if student has taken exams that don't have generated results yet
