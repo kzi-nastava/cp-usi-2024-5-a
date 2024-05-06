@@ -25,7 +25,10 @@ namespace LangLang.Core.Controller
         {
             return _exams.AddExam(exam, courses);
         }
-
+        public bool CanCreateExamSlot(ExamSlot exam, CourseController courseController)
+        {
+            return _exams.CanCreateExamSlot(exam, courseController);
+        }
         public void Update(ExamSlot exam)
         {
             _exams.UpdateExam(exam);

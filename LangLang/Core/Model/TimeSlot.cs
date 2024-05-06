@@ -35,7 +35,7 @@ namespace LangLang.Core.Model
             DateTime end = Time.AddHours(Duration);
             DateTime otherEnd = timeSlot.Time.AddHours(timeSlot.Duration);
 
-            return ((Time < otherEnd && Time > timeSlot.Time) || ( end > timeSlot.Time && end < otherEnd));
+            return ((Time <= otherEnd && Time >= timeSlot.Time) || (end >= timeSlot.Time && end <= otherEnd));
         }
 
         public bool IsInFuture()
