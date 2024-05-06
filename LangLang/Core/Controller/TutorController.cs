@@ -15,9 +15,9 @@ namespace LangLang.Core.Controller
             _tutors = new TutorDAO();
         }
 
-        public List<Tutor> GetAllTutors()
+        public List<Tutor> GetAll()
         {
-            return _tutors.GetAllTutors();
+            return _tutors.GetAll();
         }
 
         public void Add(Tutor tutor)
@@ -32,7 +32,7 @@ namespace LangLang.Core.Controller
 
         public List<Tutor> Search(string language, DateTime date, LanguageLevel? level)
         {
-            return _tutors.Search(this, date, language, level);
+            return _tutors.Search(date, language, level);
         }
         public void Update(Tutor tutor)
         {
@@ -43,7 +43,7 @@ namespace LangLang.Core.Controller
             _tutors.Subscribe(observer);
         }
 
-        public Tutor GetById(int id)
+        public Tutor Get(int id)
         {
             return _tutors.Get(id);
         }

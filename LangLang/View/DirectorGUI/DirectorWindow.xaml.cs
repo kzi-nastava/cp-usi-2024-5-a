@@ -27,7 +27,7 @@ namespace LangLang.View
 
             this.appController = appController;
             this.tutorController = appController.TutorController;
-            _tutors = tutorController.GetAllTutors();
+            _tutors = tutorController.GetAll();
 
             tutorController.Subscribe(this);
 
@@ -172,7 +172,7 @@ namespace LangLang.View
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
-            _tutors = tutorController.GetAllTutors();
+            _tutors = tutorController.GetAll();
             levelCB.SelectedItem = null;
             Update();
         }

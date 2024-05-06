@@ -24,7 +24,7 @@ namespace LangLang.Core.Controller
             try
             {
                 var profile = (GetProfile(studentController.GetAll(), email, password)
-                              ?? GetProfile(tutorController.GetAllTutors(), email, password)) 
+                              ?? GetProfile(tutorController.GetAll(), email, password)) 
                               ?? GetProfile(directorController.GetAllDirectors(), email, password)
                               ?? throw new AuthenticationException("Invalid email address.");
                 return profile; // profile with the given credentials exists

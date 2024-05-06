@@ -43,7 +43,7 @@ namespace LangLang.Core.Controller
             return role switch
             {
                 UserType.Student => StudentController.Get(id)?.Profile,
-                UserType.Tutor => TutorController.GetById(id)?.Profile,
+                UserType.Tutor => TutorController.Get(id)?.Profile,
                 UserType.Director => DirectorController.GetAllDirectors()?.FirstOrDefault()?.Profile,
                 _ => null,
             };
@@ -57,7 +57,7 @@ namespace LangLang.Core.Controller
                 if (student.Profile.Email == email) return true;
             }
 
-            foreach (Tutor tutor in TutorController.GetAllTutors())
+            foreach (Tutor tutor in TutorController.GetAll())
             {
                 if (tutor.Profile.Email == email) return true;
             }
@@ -81,7 +81,7 @@ namespace LangLang.Core.Controller
             }
             else if (role == UserType.Tutor)
             {
-                foreach (Tutor tutor in TutorController.GetAllTutors())
+                foreach (Tutor tutor in TutorController.GetAll())
                 {
                     if ((tutor.Profile.Email == email) && (tutor.Profile.Id != id)) return true;
                 }

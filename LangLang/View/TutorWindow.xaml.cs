@@ -33,7 +33,7 @@ namespace LangLang
         public Tutor LoggedIn { get; set; }
         public TutorWindow(AppController appController, Profile currentlyLoggedIn)
         {
-            LoggedIn = appController.TutorController.GetAllTutors()[currentlyLoggedIn.Id];
+            LoggedIn = appController.TutorController.GetAll()[currentlyLoggedIn.Id];
             InitializeComponent();
             DataContext = this;
 
