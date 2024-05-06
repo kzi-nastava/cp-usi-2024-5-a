@@ -70,8 +70,8 @@ namespace LangLang.View.ExamSlotGUI
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to delete " + SelectedApplication.StudentName + " " + SelectedApplication.StudentLastName  + " from the examination?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                Student student = studentController.GetById(SelectedApplication.StudentId);
-                studentController.Delete(student, appController);
+                Student student = studentController.Get(SelectedApplication.StudentId);
+                studentController.Delete(student.Id, appController);
                 Update();
                 ShowSuccess();
             }

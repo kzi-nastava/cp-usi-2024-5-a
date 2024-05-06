@@ -46,7 +46,7 @@ namespace LangLang.Core.Model.DAO
             AddPenaltyPoint(student,tutor, course);
             if (ShouldDeactivate(student))
             {
-                appController.StudentController.Delete(student, appController);
+                appController.StudentController.Delete(student.Id, appController);
             }
         }
         private bool ShouldDeactivate(Student student)

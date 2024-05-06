@@ -25,7 +25,16 @@ namespace LangLang.DTO
             Status = request.Status;
             RequestSentAt = request.RequestSentAt;
             RequestReceivedAt = request.RequestReceivedAt;
-            Student = appController.StudentController.GetById(appController.EnrollmentRequestController.GetById(EnrollmentRequestId).StudentId);
+            SetStudent(appController);
+        }
+
+        private void SetStudent(AppController appController)
+        {
+            var studentController = appController.StudentController;
+            var enrollmentController = appController.EnrollmentRequestController;
+            var enrollmentRequest = enrollmentController.Get(EnrollmentRequestId);
+
+            Student = studentController.Get(enrollmentRequest.StudentId);
         }
 
         public WithdrawalRequest ToWithdrawalRequest()

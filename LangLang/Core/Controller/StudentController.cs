@@ -14,29 +14,29 @@ namespace LangLang.Core.Controller
             _students = new StudentDAO();
         }
 
-        public List<Student> GetAllStudents()
+        public List<Student> GetAll()
         {
-            return _students.GetAllStudents();
+            return _students.GetAll();
         }
 
-        public Student GetById(int id)
+        public Student Get(int id)
         {
-            return _students.GetStudentById(id);
+            return _students.Get(id);
         }
 
         public void Add(Student student)
         {
-            _students.AddStudent(student);
+            _students.Add(student);
         }
 
-        public void Delete(Student student, AppController appController)
+        public void Delete(int id, AppController appController)
         {
-            _students.RemoveStudent(student, appController);
+            _students.Remove(id, appController);
         }
 
         public void Update(Student student)
         {
-            _students.UpdateStudent(student);
+            _students.Update(student);
         }
 
         public void Subscribe(IObserver observer)
@@ -44,20 +44,22 @@ namespace LangLang.Core.Controller
             _students.Subscribe(observer);
         }
 
-        public bool CanModifyInfo(Student student, AppController appController)
+        public bool CanModifyData(Student student, AppController appController)
         {
-            return _students.CanModifyInfo(student, appController);
+            return _students.CanModifyData(student, appController);
         }
 
-        public bool CanRequestEnroll(int id, AppController appController)
+        public bool CanRequestEnrollment(Student student, AppController appController)
         {
-            return _students.CanRequestEnroll(id, appController);
+            return _students.CanRequestEnrollment(student, appController);
         }
+
         //Checks if student can apply for courses (doesn't have exams with no generated results or not graded exams)
         public bool CanApplyForCourses(Student student, AppController appController)
         {
             return _students.CanApplyForCourses(student, appController);
         }
+
         //Checks if student can apply for exams (all students exams have final results)
         public bool CanApplyForExams(Student student, AppController appController)
         {

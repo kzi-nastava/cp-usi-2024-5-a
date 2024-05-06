@@ -81,7 +81,7 @@ namespace LangLang.View.StudentGUI.Tabs
         }
         private void EditBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (studentController.CanModifyInfo(currentlyLoggedIn, appController))
+            if (studentController.CanModifyData(currentlyLoggedIn, appController))
             {
                 EnableForm();
                 EditMode();
@@ -123,7 +123,7 @@ namespace LangLang.View.StudentGUI.Tabs
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to delete your account?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                studentController.Delete(currentlyLoggedIn, appController);
+                studentController.Delete(currentlyLoggedIn.Id, appController);
                 MessageBox.Show("Account is deactivated. All exams and courses have been canceled.");
                 parentWindow.Close();
             }

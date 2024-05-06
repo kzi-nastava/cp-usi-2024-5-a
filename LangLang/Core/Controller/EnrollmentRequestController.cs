@@ -16,16 +16,12 @@ namespace LangLang.Core.Controller
 
         public List<EnrollmentRequest> GetAll()
         {
-            return _enrollmentRequests.GetAllEnrollmentRequests();
-        }
-        public List<EnrollmentRequest> GetEnrollments(int courseId)
-        {
-            return _enrollmentRequests.GetEnrollments(courseId);
+            return _enrollmentRequests.GetAll();
         }
 
-        public EnrollmentRequest GetById(int id)
-        { 
-            return _enrollmentRequests.GetById(id);
+        public EnrollmentRequest Get(int id)
+        {
+            return _enrollmentRequests.Get(id);
         }
 
         public void Add(EnrollmentRequest enrollmentRequest)
@@ -48,9 +44,14 @@ namespace LangLang.Core.Controller
             _enrollmentRequests.Subscribe(observer);
         }
 
-        public List<EnrollmentRequest> GetStudentRequests(int studentId)
+        public List<EnrollmentRequest> GetRequests(Student student)
         {
-            return _enrollmentRequests.GetStudentRequests(studentId);
+            return _enrollmentRequests.GetRequests(student);
+        }
+
+        public List<EnrollmentRequest> GetRequests(Course course)
+        {
+            return _enrollmentRequests.GetRequests(course);
         }
 
         public bool CancelRequest(EnrollmentRequest enrollmentRequest, CourseController courseController)
@@ -60,15 +61,15 @@ namespace LangLang.Core.Controller
         }
 
         // this method is invoked when the tutor approves the request for the student
-        public void PauseRequests(int studentId, EnrollmentRequest enrollmentRequest)
+        public void PauseRequests(Student student, EnrollmentRequest acceptedRequest)
         {
-            _enrollmentRequests.PauseRequests(studentId, enrollmentRequest.Id);
+            _enrollmentRequests.PauseRequests(student, acceptedRequest.Id);
         }
 
         // this method is invoked when the student complete/withdrawal_from course
-        public void ResumePausedRequests(int studentId)
+        public void ResumePausedRequests(Student student)
         {
-            _enrollmentRequests.ResumePausedRequests(studentId);
+            _enrollmentRequests.ResumePausedRequests(student);
         }
 
         public bool CanRequestWithdrawal(int id)
@@ -76,14 +77,14 @@ namespace LangLang.Core.Controller
             return _enrollmentRequests.CanRequestWithdrawal(id);
         }
 
-        public EnrollmentRequest? GetActiveCourseRequest(int studentId, AppController appController)
+        public EnrollmentRequest? GetActiveCourseRequest(Student student, AppController appController)
         {
-            return _enrollmentRequests.GetActiveCourseRequest(studentId, appController);
+            return _enrollmentRequests.GetActiveCourseRequest(student, appController);
         }
 
-        public bool IsRequestDuplicate(int studentId, Course course)
+        public bool AlreadyExists(Student student, Course course)
         {
-            return _enrollmentRequests.IsRequestDuplicate(studentId, course);
+            return _enrollmentRequests.AlreadyExists(student, course);
         }
 
     }

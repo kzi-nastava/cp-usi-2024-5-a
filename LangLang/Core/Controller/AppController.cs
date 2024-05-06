@@ -42,9 +42,9 @@ namespace LangLang.Core.Controller
         {
             return role switch
             {
-                UserType.Student => StudentController.GetById(id)?.Profile,
-                UserType.Tutor => TutorController.GetById(id)?.Profile,
-                UserType.Director => DirectorController.GetAllDirectors()?.FirstOrDefault()?.Profile,
+                UserType.Student => StudentController.Get(id)?.Profile,
+                UserType.Tutor => TutorController.Get(id)?.Profile,
+                UserType.Director => DirectorController.GetAll()?.FirstOrDefault()?.Profile,
                 _ => null,
             };
         }
@@ -52,17 +52,17 @@ namespace LangLang.Core.Controller
         public bool EmailExists(string email)
         {
 
-            foreach (Student student in StudentController.GetAllStudents())
+            foreach (Student student in StudentController.GetAll())
             {
                 if (student.Profile.Email == email) return true;
             }
 
-            foreach (Tutor tutor in TutorController.GetAllTutors())
+            foreach (Tutor tutor in TutorController.GetAll())
             {
                 if (tutor.Profile.Email == email) return true;
             }
 
-            foreach (Director director in DirectorController.GetAllDirectors())
+            foreach (Director director in DirectorController.GetAll())
             {
                 if (director.Profile.Email == email) return true;
             }
@@ -74,21 +74,21 @@ namespace LangLang.Core.Controller
         {
             if (role == UserType.Student)
             {
-                foreach (Student student in StudentController.GetAllStudents())
+                foreach (Student student in StudentController.GetAll())
                 {
                     if ((student.Profile.Email == email) && (student.Profile.Id != id)) return true;
                 }
             }
             else if (role == UserType.Tutor)
             {
-                foreach (Tutor tutor in TutorController.GetAllTutors())
+                foreach (Tutor tutor in TutorController.GetAll())
                 {
                     if ((tutor.Profile.Email == email) && (tutor.Profile.Id != id)) return true;
                 }
             }
             else
             {
-                foreach (Director director in DirectorController.GetAllDirectors())
+                foreach (Director director in DirectorController.GetAll())
                 {
                     if ((director.Profile.Email == email) && (director.Profile.Id != id)) return true;
                 }

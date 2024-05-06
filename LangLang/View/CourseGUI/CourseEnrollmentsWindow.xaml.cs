@@ -76,7 +76,7 @@ namespace LangLang.View.CourseGUI
         public void Update()
         {
             Enrollments.Clear();
-            foreach (EnrollmentRequest enrollment in enrollmentController.GetEnrollments(course.Id))
+            foreach (EnrollmentRequest enrollment in enrollmentController.GetRequests(course.ToCourse()))
             {
                 if(enrollment.Status == Status.Pending)
                 {
@@ -119,12 +119,12 @@ namespace LangLang.View.CourseGUI
         }
         private void NotifyStudentAboutAcceptence(int studentId)
         {
-            Message message = new Message(0, tutorController.GetById(course.TutorId).Profile, studentController.GetById(studentId).Profile, "You have been accepted to the course: " + course.Id + " " + course.Language);
+            Message message = new Message(0, tutorController.Get(course.TutorId).Profile, studentController.Get(studentId).Profile, "You have been accepted to the course: " + course.Id + " " + course.Language);
             messageController.Add(message);
         }
         private void NotifyStudentAboutRejection(int studentId, string reason)
         {
-            Message message = new Message(0, tutorController.GetById(course.TutorId).Profile, studentController.GetById(studentId).Profile, "You have been rejected from the course: Id " + course.Id + ", " + course.Language + ". The reason: "+reason);
+            Message message = new Message(0, tutorController.Get(course.TutorId).Profile, studentController.Get(studentId).Profile, "You have been rejected from the course: Id " + course.Id + ", " + course.Language + ". The reason: "+reason);
             messageController.Add(message);
         }
         private void ShowSuccess()

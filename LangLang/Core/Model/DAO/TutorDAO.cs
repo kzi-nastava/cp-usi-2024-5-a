@@ -3,7 +3,6 @@ using LangLang.Core.Repository;
 using LangLang.Core.Observer;
 using System.Collections.Generic;
 using System.Linq;
-using LangLang.Core.Controller;
 using System;
 
 namespace LangLang.Core.DAO
@@ -33,14 +32,15 @@ namespace LangLang.Core.DAO
         {
             tutor.Profile.Id = GenerateId();
             _tutors.Add(tutor.Profile.Id, tutor);
+
             _repository.Save(_tutors);
             NotifyObservers();
             return tutor;
         }
 
-        public List<Tutor> Search(TutorController tutorController, DateTime date, string language, LanguageLevel? level)
+        public List<Tutor> Search(DateTime date, string language, LanguageLevel? level)
         {
-            List<Tutor> allTutors = tutorController.GetAllTutors();
+            List<Tutor> allTutors = GetAll();
 
             return allTutors.Where(tutor =>
             (date == default || tutor.EmploymentDate.Date == date.Date) &&
@@ -67,7 +67,7 @@ namespace LangLang.Core.DAO
             return oldTutor;
         }
 
-        public List<Tutor> GetAllTutors()
+        public List<Tutor> GetAll()
         {
             return _tutors.Values.ToList();
         }
@@ -78,6 +78,7 @@ namespace LangLang.Core.DAO
             if (tutor == null) return null;
 
             _tutors[id].Profile.IsDeleted = true;
+
             _repository.Save(_tutors);
             NotifyObservers();
             return tutor;

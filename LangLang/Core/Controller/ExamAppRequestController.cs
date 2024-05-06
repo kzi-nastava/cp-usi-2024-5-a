@@ -35,9 +35,9 @@ namespace LangLang.Core.Controller
             _appRequests.Subscribe(observer);
         }
 
-        public List<ExamAppRequest> GetStudentRequests(int studentId)
+        public List<ExamAppRequest> GetRequests(Student student)
         {
-            return _appRequests.GetStudentRequests(studentId);
+            return _appRequests.GetRequests(student);
         }
         public List<ExamAppRequest> GetActiveStudentRequests(int studentId, ExamSlotController examSlotController)
         {

@@ -48,7 +48,7 @@ public class PenaltyPointReducer
         {
             LastReduced = currentMonth;
 
-            foreach (var student in appController.StudentController.GetAllStudents())
+            foreach (var student in appController.StudentController.GetAll())
             {
                 appController.PenaltyPointController.RemovePenaltyPoint(student);
             }

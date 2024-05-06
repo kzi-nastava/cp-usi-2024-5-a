@@ -67,15 +67,15 @@ namespace LangLang.View.CourseGUI
         {
             Students.Clear();
             //All studnets that attend the course and do not have accepted withdrawals
-            foreach (EnrollmentRequest enrollment in enrollmentController.GetEnrollments(course.Id))
+            foreach (EnrollmentRequest enrollment in enrollmentController.GetRequests(course.ToCourse()))
             {
                 if (enrollment.Status == Status.Accepted && !withdrawalController.HasAcceptedWithdrawal(enrollment.Id))
                 {
-                    Students.Add(new StudentDTO(studentController.GetById(enrollment.StudentId)));
+                    Students.Add(new StudentDTO(studentController.Get(enrollment.StudentId)));
                 }
             }
             Withdrawals.Clear();
-            foreach (WithdrawalRequest withdrawal in withdrawalController.GetCourseRequests(course.Id, enrollmentController))
+            foreach (WithdrawalRequest withdrawal in withdrawalController.GetRequests(course.ToCourse(), enrollmentController))
             {
                 if(withdrawal.Status == Status.Pending)
                 {
@@ -122,7 +122,7 @@ namespace LangLang.View.CourseGUI
         }
         private void NotifyStudentAboutPenaltyPoint(int studentId)
         {
-            Message message = new Message(0, tutorController.GetById(course.TutorId).Profile, studentController.GetById(studentId).Profile, "You have recieved one penalty point in course: " + course.Id + " " + course.Language);
+            Message message = new Message(0, tutorController.Get(course.TutorId).Profile, studentController.Get(studentId).Profile, "You have recieved one penalty point in course: " + course.Id + " " + course.Language);
             messageController.Add(message);
         }
 
@@ -131,7 +131,7 @@ namespace LangLang.View.CourseGUI
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to give the student a penalty point?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                if (penaltyPointController.HasAlreadyGivenPenaltyPoint(SelectedStudent.ToStudent(), tutorController.GetById(course.TutorId), course.ToCourse(), appController))
+                if (penaltyPointController.HasAlreadyGivenPenaltyPoint(SelectedStudent.ToStudent(), tutorController.Get(course.TutorId), course.ToCourse(), appController))
                     MessageBox.Show("You have already given the student a penalty point today.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
                 {
@@ -139,8 +139,9 @@ namespace LangLang.View.CourseGUI
                     cour.NumberOfStudents -= 1;
                     courseController.Update(cour);
 
-                    penaltyPointController.GivePenaltyPoint(SelectedStudent.ToStudent(), tutorController.GetById(course.TutorId), course.ToCourse(), appController);
+                    penaltyPointController.GivePenaltyPoint(SelectedStudent.ToStudent(), tutorController.Get(course.TutorId), course.ToCourse(), appController);
                     NotifyStudentAboutPenaltyPoint(SelectedStudent.Id);
+                    
                     ShowSuccess();
                 }
             }
@@ -165,8 +166,10 @@ namespace LangLang.View.CourseGUI
             if (result == MessageBoxResult.Yes)
             {
                 withdrawalController.UpdateStatus(SelectedWithdrawal.Id, Status.Rejected);
-                penaltyPointController.GivePenaltyPoint(SelectedStudent.ToStudent(), tutorController.GetById(course.TutorId), course.ToCourse(), appController);
+
+                penaltyPointController.GivePenaltyPoint(SelectedStudent.ToStudent(), tutorController.Get(course.TutorId), course.ToCourse(), appController);
                 NotifyStudentAboutPenaltyPoint(SelectedStudent.Id);
+
                 ShowSuccess();
                 Update();
             }

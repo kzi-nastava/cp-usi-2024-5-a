@@ -5,7 +5,6 @@ using LangLang.DTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -45,7 +44,7 @@ namespace LangLang.View.StudentGUI.Tabs
         private void AdjustButton()
         {
             var studentController = appController.StudentController;
-            if (!studentController.CanRequestEnroll(currentlyLoggedIn.Id, appController))
+            if (!studentController.CanRequestEnrollment(currentlyLoggedIn, appController))
                 SendRequestBtn.IsEnabled = false;
         }
 
@@ -80,7 +79,7 @@ namespace LangLang.View.StudentGUI.Tabs
                 EnrollmentRequest.StudentId = currentlyLoggedIn.Id;
                 EnrollmentRequest.Status = Status.Pending;
                 EnrollmentRequest.RequestSentAt = DateTime.Now;
-                EnrollmentRequest.LastModifiedTimestamp = DateTime.Now;
+                EnrollmentRequest.LastModifiedAt = DateTime.Now;
                 EnrollmentRequest.IsCanceled = false;
 
                 var enrollmentController = appController.EnrollmentRequestController;

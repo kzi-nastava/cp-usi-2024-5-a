@@ -310,7 +310,7 @@ namespace LangLang.DTO
             Language = course.Language;
             Level = course.Level;
             var tutorController = appController.TutorController;
-            var tutor = tutorController.GetById(course.TutorId);
+            var tutor = tutorController.Get(course.TutorId);
             TutorId = course.TutorId;
             TutorFullName = tutor.Profile.Name + " " + tutor.Profile.LastName;
         }

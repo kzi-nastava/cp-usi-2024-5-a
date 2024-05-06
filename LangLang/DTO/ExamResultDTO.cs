@@ -156,7 +156,7 @@ namespace LangLang.DTO
 
         public ExamResultDTO(ExamResult examResult, StudentController studentController)
         {
-            Student student = studentController.GetById(examResult.StudentId);
+            Student student = studentController.Get(examResult.StudentId);
 
             Id = examResult.Id;
             StudentId = examResult.StudentId;

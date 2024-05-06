@@ -11,7 +11,7 @@ namespace LangLang.Core.Model
         public int CourseId { get; set; }
         public Status Status { get; private set; }
         public DateTime RequestSentAt { get; set; }
-        public DateTime LastModifiedTimestamp { get; private set; }
+        public DateTime LastModifiedAt { get; private set; }
         public bool IsCanceled { get; private set; }
 
         public EnrollmentRequest() { }
@@ -23,38 +23,38 @@ namespace LangLang.Core.Model
             CourseId = courseId;
             Status = status;
             RequestSentAt = requestSentAt;
-            LastModifiedTimestamp = requestSentAt; //Later this will refer to the date of acceptance/rejection/cancellation
+            LastModifiedAt = requestSentAt; //Later this will refer to the date of acceptance/rejection/cancellation
             IsCanceled = false; // this refers whether the student has canceled request before the course has started  
         }
 
-        public EnrollmentRequest(int id, int studentId, int courseId, Status status, DateTime requestSentAt, DateTime lastModifiedTimestamp, bool isCanceled) : this(id, studentId, courseId, status, requestSentAt)
+        public EnrollmentRequest(int id, int studentId, int courseId, Status status, DateTime requestSentAt, DateTime lastModifiedAt, bool isCanceled) : this(id, studentId, courseId, status, requestSentAt)
         {
-            LastModifiedTimestamp = lastModifiedTimestamp;
+            LastModifiedAt = lastModifiedAt;
             IsCanceled = isCanceled;
         }   
 
         public void UpdateStatus(Status status)
         {
             Status = status;
-            LastModifiedTimestamp = DateTime.Now;
+            LastModifiedAt = DateTime.Now;
         }
 
         public void CancelRequest()
         {
             IsCanceled = true;
-            LastModifiedTimestamp = DateTime.Now;
+            LastModifiedAt = DateTime.Now;
         }
 
         public bool CanWithdraw()
         {
-            return (DateTime.Now - LastModifiedTimestamp).Days > Constants.COURSE_CANCELLATION_PERIOD;
+            return (DateTime.Now - LastModifiedAt).Days > Constants.COURSE_CANCELLATION_PERIOD;
         }
 
         public void FromCSV(string[] values)
         {
             try {
                 RequestSentAt = DateTime.ParseExact(values[4], Constants.DATE_FORMAT, null);
-                LastModifiedTimestamp = DateTime.ParseExact(values[5], Constants.DATE_FORMAT, null);
+                LastModifiedAt = DateTime.ParseExact(values[5], Constants.DATE_FORMAT, null);
             }
             catch {
                 throw new FormatException("Date is not in the correct format.");
@@ -75,7 +75,7 @@ namespace LangLang.Core.Model
                 CourseId.ToString(),
                 Status.ToString(),
                 RequestSentAt.ToString(Constants.DATE_FORMAT),
-                LastModifiedTimestamp.ToString(Constants.DATE_FORMAT),
+                LastModifiedAt.ToString(Constants.DATE_FORMAT),
                 IsCanceled.ToString()
             };
         }

@@ -18,39 +18,23 @@ namespace LangLang.Core.Model.DAO
             _repository = new Repository<EnrollmentRequest>("enrollmentRequests.csv");
             _enrollmentRequests = _repository.Load();
         }
+
         private int GenerateId()
         {
             if (_enrollmentRequests.Count == 0) return 0;
             return _enrollmentRequests.Keys.Max() + 1;
         }
 
-        public EnrollmentRequest? GetEnrollmentRequestById(int id)
-        {
-            return _enrollmentRequests[id];
-        }
-
-        public List<EnrollmentRequest> GetAllEnrollmentRequests()
+        public List<EnrollmentRequest> GetAll()
         {
             return _enrollmentRequests.Values.ToList();
         }
 
-        public EnrollmentRequest GetById(int id)
+        public EnrollmentRequest Get(int id)
         {
             return _enrollmentRequests[id];
         }
 
-        public List<EnrollmentRequest> GetEnrollments(int courseId)
-        {
-            List<EnrollmentRequest> enrollments = new();
-            foreach (EnrollmentRequest enrollment in GetAllEnrollmentRequests())
-            {
-                if (enrollment.CourseId == courseId)
-                {
-                    enrollments.Add(enrollment);
-                }
-            }
-            return enrollments;
-        }
         public EnrollmentRequest Add(EnrollmentRequest enrollmentRequest)
         {
             enrollmentRequest.Id = GenerateId();
@@ -62,7 +46,7 @@ namespace LangLang.Core.Model.DAO
 
         public EnrollmentRequest? Update(EnrollmentRequest enrollmentRequest)
         {
-            EnrollmentRequest? oldRequest = GetEnrollmentRequestById(enrollmentRequest.Id);
+            EnrollmentRequest? oldRequest = Get(enrollmentRequest.Id);
             if (oldRequest == null) return null;
 
             oldRequest.UpdateStatus(enrollmentRequest.Status);
@@ -71,12 +55,10 @@ namespace LangLang.Core.Model.DAO
             return oldRequest;
         }
 
-
-
         public EnrollmentRequest? Remove(int id)
         {
-            EnrollmentRequest? enrollmentRequest = GetEnrollmentRequestById(id);
-            if (enrollmentRequest == null) return null; 
+            EnrollmentRequest? enrollmentRequest = Get(id);
+            if (enrollmentRequest == null) return null;
 
             _enrollmentRequests.Remove(enrollmentRequest.Id);
             _repository.Save(_enrollmentRequests);
@@ -84,14 +66,27 @@ namespace LangLang.Core.Model.DAO
             return enrollmentRequest;
         }
 
-        public List<EnrollmentRequest> GetStudentRequests(int studentId)
+        public List<EnrollmentRequest> GetRequests(Student student)
         {
             List<EnrollmentRequest> studentRequests = new();
-            foreach (EnrollmentRequest enrollmentRequest in GetAllEnrollmentRequests())
+            foreach (EnrollmentRequest enrollmentRequest in GetAll())
             {
-                if (enrollmentRequest.StudentId == studentId) studentRequests.Add(enrollmentRequest);
+                if (enrollmentRequest.StudentId == student.Id) studentRequests.Add(enrollmentRequest);
             }
             return studentRequests;
+        }
+
+        public List<EnrollmentRequest> GetRequests(Course course)
+        {
+            List<EnrollmentRequest> enrollments = new();
+            foreach (EnrollmentRequest enrollment in GetAll())
+            {
+                if (enrollment.CourseId == course.Id)
+                {
+                    enrollments.Add(enrollment);
+                }
+            }
+            return enrollments;
         }
 
         // returns true if the cancellation was successful, otherwise false
@@ -109,9 +104,9 @@ namespace LangLang.Core.Model.DAO
             return true;
         }
 
-        public void PauseRequests(int studentId, int acceptedRequestId)
+        public void PauseRequests(Student student, int acceptedRequestId)
         {
-            var studentRequests = GetStudentRequests(studentId);
+            var studentRequests = GetRequests(student);
             foreach (EnrollmentRequest er in studentRequests)
             {
                 if (er.Id == acceptedRequestId)
@@ -125,20 +120,20 @@ namespace LangLang.Core.Model.DAO
             }
         }
 
-        public void ResumePausedRequests(int studentId)
+        public void ResumePausedRequests(Student student)
         {
-            var studentRequests = GetStudentRequests(studentId);
+            var studentRequests = GetRequests(student);
             foreach (EnrollmentRequest request in studentRequests)
             {
                 if (request.Status == Status.Paused) request.UpdateStatus(Status.Pending);
             }
         }
 
-        public EnrollmentRequest? GetActiveCourseRequest(int studentId, AppController appController)
+        public EnrollmentRequest? GetActiveCourseRequest(Student student, AppController appController)
         {
             var courseController = appController.CourseController;
             var withdrawalController = appController.WithdrawalRequestController;
-            var studentRequests = GetStudentRequests(studentId);
+            var studentRequests = GetRequests(student);
 
             foreach (var request in studentRequests)
             {
@@ -163,15 +158,15 @@ namespace LangLang.Core.Model.DAO
 
         public bool CanRequestWithdrawal(int id)
         {
-            EnrollmentRequest er = GetById(id);
+            EnrollmentRequest er = Get(id);
             return er.CanWithdraw();
         }
 
-        public bool IsRequestDuplicate(int studentId, Course course)
+        public bool AlreadyExists(Student student, Course course)
         {
-            foreach (EnrollmentRequest er in GetAllEnrollmentRequests())
+            foreach (EnrollmentRequest er in GetAll())
             {
-                if (er.StudentId == studentId && er.CourseId == course.Id && !er.IsCanceled) return true;
+                if (er.StudentId == student.Id && er.CourseId == course.Id && !er.IsCanceled) return true;
             }
             return false;
         }
