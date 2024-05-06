@@ -72,7 +72,7 @@ namespace LangLang.View.CourseGUI
                 }
             }
             Withdrawals.Clear();
-            foreach (WithdrawalRequest withdrawal in withdrawalController.GetCourseRequests(course.Id, enrollmentController))
+            foreach (WithdrawalRequest withdrawal in withdrawalController.GetRequests(course.ToCourse(), enrollmentController))
             {
                 if(withdrawal.Status == Status.Pending)
                 {

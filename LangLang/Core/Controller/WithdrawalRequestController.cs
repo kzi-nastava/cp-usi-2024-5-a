@@ -1,5 +1,4 @@
-﻿
-using LangLang.Core.Model;
+﻿using LangLang.Core.Model;
 using LangLang.Core.Model.DAO;
 using LangLang.Core.Model.Enums;
 using LangLang.Core.Observer;
@@ -18,12 +17,12 @@ namespace LangLang.Core.Controller
 
         public List<WithdrawalRequest> GetAll()
         {
-            return _withdrawalRequests.GetAllWithdrawalRequests();
+            return _withdrawalRequests.GetAll();
         }
 
-        public WithdrawalRequest GetById(int id)
+        public WithdrawalRequest Get(int id)
         {
-            return _withdrawalRequests.GetById(id);
+            return _withdrawalRequests.Get(id);
         }
 
         public void Add(WithdrawalRequest withdrawalRequest)
@@ -41,15 +40,16 @@ namespace LangLang.Core.Controller
             _withdrawalRequests.Subscribe(observer);
         }
 
-        public List<WithdrawalRequest> GetStudentRequests(int studentId, EnrollmentRequestController erController)
+        public List<WithdrawalRequest> GetRequests(Student student, EnrollmentRequestController enrollmentController)
         {
-            List<EnrollmentRequest> allEnrollmentRequests = erController.GetAll();
-            return _withdrawalRequests.GetStudentRequests(studentId, allEnrollmentRequests);
+            var allEnrollmentRequests = enrollmentController.GetAll();
+            return _withdrawalRequests.GetRequests(student, allEnrollmentRequests);
         }
-        public List<WithdrawalRequest> GetCourseRequests(int courseId, EnrollmentRequestController erController)
+
+        public List<WithdrawalRequest> GetRequests(Course course, EnrollmentRequestController enrollmentController)
         {
-            List<EnrollmentRequest> allEnrollmentRequests = erController.GetAll();
-            return _withdrawalRequests.GetCourseRequests(courseId, allEnrollmentRequests);
+            var allEnrollmentRequests = enrollmentController.GetAll();
+            return _withdrawalRequests.GetRequests(course, allEnrollmentRequests);
         }
 
         public bool AlreadyExists(int enrollmentRequestId)

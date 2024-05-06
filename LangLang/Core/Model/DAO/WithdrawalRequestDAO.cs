@@ -1,8 +1,6 @@
-﻿
-using LangLang.Core.Model.Enums;
+﻿using LangLang.Core.Model.Enums;
 using LangLang.Core.Observer;
 using LangLang.Core.Repository;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -26,12 +24,12 @@ namespace LangLang.Core.Model.DAO
             return _withdrawalRequests.Keys.Max() + 1;
         }
 
-        public WithdrawalRequest GetById(int id)
+        public WithdrawalRequest Get(int id)
         {
             return _withdrawalRequests[id];
         }
 
-        public List<WithdrawalRequest> GetAllWithdrawalRequests() 
+        public List<WithdrawalRequest> GetAll() 
         {
             return _withdrawalRequests.Values.ToList();
         }
@@ -47,7 +45,7 @@ namespace LangLang.Core.Model.DAO
 
         public WithdrawalRequest? Remove(int id)
         {
-            WithdrawalRequest? request = GetById(id);
+            WithdrawalRequest? request = Get(id);
             if (request == null) return null;
 
             _withdrawalRequests.Remove(request.Id);
@@ -56,40 +54,43 @@ namespace LangLang.Core.Model.DAO
             return request;
         }
 
-        public List<WithdrawalRequest> GetStudentRequests(int studentId, List<EnrollmentRequest> allEnrollmentRequests)
+        public List<WithdrawalRequest> GetRequests(Student student, List<EnrollmentRequest> allEnrollmentRequests)
         {
             List<WithdrawalRequest> studentRequests = new();
-            foreach (WithdrawalRequest request in GetAllWithdrawalRequests())
+            foreach (WithdrawalRequest request in GetAll())
             {
                 EnrollmentRequest enrollmentRequest = allEnrollmentRequests[request.EnrollmentRequestId];
-                if (enrollmentRequest.StudentId == studentId)
+                if (enrollmentRequest.StudentId == student.Id)
                 {
                     studentRequests.Add(request);
                 }
             }
             return studentRequests;
         }
-        public List<WithdrawalRequest> GetCourseRequests(int courseId, List<EnrollmentRequest> allEnrollmentRequests)
+
+        public List<WithdrawalRequest> GetRequests(Course course, List<EnrollmentRequest> allEnrollmentRequests)
         {
             List<WithdrawalRequest> courseRequests = new();
-            foreach (WithdrawalRequest request in GetAllWithdrawalRequests())
+            foreach (WithdrawalRequest request in GetAll())
             {
                 EnrollmentRequest enrollmentRequest = allEnrollmentRequests[request.EnrollmentRequestId];
-                if (enrollmentRequest.CourseId == courseId)
+                if (enrollmentRequest.CourseId == course.Id)
                 {
                     courseRequests.Add(request);
                 }
             }
             return courseRequests;
         }
+
         public bool AlreadyExists(int enrollmentRequestId)
         {
-            return GetAllWithdrawalRequests().Any(wr => wr.EnrollmentRequestId == enrollmentRequestId);
+            return GetAll().Any(wr => wr.EnrollmentRequestId == enrollmentRequestId);
         }
 
         public bool HasAcceptedWithdrawal(int enrollmentRequestId)
         {
-            return GetAllWithdrawalRequests().Any(wr => wr.EnrollmentRequestId == enrollmentRequestId && wr.Status == Status.Accepted);
+            return GetAll().Any(wr => wr.EnrollmentRequestId == enrollmentRequestId 
+                                && wr.Status == Status.Accepted);
         }
 
         public void UpdateStatus(int id, Status status)
