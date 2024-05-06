@@ -64,7 +64,7 @@ namespace LangLang.Core.Model.DAO
         public bool CanCreateExamSlot(ExamSlot exam, CourseController courseController)
         {
             int busyClassrooms = 0;
-            return !CoursesAndExamOverlapp(exam, courseController,ref busyClassrooms) && !ExamsOverlapp(exam,ref busyClassrooms);   
+            return !CoursesAndExamOverlapp(exam, courseController, ref busyClassrooms) && !ExamsOverlapp(exam, ref busyClassrooms);
         }
         // Checks for any overlaps between courses and the exam, considering the availability of the exam's tutor and classrooms
         public bool CoursesAndExamOverlapp(ExamSlot exam, CourseController courseController, ref int busyClassrooms)
@@ -102,6 +102,10 @@ namespace LangLang.Core.Model.DAO
             // Go through all exams
             foreach (ExamSlot currExam in GetAllExams().Values)
             {
+                if(currExam.Id == exam.Id)
+                {
+                    continue;
+                }
                 if (exam.TimeSlot.OverlappsWith(currExam.TimeSlot))
                 {
                     //tutor is busy (has exam)
@@ -109,7 +113,6 @@ namespace LangLang.Core.Model.DAO
                     {
                         return true;
                     }
-
                     busyClassrooms++;
 
                     //all classrooms are busy
