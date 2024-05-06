@@ -14,9 +14,9 @@ namespace LangLang.Core.Controller
             _directors = new DirectorDAO();
         }
 
-        public List<Director> GetAllDirectors()
+        public List<Director> GetAll()
         {
-            return _directors.GetAllDirectors();
+            return _directors.GetAll();
         }
     }
 }

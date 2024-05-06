@@ -3,7 +3,6 @@ using LangLang.Core.Repository;
 using LangLang.Core.Observer;
 using System.Collections.Generic;
 using System.Linq;
-using LangLang.Core.Controller;
 using System;
 
 namespace LangLang.Core.DAO

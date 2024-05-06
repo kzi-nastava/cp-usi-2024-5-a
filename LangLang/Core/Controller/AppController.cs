@@ -44,7 +44,7 @@ namespace LangLang.Core.Controller
             {
                 UserType.Student => StudentController.Get(id)?.Profile,
                 UserType.Tutor => TutorController.Get(id)?.Profile,
-                UserType.Director => DirectorController.GetAllDirectors()?.FirstOrDefault()?.Profile,
+                UserType.Director => DirectorController.GetAll()?.FirstOrDefault()?.Profile,
                 _ => null,
             };
         }
@@ -62,7 +62,7 @@ namespace LangLang.Core.Controller
                 if (tutor.Profile.Email == email) return true;
             }
 
-            foreach (Director director in DirectorController.GetAllDirectors())
+            foreach (Director director in DirectorController.GetAll())
             {
                 if (director.Profile.Email == email) return true;
             }
@@ -88,7 +88,7 @@ namespace LangLang.Core.Controller
             }
             else
             {
-                foreach (Director director in DirectorController.GetAllDirectors())
+                foreach (Director director in DirectorController.GetAll())
                 {
                     if ((director.Profile.Email == email) && (director.Profile.Id != id)) return true;
                 }

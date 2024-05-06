@@ -1,5 +1,4 @@
-﻿
-using LangLang.Core.Repository;
+﻿using LangLang.Core.Repository;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,7 +15,7 @@ namespace LangLang.Core.Model.DAO
             _directors = _repository.Load();
         }
 
-        public List<Director> GetAllDirectors()
+        public List<Director> GetAll()
         {
             return _directors.Values.ToList();
         }
