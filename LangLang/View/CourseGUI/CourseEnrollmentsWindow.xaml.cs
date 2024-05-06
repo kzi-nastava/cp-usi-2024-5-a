@@ -31,6 +31,8 @@ namespace LangLang.View.CourseGUI
         private EnrollmentRequestController enrollmentController;
         private CourseController courseController;
         private StudentController studentController;
+        private TutorController tutorController;
+        private MessageController messageController;
         private CourseDTO course;
         public CourseEnrollmentsWindow(AppController appController, CourseDTO course)
         {
@@ -42,6 +44,8 @@ namespace LangLang.View.CourseGUI
             enrollmentController = appController.EnrollmentRequestController;
             courseController = appController.CourseController;
             studentController = appController.StudentController;
+            tutorController = appController.TutorController;
+            messageController = appController.MessageController;
 
             Enrollments = new();
 
@@ -53,6 +57,7 @@ namespace LangLang.View.CourseGUI
 
         private void RejectBtn_Click(object sender, RoutedEventArgs e)
         {
+            DisableForm();
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to reject " + SelectedEnrollment.StudentName + " " + SelectedEnrollment.StudentLastName + " from the course?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
@@ -60,9 +65,12 @@ namespace LangLang.View.CourseGUI
                 enrollment.UpdateStatus(Status.Rejected);
                 enrollmentController.Update(enrollment);
                 Update();
+                InputPopupWindow inputPopup = new InputPopupWindow();
+                inputPopup.ShowDialog();
+                NotifyStudentAboutRejection(enrollment.StudentId, inputPopup.EnteredText);
                 ShowSuccess();
-                //TO DO send message to student
             }
+            conifrmListBtn.IsEnabled = true;
         }
 
         public void Update()
@@ -70,7 +78,7 @@ namespace LangLang.View.CourseGUI
             Enrollments.Clear();
             foreach (EnrollmentRequest enrollment in enrollmentController.GetEnrollments(course.Id))
             {
-                if(enrollment.Status != Status.Paused)
+                if(enrollment.Status == Status.Pending)
                 {
                     Enrollments.Add(new EnrollmentRequestDTO(enrollment, appController));
                 }
@@ -96,6 +104,7 @@ namespace LangLang.View.CourseGUI
                         {
                             enrollment.UpdateStatus(Status.Accepted);
                             enrollmentController.Update(enrollment);
+                            NotifyStudentAboutAcceptence(enrollment.StudentId);
                         }
                     }
                     course.Modifiable = false;
@@ -108,7 +117,16 @@ namespace LangLang.View.CourseGUI
                 }
             }
         }
-
+        private void NotifyStudentAboutAcceptence(int studentId)
+        {
+            Message message = new Message(0, tutorController.GetById(course.TutorId).Profile, studentController.GetById(studentId).Profile, "You have been accepted to the course: " + course.Id + " " + course.Language);
+            messageController.Add(message);
+        }
+        private void NotifyStudentAboutRejection(int studentId, string reason)
+        {
+            Message message = new Message(0, tutorController.GetById(course.TutorId).Profile, studentController.GetById(studentId).Profile, "You have been rejected from the course: Id " + course.Id + ", " + course.Language + ". The reason: "+reason);
+            messageController.Add(message);
+        }
         private void ShowSuccess()
         {
             MessageBox.Show("Successfully completed", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -119,6 +137,11 @@ namespace LangLang.View.CourseGUI
                 rejectBtn.IsEnabled = true;
             else
                 rejectBtn.IsEnabled = false;
+        }
+        private void DisableForm()
+        {
+            rejectBtn.IsEnabled = false;
+            conifrmListBtn.IsEnabled = false;
         }
     }
 }

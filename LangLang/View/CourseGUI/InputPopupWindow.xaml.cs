@@ -1,6 +1,4 @@
-﻿using LangLang.Core.Controller;
-using LangLang.DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,20 +15,20 @@ using System.Windows.Shapes;
 namespace LangLang.View.CourseGUI
 {
     /// <summary>
-    /// Interaction logic for EnterGardesWindow.xaml
+    /// Interaction logic for InputPopupWindow.xaml
     /// </summary>
-    public partial class EnterGradesWindow : Window
+    public partial class InputPopupWindow : Window
     {
-
-
-        public EnterGradesWindow(AppController appController, CourseDTO course)
+        public InputPopupWindow()
         {
             InitializeComponent();
         }
+        public string EnteredText { get; private set; }
 
-        private void StudentsTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void OkButton_Click(object sender, RoutedEventArgs e)
         {
-
+            EnteredText = TextInput.Text;
+            Close();
         }
     }
 }
