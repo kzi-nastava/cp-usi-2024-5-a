@@ -22,6 +22,7 @@ namespace LangLang.View.CourseGUI
     public partial class EnterGradesWindow : Window
     {
 
+
         public EnterGradesWindow(AppController appController, CourseDTO course)
         {
             InitializeComponent();

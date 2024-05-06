@@ -36,10 +36,10 @@
         <!--start of table-->
         <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="studentsTable" Margin="10,57,0,32" SelectionChanged="StudentsTable_SelectionChanged" SelectedItem="{Binding SelectedStudent, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Students, UpdateSourceTrigger=PropertyChanged}">
             <DataGrid.Columns>
-                <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Name}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="LastName" Binding="{Binding LastName}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Email" Binding="{Binding Email}"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Grade" Binding="{Binding Grade}"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Name}" Width="*"/>
+                <DataGridTextColumn IsReadOnly="True" Header="LastName" Binding="{Binding LastName}" Width="*"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Email" Binding="{Binding Email}" Width="*"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Phone Number" Binding="{Binding PhoneNumber}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
