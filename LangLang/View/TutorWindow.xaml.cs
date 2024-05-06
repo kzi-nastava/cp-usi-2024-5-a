@@ -28,6 +28,11 @@ namespace LangLang
         public CourseDTO SelectedCourse { get; set; }
         private CourseController courseController { get; set; }
 
+        // MESSAGES
+        public ObservableCollection<MessageDTO> Messages { get; set; }
+        public MessageDTO SelectedMessage { get; set; }
+        private MessageController messageController { get; set; }
+
         private AppController appController { get; set; }
 
         public Tutor LoggedIn { get; set; }
@@ -40,9 +45,11 @@ namespace LangLang
             this.appController = appController;
             examSlotController = appController.ExamSlotController;
             courseController = appController.CourseController;
+            messageController = appController.MessageController;
 
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             Courses = new ObservableCollection<CourseDTO>();
+            Messages = new ObservableCollection<MessageDTO>();
 
             DisableButtonsES();
             DisableButtonsCourse();
@@ -67,6 +74,13 @@ namespace LangLang
             foreach (Course course in courseController.GetCourses(LoggedIn))
             {
                 Courses.Add(new CourseDTO(course));
+            }
+
+            Messages.Clear();
+
+            foreach (Message message in messageController.GetReceivedMessages(LoggedIn))
+            {
+                Messages.Add(new MessageDTO(message, appController));
             }
         }
 
