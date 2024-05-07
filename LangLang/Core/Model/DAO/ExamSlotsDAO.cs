@@ -69,7 +69,7 @@ namespace LangLang.Core.Model.DAO
         // Checks for any overlaps between courses and the exam, considering the availability of the exam's tutor and classrooms
         public bool CoursesAndExamOverlapp(ExamSlot exam, CourseController courseController, ref int busyClassrooms)
         {
-            List<Course> courses = courseController.GetAllCourses().Values.ToList();
+            List<Course> courses = courseController.GetAll().Values.ToList();
             // Go through courses
             foreach (Course course in courses)
             {
@@ -299,7 +299,7 @@ namespace LangLang.Core.Model.DAO
 
                 foreach (EnrollmentRequest enrollmentRequest in studentRequests)
                 {
-                    Course course = appController.CourseController.GetById(enrollmentRequest.CourseId);
+                    Course course = appController.CourseController.Get(enrollmentRequest.CourseId);
                     if (HasStudentAttendedCourse(course, enrollmentRequest, exam))
                     {
                         availableExams.Add(exam);
