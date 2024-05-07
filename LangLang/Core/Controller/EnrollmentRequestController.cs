@@ -56,7 +56,7 @@ namespace LangLang.Core.Controller
 
         public bool CancelRequest(EnrollmentRequest enrollmentRequest, CourseController courseController)
         {
-            Course course = courseController.GetById(enrollmentRequest.CourseId);
+            Course course = courseController.Get(enrollmentRequest.CourseId);
             return _enrollmentRequests.CancelRequest(enrollmentRequest.Id, course);
         }
 
