@@ -40,7 +40,7 @@ namespace LangLang.DTO
             RequestSentAt = enrollmentRequest.RequestSentAt;
             LastModifiedAt = enrollmentRequest.LastModifiedAt;
             IsCanceled = enrollmentRequest.IsCanceled;
-            Course = appController.CourseController.GetById(CourseId);
+            Course = appController.CourseController.Get(CourseId);
 
             StudentName = student.Profile.Name;
             StudentLastName = student.Profile.LastName;
