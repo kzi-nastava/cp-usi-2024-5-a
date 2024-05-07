@@ -5,17 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LangLang.View.CourseGUI"
         mc:Ignorable="d"
-        Title="EnterResults" Height="500" Width="800"
+        Title="EnterGrades" Height="550" Width="500"
          WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
     <Grid RenderTransformOrigin="0.5,0.511">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="223*" />
-            <ColumnDefinition Width="250*" />
-        </Grid.ColumnDefinitions>
 
-        <Label x:Name="Lsbl" Content="Students that have attended the course" Grid.Row="0" HorizontalAlignment="Center" Height="30" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.499,0.077" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
+        <Label x:Name="Lsbl" Content="Students to grade" Grid.Row="0" HorizontalAlignment="Center" Height="30" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.499,0.077" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -34,7 +30,7 @@
         </Label>
 
         <!--start of table-->
-        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="studentsTable" Margin="10,57,0,32" SelectionChanged="StudentsTable_SelectionChanged" SelectedItem="{Binding SelectedStudent, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Students, UpdateSourceTrigger=PropertyChanged}">
+        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="studentsTable" Margin="0,10,0,20" SelectionChanged="StudentTable_SelectionChanged" SelectedItem="{Binding SelectedStudent, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Students, UpdateSourceTrigger=PropertyChanged}" Height="400" RenderTransformOrigin="0.549,0.278">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Name}" Width="*"/>
                 <DataGridTextColumn IsReadOnly="True" Header="LastName" Binding="{Binding LastName}" Width="*"/>
@@ -42,146 +38,7 @@
                 <DataGridTextColumn IsReadOnly="True" Header="Phone Number" Binding="{Binding PhoneNumber}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-
-        <!-- start of student info label-->
-        <Label x:Name="Lbl" Grid.Column="1" Content="Student information" Grid.Row="0" HorizontalAlignment="Center" Height="30" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.499,0.077" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
-            <Label.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
-                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
-                </LinearGradientBrush>
-            </Label.Background>
-        </Label>
-        <!-- end of student info label -->
-
-        <!--NAME LABEL-->
-        <Label x:Name="nameLBL" Content="name" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,57,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
-            <Label.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
-                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
-                </LinearGradientBrush>
-            </Label.Background>
-        </Label>
-        <!--NAME TEXTBOX-->
-        <TextBox IsReadOnly="True" x:Name="nameTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,83,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Student.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                 VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
-            <TextBox.OpacityMask>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black"/>
-                    <GradientStop Color="White" Offset="1"/>
-                </LinearGradientBrush>
-            </TextBox.OpacityMask>
-        </TextBox>
-        <!--LASTNAME LABEL-->
-        <Label x:Name="lastnameLBL" Grid.Column="1" Content="lastname" HorizontalAlignment="Center" Height="26" Margin="0,119,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
-            <Label.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
-                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
-                </LinearGradientBrush>
-            </Label.Background>
-        </Label>
-        <!--LASTNAME TEXTBOX-->
-        <TextBox IsReadOnly="True" x:Name="lastnameTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,145,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Student.LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                 VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3"
-                 BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
-            <TextBox.OpacityMask>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black"/>
-                    <GradientStop Color="White" Offset="1"/>
-                </LinearGradientBrush>
-            </TextBox.OpacityMask>
-        </TextBox>
-
-        <!--EMAIL LABEL-->
-        <Label x:Name="emailLBL" Content="email" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,181,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
-            <Label.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
-                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
-                </LinearGradientBrush>
-            </Label.Background>
-        </Label>
-        <!--EMAIL TEXTBOX-->
-        <TextBox IsReadOnly="True" x:Name="emailTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,207,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Student.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                 VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
-            <TextBox.OpacityMask>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black"/>
-                    <GradientStop Color="White" Offset="1"/>
-                </LinearGradientBrush>
-            </TextBox.OpacityMask>
-        </TextBox>
-        <!--GRADE OF KNOWLEDGE LABEL-->
-        <Label x:Name="gradeLBL" Content="grade" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,243,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
-            <Label.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
-                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
-                </LinearGradientBrush>
-            </Label.Background>
-        </Label>
-        <!-- GRADE OF KNOWLDEGE COMBOBOX-->
-        <ComboBox x:Name="gradeCb" Grid.Column="1" HorizontalAlignment="Center" Margin="0,268,0,275" Height="26"
-            Text="{Binding Path=Course.Level}" Width="310"  VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" Foreground ="#FFF3B0B0" >
-            <ComboBox.OpacityMask>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black"/>
-                    <GradientStop Color="White" Offset="1"/>
-                </LinearGradientBrush>
-            </ComboBox.OpacityMask>
-        </ComboBox>
-
-        <Button x:Name="confirmGradesBtn" Content="Confirm grades for student" HorizontalAlignment="Center" Height="35" Margin="0,340,0,0" VerticalAlignment="Top" Width="248" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" RenderTransformOrigin="0.676,0.745" Grid.Column="1"/>
+        <Button x:Name="gradeBtn" Content="Grade" HorizontalAlignment="Center" Height="35" Margin="0,480,0,0" VerticalAlignment="Top" Width="248" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" RenderTransformOrigin="0.676,0.745" Click="GradeBtn_Click"/>
 
     </Grid>
 </Window>
