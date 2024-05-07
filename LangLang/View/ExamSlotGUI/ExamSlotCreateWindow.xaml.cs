@@ -34,6 +34,7 @@ namespace LangLang.View
             SelectedCourse = null;
             examSlotsController = appController.ExamSlotController;
             ExamSlot = new ExamSlotDTO();
+            ExamSlot.ExamDate = DateTime.Now;
             ExamSlot.TutorId = loggedIn.Id;
 
             InitializeComponent();
