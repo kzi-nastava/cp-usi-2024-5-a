@@ -92,9 +92,7 @@ namespace LangLang.View.CourseGUI
             {
                 // if the course is not online and the number of enrollments excedes the maximal number of students
                 if(course.NotOnline && Enrollments.Count > course.ToCourse().MaxStudents)
-                {
                     MessageBox.Show("You have exceded the maximal number of students for this course.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
                 else
                 { 
                     foreach (EnrollmentRequestDTO enrollmentDTO in Enrollments)
@@ -107,15 +105,19 @@ namespace LangLang.View.CourseGUI
                             NotifyStudentAboutAcceptence(enrollment.StudentId);
                         }
                     }
-                    course.Modifiable = false;
-                    course.NumberOfStudents = Enrollments.Count;
-                    courseController.Update(course.ToCourse());
-                    rejectBtn.IsEnabled = false;
-                    conifrmListBtn.IsEnabled = false;
+                    UpdateCourse(false, Enrollments.Count);
+                    DisableForm();
                     ShowSuccess();
                     Close();
                 }
             }
+        }
+
+        private void UpdateCourse(bool modifiable, int studnetsNumber)
+        {
+            course.Modifiable = modifiable;
+            course.NumberOfStudents = studnetsNumber;
+            courseController.Update(course.ToCourse());
         }
         private void NotifyStudentAboutAcceptence(int studentId)
         {
