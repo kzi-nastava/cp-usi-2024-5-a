@@ -197,7 +197,7 @@
                         </LinearGradientBrush>
                     </Label.Background>
                 </Label>
-                <DatePicker x:Name="birthdp" HorizontalAlignment="Left" Height="24" Margin="35,283,0,0" VerticalAlignment="Top" Width="310" Background="#FFFFDDDD"
+                <DatePicker x:Name="datedp" HorizontalAlignment="Left" Height="24" Margin="35,283,0,0" VerticalAlignment="Top" Width="310" Background="#FFFFDDDD"
             SelectedDate="{Binding ExamSlot.ExamDate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Grid.ColumnSpan="2" />
 
