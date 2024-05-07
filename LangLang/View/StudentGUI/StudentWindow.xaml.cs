@@ -76,7 +76,7 @@ namespace LangLang.View.StudentGUI
 
             examApplicationsTab.Applications.Clear();
             foreach (var app in examApplicationsTab.ApplicationsForReview)
-                examApplicationsTab.Applications.Add(new ExamAppRequestDTO(app,appController));
+                examApplicationsTab.Applications.Add(new ExamApplicationDTO(app,appController));
 
             enrollmentRequestsTab.StudentRequests.Clear();
             foreach (EnrollmentRequest er in enrollmentRequestsTab.RequestsForReview)

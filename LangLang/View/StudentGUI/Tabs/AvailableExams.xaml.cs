@@ -19,7 +19,7 @@ namespace LangLang.View.StudentGUI.Tabs
         private readonly Student currentlyLoggedIn;
         public List<ExamSlot> ExamsForReview { get; set; }
         public ObservableCollection<ExamSlotDTO> ExamSlots { get; set; }
-        private ExamAppRequest Request { get; set; }
+        private ExamApplication Application { get; set; }
         public ExamSlotDTO SelectedExam { get; set; }
 
         public AvailableExams(AppController appController, Student currentlyLoggedIn, StudentWindow parentWindow)
@@ -58,18 +58,18 @@ namespace LangLang.View.StudentGUI.Tabs
             levelExamcb.SelectedItem = null;
             parentWindow.Update();
         }
-        private void SendRequestBtn_Click(object sender, RoutedEventArgs e)
+        private void SendApplicationBtn_Click(object sender, RoutedEventArgs e)
         {
             bool canApplyForExams = appController.StudentController.CanApplyForExams(currentlyLoggedIn, appController);
             if (canApplyForExams)
             {
                 if (SelectedExam == null) return;
-                Request = new();
-                Request.ExamSlotId = SelectedExam.ToExamSlot().Id;
-                Request.StudentId = currentlyLoggedIn.Id;
-                Request.SentAt = DateTime.Now;
-                var examAppRequestController = appController.ExamAppRequestController;
-                examAppRequestController.Add(Request, examController);
+                Application = new();
+                Application.ExamSlotId = SelectedExam.ToExamSlot().Id;
+                Application.StudentId = currentlyLoggedIn.Id;
+                Application.SentAt = DateTime.Now;
+                var examApplicationController = appController.ExamApplicationController;
+                examApplicationController.Add(Application, examController);
 
                 MessageBox.Show("You successfully applied for exam.");
 

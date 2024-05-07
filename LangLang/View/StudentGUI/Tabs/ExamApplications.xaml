@@ -14,12 +14,11 @@
             Background="#FFFFDBDB"
             BorderBrush="White"
             Foreground="#FFD28383"
-            FontFamily="Segoe UI Black" Click="CancelRequestBtn_Click">
+            FontFamily="Segoe UI Black" Click="CancelApplicationBtn_Click">
             <StackPanel>
                 <TextBlock Text="CANCEL" TextAlignment="Center"/>
                 <TextBlock Text="EXAM" TextAlignment="Center"/>
                 <TextBlock Text="APPLICATION" TextAlignment="Center"/>
-                <TextBlock Text="REQUEST" TextAlignment="Center"/>
             </StackPanel>
         </Button>
         <!--table-->

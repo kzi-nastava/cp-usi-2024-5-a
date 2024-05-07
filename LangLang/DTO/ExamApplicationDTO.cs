@@ -6,9 +6,9 @@ using System.ComponentModel;
 
 namespace LangLang.DTO
 {
-    public class ExamAppRequestDTO
+    public class ExamApplicationDTO
     {
-        public ExamAppRequestDTO() { }
+        public ExamApplicationDTO() { }
 
         public int Id { get; set; }
 
@@ -24,19 +24,19 @@ namespace LangLang.DTO
         public DateTime ExamDateTime { get; set; }
 
 
-        public ExamAppRequest ToExamAppRequest()
+        public ExamApplication ToExamApplication()
         {
-            return new ExamAppRequest(Id, StudentId, ExamSlotId, SentAt);
+            return new ExamApplication(Id, StudentId, ExamSlotId, SentAt);
         }
 
-        public ExamAppRequestDTO(ExamAppRequest appRequest, AppController appController)
+        public ExamApplicationDTO(ExamApplication application, AppController appController)
         {
-            ExamSlot exam = appController.ExamSlotController.GetById(appRequest.ExamSlotId);
-            Student student = appController.StudentController.Get(appRequest.StudentId);
-            Id = appRequest.Id;
-            ExamSlotId = appRequest.ExamSlotId;
-            StudentId = appRequest.StudentId;
-            SentAt = appRequest.SentAt;
+            ExamSlot exam = appController.ExamSlotController.GetById(application.ExamSlotId);
+            Student student = appController.StudentController.Get(application.StudentId);
+            Id = application.Id;
+            ExamSlotId = application.ExamSlotId;
+            StudentId = application.StudentId;
+            SentAt = application.SentAt;
 
             StudentName = student.Profile.Name;
             StudentLastName = student.Profile.LastName;

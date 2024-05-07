@@ -3,16 +3,16 @@ using LangLang.Core.Repository.Serialization;
 using System;
 namespace LangLang.Core.Model
 {
-    public class ExamAppRequest : ISerializable
+    public class ExamApplication : ISerializable
     {
         public int Id { get; set; }
         public int StudentId { get; set; }
         public int ExamSlotId { get; set; }
         public DateTime SentAt { get; set; }
         
-        public ExamAppRequest() { }
+        public ExamApplication() { }
 
-        public ExamAppRequest(int id, int studentId, int examSlotId, DateTime sentAt)
+        public ExamApplication(int id, int studentId, int examSlotId, DateTime sentAt)
         {
             Id = id;
             StudentId = studentId;

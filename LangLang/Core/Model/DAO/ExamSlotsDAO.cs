@@ -294,7 +294,7 @@ namespace LangLang.Core.Model.DAO
                 if (!IsAvailable(exam)) continue;
                 
                 //don't include exams for which student has already applied
-                bool hasAlreadyApplied = appController.ExamAppRequestController.HasApplied(student, exam);
+                bool hasAlreadyApplied = appController.ExamApplicationController.HasApplied(student, exam);
                 if (hasAlreadyApplied) continue;
 
                 foreach (EnrollmentRequest enrollmentRequest in studentRequests)
