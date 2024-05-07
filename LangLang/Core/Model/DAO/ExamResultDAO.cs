@@ -30,7 +30,7 @@ namespace LangLang.Core.Model.DAO
             return _examResults.Keys.Max() + 1;
         }
 
-        public ExamResult GetById(int id)
+        public ExamResult Get(int id)
         {
             return _examResults[id];
         }
@@ -55,7 +55,7 @@ namespace LangLang.Core.Model.DAO
 
         public ExamResult Update(ExamResult examResult)
         {
-            ExamResult oldResult = GetById(examResult.Id);
+            ExamResult oldResult = Get(examResult.Id);
             if (oldResult == null) return null;
 
             oldResult.ReadingPoints = examResult.ReadingPoints; 
@@ -69,11 +69,11 @@ namespace LangLang.Core.Model.DAO
             return oldResult;
         }
 
-        public List<ExamResult> Get(int examId) {
+        public List<ExamResult> Get(ExamSlot exam) {
             List<ExamResult> results = new();
             foreach (ExamResult examResult in GetAll())
             {
-                if (examResult.ExamSlotId == examId) results.Add(examResult);
+                if (examResult.ExamSlotId == exam.Id) results.Add(examResult);
             }
             return results;
         }
