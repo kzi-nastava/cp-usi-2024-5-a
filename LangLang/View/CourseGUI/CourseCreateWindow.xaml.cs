@@ -50,7 +50,7 @@ namespace LangLang.View.CourseGUI
         {
             if (Course.IsValid)
             {
-                if(courseController.CanCreateOrUpdateCourse(Course.ToCourse(), examController))
+                if(courseController.CanCreateOrUpdate(Course.ToCourse(), examController))
                 {
                     courseController.Add(Course.ToCourse());
                     MessageBox.Show("Success!");

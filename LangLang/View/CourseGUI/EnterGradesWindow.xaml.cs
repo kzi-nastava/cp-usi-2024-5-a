@@ -71,7 +71,7 @@ namespace LangLang.View.CourseGUI
                 if (enrollment.Status == Status.Accepted && !withdrawalController.HasAcceptedWithdrawal(enrollment.Id))
                 {
                     bool graded = false;
-                    foreach (Grade grade in gradeContoller.GetGradesWithCourse(course.Id))
+                    foreach (Grade grade in gradeContoller.GetByCourse(course.ToCourse()))
                     {
                         if (enrollment.StudentId == grade.StudentId)
                         {
