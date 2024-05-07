@@ -93,7 +93,10 @@ namespace LangLang
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
             ExamSlotUpdateWindow updateWindow = new (appController, SelectedExamSlot.Id, LoggedIn);
-            updateWindow.Show();
+            if(examSlotController.CanBeUpdated(SelectedExamSlot.ToExamSlot()))
+                updateWindow.Show();
+            else
+                MessageBox.Show($"Can't update exam, there is less than {Constants.EXAM_MODIFY_PERIOD} days before exam.");
         }
         private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
