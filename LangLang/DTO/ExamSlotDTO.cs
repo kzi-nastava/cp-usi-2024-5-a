@@ -13,22 +13,22 @@ namespace LangLang.DTO
         public int Id { get; set; }
 
         public int TutorId { get; set; }
-        private string _language;
-        private LanguageLevel _level;
-        private int _maxStudents;
-        private DateTime _examDate;
-        private string _time;
-        private int _applicants;
+        private string language;
+        private LanguageLevel level;
+        private int maxStudents;
+        private DateTime examDate;
+        private string time;
+        private int applicants;
         public bool Modifiable { get; set; }
         public bool ResultsGenerated { get; set; }
         public string Language
         {
-            get { return _language; }
+            get { return language; }
             set
             {
-                if (_language != value)
+                if (language != value)
                 {
-                    _language = value;
+                    language = value;
                     OnPropertyChanged("Language");
                 }
             }
@@ -36,12 +36,12 @@ namespace LangLang.DTO
 
         public LanguageLevel Level
         {
-            get { return _level; }
+            get { return level; }
             set
             {
-                if (_level != value)
+                if (level != value)
                 {
-                    _level = value;
+                    level = value;
                     OnPropertyChanged("Level");
                 }
             }
@@ -49,18 +49,18 @@ namespace LangLang.DTO
 
         public string MaxStudents
         {
-            get { return _maxStudents.ToString(); }
+            get { return maxStudents.ToString(); }
             set
             {
 
                 if (int.TryParse(value, out int result) && result >= 0)
                 {
-                    _maxStudents = result;
+                    maxStudents = result;
                     OnPropertyChanged("MaxStudents");
                 }
                 else
                 {
-                    _maxStudents = 0;
+                    maxStudents = 0;
                 }
 
             }
@@ -68,12 +68,12 @@ namespace LangLang.DTO
 
         public DateTime ExamDate
         {
-            get { return _examDate; }
+            get { return examDate; }
             set
             {
-                if (_examDate != value)
+                if (examDate != value)
                 {
-                    _examDate = value;
+                    examDate = value;
                     OnPropertyChanged("ExamDate");
                 }
             }
@@ -82,12 +82,12 @@ namespace LangLang.DTO
 
         public int Applicants
         {
-            get { return _applicants; }
+            get { return applicants; }
             set
             {
-                if (_applicants != value)
+                if (applicants != value)
                 {
-                    _applicants = value;
+                    applicants = value;
                     OnPropertyChanged("Applicants");
                 }
             }
@@ -95,12 +95,12 @@ namespace LangLang.DTO
 
         public string Time
         {
-            get { return _time; }
+            get { return time; }
             set
             {
-                if (_time != value)
+                if (time != value)
                 {
-                    _time = value;
+                    time = value;
                     OnPropertyChanged("Time");
                 }
             }
@@ -122,8 +122,8 @@ namespace LangLang.DTO
 
                 if (columnName == "ExamDate")
                 {
-                    if (_examDate <= DateTime.Now) return "Please enter a future date.";
-                    if (_examDate == default) return "Exam date is required";
+                    if (examDate <= DateTime.Now) return "Please enter a future date.";
+                    if (examDate == default) return "Exam date is required";
                     else return "";
                 }
 
@@ -173,10 +173,10 @@ namespace LangLang.DTO
 
         public ExamSlot ToExamSlot()
         {
-            string[] timeParts = _time.Split(':');
+            string[] timeParts = time.Split(':');
             int hour = int.Parse(timeParts[0]);
             int minute = int.Parse(timeParts[1]);
-            return new ExamSlot(Id, _language, _level, new TimeSlot(Constants.EXAM_DURATION, new DateTime(_examDate.Year, _examDate.Month, _examDate.Day, hour, minute, 0)), _maxStudents, TutorId, _applicants, Modifiable, ResultsGenerated);
+            return new ExamSlot(Id, language, level, new TimeSlot(Constants.EXAM_DURATION, new DateTime(examDate.Year, examDate.Month, examDate.Day, hour, minute, 0)), maxStudents, TutorId, applicants, Modifiable, ResultsGenerated);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
