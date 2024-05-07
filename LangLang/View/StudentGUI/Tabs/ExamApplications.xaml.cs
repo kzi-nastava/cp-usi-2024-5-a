@@ -12,12 +12,12 @@ namespace LangLang.View.StudentGUI.Tabs
     public partial class ExamApplications : UserControl
     {
         private readonly StudentWindow parentWindow;
-        public ExamAppRequestDTO SelectedApplication { get; set; }
-        public ObservableCollection<ExamAppRequestDTO> Applications { get; set; }
-        public List<ExamAppRequest> ApplicationsForReview { get; set; }
+        public ExamApplicationDTO SelectedApplication { get; set; }
+        public ObservableCollection<ExamApplicationDTO> Applications { get; set; }
+        public List<ExamApplication> ApplicationsForReview { get; set; }
 
         private AppController appController;
-        private ExamAppRequestController applicationController;
+        private ExamApplicationController applicationController;
         private ExamSlotController examSlotController;
         private StudentController studentController;
         private Student currentlyLoggedIn;
@@ -30,7 +30,7 @@ namespace LangLang.View.StudentGUI.Tabs
             this.parentWindow = parentWindow;
             this.appController = appController;
             this.currentlyLoggedIn = currentlyLoggedIn;
-            applicationController = appController.ExamAppRequestController;
+            applicationController = appController.ExamApplicationController;
             examSlotController = appController.ExamSlotController;
             studentController = appController.StudentController;
 
@@ -41,23 +41,23 @@ namespace LangLang.View.StudentGUI.Tabs
 
         public void SetDataForReview()
         {
-            ApplicationsForReview = applicationController.GetRequests(currentlyLoggedIn);
+            ApplicationsForReview = applicationController.GetApplications(currentlyLoggedIn);
         }
         public void Update()
         {
             Applications.Clear();
-            foreach (ExamAppRequest application in applicationController.GetRequests(currentlyLoggedIn))
+            foreach (ExamApplication application in applicationController.GetApplications(currentlyLoggedIn))
             {
-                Applications.Add(new ExamAppRequestDTO(application, appController));
+                Applications.Add(new ExamApplicationDTO(application, appController));
             }
         }   
 
-        private void CancelRequestBtn_Click(object sender, RoutedEventArgs e)
+        private void CancelApplicationBtn_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to cancel exam application?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                appController.ExamAppRequestController.CancelRequest(SelectedApplication.ToExamAppRequest(), examSlotController);
+                appController.ExamApplicationController.CancelApplication(SelectedApplication.ToExamApplication(), examSlotController);
                 MessageBox.Show("Cancelation was successful.");
                 SetDataForReview();
                 parentWindow.availableExamsTab.SetDataForReview();

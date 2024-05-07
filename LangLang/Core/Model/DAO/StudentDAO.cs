@@ -72,13 +72,13 @@ namespace LangLang.Core.Model.DAO
             if (student == null) return;
 
             var enrollmentController = appController.EnrollmentRequestController;
-            var examAppController = appController.ExamAppRequestController;
+            var examAppController = appController.ExamApplicationController;
             var examController = appController.ExamSlotController;
             
             foreach (EnrollmentRequest er in enrollmentController.GetRequests(student)) // delete all course enrollment requests
                 enrollmentController.Delete(er.Id);
 
-            foreach (ExamAppRequest ar in examAppController.GetRequests(student)) // delete all exam application requests
+            foreach (ExamApplication ar in examAppController.GetApplications(student)) // delete all exam application requests
                 examAppController.Delete(ar.Id, examController);
 
             _students[id].Profile.IsActive = true;
@@ -112,15 +112,15 @@ namespace LangLang.Core.Model.DAO
 
         public bool HasAppliedForExam(int studentId, AppController appController)
         {
-            var examAppController = appController.ExamAppRequestController;
+            var examAppController = appController.ExamApplicationController;
             var examController = appController.ExamSlotController;
-            List<ExamAppRequest> requests = examAppController.GetActiveStudentRequests(studentId, examController);
+            List<ExamApplication> requests = examAppController.GetActiveStudentApplications(studentId, examController);
 
             return requests.Count != 0;
         }
         public bool CanApplyForCourses(Student student, AppController appController)
         {
-            bool hasNoResults = appController.ExamAppRequestController.HasNoGeneratedResults(student, appController.ExamSlotController);
+            bool hasNoResults = appController.ExamApplicationController.HasNoGeneratedResults(student, appController.ExamSlotController);
             bool hasNotGradedExams = appController.ExamResultController.HasNotGradedResults(student);
             return !hasNoResults && !hasNotGradedExams;
         }

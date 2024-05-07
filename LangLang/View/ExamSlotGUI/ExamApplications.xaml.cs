@@ -12,10 +12,10 @@ namespace LangLang.View.ExamSlotGUI
     /// </summary>
     public partial class ExamApplications : Window
     {
-        public ExamAppRequestDTO SelectedApplication { get; set; }
-        public ObservableCollection<ExamAppRequestDTO> Applications { get; set; }
+        public ExamApplicationDTO SelectedApplication { get; set; }
+        public ObservableCollection<ExamApplicationDTO> Applications { get; set; }
         private AppController appController;
-        private ExamAppRequestController applicationController;
+        private ExamApplicationController applicationController;
         private ExamSlotController examSlotController;
         private StudentController studentController;
         private ExamSlotDTO examSlot;
@@ -27,7 +27,7 @@ namespace LangLang.View.ExamSlotGUI
 
             this.appController = appController;
             this.examSlot = examSlot;
-            applicationController = appController.ExamAppRequestController;
+            applicationController = appController.ExamApplicationController;
             examSlotController = appController.ExamSlotController;
             studentController = appController.StudentController;
 
@@ -41,9 +41,9 @@ namespace LangLang.View.ExamSlotGUI
         public void Update()
         {
             Applications.Clear();
-            foreach (ExamAppRequest application in applicationController.GetApplications(examSlot.Id))
+            foreach (ExamApplication application in applicationController.GetApplications(examSlot.Id))
             {
-                Applications.Add(new ExamAppRequestDTO(application, appController));
+                Applications.Add(new ExamApplicationDTO(application, appController));
             }
         }
 

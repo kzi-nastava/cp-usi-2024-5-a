@@ -21,7 +21,7 @@ namespace LangLang.View.ExamSlotGUI
         private StudentController studentController;
         private ExamResultController resultController;
         private ExamSlotController examSlotController;
-        private ExamAppRequestController applicationController;
+        private ExamApplicationController applicationController;
         private ExamSlotDTO exam;
 
         public EnterResults(AppController appController, ExamSlotDTO selectedExam)
@@ -31,7 +31,7 @@ namespace LangLang.View.ExamSlotGUI
 
             this.studentController = appController.StudentController;
             this.resultController = appController.ExamResultController;
-            this.applicationController = appController.ExamAppRequestController;
+            this.applicationController = appController.ExamApplicationController;
             this.examSlotController = appController.ExamSlotController;
             this.exam = selectedExam;
 
@@ -147,8 +147,8 @@ namespace LangLang.View.ExamSlotGUI
 
         private void GenerateResults()
         {
-            List<ExamAppRequest> applications = applicationController.GetApplications(exam.Id);
-            foreach (ExamAppRequest application in applications)  // for each application for exam, default result is generated
+            List<ExamApplication> applications = applicationController.GetApplications(exam.Id);
+            foreach (ExamApplication application in applications)  // for each application for exam, default result is generated
             {
                 resultController.Add(application.StudentId, exam.Id);
             }

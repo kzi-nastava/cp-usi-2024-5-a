@@ -14,12 +14,11 @@
             Background="#FFFFDBDB"
             BorderBrush="White"
             Foreground="#FFD28383"
-            FontFamily="Segoe UI Black" Click="SendRequestBtn_Click">
+            FontFamily="Segoe UI Black" Click="SendApplicationBtn_Click">
             <StackPanel>
                 <TextBlock Text="SEND" TextAlignment="Center"/>
                 <TextBlock Text="EXAM" TextAlignment="Center"/>
                 <TextBlock Text="APPLICATION" TextAlignment="Center"/>
-                <TextBlock Text="REQUEST" TextAlignment="Center"/>
             </StackPanel>
         </Button>
         <DataGrid Height="Auto"

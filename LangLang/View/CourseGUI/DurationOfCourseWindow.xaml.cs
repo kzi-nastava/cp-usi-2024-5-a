@@ -131,7 +131,7 @@ namespace LangLang.View.CourseGUI
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to give the student a penalty point?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                if (penaltyPointController.HasAlreadyGivenPenaltyPoint(SelectedStudent.ToStudent(), tutorController.Get(course.TutorId), course.ToCourse(), appController))
+                if (penaltyPointController.HasGivenPenaltyPoint(SelectedStudent.ToStudent(), tutorController.Get(course.TutorId), course.ToCourse(), appController))
                     MessageBox.Show("You have already given the student a penalty point today.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
                 {

@@ -26,15 +26,15 @@ namespace LangLang.Core.Model.DAO
             return _points.Keys.Max() + 1;
         }
 
-        public PenaltyPoint? GetById(int id)
+        public PenaltyPoint? Get(int id)
         {
             return _points[id];
         }
-        public Dictionary<int, PenaltyPoint> GetAllPoints()
+        public Dictionary<int, PenaltyPoint> GetAll()
         {
             return _points;
         }
-        private void AddPenaltyPoint(Student student, Tutor tutor, Course course)
+        private void Add(Student student, Tutor tutor, Course course)
         {
             PenaltyPoint point = new PenaltyPoint(GenerateId(), student.Profile.Id, tutor.Profile.Id, course.Id, DateTime.Now);
             _points[point.Id] = point;
@@ -43,7 +43,7 @@ namespace LangLang.Core.Model.DAO
         }
         public void GivePenaltyPoint(Student student, Tutor tutor, Course course, AppController appController)
         {
-            AddPenaltyPoint(student,tutor, course);
+            Add(student,tutor, course);
             if (ShouldDeactivate(student))
             {
                 appController.StudentController.Deactivate(student.Id, appController);
@@ -72,15 +72,19 @@ namespace LangLang.Core.Model.DAO
 
             return points;
         }
+        private void Remove(PenaltyPoint point)
+        {
+            _points.Remove(point.Id);
+            _repository.Save(_points);
+            NotifyObservers();
+        }
         public void RemovePenaltyPoint(Student student)
         {
             List<PenaltyPoint> points = GetPenaltyPoints(student);
             if (points.Count > 0)
             {
                 PenaltyPoint toRemove = GetOldestPenaltyPoint(GetPenaltyPoints(student));
-                _points.Remove(toRemove.Id);
-                _repository.Save(_points);
-                NotifyObservers();
+                Remove(toRemove);
 
             }
         }
@@ -102,7 +106,7 @@ namespace LangLang.Core.Model.DAO
             return oldestPoint;
         }
 
-        public bool HasAlreadyGivenPenaltyPoint(Student student, Tutor tutor, Course course, AppController appController)
+        public bool HasGivenPenaltyPoint(Student student, Tutor tutor, Course course, AppController appController)
         {
             List<PenaltyPoint> studentPenaltyPoints = GetPenaltyPoints(student);
             foreach(PenaltyPoint point in studentPenaltyPoints)
