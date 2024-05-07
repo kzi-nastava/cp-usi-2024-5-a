@@ -61,14 +61,14 @@ namespace LangLang.Core.Controller
         {
             return _exams.GetExams(tutor);
         }
-        public List<ExamSlot> SearchExamsByTutor(Tutor tutor, DateTime examDate, string language, LanguageLevel? level)
+        public List<ExamSlot> SearchByTutor(Tutor tutor, DateTime examDate, string language, LanguageLevel? level)
         {
-            return _exams.SearchExamsByTutor(tutor, examDate, language, level);
+            return _exams.SearchByTutor(tutor, examDate, language, level);
         }
 
-        public List<ExamSlot> SearchExamsByStudent(AppController appController, Student student, DateTime examDate, string language, LanguageLevel? level)
+        public List<ExamSlot> SearchByStudent(AppController appController, Student student, DateTime examDate, string language, LanguageLevel? level)
         {
-            return _exams.SearchExamsByStudent(appController, student, examDate, language, level);
+            return _exams.SearchByStudent(appController, student, examDate, language, level);
         }
 
         public bool HasPassed(ExamSlot exam)

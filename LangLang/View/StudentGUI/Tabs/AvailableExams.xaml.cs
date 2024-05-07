@@ -48,7 +48,7 @@ namespace LangLang.View.StudentGUI.Tabs
                 level = (LanguageLevel)levelExamcb.SelectedValue;
             DateTime examDate = examdatePicker.SelectedDate ?? default;
 
-            ExamsForReview = examController.SearchExamsByStudent(appController, currentlyLoggedIn, examDate, language, level); ;
+            ExamsForReview = examController.SearchByStudent(appController, currentlyLoggedIn, examDate, language, level); ;
             parentWindow.Update();
         }
 

@@ -35,7 +35,6 @@ namespace LangLang.View.ExamSlotGUI
             examSlotsForReview = new List<ExamSlot>();
             examSlotController = appController.ExamSlotController;
             this.loggedIn = loggedIn;
-            //fix to get only by this tutor
             examSlotsForReview = examSlotController.GetExams(loggedIn);
 
             foreach(ExamSlot exam in examSlotsForReview)
@@ -68,13 +67,12 @@ namespace LangLang.View.ExamSlotGUI
             DateTime examDate = examdatePicker.SelectedDate ?? default;
 
 
-            examSlotsForReview = examSlotController.SearchExamsByTutor(loggedIn, examDate, language, level); 
+            examSlotsForReview = examSlotController.SearchByTutor(loggedIn, examDate, language, level); 
             Update();
         }
 
         private void ClearExam_Click(object sender, RoutedEventArgs e)
         {
-            //fix to show all exam slots for current tutor
             examSlotsForReview = examSlotController.GetExams(loggedIn);
             Update();
         }

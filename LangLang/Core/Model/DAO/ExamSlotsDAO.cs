@@ -77,21 +77,16 @@ namespace LangLang.Core.Model.DAO
                 if (courseController.OverlappsWith(course, exam.TimeSlot))
                 {
                     //tutor is busy (has class)
-                    if (course.TutorId == exam.TutorId)
-                    {
+                    if (course.TutorId == exam.TutorId) 
                         return true;
-                    }
-
-                    if (!course.Online)
-                    {
+                    
+                    if (!course.Online) 
                         busyClassrooms++;
-                    }
-
+                    
                     //all classrooms are busy
-                    if (busyClassrooms == 2)
-                    {
+                    if (busyClassrooms == 2) 
                         return true;
-                    }
+                    
                 }
             }
             return false;
@@ -102,24 +97,20 @@ namespace LangLang.Core.Model.DAO
             // Go through all exams
             foreach (ExamSlot currExam in GetAll().Values)
             {
-                if(currExam.Id == exam.Id)
-                {
+                if(currExam.Id == exam.Id) 
                     continue;
-                }
+                
                 if (exam.TimeSlot.OverlappsWith(currExam.TimeSlot))
                 {
                     //tutor is busy (has exam)
-                    if (exam.TutorId == currExam.TutorId)
-                    {
+                    if (exam.TutorId == currExam.TutorId) 
                         return true;
-                    }
+
                     busyClassrooms++;
 
                     //all classrooms are busy
                     if (busyClassrooms == 2)
-                    {
                         return true;
-                    }
                 }
 
             }
@@ -133,7 +124,6 @@ namespace LangLang.Core.Model.DAO
             ExamSlot exam = Get(id);
             if (exam == null) return false;
 
-            //should use const variable instead of 14
             if ((exam.TimeSlot.Time - DateTime.Now).TotalDays >= Constants.EXAM_MODIFY_PERIOD)
             {
                 _exams.Remove(id);
@@ -245,16 +235,16 @@ namespace LangLang.Core.Model.DAO
             return difference.TotalDays < 30;
         }
         // Method to search exam slots by tutor and criteria
-        public List<ExamSlot> SearchExamsByTutor(Tutor tutor, DateTime examDate, string language, LanguageLevel? level)
+        public List<ExamSlot> SearchByTutor(Tutor tutor, DateTime examDate, string language, LanguageLevel? level)
         {
             List<ExamSlot> exams = _exams.Values.ToList();
 
             exams = this.GetExams(tutor);
 
-            return SearchExams(exams, examDate, language, level);
+            return Search(exams, examDate, language, level);
         }
 
-        private List<ExamSlot> SearchExams(List<ExamSlot> exams, DateTime examDate, string language, LanguageLevel? level)
+        private List<ExamSlot> Search(List<ExamSlot> exams, DateTime examDate, string language, LanguageLevel? level)
         {
             List<ExamSlot> filteredExams = exams.Where(exam =>
                 (examDate == default || exam.TimeSlot.Time.Date == examDate.Date) &&
@@ -272,10 +262,10 @@ namespace LangLang.Core.Model.DAO
             return examSlot.ApplicationsVisible();
         }
 
-        public List<ExamSlot> SearchExamsByStudent(AppController appController, Student student, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
+        public List<ExamSlot> SearchByStudent(AppController appController, Student student, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
         {
             List<ExamSlot> availableExamSlots = GetAvailableExams(student, appController);
-            return SearchExams(availableExamSlots, examDate, courseLanguage, languageLevel);
+            return Search(availableExamSlots, examDate, courseLanguage, languageLevel);
         }
 
 
