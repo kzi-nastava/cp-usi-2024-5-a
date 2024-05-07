@@ -49,7 +49,7 @@ namespace LangLang.Core.Controller
                 throw new AuthenticationException("Invalid password.");
             }
 
-            if (user.Profile.IsDeleted == true)
+            if (user.Profile.IsActive == true)
             {
                 throw new AuthenticationException("Profile deactivated.");
             }

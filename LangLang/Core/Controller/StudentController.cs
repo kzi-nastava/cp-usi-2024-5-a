@@ -29,9 +29,9 @@ namespace LangLang.Core.Controller
             _students.Add(student);
         }
 
-        public void Delete(int id, AppController appController)
+        public void Deactivate(int id, AppController appController)
         {
-            _students.Remove(id, appController);
+            _students.Deactivate(id, appController);
         }
 
         public void Update(Student student)

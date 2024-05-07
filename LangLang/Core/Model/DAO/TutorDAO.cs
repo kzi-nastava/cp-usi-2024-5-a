@@ -72,12 +72,12 @@ namespace LangLang.Core.DAO
             return _tutors.Values.ToList();
         }
 
-        public Tutor? Remove(int id)
+        public Tutor? Deactivate(int id)
         {
             Tutor tutor = Get(id);
             if (tutor == null) return null;
 
-            _tutors[id].Profile.IsDeleted = true;
+            _tutors[id].Profile.IsActive = true;
 
             _repository.Save(_tutors);
             NotifyObservers();

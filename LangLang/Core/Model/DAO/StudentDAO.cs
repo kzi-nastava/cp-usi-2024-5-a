@@ -66,7 +66,7 @@ namespace LangLang.Core.Model.DAO
             return oldStudent;
         }
 
-        public void Remove(int id, AppController appController)
+        public void Deactivate(int id, AppController appController)
         {
             Student student = Get(id);
             if (student == null) return;
@@ -81,7 +81,7 @@ namespace LangLang.Core.Model.DAO
             foreach (ExamAppRequest ar in examAppController.GetRequests(student)) // delete all exam application requests
                 examAppController.Delete(ar.Id, examController);
 
-            _students[id].Profile.IsDeleted = true;
+            _students[id].Profile.IsActive = true;
             _repository.Save(_students);
             NotifyObservers();
         }

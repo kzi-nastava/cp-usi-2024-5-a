@@ -25,9 +25,9 @@ namespace LangLang.Core.Controller
             _tutors.Add(tutor);
         }
 
-        public void Delete(int tutorId)
+        public void Deactivate(int tutorId)
         {
-            _tutors.Remove(tutorId);
+            _tutors.Deactivate(tutorId);
         }
 
         public List<Tutor> Search(string language, DateTime date, LanguageLevel? level)

@@ -111,7 +111,7 @@ namespace LangLang.View
             else
             {
                 appController.CourseController.DeleteCoursesWithTutor(SelectedTutor.Id);
-                tutorController.Delete(SelectedTutor.Id);
+                tutorController.Deactivate(SelectedTutor.Id);
                 MessageBox.Show("Tutor is successfully deleted");
                 DisableForm();
                 ClearFields();
