@@ -229,21 +229,7 @@ namespace LangLang.Core.Model.DAO
         {
             return exam.TimeSlot.Time < DateTime.Now;
         }
-        /*
-        public int CountExamApplications(ExamSlot exam, ExamAppRequestController examAppController)
-        {
-            int count = 0;
-            foreach (ExamAppRequest request in examAppController.GetAll())
-            {
-                if (request.ExamSlotId == exam.Id && !request.IsCanceled)
-                {
-                    count++;
-                }
-            }
-            return count;
-        }
-        */
-
+       
         public bool IsFullyBooked(ExamSlot exam)
         {
             return exam.MaxStudents == exam.Applicants;
@@ -296,32 +282,24 @@ namespace LangLang.Core.Model.DAO
         // returns a list of exams that are available for student application
         public List<ExamSlot> GetAvailableExams(Student student, AppController appController)
         {
-            var courseController = appController.CourseController;
-            var enrollmentController = appController.EnrollmentRequestController;
 
             if (student == null) return null;
             List<ExamSlot> availableExams = new();
 
-            List<EnrollmentRequest> studentRequests = enrollmentController.GetRequests(student);
+            List<EnrollmentRequest> studentRequests = appController.EnrollmentRequestController.GetRequests(student);
 
             foreach (ExamSlot exam in GetAllExams().Values)
             {
                 //don't include filled exams and exams that passed or are less then a month away
-                if (!IsAvailable(exam))
-                {
-                    continue;
-                }
-
+                if (!IsAvailable(exam)) continue;
+                
                 //don't include exams for which student has already applied
                 bool hasAlreadyApplied = appController.ExamAppRequestController.HasApplied(student, exam);
-                if (hasAlreadyApplied)
-                {
-                    continue;
-                }
+                if (hasAlreadyApplied) continue;
 
                 foreach (EnrollmentRequest enrollmentRequest in studentRequests)
                 {
-                    Course course = courseController.GetById(enrollmentRequest.CourseId);
+                    Course course = appController.CourseController.GetById(enrollmentRequest.CourseId);
                     if (HasStudentAttendedCourse(course, enrollmentRequest, exam))
                     {
                         availableExams.Add(exam);

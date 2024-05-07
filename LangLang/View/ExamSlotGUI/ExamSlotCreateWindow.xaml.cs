@@ -31,7 +31,7 @@ namespace LangLang.View
         public ExamSlotCreateWindow(AppController appController, Tutor loggedIn)
         {
             Skills = appController.CourseController.GetCoursesForSkills(loggedIn);
-            SelectedCourse = new Course();
+            SelectedCourse = null;
             examSlotsController = appController.ExamSlotController;
             ExamSlot = new ExamSlotDTO();
             ExamSlot.TutorId = loggedIn.Id;
@@ -45,44 +45,26 @@ namespace LangLang.View
         {
             CourseController courseController = new CourseController();
             if (ExamSlot.IsValid)
-            {
-                
-                if (SelectedCourse==null)
-                {
-                    MessageBox.Show("Must select language and level.");
-
-                }
+            {               
+                if (SelectedCourse==null) MessageBox.Show("Must select language and level.");
                 else
                 {
                     bool added = examSlotsController.Add(ExamSlot.ToExamSlot(), courseController);
                     
-                    if (!added)
-                    {
-                        MessageBox.Show("Choose another exam date or time.");
-                    }
+                    if (!added) MessageBox.Show("Choose another exam date or time.");
                     else
                     {
                         MessageBox.Show("Exam successfuly created.");
-
                         Close();
-                    }
-                    
-                }
-                
+                    }                   
+                }              
             }
             else
             {
                 
-                if (SelectedCourse==null)
-                {
-                    MessageBox.Show("Must select language and level.");
-
-                }
-                else
-                {
-                    MessageBox.Show("Exam slot can not be created. Not all fields are valid.");
-                }
-                
+                if (SelectedCourse==null) MessageBox.Show("Must select language and level.");
+                else MessageBox.Show("Exam slot can not be created. Not all fields are valid.");
+                           
             }
         }
 
@@ -90,7 +72,7 @@ namespace LangLang.View
         {
             if(SelectedCourse!= null)
             {
-                //SelectedCourse = (Course)CoursesDataGrid.SelectedItem;
+                SelectedCourse = (Course)CoursesDataGrid.SelectedItem;
                 languageTb.Text = SelectedCourse.Language;
                 ExamSlot.Language = SelectedCourse.Language;
                 levelTb.Text = SelectedCourse.Level.ToString();
