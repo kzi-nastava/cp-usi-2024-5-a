@@ -64,7 +64,7 @@ namespace LangLang.View.CourseGUI
         public void Update()
         {
             Students.Clear();
-            foreach (EnrollmentRequest enrollment in enrollmentController.GetEnrollments(course.Id))
+            foreach (EnrollmentRequest enrollment in enrollmentController.GetRequests(course.ToCourse()))
             {
                 // All studnets that attend the course (do not have accepted withdrawals)
                 // and have not been graded
@@ -81,7 +81,7 @@ namespace LangLang.View.CourseGUI
                     }
                     if (!graded)
                     {
-                        Students.Add(new StudentDTO(studentController.GetById(enrollment.StudentId)));
+                        Students.Add(new StudentDTO(studentController.Get(enrollment.StudentId)));
                     }
                 }
             }
