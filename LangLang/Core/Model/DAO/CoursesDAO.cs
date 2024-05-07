@@ -11,12 +11,12 @@ using LangLang.Core.Model.Enums;
 
 namespace LangLang.Core.Model.DAO;
 
-public class CourseDAO : Subject
+public class CoursesDAO : Subject
 {
     private readonly Dictionary<int, Course> _courses;
     private readonly Repository<Course> _repository;
 
-    public CourseDAO()
+    public CoursesDAO()
     {
         _repository = new Repository<Course>("courses.csv");
         _courses = _repository.Load();
@@ -28,7 +28,7 @@ public class CourseDAO : Subject
         return _courses.Keys.Max() + 1;
     }
 
-    public Course Add(Course course)
+    public Course AddCourse(Course course)
     {
         course.Id = GenerateId();
         _courses[course.Id] = course;
@@ -37,9 +37,9 @@ public class CourseDAO : Subject
         return course;
     }
 
-    public Course Update(Course course)
+    public Course UpdateCourse(Course course)
     {
-        Course oldCourse = Get(course.Id);
+        Course oldCourse = GetCourseById(course.Id);
         if (oldCourse == null) return null;
 
         oldCourse.Language = course.Language;
@@ -58,9 +58,9 @@ public class CourseDAO : Subject
         return oldCourse;
     }
     
-    public Course Remove(int id)
+    public Course RemoveCourse(int id)
     {
-        Course course = Get(id);
+        Course course = GetCourseById(id);
         if (course == null) return null;
 
         _courses.Remove(id);
@@ -69,56 +69,56 @@ public class CourseDAO : Subject
         return course;
     }
 
-    private Course Get(int id)
+    private Course GetCourseById(int id)
     {
         return _courses[id];
     }
 
-    public Dictionary<int, Course> GetAll()
+    public Dictionary<int, Course> GetAllCourses()
     {
         return _courses;
     }
 
     // Deletes all future courses made by tutor or updates all the active courses to have no tutor as well as future courses made by director
-    public void DeleteByTutor(Tutor tutor)
+    public void DeleteCoursesWithTutor(int tutorId)
     {
-        foreach (Course course in GetByTutor(tutor).Values)
+        foreach (Course course in GetCoursesWithTutor(tutorId).Values)
         {
             if (course.StartDateTime > DateTime.Now)
             {
                 if (course.CreatedByDirector)
                 {
                     course.TutorId = -1;
-                    Update(course);
+                    UpdateCourse(course);
                 }
                 else
                 {
-                    Remove(course.Id);
+                    RemoveCourse(course.Id);
                 }
             }
             else
             {
                 course.TutorId = -1;
-                Update(course);
+                UpdateCourse(course);
             }
         }
     }
 
     public bool IsCompleted(int id)
     {
-        Course course = Get(id) ?? throw new ArgumentException("There is no course with given id");
+        Course course = GetCourseById(id) ?? throw new ArgumentException("There is no course with given id");
         return course.IsCompleted();
     }
 
-    public bool CanCreateOrUpdate(Course course, ExamSlotController examSlotController)
+    public bool CanCreateOrUpdateCourse(Course course, ExamSlotController examSlotController)
     {
         int busyClassrooms = 0;
-        return !OverlappsWithExams(course, examSlotController, ref busyClassrooms) && !CoursesOverlapp(course, ref busyClassrooms);
+        return !ExamsAndCourseOverlapp(course, examSlotController, ref busyClassrooms) && !CoursesOverlapp(course, ref busyClassrooms);
     }
 
     // Checks for any overlaps between exams and the course,
     // considering the availability of the courses's tutor and classrooms
-    public bool OverlappsWithExams(Course course, ExamSlotController examSlotController, ref int busyClassrooms)
+    public bool ExamsAndCourseOverlapp(Course course, ExamSlotController examSlotController, ref int busyClassrooms)
     {
         List<ExamSlot> examSlots = examSlotController.GetAllExams();
         // Go through exams
@@ -151,7 +151,7 @@ public class CourseDAO : Subject
     // considering the availability of the courses's tutor and classrooms
     public bool CoursesOverlapp(Course course, ref int busyClassrooms)
     {
-        foreach (Course currCourse in GetAll().Values)
+        foreach (Course currCourse in GetAllCourses().Values)
         {
             // if this checks for updating course, then skip over the original course
             if(currCourse.Id == course.Id) { continue; }
@@ -181,24 +181,17 @@ public class CourseDAO : Subject
         return false;
     }
 
-    public void AddStudent(int courseId)
+    public void AddStudentToCourse(int courseId)
     {
-        Course course = Get(courseId);
+        Course course = GetCourseById(courseId);
         course.NumberOfStudents += 1;
-        Update(course);
-    }
-
-    public void RemoveStudent(int courseId)
-    {
-        Course course = Get(courseId);
-        course.NumberOfStudents -= 1;
-        Update(course);
+        UpdateCourse(course);
     }
 
     // Method checks if a certain course is available for the student
-    public bool IsAvailable(int courseId)
+    public bool IsCourseAvailable(int courseId)
     {
-        Course course = Get(courseId);
+        Course course = GetCourseById(courseId);
         TimeSpan difference = course.StartDateTime - DateTime.Now;
         if (difference.TotalDays > Constants.COURSE_AVAILABILITY_CHECK_PERIOD)
         {
@@ -209,21 +202,21 @@ public class CourseDAO : Subject
     }
 
     // Method checks if the course is valid for updating or canceling
-    public bool CanChange(int courseId)
+    public bool CanCourseBeChanged(int courseId)
     {
-        Course course = Get(courseId);
+        Course course = GetCourseById(courseId);
         DateTime oneWeekFromNow = DateTime.Now.AddDays(Constants.COURSE_MODIFY_PERIOD);
         return course.StartDateTime >= oneWeekFromNow;
     }
 
-    public DateTime GetEnd(Course course)
+    public DateTime GetCourseEnd(Course course)
     {
         return course.TimeSlots[course.TimeSlots.Count-1].GetEnd();
     }
 
     public bool IsActive(Course course)
     {
-        if (course.StartDateTime <= DateTime.Now && GetEnd(course) >= DateTime.Now) return true;
+        if (course.StartDateTime <= DateTime.Now && GetCourseEnd(course) >= DateTime.Now) return true;
         return false;
     }
 
@@ -235,7 +228,7 @@ public class CourseDAO : Subject
         return classDates;
     }
 
-    public Dictionary<int, Course> GetByTutor(Tutor tutor)
+    public Dictionary<int, Course> GetCoursesWithTutor(Tutor tutor)
     {
         Dictionary<int, Course> coursesByTutor = new Dictionary<int, Course>();
 
@@ -250,7 +243,7 @@ public class CourseDAO : Subject
         return coursesByTutor;
     }
 
-    public Dictionary<int, Course> GetAll(int tutorId)
+    public Dictionary<int, Course> GetCoursesWithTutor(int tutorId)
     {
         Dictionary<int, Course> coursesByTutor = new Dictionary<int, Course>();
 
@@ -265,6 +258,18 @@ public class CourseDAO : Subject
         return coursesByTutor;
     }
 
+    public Dictionary<int, Course> GetLiveCourses()
+    {
+        Dictionary<int, Course> courses = _courses;
+        foreach (Course course in courses.Values)
+        {
+            if (course.Online)
+            {
+                courses.Remove(course.Id);
+            }
+        }
+        return courses;
+    }
     public List<Course> GetCoursesForSkills(Tutor tutor)
     {
         List<Course> skills = new List<Course>();
@@ -290,7 +295,7 @@ public class CourseDAO : Subject
 
     public List<Course> SearchCoursesByTutor(int tutorId, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
     {
-        List<Course> tutorsCourses = GetAll(tutorId).Values.ToList();
+        List<Course> tutorsCourses = GetCoursesWithTutor(tutorId).Values.ToList();
         return SearchCourses(tutorsCourses, language, level, startDate, duration, online);
     }
 
@@ -308,20 +313,20 @@ public class CourseDAO : Subject
 
     public List<Course> SearchCoursesByStudent(AppController appController, Student student, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
     {
-        List<Course> availableCourses = GetAvailable(student, appController);
+        List<Course> availableCourses = GetAvailableCourses(student, appController);
         List<Course> filteredCourses = SearchCourses(availableCourses, language, level, startDate, duration, online);
         return filteredCourses;
     }
 
-    public List<Course> GetAvailable(Student student, AppController appController)
+    public List<Course> GetAvailableCourses(Student student, AppController appController)
     {
         var courseController = appController.CourseController;
         var enrollmentController = appController.EnrollmentRequestController;
 
         List<Course> availableCourses = new();
-        foreach (Course course in courseController.GetAll().Values)
+        foreach (Course course in courseController.GetAllCourses().Values)
         {
-            if (courseController.IsAvailable(course.Id))
+            if (courseController.IsCourseAvailable(course.Id))
             {
                 if (!enrollmentController.AlreadyExists(student, course))
                     availableCourses.Add(course);
@@ -330,7 +335,7 @@ public class CourseDAO : Subject
         return availableCourses;
     }
 
-    public List<Course> GetCompleted(Student student, AppController appController)
+    public List<Course> GetCompletedCourses(Student student, AppController appController)
     {
         var enrollmentController = appController.EnrollmentRequestController;
         var withdrawalController = appController.WithdrawalRequestController;
@@ -339,7 +344,7 @@ public class CourseDAO : Subject
 
         foreach (var request in studentRequests)
         {
-            Course course = Get(request.CourseId);
+            Course course = GetCourseById(request.CourseId);
             if (StudentAttendedUntilEnd(course, request, withdrawalController))
                 courses.Add(course);
         }

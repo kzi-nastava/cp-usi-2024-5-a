@@ -135,6 +135,10 @@ namespace LangLang.View.CourseGUI
                     MessageBox.Show("You have already given the student a penalty point today.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
                 {
+                    Course cour = course.ToCourse();
+                    cour.NumberOfStudents -= 1;
+                    courseController.Update(cour);
+
                     penaltyPointController.GivePenaltyPoint(SelectedStudent.ToStudent(), tutorController.Get(course.TutorId), course.ToCourse(), appController);
                     NotifyStudentAboutPenaltyPoint(SelectedStudent.Id);
                     
@@ -147,7 +151,10 @@ namespace LangLang.View.CourseGUI
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to accept the withdrawal?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                courseController.RemoveStudent(course.Id);
+                Course cour = course.ToCourse();
+                cour.NumberOfStudents -= 1;
+                courseController.Update(cour);
+
                 withdrawalController.UpdateStatus(SelectedWithdrawal.Id, Status.Accepted);
                 ShowSuccess();
                 Update();
@@ -159,7 +166,7 @@ namespace LangLang.View.CourseGUI
             if (result == MessageBoxResult.Yes)
             {
                 withdrawalController.UpdateStatus(SelectedWithdrawal.Id, Status.Rejected);
-                courseController.RemoveStudent(course.Id);
+
                 penaltyPointController.GivePenaltyPoint(SelectedStudent.ToStudent(), tutorController.Get(course.TutorId), course.ToCourse(), appController);
                 NotifyStudentAboutPenaltyPoint(SelectedStudent.Id);
 
