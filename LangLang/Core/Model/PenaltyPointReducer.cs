@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using LangLang.Core;
 using LangLang.Core.Controller;
+using LangLang.Core.Model;
 
 public class PenaltyPointReducer
 {
@@ -46,14 +47,22 @@ public class PenaltyPointReducer
         
         if (currentMonth.Month != LastReduced.Month)
         {
+            int pointsToRemove = ((DateTime.Now.Year - LastReduced.Year) * 12) + DateTime.Now.Month - LastReduced.Month;
             LastReduced = currentMonth;
 
             foreach (var student in appController.StudentController.GetAll())
             {
-                appController.PenaltyPointController.RemovePenaltyPoint(student);
+                Remove(pointsToRemove, student, appController);
             }
 
             Write();
+        }
+    }
+    public void Remove(int toRemove,Student student,AppController appController)
+    {
+        for(int i = 0; i<toRemove; i++)
+        {
+            appController.PenaltyPointController.RemovePenaltyPoint(student);
         }
     }
 }
