@@ -195,5 +195,10 @@ namespace LangLang.View
                 dataGrid.ItemsSource = SelectedTutor.LanguageLevel;
             }
         }
+
+        private void SignOutBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

@@ -27,6 +27,9 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+
+        <Button x:Name="signoutbtn" Content="Sign out" Grid.Column="1" HorizontalAlignment="Left" Height="25" Margin="350,10,0,0" VerticalAlignment="Top" Width="140" BorderBrush="White" Background="#FFD28383" Foreground="#FF514141" FontFamily="Segoe UI Black" ClickMode="Press" Click="SignOutBtn_Click"/>
+
         <Grid Grid.Column="0" Margin="10,24,417,0" Grid.ColumnSpan="2">
             <TabControl Margin="5,0,0,0" RenderTransformOrigin="0.52,0.5" Height="250" VerticalAlignment="Top">
                 <TabItem Header="All tutors" Margin="0,0,0,1" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="565" AutomationProperties.IsColumnHeader="True" BorderBrush="White">
@@ -113,7 +116,7 @@
         </Grid>
 
         <!-- Second panel -->
-        <Grid Grid.Column="1" Margin="120,24,10,0">
+        <Grid Grid.Column="1" Margin="120,42,10,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="23*"/>
                 <RowDefinition Height="11*"/>

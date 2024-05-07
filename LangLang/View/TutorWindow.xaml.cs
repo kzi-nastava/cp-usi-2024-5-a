@@ -269,5 +269,9 @@ namespace LangLang
             }
         }
 
+        private void SignOutBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }
