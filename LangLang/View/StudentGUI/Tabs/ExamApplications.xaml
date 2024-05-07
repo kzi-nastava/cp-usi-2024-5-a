@@ -26,8 +26,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Header="Language" Binding="{Binding Language}" Width="*"/>
                 <DataGridTextColumn IsReadOnly="True" Header="Level" Binding="{Binding Level}" Width="*"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Date" Binding="{Binding ExamDateTime.Date}" Width="*"/>
-                <DataGridTextColumn IsReadOnly="True" Header="Time" Binding="{Binding ExamDateTime.Time}" Width="*"/>
+                <DataGridTextColumn IsReadOnly="True" Header="Date and time" Binding="{Binding ExamDateTime}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
