@@ -22,9 +22,9 @@ namespace LangLang.Core.Controller
             _examResults.Add(studentId, examId);
         }
 
-        public List<ExamResult> Get(int examId)
+        public List<ExamResult> Get(ExamSlot exam)
         {
-            return _examResults.Get(examId);
+            return _examResults.Get(exam);
         }
 
         internal void Update(ExamResult examResult)

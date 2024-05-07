@@ -52,7 +52,7 @@ namespace LangLang.View.ExamSlotGUI
                 GenerateResults();
             }
 
-            foreach (ExamResult exam in resultController.Get(exam.Id))
+            foreach (ExamResult exam in resultController.Get(exam.ToExamSlot()))
             {
                 ExamResults.Add(new ExamResultDTO(exam, studentController));
             }
