@@ -25,7 +25,7 @@ namespace LangLang.View.CourseGUI
         }
         public string EnteredText { get; private set; }
 
-        private void OkButton_Click(object sender, RoutedEventArgs e)
+        private void OkBtn_Click(object sender, RoutedEventArgs e)
         {
             EnteredText = TextInput.Text;
             Close();
