@@ -150,8 +150,15 @@ namespace LangLang
 
         private void EnterGradeBtn_Click(object sender, RoutedEventArgs e)
         {
-            EnterGradesWindow gradesWindow = new (appController, SelectedCourse);
-            gradesWindow.Show();
+            if(courseController.GetCourseEnd(SelectedCourse.ToCourse()) < DateTime.Now)
+            {
+                EnterGradesWindow gradesWindow = new(appController, SelectedCourse);
+                gradesWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("The course is not finished.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
         private void DurationOfCourseBtn_Click(object sender, RoutedEventArgs e)
         {
