@@ -38,7 +38,7 @@ namespace LangLang.Core.Model.DAO
         {
             application.Id = GenerateId();
 
-            ExamSlot? exam = examController.GetById(application.ExamSlotId);
+            ExamSlot? exam = examController.Get(application.ExamSlotId);
             examController.AddStudent(exam);
 
             _applications.Add(application.Id, application);
@@ -53,7 +53,7 @@ namespace LangLang.Core.Model.DAO
             ExamApplication? application = Get(id);
             if (application == null) return null;
 
-            ExamSlot? exam = examController.GetById(application.ExamSlotId);
+            ExamSlot? exam = examController.Get(application.ExamSlotId);
             examController.RemoveStudent(exam);
 
             _applications.Remove(application.Id);
@@ -85,7 +85,7 @@ namespace LangLang.Core.Model.DAO
         //checks  if the exam slot associated with the application has already passed
         public bool IsApplicationActive(ExamApplication application , ExamSlotController examSlotController)
         {
-            ExamSlot exam = examSlotController.GetById(application.ExamSlotId);
+            ExamSlot exam = examSlotController.Get(application.ExamSlotId);
             return !examSlotController.HasPassed(exam);
 
         }
@@ -132,7 +132,7 @@ namespace LangLang.Core.Model.DAO
         {
             foreach (ExamApplication application in GetApplications(student))
             {
-                ExamSlot exam = examSlotController.GetById(application.ExamSlotId);
+                ExamSlot exam = examSlotController.Get(application.ExamSlotId);
                 bool hasPassed = examSlotController.HasPassed(exam);
 
                 if (hasPassed && !exam.ResultsGenerated)

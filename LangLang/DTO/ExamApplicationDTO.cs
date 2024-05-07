@@ -31,7 +31,7 @@ namespace LangLang.DTO
 
         public ExamApplicationDTO(ExamApplication application, AppController appController)
         {
-            ExamSlot exam = appController.ExamSlotController.GetById(application.ExamSlotId);
+            ExamSlot exam = appController.ExamSlotController.Get(application.ExamSlotId);
             Student student = appController.StudentController.Get(application.StudentId);
             Id = application.Id;
             ExamSlotId = application.ExamSlotId;

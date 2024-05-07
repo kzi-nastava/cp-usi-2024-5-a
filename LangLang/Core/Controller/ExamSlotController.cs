@@ -16,22 +16,22 @@ namespace LangLang.Core.Controller
             _exams = new ExamSlotsDAO();
         }
 
-        public List<ExamSlot> GetAllExams()
+        public List<ExamSlot> GetAll()
         {
-            return _exams.GetAllExams().Values.ToList();
+            return _exams.GetAll().Values.ToList();
         }
 
         public bool Add(ExamSlot exam, CourseController courses)
         {
-            return _exams.AddExam(exam, courses);
+            return _exams.Add(exam, courses);
         }
-        public bool CanCreateExamSlot(ExamSlot exam, CourseController courseController)
+        public bool CanCreateExam(ExamSlot exam, CourseController courseController)
         {
-            return _exams.CanCreateExamSlot(exam, courseController);
+            return _exams.CanCreateExam(exam, courseController);
         }
         public void Update(ExamSlot exam)
         {
-            _exams.UpdateExam(exam);
+            _exams.Update(exam);
         }
         public bool CanBeUpdated(ExamSlot exam)
         {
@@ -39,7 +39,7 @@ namespace LangLang.Core.Controller
         }
         public bool Delete(int examId)
         {
-            return _exams.RemoveExam(examId);
+            return _exams.Remove(examId);
         }
 
         public bool ApplicationsVisible(int id)
@@ -52,9 +52,9 @@ namespace LangLang.Core.Controller
             _exams.Subscribe(observer);
         }
 
-        public ExamSlot? GetById(int id)
+        public ExamSlot? Get(int id)
         {
-            return _exams.GetExamById(id);
+            return _exams.Get(id);
         }
 
         public List<ExamSlot> GetExams(Tutor tutor)

@@ -120,7 +120,7 @@ public class CoursesDAO : Subject
     // considering the availability of the courses's tutor and classrooms
     public bool ExamsAndCourseOverlapp(Course course, ExamSlotController examSlotController, ref int busyClassrooms)
     {
-        List<ExamSlot> examSlots = examSlotController.GetAllExams();
+        List<ExamSlot> examSlots = examSlotController.GetAll();
         // Go through exams
         foreach (ExamSlot exam in examSlots)
         {

@@ -30,12 +30,12 @@ namespace LangLang.Core.Model.DAO
             return _exams.Keys.Max() + 1;
         }
 
-        public ExamSlot? GetExamById(int id)
+        public ExamSlot? Get(int id)
         {
             return _exams[id];
         }
 
-        public Dictionary<int, ExamSlot> GetAllExams()
+        public Dictionary<int, ExamSlot> GetAll()
         {
             return _exams;
         }
@@ -43,10 +43,10 @@ namespace LangLang.Core.Model.DAO
 
         //function takes examslot and adds it to dictionary of examslots
         //function saves changes and returns if adding was successful
-        public bool AddExam(ExamSlot exam, CourseController courses)
+        public bool Add(ExamSlot exam, CourseController courses)
         {
             
-            if (CanCreateExamSlot(exam, courses))
+            if (CanCreateExam(exam, courses))
             {
                 exam.Id = GenerateId();
                 _exams[exam.Id] = exam;
@@ -61,7 +61,7 @@ namespace LangLang.Core.Model.DAO
             
         }
 
-        public bool CanCreateExamSlot(ExamSlot exam, CourseController courseController)
+        public bool CanCreateExam(ExamSlot exam, CourseController courseController)
         {
             int busyClassrooms = 0;
             return !CoursesAndExamOverlapp(exam, courseController, ref busyClassrooms) && !ExamsOverlapp(exam, ref busyClassrooms);
@@ -100,7 +100,7 @@ namespace LangLang.Core.Model.DAO
         public bool ExamsOverlapp(ExamSlot exam, ref int busyClassrooms)
         {
             // Go through all exams
-            foreach (ExamSlot currExam in GetAllExams().Values)
+            foreach (ExamSlot currExam in GetAll().Values)
             {
                 if(currExam.Id == exam.Id)
                 {
@@ -128,9 +128,9 @@ namespace LangLang.Core.Model.DAO
 
         //function takes id of examslot and removes examslot with that id
         //function saves changes and returns if removing was successful
-        public bool RemoveExam(int id)
+        public bool Remove(int id)
         {
-            ExamSlot exam = GetExamById(id);
+            ExamSlot exam = Get(id);
             if (exam == null) return false;
 
             //should use const variable instead of 14
@@ -162,9 +162,9 @@ namespace LangLang.Core.Model.DAO
         }
         //function for updating examslot takes new version of examslot and updates existing examslot to be same as new one
         //function saves changes and returns if updating was successful
-        public void UpdateExam(ExamSlot exam)
+        public void Update(ExamSlot exam)
         {
-            ExamSlot? oldExam = GetExamById(exam.Id);
+            ExamSlot? oldExam = Get(exam.Id);
             if (oldExam == null) return;
 
             oldExam.TutorId = exam.TutorId;
@@ -268,7 +268,7 @@ namespace LangLang.Core.Model.DAO
 
         public bool ApplicationsVisible(int id)
         {
-            ExamSlot examSlot = GetExamById(id);
+            ExamSlot examSlot = Get(id);
             return examSlot.ApplicationsVisible();
         }
 
@@ -288,7 +288,7 @@ namespace LangLang.Core.Model.DAO
 
             List<EnrollmentRequest> studentRequests = appController.EnrollmentRequestController.GetRequests(student);
 
-            foreach (ExamSlot exam in GetAllExams().Values)
+            foreach (ExamSlot exam in GetAll().Values)
             {
                 //don't include filled exams and exams that passed or are less then a month away
                 if (!IsAvailable(exam)) continue;

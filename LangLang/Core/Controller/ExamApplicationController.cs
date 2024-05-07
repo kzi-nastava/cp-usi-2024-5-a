@@ -54,7 +54,7 @@ namespace LangLang.Core.Controller
         }
         public bool CancelApplication(ExamApplication application, ExamSlotController examSlotController)
         {
-            ExamSlot exam = examSlotController.GetById(application.ExamSlotId);
+            ExamSlot exam = examSlotController.Get(application.ExamSlotId);
             return _applications.CancelApplication(application, exam,examSlotController);
         }
 
