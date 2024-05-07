@@ -10,42 +10,37 @@ namespace LangLang.Core.Controller
 {
     public class CourseController
     {
-        private readonly CoursesDAO _courses;
+        private readonly CourseDAO _courses;
 
         public CourseController()
         {
-            _courses = new CoursesDAO();
+            _courses = new CourseDAO();
         }
 
-        public Dictionary<int, Course> GetAllCourses()
+        public Dictionary<int, Course> GetAll()
         {
-            return _courses.GetAllCourses();
-        }
-
-        public Dictionary<int, Course> GetLiveCourses()
-        {
-            return _courses.GetLiveCourses();
+            return _courses.GetAll();
         }
 
         public void Add(Course course)
         {
-            _courses.AddCourse(course);
+            _courses.Add(course);
         }
 
         public void Update(Course course)
         {
-            _courses.UpdateCourse(course);
+            _courses.Update(course);
         }
 
         public void Delete(int courseId)
         {
-            _courses.RemoveCourse(courseId);
+            _courses.Remove(courseId);
         }
 
         // Deletes all future courses made by tutor or updates all the active courses to have no tutor as well as future courses made by director
-        public void DeleteCoursesWithTutor(int tutorId)
+        public void DeleteByTutor(Tutor tutor)
         {
-            _courses.DeleteCoursesWithTutor(tutorId);
+            _courses.DeleteByTutor(tutor);
         }
 
         public void Subscribe(IObserver observer)
@@ -54,44 +49,40 @@ namespace LangLang.Core.Controller
         }
 
         // Method checks if the course is valid for updating or canceling
-        public bool CanCourseBeChanged(int courseId)
+        public bool CanChange(int courseId)
         {
-            return _courses.CanCourseBeChanged(courseId);
+            return _courses.CanChange(courseId);
         }
 
         // Method checks if a certain course is available for the student
-        public bool IsCourseAvailable(int courseId)
+        public bool IsAvailable(int courseId)
         {
-            return _courses.IsCourseAvailable(courseId);
+            return _courses.IsAvailable(courseId);
         }
 
-        public void AddStudentToCourse(int courseId)
+        public void AddStudent(int courseId)
         {
-            _courses.AddStudentToCourse(courseId);
+            _courses.AddStudent(courseId);
         }
 
-        public Dictionary<int, Course> GetCoursesWithTutor(Tutor tutor)
+        public void RemoveStudent(int courseId)
         {
-            return _courses.GetCoursesWithTutor(tutor);
+            _courses.RemoveStudent(courseId);
         }
 
-        public Dictionary<int, Course> GetCoursesWithTutor(int tutorId)
+        public List<Course> GetByTutor(int tutorId)
         {
-            return _courses.GetCoursesWithTutor(tutorId);
-        }
-        public List<Course> GetCourses(Tutor tutor)
-        {
-            return _courses.GetCoursesWithTutor(tutor).Values.ToList();
+            return _courses.GetAll(tutorId).Values.ToList();
         }
 
-        public DateTime GetCourseEnd(Course course)
+        public DateTime GetEnd(Course course)
         {
-            return _courses.GetCourseEnd(course);
+            return _courses.GetEnd(course);
         }
 
-        public Course GetById(int courseId)
+        public Course Get(int courseId)
         {
-            return _courses.GetAllCourses()[courseId];
+            return _courses.GetAll()[courseId];
         }
 
         public List<Course> SearchCoursesByTutor(int tutorId, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
@@ -119,9 +110,9 @@ namespace LangLang.Core.Controller
             return course.OverlappsWith(timeSlot);
         }
 
-        public bool CanCreateOrUpdateCourse(Course course, ExamSlotController examSlotController)
+        public bool CanCreateOrUpdate(Course course, ExamSlotController examSlotController)
         {
-            return _courses.CanCreateOrUpdateCourse(course, examSlotController);
+            return _courses.CanCreateOrUpdate(course, examSlotController);
         }
       
         public List<Course> GetCoursesForSkills(Tutor tutor)
@@ -129,14 +120,14 @@ namespace LangLang.Core.Controller
             return _courses.GetCoursesForSkills(tutor);
         }
 
-        public List<Course> GetCompletedCourses(Student student, AppController appController)
+        public List<Course> GetCompleted(Student student, AppController appController)
         {
-            return _courses.GetCompletedCourses(student, appController);
+            return _courses.GetCompleted(student, appController);
         }
 
-        public List<Course> GetAvailableCourses(Student student, AppController appController)
+        public List<Course> GetAvailable(Student student, AppController appController)
         {
-            return _courses.GetAvailableCourses(student, appController);
+            return _courses.GetAvailable(student, appController);
         }
 
     }   
