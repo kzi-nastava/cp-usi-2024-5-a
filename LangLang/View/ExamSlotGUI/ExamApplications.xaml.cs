@@ -71,7 +71,7 @@ namespace LangLang.View.ExamSlotGUI
             if (result == MessageBoxResult.Yes)
             {
                 Student student = studentController.Get(SelectedApplication.StudentId);
-                studentController.Delete(student.Id, appController);
+                studentController.Deactivate(student.Id, appController);
                 Update();
                 ShowSuccess();
             }
