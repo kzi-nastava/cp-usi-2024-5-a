@@ -83,15 +83,15 @@ namespace LangLang.Core.Model.DAO
 
             return grades;
         }
-        public Dictionary<int, Grade> GetGradesWithCourse(int courseId)
+        public List<Grade> GetGradesWithCourse(int courseId)
         {
-            Dictionary<int, Grade> grades = new Dictionary<int, Grade>();
+            List<Grade> grades = new List<Grade>();
 
             foreach (Grade grade in _grades.Values)
             {
                 if (grade.CourseId == courseId)
                 {
-                    grades[grade.Id] = grade;
+                    grades.Add(grade);
                 }
             }
 

@@ -27,7 +27,7 @@ namespace LangLang.Core.Controller
             return _grades.GetGradesWithStudent(studentId);
         }
 
-        public Dictionary<int, Grade> GetGradesWithCourse(int courseId)
+        public List<Grade> GetGradesWithCourse(int courseId)
         {
             return _grades.GetGradesWithCourse(courseId);
         }

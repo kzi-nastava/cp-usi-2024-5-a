@@ -10,7 +10,7 @@
         <TabItem Header="Students attending the course">
             <Grid>
                 <!-- label-->
-                <Label x:Name="coursesLbl" Content="Attending students" Grid.Row="0" HorizontalAlignment="Center" Height="28" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.499,0.077" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
+                <Label x:Name="lbl" Content="Attending students" Grid.Row="0" HorizontalAlignment="Center" Height="28" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.499,0.077" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
                     <Label.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -32,11 +32,11 @@
                 <!--table for students-->
                 <DataGrid SelectionChanged="StudentTable_SelectionChanged"  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="studentTable" Margin="49,43,49,82" ItemsSource="{Binding Students, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedStudent, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Name}"/>
-                        <DataGridTextColumn IsReadOnly="True" Header="LastName" Binding="{Binding LastName}"/>
-                        <DataGridTextColumn IsReadOnly="True" Header="Email" Binding="{Binding Email}"/>
-                        <DataGridTextColumn IsReadOnly="True" Header="Phone number" Binding="{Binding PhoneNumber}"/>
-                        <DataGridTextColumn IsReadOnly="True" Header="BirthDate" Binding="{Binding BirthDate}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Name}" Width="*"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="LastName" Binding="{Binding LastName}" Width="*"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Email" Binding="{Binding Email}" Width="*"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="Phone number" Binding="{Binding PhoneNumber}" Width="*"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="BirthDate" Binding="{Binding BirthDate}" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
 
