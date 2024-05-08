@@ -1,4 +1,5 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.Core;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.DTO;
 using System;
@@ -57,11 +58,16 @@ namespace LangLang.View.StudentGUI.Tabs
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to cancel exam application?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                appController.ExamApplicationController.CancelApplication(SelectedApplication.ToExamApplication(), examSlotController);
-                MessageBox.Show("Cancelation was successful.");
-                SetDataForReview();
-                parentWindow.availableExamsTab.SetDataForReview();
-                parentWindow.Update();
+                bool canceled = appController.ExamApplicationController.CancelApplication(SelectedApplication.ToExamApplication(), examSlotController);
+                if (canceled)
+                {
+                    MessageBox.Show("Cancelation was successful.");
+                    SetDataForReview();
+                    parentWindow.availableExamsTab.SetDataForReview();
+                    parentWindow.Update();
+                }else
+                    MessageBox.Show($"Can't cancel exam. There is less than {Constants.EXAM_CANCELATION_PERIOD} days");
+
             }
         }
     }
