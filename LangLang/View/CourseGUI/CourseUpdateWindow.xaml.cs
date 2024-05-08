@@ -32,7 +32,7 @@ namespace LangLang.View.CourseGUI
             examController = appController.ExamSlotController;
             courseController = appController.CourseController;
 
-            Course = new CourseDTO(courseController.GetById(courseId));
+            Course = new CourseDTO(courseController.Get(courseId));
 
             DataContext = this;
             languageLvlCb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
@@ -42,7 +42,7 @@ namespace LangLang.View.CourseGUI
         {
             if (Course.IsValid)
             {
-                if(courseController.CanCreateOrUpdateCourse(Course.ToCourse(), examController))
+                if(courseController.CanCreateOrUpdate(Course.ToCourse(), examController))
                 {
                     courseController.Update(Course.ToCourse());
                     MessageBox.Show("Success!");

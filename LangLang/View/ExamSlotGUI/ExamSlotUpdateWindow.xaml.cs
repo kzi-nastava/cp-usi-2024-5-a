@@ -38,7 +38,7 @@ namespace LangLang.View.ExamSlotGUI
             examSlotController = appController.ExamSlotController;
             this.appController = appController;
             ExamSlot = new ExamSlotDTO(examSlotController.Get(selectedExamId));
-            Skills = appController.CourseController.GetCoursesForSkills(loggedIn);
+            Skills = appController.CourseController.GetBySkills(loggedIn);
 
             //Prefill(ExamSlot);
             InitializeComponent();

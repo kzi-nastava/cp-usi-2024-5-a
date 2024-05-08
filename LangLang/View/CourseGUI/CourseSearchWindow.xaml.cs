@@ -39,7 +39,7 @@ namespace LangLang.View.CourseGUI
 
             this.courses = new ObservableCollection<CourseDTO>();
             
-            coursesForReview = this.courseController.GetCoursesWithTutor(tutorId).Values.ToList<Course>();
+            coursesForReview = this.courseController.GetByTutor(tutorId);
 
             levelCoursecb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
 
@@ -71,7 +71,7 @@ namespace LangLang.View.CourseGUI
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
-            coursesForReview = this.courseController.GetCoursesWithTutor(tutorId).Values.ToList<Course>();
+            coursesForReview = this.courseController.GetByTutor(tutorId);
             levelCoursecb.SelectedItem = null;
             Update();
         }
