@@ -275,7 +275,7 @@ namespace LangLang.DTO
             {
                 if (booleanDays[i]) { days.Add((DayOfWeek)(i + 1)); }
             }
-            return new Course(Id, tutorId, language, level, numberOfWeeks, days, online, maxStudents, new DateTime(startDate.Year, startDate.Month, startDate.Day, hour, minute, 0), createdByDirector, Modifiable);
+            return new Course(Id, tutorId, language, level, numberOfWeeks, days, online, NumberOfStudents, maxStudents, new DateTime(startDate.Year, startDate.Month, startDate.Day, hour, minute, 0), createdByDirector, Modifiable);
         }
 
         public CourseDTO(Course course)

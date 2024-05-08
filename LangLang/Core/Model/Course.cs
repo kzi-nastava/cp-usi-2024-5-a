@@ -29,7 +29,7 @@ namespace LangLang.Core.Model
         // Constructors
 
         public Course(int id, int tutorId, string language, LanguageLevel level, int numberOfWeeks, List<DayOfWeek> days,
-            bool online, int maxStudents, DateTime startDateTime, bool createdByDirector, bool modifiable)
+            bool online, int numberOfStudents, int maxStudents, DateTime startDateTime, bool createdByDirector, bool modifiable)
         {
             Id = id;
             TutorId = tutorId;
@@ -38,7 +38,7 @@ namespace LangLang.Core.Model
             NumberOfWeeks = numberOfWeeks;
             Days = days;
             Online = online;
-            NumberOfStudents = 0;
+            NumberOfStudents = numberOfStudents;
             MaxStudents = maxStudents;
             StartDateTime = startDateTime;
             CreatedByDirector = createdByDirector;

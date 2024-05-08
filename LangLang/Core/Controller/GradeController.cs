@@ -17,19 +17,19 @@ namespace LangLang.Core.Controller
             _grades = new GradeDAO();
         }
 
-        public Dictionary<int, Grade> GetAllGrades()
+        public Dictionary<int, Grade> GetAll()
         {
-            return _grades.GetAllGrades();
+            return _grades.GetAll();
         }
 
-        public Dictionary<int, Grade> GetGradesWithStudent(int studentId)
+        public Dictionary<int, Grade> GetByStudent(Student student)
         {
-            return _grades.GetGradesWithStudent(studentId);
+            return _grades.GetByStudent(student);
         }
 
-        public List<Grade> GetGradesWithCourse(int courseId)
+        public List<Grade> GetByCourse(Course course)
         {
-            return _grades.GetGradesWithCourse(courseId);
+            return _grades.GetByCourse(course);
         }
 
         public void Add(Grade grade)

@@ -59,7 +59,7 @@ namespace LangLang.Core.Model.DAO
             return grade;
         }
 
-        public Dictionary<int, Grade> GetAllGrades()
+        public Dictionary<int, Grade> GetAll()
         {
             return _grades;
         }
@@ -69,13 +69,13 @@ namespace LangLang.Core.Model.DAO
             return _grades[id];
         }
 
-        public Dictionary<int, Grade> GetGradesWithStudent(int studentId)
+        public Dictionary<int, Grade> GetByStudent(Student student)
         {
             Dictionary<int, Grade> grades = new Dictionary<int, Grade>();
 
             foreach (Grade grade in _grades.Values)
             {
-                if (grade.StudentId == studentId)
+                if (grade.StudentId == student.Id)
                 {
                     grades[grade.Id] = grade;
                 }
@@ -83,13 +83,13 @@ namespace LangLang.Core.Model.DAO
 
             return grades;
         }
-        public List<Grade> GetGradesWithCourse(int courseId)
+        public List<Grade> GetByCourse(Course course)
         {
             List<Grade> grades = new List<Grade>();
 
             foreach (Grade grade in _grades.Values)
             {
-                if (grade.CourseId == courseId)
+                if (grade.CourseId == course.Id)
                 {
                     grades.Add(grade);
                 }

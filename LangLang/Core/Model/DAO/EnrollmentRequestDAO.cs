@@ -137,7 +137,7 @@ namespace LangLang.Core.Model.DAO
 
             foreach (var request in studentRequests)
             {
-                var course = courseController.GetById(request.CourseId);
+                var course = courseController.Get(request.CourseId);
 
                 if (IsCurrentCourseRequest(request, course, withdrawalController))
                     return request;
