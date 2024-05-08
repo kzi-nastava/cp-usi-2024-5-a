@@ -66,7 +66,7 @@ namespace LangLang.View.StudentGUI.Tabs
                     parentWindow.availableExamsTab.SetDataForReview();
                     parentWindow.Update();
                 }else
-                    MessageBox.Show($"Can't cancel exam. There is less than {Constants.EXAM_CANCELATION_PERIOD} days");
+                    MessageBox.Show($"Can't cancel exam. There is less than {Constants.EXAM_CANCELATION_PERIOD} days or exam has passed");
 
             }
         }
