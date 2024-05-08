@@ -96,7 +96,7 @@ namespace LangLang
             if(examSlotController.CanBeUpdated(SelectedExamSlot.ToExamSlot()))
                 updateWindow.Show();
             else
-                MessageBox.Show($"Can't update exam, there is less than {Constants.EXAM_MODIFY_PERIOD} days before exam.");
+                MessageBox.Show($"Can't update exam, there is less than {Constants.EXAM_MODIFY_PERIOD} days before exam or exam has passed.");
         }
         private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
