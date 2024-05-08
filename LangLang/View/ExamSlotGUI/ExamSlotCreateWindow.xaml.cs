@@ -30,7 +30,7 @@ namespace LangLang.View
         private ExamSlotController examSlotsController { get; set; }
         public ExamSlotCreateWindow(AppController appController, Tutor loggedIn)
         {
-            Skills = appController.CourseController.GetCoursesForSkills(loggedIn);
+            Skills = appController.CourseController.GetBySkills(loggedIn);
             SelectedCourse = null;
             examSlotsController = appController.ExamSlotController;
             ExamSlot = new ExamSlotDTO();

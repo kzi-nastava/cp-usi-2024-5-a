@@ -34,7 +34,7 @@ namespace LangLang.View.StudentGUI.Tabs
             }
 
             acceptedRequestId = enrollmentRequest.Id;
-            Course activeCourse = courseController.GetById(enrollmentRequest.CourseId);
+            Course activeCourse = courseController.Get(enrollmentRequest.CourseId);
             courseNameTb.Text = activeCourse.Language;
             courseLevelTb.Text = activeCourse.Level.ToString();
             string daysUntilEnd = activeCourse.DaysUntilEnd().ToString();

@@ -38,7 +38,7 @@ namespace LangLang.View.StudentGUI.Tabs
 
         public void SetDataForReview()
         {
-            CoursesForReview = courseController.GetAvailableCourses(currentlyLoggedIn, appController);
+            CoursesForReview = courseController.GetAvailable(currentlyLoggedIn, appController);
         }
 
         private void AdjustButton()
@@ -64,7 +64,7 @@ namespace LangLang.View.StudentGUI.Tabs
 
         private void ClearCourseBtn_Click(object sender, RoutedEventArgs e)
         {
-            CoursesForReview = courseController.GetAvailableCourses(currentlyLoggedIn, appController);
+            CoursesForReview = courseController.GetAvailable(currentlyLoggedIn, appController);
             levelCoursecb.SelectedItem = null;
             parentWindow.Update();
         }
@@ -87,7 +87,7 @@ namespace LangLang.View.StudentGUI.Tabs
 
                 MessageBox.Show("Request sent. Please wait for approval.");
 
-                CoursesForReview = courseController.GetAvailableCourses(currentlyLoggedIn, appController);
+                CoursesForReview = courseController.GetAvailable(currentlyLoggedIn, appController);
                 parentWindow.enrollmentRequestsTab.SetDataForReview();
                 parentWindow.Update();
             }

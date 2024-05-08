@@ -71,7 +71,7 @@ namespace LangLang
 
             Courses.Clear();
 
-            foreach (Course course in courseController.GetCourses(LoggedIn))
+            foreach (Course course in courseController.GetByTutor(LoggedIn))
             {
                 Courses.Add(new CourseDTO(course));
             }
@@ -126,7 +126,7 @@ namespace LangLang
         
         private void CourseUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (courseController.CanCourseBeChanged(SelectedCourse.Id))
+            if (courseController.CanChange(SelectedCourse.Id))
             {
                 CourseUpdateWindow updateWindow = new (appController, SelectedCourse.Id);
                 updateWindow.Show();
@@ -139,7 +139,7 @@ namespace LangLang
 
         private void CourseDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (courseController.CanCourseBeChanged(SelectedCourse.Id))
+            if (courseController.CanChange(SelectedCourse.Id))
             {
                 courseController.Delete(SelectedCourse.Id);
                 Update();
@@ -153,7 +153,7 @@ namespace LangLang
 
         private void EnterGradeBtn_Click(object sender, RoutedEventArgs e)
         {
-            if(courseController.GetCourseEnd(SelectedCourse.ToCourse()) < DateTime.Now)
+            if(courseController.GetEnd(SelectedCourse.ToCourse()) < DateTime.Now)
             {
                 EnterGradesWindow gradesWindow = new(appController, SelectedCourse);
                 gradesWindow.Show();
