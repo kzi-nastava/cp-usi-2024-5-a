@@ -11,8 +11,8 @@
 
     <Grid Background="#FFFAE0E0">
 
-        <TextBlock x:Name="fullNameTextBlock" HorizontalAlignment="Center" Height="49" Margin="0,56,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="209" TextAlignment="Center" FontSize="30" FontFamily="Broadway" Foreground="#FFD28383"/>
-        <TextBlock x:Name="rateTextBlock" HorizontalAlignment="Center" Height="33" Margin="0,142,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" FontFamily="Broadway" FontSize="30" TextAlignment="Center" Foreground="#FFD28383"/>
+        <TextBlock x:Name="fullNameTextBlock" HorizontalAlignment="Center" Height="112" Margin="0,30,0,0" Width="210" TextAlignment="Center" FontSize="30" FontFamily="Broadway" Foreground="#FFD28383" Text="" VerticalAlignment="Top" TextWrapping="Wrap"/>
+        <TextBlock x:Name="rateTextBlock" HorizontalAlignment="Center" Height="33" Margin="0,142,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" FontFamily="Broadway" FontSize="30" TextAlignment="Center" Foreground="#FFD28383" Text="10"/>
         <Slider x:Name="slider" HorizontalAlignment="Center" Height="17" Margin="0,198,0,0" VerticalAlignment="Top" Width="280"
                 Minimum="1" Maximum="10" Value="5" ValueChanged="Slider_ValueChanged"/>
         <Button x:Name="RateBtn" Content="Rate tutor" HorizontalAlignment="Center" Height="29" Margin="0,234,0,0" VerticalAlignment="Top" Width="170" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" Click="RateBtn_Click"/>
