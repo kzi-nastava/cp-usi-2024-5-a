@@ -46,7 +46,7 @@ namespace LangLang.View.StudentGUI.Tabs
 
         private void rateTutorBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (appController.TutorRatingController.IsRated(currentlyLoggedIn.Id, SelectedCourse.Id))
+            if (appController.TutorRatingController.IsRated(currentlyLoggedIn.Id, SelectedCourse.TutorId))
             {
                 MessageBox.Show("You have already rated this tutor.", "Rating Already Submitted");
                 return;
