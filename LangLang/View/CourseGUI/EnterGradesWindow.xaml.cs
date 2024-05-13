@@ -117,7 +117,7 @@ namespace LangLang.View.CourseGUI
 
                 if (selectedNumber.HasValue)
                 {
-                    gradeContoller.Add(new Grade(0, course.Id, SelectedStudent.Id, (int)selectedNumber));
+                    //gradeContoller.Add(new Grade(0, course.Id, SelectedStudent.Id, (int)selectedNumber)); //TODO: Implement addition through DTO class when it's implemented
                     ShowSuccess();
                 }
                 else

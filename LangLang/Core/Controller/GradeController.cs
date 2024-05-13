@@ -1,10 +1,6 @@
 ﻿using LangLang.Core.Model.DAO;
 using LangLang.Core.Model;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LangLang.Core.Controller
 {
@@ -17,12 +13,12 @@ namespace LangLang.Core.Controller
             _grades = new GradeDAO();
         }
 
-        public Dictionary<int, Grade> GetAll()
+        public List<Grade> GetAll()
         {
             return _grades.GetAll();
         }
 
-        public Dictionary<int, Grade> GetByStudent(Student student)
+        public List<Grade> GetByStudent(Student student)
         {
             return _grades.GetByStudent(student);
         }
