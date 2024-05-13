@@ -1,10 +1,7 @@
 ﻿using LangLang.Core.Observer;
 using LangLang.Core.Repository;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LangLang.Core.Model.DAO
 {
@@ -41,7 +38,8 @@ namespace LangLang.Core.Model.DAO
 
             oldGrade.StudentId = grade.StudentId;
             oldGrade.CourseId = grade.CourseId;
-            oldGrade.GradeValue = grade.GradeValue;
+            oldGrade.ActivityGrade = grade.ActivityGrade;
+            oldGrade.KnowledgeGrade = grade.KnowledgeGrade;
 
             _repository.Save(_grades);
             NotifyObservers();
@@ -59,9 +57,9 @@ namespace LangLang.Core.Model.DAO
             return grade;
         }
 
-        public Dictionary<int, Grade> GetAll()
+        public List<Grade> GetAll()
         {
-            return _grades;
+            return _grades.Values.ToList();
         }
 
         private Grade GetGradeById(int id)
@@ -69,20 +67,21 @@ namespace LangLang.Core.Model.DAO
             return _grades[id];
         }
 
-        public Dictionary<int, Grade> GetByStudent(Student student)
+        public List<Grade> GetByStudent(Student student)
         {
-            Dictionary<int, Grade> grades = new Dictionary<int, Grade>();
+            List<Grade> grades = new();
 
             foreach (Grade grade in _grades.Values)
             {
                 if (grade.StudentId == student.Id)
                 {
-                    grades[grade.Id] = grade;
+                    grades.Add(grade);
                 }
             }
 
             return grades;
         }
+
         public List<Grade> GetByCourse(Course course)
         {
             List<Grade> grades = new List<Grade>();
