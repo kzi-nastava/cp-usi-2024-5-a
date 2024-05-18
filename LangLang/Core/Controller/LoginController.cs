@@ -1,4 +1,5 @@
 ﻿
+using LangLang.Aplication.UseCases;
 using LangLang.Core.Model;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +10,20 @@ namespace LangLang.Core.Controller
 
     public class LoginController
     {
-        readonly StudentController studentController;
         readonly TutorController tutorController; 
         readonly DirectorController directorController;
-        public LoginController(StudentController studentController, TutorController tutorController, DirectorController directorController)
+        public LoginController(TutorController tutorController, DirectorController directorController)
         {
-            this.studentController = studentController;
             this.tutorController = tutorController;
             this.directorController = directorController;
         }
 
         public Profile GetProfileByCredentials(string email, string password)
         {
+            var studentService = new StudentService();
             try
             {
-                var profile = (GetProfile(studentController.GetAll(), email, password)
+                var profile = (GetProfile(studentService.GetAll(), email, password)
                               ?? GetProfile(tutorController.GetAll(), email, password)) 
                               ?? GetProfile(directorController.GetAll(), email, password)
                               ?? throw new AuthenticationException("Invalid email address.");
@@ -49,7 +49,7 @@ namespace LangLang.Core.Controller
                 throw new AuthenticationException("Invalid password.");
             }
 
-            if (user.Profile.IsActive == true)
+            if (user.Profile.IsActive == false)
             {
                 throw new AuthenticationException("Profile deactivated.");
             }

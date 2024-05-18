@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using LangLang.Core.Model;
 using LangLang.Core.Observer;
+using LangLang.Domain.Models;
 
 namespace LangLang.Core.Controller
 {

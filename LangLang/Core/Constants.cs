@@ -5,6 +5,9 @@ namespace LangLang.Core
     {
         public const string REDUCER_FILE_NAME = @"../../../../LangLang/Data/reducer.csv";
 
+        public const char DELIMITER = '|';
+        public const string FILENAME_PREFIX = "../../../../LangLang/Data/";
+
         public const string DATE_FORMAT = "yyyy-MM-dd";
         public const string DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
 
