@@ -1,6 +1,8 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.Aplication.UseCases;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Model.Enums;
+using LangLang.Domain.Models;
 using System;
 
 namespace LangLang.DTO
@@ -34,7 +36,8 @@ namespace LangLang.DTO
             Id = enrollmentRequest.Id;
             CourseId = enrollmentRequest.CourseId;
             StudentId = enrollmentRequest.StudentId;
-            Student student = appController.StudentController.Get(StudentId);
+            var studentService = new StudentService();
+            Student student = studentService.Get(StudentId);
 
             Status = enrollmentRequest.Status;
             RequestSentAt = enrollmentRequest.RequestSentAt;

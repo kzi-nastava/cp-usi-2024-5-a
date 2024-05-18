@@ -1,5 +1,6 @@
 ﻿
 using LangLang.Core.Repository.Serialization;
+using LangLang.Domain.Models;
 using System;
 
 namespace LangLang.Core.Model

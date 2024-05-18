@@ -1,7 +1,9 @@
 ﻿using LangLang.Core;
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
+using LangLang.Domain.Models;
 using LangLang.DTO;
+using LangLang.WPF.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,7 +22,6 @@ namespace LangLang.View.StudentGUI.Tabs
         private AppController appController;
         private ExamApplicationController applicationController;
         private ExamSlotController examSlotController;
-        private StudentController studentController;
         private Student currentlyLoggedIn;
 
         public ExamApplications(AppController appController, Student currentlyLoggedIn, StudentWindow parentWindow)
@@ -33,7 +34,6 @@ namespace LangLang.View.StudentGUI.Tabs
             this.currentlyLoggedIn = currentlyLoggedIn;
             applicationController = appController.ExamApplicationController;
             examSlotController = appController.ExamSlotController;
-            studentController = appController.StudentController;
 
             Applications = new();
 
@@ -51,7 +51,7 @@ namespace LangLang.View.StudentGUI.Tabs
             {
                 Applications.Add(new ExamApplicationDTO(application, appController));
             }
-        }   
+        }
 
         private void CancelApplicationBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -63,9 +63,10 @@ namespace LangLang.View.StudentGUI.Tabs
                 {
                     MessageBox.Show("Cancelation was successful.");
                     SetDataForReview();
-                    parentWindow.availableExamsTab.SetDataForReview();
+                    //parentWindow.availableExamsTab.SetDataForReview();
                     parentWindow.Update();
-                }else
+                }
+                else
                     MessageBox.Show($"Can't cancel exam. There is less than {Constants.EXAM_CANCELATION_PERIOD} days or exam has passed");
 
             }

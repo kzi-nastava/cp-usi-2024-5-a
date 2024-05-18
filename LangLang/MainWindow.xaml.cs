@@ -2,8 +2,9 @@ using LangLang.Core.Controller;
 using System.Windows;
 using LangLang.View;
 using LangLang.Core.Model;
-using LangLang.View.StudentGUI;
 using System.Security.Authentication;
+using LangLang.Domain.Models;
+using LangLang.WPF.Views;
 
 namespace LangLang
 {
@@ -29,7 +30,7 @@ namespace LangLang
 
         private void SignupBtn_Click(object sender, RoutedEventArgs e)
         {
-            Registration registrationWindow = new(appController);
+            Registration registrationWindow = new();
             registrationWindow.Show();
             Close();
         }
@@ -51,7 +52,7 @@ namespace LangLang
         {
             if (profile.Role == UserType.Student)
             {
-                StudentWindow studentWindow = new(appController, profile);
+                StudentWindow studentWindow = new(profile);
                 studentWindow.Show();
             } else if (profile.Role == UserType.Tutor)
             {

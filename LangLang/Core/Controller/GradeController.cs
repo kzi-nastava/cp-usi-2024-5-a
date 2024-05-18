@@ -1,6 +1,7 @@
 ﻿using LangLang.Core.Model.DAO;
 using LangLang.Core.Model;
 using System.Collections.Generic;
+using LangLang.Domain.Models;
 
 namespace LangLang.Core.Controller
 {

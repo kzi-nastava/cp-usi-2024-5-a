@@ -1,6 +1,8 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
+using LangLang.Domain.Models;
 using LangLang.DTO;
+using LangLang.WPF.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,11 +14,11 @@ namespace LangLang.View.StudentGUI.Tabs
     public partial class EnrollmentRequests : UserControl
     {
         public EnrollmentRequestDTO SelectedEnrollmentRequest { get; set; }
-        private AppController appController {  get; set; }
-        private Student currentlyLoggedIn {  get; set; }
-        private StudentWindow parentWindow {  get; set; }
+        private AppController appController { get; set; }
+        private Student currentlyLoggedIn { get; set; }
+        private StudentWindow parentWindow { get; set; }
         public ObservableCollection<EnrollmentRequestDTO> StudentRequests { get; set; }
-        public List<EnrollmentRequest> RequestsForReview {  get; set; }
+        public List<EnrollmentRequest> RequestsForReview { get; set; }
         public EnrollmentRequests(AppController appController, Student currentlyLoggedIn, StudentWindow parentWindow)
         {
             InitializeComponent();
@@ -55,7 +57,7 @@ namespace LangLang.View.StudentGUI.Tabs
             try
             {
                 enrollmentController.CancelRequest(enrollmentRequest, courseController);
-                parentWindow.availableCoursesTab.SetDataForReview();
+                //parentWindow.availableCoursesTab.SetDataForReview();
                 parentWindow.Update();
             }
             catch (Exception ex)

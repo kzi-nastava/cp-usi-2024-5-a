@@ -19,6 +19,8 @@ using System.Windows.Shapes;
 using System.Windows.Automation;
 using System.Diagnostics.Eventing.Reader;
 using System.Windows.Converters;
+using LangLang.Aplication.UseCases;
+using LangLang.WPF.ViewModels.StudentViewModels;
 
 namespace LangLang.View.CourseGUI
 {
@@ -27,12 +29,11 @@ namespace LangLang.View.CourseGUI
     /// </summary>
     public partial class EnterGradesWindow : Window
     {
-        public StudentDTO SelectedStudent { get; set; }
-        public ObservableCollection<StudentDTO> Students { get; set; }
+        public StudentViewModel SelectedStudent { get; set; }
+        public ObservableCollection<StudentViewModel> Students { get; set; }
 
         private AppController appController;
         private CourseController courseController;
-        private StudentController studentController;
         private WithdrawalRequestController withdrawalController;
         private EnrollmentRequestController enrollmentController;
         private PenaltyPointController penaltyPointController;
@@ -49,7 +50,6 @@ namespace LangLang.View.CourseGUI
             this.course = course;
             withdrawalController = appController.WithdrawalRequestController;
             courseController = appController.CourseController;
-            studentController = appController.StudentController;
             penaltyPointController = appController.PenaltyPointController;
             tutorController = appController.TutorController;
             enrollmentController = appController.EnrollmentRequestController;
@@ -81,7 +81,8 @@ namespace LangLang.View.CourseGUI
                     }
                     if (!graded)
                     {
-                        Students.Add(new StudentDTO(studentController.Get(enrollment.StudentId)));
+                        var studentService = new StudentService();
+                        Students.Add(new StudentViewModel(studentService.Get(enrollment.StudentId)));
                     }
                 }
             }

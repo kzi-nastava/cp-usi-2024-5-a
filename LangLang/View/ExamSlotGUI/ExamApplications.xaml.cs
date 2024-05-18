@@ -1,5 +1,7 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.Aplication.UseCases;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
+using LangLang.Domain.Models;
 using LangLang.DTO;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -17,7 +19,6 @@ namespace LangLang.View.ExamSlotGUI
         private AppController appController;
         private ExamApplicationController applicationController;
         private ExamSlotController examSlotController;
-        private StudentController studentController;
         private ExamSlotDTO examSlot;
 
         public ExamApplications(AppController appController, ExamSlotDTO examSlot)
@@ -29,7 +30,6 @@ namespace LangLang.View.ExamSlotGUI
             this.examSlot = examSlot;
             applicationController = appController.ExamApplicationController;
             examSlotController = appController.ExamSlotController;
-            studentController = appController.StudentController;
 
             Applications = new();
 
@@ -70,8 +70,9 @@ namespace LangLang.View.ExamSlotGUI
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to delete " + SelectedApplication.StudentName + " " + SelectedApplication.StudentLastName  + " from the examination?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                Student student = studentController.Get(SelectedApplication.StudentId);
-                studentController.Deactivate(student.Id, appController);
+                var studentService = new StudentService();
+                Student student = studentService.Get(SelectedApplication.StudentId);
+                studentService.Deactivate(student.Id);
                 Update();
                 ShowSuccess();
             }

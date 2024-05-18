@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LangLang.Aplication.UseCases;
 using LangLang.Core.Controller;
 using LangLang.Core.Observer;
 using LangLang.Core.Repository;
+using LangLang.Domain.Models;
 
 namespace LangLang.Core.Model.DAO
 {
@@ -46,7 +48,8 @@ namespace LangLang.Core.Model.DAO
             Add(student,tutor, course);
             if (ShouldDeactivate(student))
             {
-                appController.StudentController.Deactivate(student.Id, appController);
+                var studentService = new StudentService();
+                studentService.Deactivate(student.Id);
             }
         }
         private bool ShouldDeactivate(Student student)

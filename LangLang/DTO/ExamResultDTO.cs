@@ -1,8 +1,10 @@
 ﻿
+using LangLang.Aplication.UseCases;
 using LangLang.Core;
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Model.Enums;
+using LangLang.Domain.Models;
 using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
@@ -154,9 +156,10 @@ namespace LangLang.DTO
             return new ExamResult(Id, StudentId, ExamId, int.Parse(readingPoints), int.Parse(speakingPoints), int.Parse(listeningPoints), int.Parse(writingPoints), outcome, Status);
         }
 
-        public ExamResultDTO(ExamResult examResult, StudentController studentController)
+        public ExamResultDTO(ExamResult examResult)
         {
-            Student student = studentController.Get(examResult.StudentId);
+            var studentService = new StudentService();
+            Student student = studentService.Get(examResult.StudentId);
 
             Id = examResult.Id;
             StudentId = examResult.StudentId;

@@ -1,6 +1,7 @@
 ﻿using LangLang.Core.Model.Enums;
 using LangLang.Core.Observer;
 using LangLang.Core.Repository;
+using LangLang.Domain.Models;
 using System.Collections.Generic;
 using System.Linq;
 

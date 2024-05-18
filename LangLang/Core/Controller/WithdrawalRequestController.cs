@@ -2,6 +2,7 @@
 using LangLang.Core.Model.DAO;
 using LangLang.Core.Model.Enums;
 using LangLang.Core.Observer;
+using LangLang.Domain.Models;
 using System.Collections.Generic;
 
 namespace LangLang.Core.Controller

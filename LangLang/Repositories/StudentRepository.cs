@@ -6,6 +6,7 @@ using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace LangLang.Repositories
 {
@@ -19,12 +20,12 @@ namespace LangLang.Repositories
         }
         public Student Get(int id)
         {
-            throw new System.NotImplementedException();
+            return _students[id];
         }
 
         public List<Student> GetAll()
         {
-            throw new System.NotImplementedException();
+            return _students.Values.ToList();           
         }
 
         public void Add(Student student)
@@ -54,20 +55,20 @@ namespace LangLang.Repositories
             NotifyObservers();
         }
 
-        public void Deactivate(int id, AppController appController)
+        public void Deactivate(int id)
         {
             Student student = Get(id);
             if (student == null) return;
 
-            var enrollmentController = appController.EnrollmentRequestController;
-            var examAppController = appController.ExamApplicationController;
-            var examController = appController.ExamSlotController;
+            var enrollmentService = new EnrollmentRequestController();
+            var examAppService = new ExamApplicationController();
+            var examService = new ExamSlotController();
 
-            foreach (EnrollmentRequest er in enrollmentController.GetRequests(student)) // delete all course enrollment requests
-                enrollmentController.Delete(er.Id);
+            foreach (EnrollmentRequest er in enrollmentService.GetRequests(student)) // delete all course enrollment requests
+                enrollmentService.Delete(er.Id);
 
-            foreach (ExamApplication ar in examAppController.GetApplications(student)) // delete all exam application requests
-                examAppController.Delete(ar.Id, examController);
+            foreach (ExamApplication ar in examAppService.GetApplications(student)) // delete all exam application requests
+                examAppService.Delete(ar.Id, examService);
 
             _students[id].Profile.IsActive = true;
             Save();

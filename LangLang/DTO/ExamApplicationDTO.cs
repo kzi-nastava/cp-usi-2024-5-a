@@ -1,6 +1,8 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.Aplication.UseCases;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Model.Enums;
+using LangLang.Domain.Models;
 using System;
 using System.ComponentModel;
 
@@ -32,7 +34,8 @@ namespace LangLang.DTO
         public ExamApplicationDTO(ExamApplication application, AppController appController)
         {
             ExamSlot exam = appController.ExamSlotController.Get(application.ExamSlotId);
-            Student student = appController.StudentController.Get(application.StudentId);
+            var studentService = new StudentService();
+            Student student = studentService.Get(application.StudentId);
             Id = application.Id;
             ExamSlotId = application.ExamSlotId;
             StudentId = application.StudentId;

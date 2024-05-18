@@ -1,6 +1,6 @@
 ﻿
 using LangLang.Aplication.UseCases;
-using LangLang.Core.Model;
+using LangLang.Domain.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Authentication;
@@ -49,7 +49,7 @@ namespace LangLang.Core.Controller
                 throw new AuthenticationException("Invalid password.");
             }
 
-            if (user.Profile.IsActive == false)
+            if (user.Profile.IsActive == true)
             {
                 throw new AuthenticationException("Profile deactivated.");
             }

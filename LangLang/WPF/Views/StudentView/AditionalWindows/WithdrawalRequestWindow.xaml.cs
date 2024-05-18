@@ -2,6 +2,7 @@
 using LangLang.Core.Model;
 using LangLang.Core.Model.Enums;
 using LangLang.DTO;
+using LangLang.WPF.Views;
 using System;
 using System.Windows;
 
@@ -49,6 +50,6 @@ namespace LangLang.View.StudentGUI
         }
 
 
-        
+
     }
 }

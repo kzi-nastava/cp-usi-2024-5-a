@@ -1,7 +1,10 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.Aplication.UseCases;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Model.Enums;
+using LangLang.Domain.Models;
 using LangLang.DTO;
+using LangLang.WPF.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,8 +20,8 @@ namespace LangLang.View.StudentGUI.Tabs
         private readonly CourseController courseController;
         private readonly Student currentlyLoggedIn;
         public ObservableCollection<CourseDTO> Courses { get; set; }
-        public List<Course> CoursesForReview {  get; set; }
-        private EnrollmentRequestDTO EnrollmentRequest {  get; set; }
+        public List<Course> CoursesForReview { get; set; }
+        private EnrollmentRequestDTO EnrollmentRequest { get; set; }
         public CourseDTO SelectedCourse { get; set; }
 
         public AvailableCourses(AppController appController, Student currentlyLoggedIn, StudentWindow parentWindow)
@@ -43,8 +46,8 @@ namespace LangLang.View.StudentGUI.Tabs
 
         private void AdjustButton()
         {
-            var studentController = appController.StudentController;
-            if (!studentController.CanRequestEnrollment(currentlyLoggedIn, appController))
+            var studentService = new StudentService();
+            if (!studentService.CanRequestEnrollment(currentlyLoggedIn))
                 SendRequestBtn.IsEnabled = false;
         }
 
@@ -57,7 +60,7 @@ namespace LangLang.View.StudentGUI.Tabs
                 level = (LanguageLevel)levelCoursecb.SelectedValue;
             DateTime courseStartDate = courseStartdp.SelectedDate ?? default;
             int.TryParse(durationtb.Text, out int duration);
-           
+
             CoursesForReview = courseController.SearchCoursesByStudent(appController, currentlyLoggedIn, language, level, courseStartDate, duration, !onlinecb.IsChecked);
             parentWindow.Update();
         }
@@ -71,7 +74,8 @@ namespace LangLang.View.StudentGUI.Tabs
 
         private void SendRequestBtn_Click(object sender, RoutedEventArgs e)
         {
-            bool canApplyForCourses = appController.StudentController.CanApplyForCourses(currentlyLoggedIn, appController);
+            var studentService = new StudentService();
+            bool canApplyForCourses = studentService.CanApplyForCourses(currentlyLoggedIn);
             if (canApplyForCourses)
             {
                 if (SelectedCourse == null) return;
@@ -88,7 +92,7 @@ namespace LangLang.View.StudentGUI.Tabs
                 MessageBox.Show("Request sent. Please wait for approval.");
 
                 CoursesForReview = courseController.GetAvailable(currentlyLoggedIn, appController);
-                parentWindow.enrollmentRequestsTab.SetDataForReview();
+                //parentWindow.enrollmentRequestsTab.SetDataForReview();
                 parentWindow.Update();
             }
             else
@@ -97,7 +101,7 @@ namespace LangLang.View.StudentGUI.Tabs
             }
 
 
-            
+
         }
 
     }

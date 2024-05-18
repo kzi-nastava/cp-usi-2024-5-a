@@ -11,6 +11,7 @@ using LangLang.Core.Controller;
 using LangLang.View.ExamSlotGUI;
 using System.Diagnostics;
 using LangLang.Core.Model.Enums;
+using LangLang.Domain.Models;
 
 namespace LangLang.Core.Model.DAO
 {

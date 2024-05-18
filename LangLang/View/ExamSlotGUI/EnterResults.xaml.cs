@@ -18,7 +18,6 @@ namespace LangLang.View.ExamSlotGUI
         public ExamResultDTO SelectedResult { get; set; }
         public ObservableCollection<ExamResultDTO> ExamResults { get; set; }
 
-        private StudentController studentController;
         private ExamResultController resultController;
         private ExamSlotController examSlotController;
         private ExamApplicationController applicationController;
@@ -29,7 +28,6 @@ namespace LangLang.View.ExamSlotGUI
             InitializeComponent();
             DataContext = this;
 
-            this.studentController = appController.StudentController;
             this.resultController = appController.ExamResultController;
             this.applicationController = appController.ExamApplicationController;
             this.examSlotController = appController.ExamSlotController;
@@ -54,7 +52,7 @@ namespace LangLang.View.ExamSlotGUI
 
             foreach (ExamResult exam in resultController.Get(exam.ToExamSlot()))
             {
-                ExamResults.Add(new ExamResultDTO(exam, studentController));
+                ExamResults.Add(new ExamResultDTO(exam));
             }
 
         }

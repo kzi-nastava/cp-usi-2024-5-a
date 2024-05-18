@@ -1,16 +1,20 @@
 ﻿using LangLang.Core.Model;
+using LangLang.Domain.Models;
 using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 
 
-namespace LangLang.DTO
+namespace LangLang.WPF.ViewModels.StudentViewModels
 {
-    public class StudentDTO : INotifyPropertyChanged, IDataErrorInfo
+    public class StudentViewModel : INotifyPropertyChanged
     {
-        public StudentDTO() { }
+        public StudentViewModel() { }
         public int Id { get; set; }
-
+        public string FullName
+        {
+            get => Name + " " + LastName;
+        }
         private string name;
         private string lastName;
         private string email;
@@ -124,7 +128,6 @@ namespace LangLang.DTO
             }
         }
 
-
         private readonly Regex _NumberRegex = new("^\\+?\\d+$");
         private readonly Regex _EmailRegex = new("^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$");
         private readonly Regex _NameRegex = new("^[A-Za-z\\-]+$");
@@ -198,7 +201,7 @@ namespace LangLang.DTO
             return new Student(Id, name, lastName, gender, birthDate, phoneNumber, email, password, UserType.Student, false, profession);
         }
 
-        public StudentDTO(Student student)
+        public StudentViewModel(Student student)
         {
             Id = student.Id;
             name = student.Profile.Name;
@@ -210,8 +213,6 @@ namespace LangLang.DTO
             phoneNumber = student.Profile.PhoneNumber;
             profession = student.Profession;
         }
-
-        public string Error => throw new NotImplementedException();
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

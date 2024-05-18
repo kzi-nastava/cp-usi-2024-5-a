@@ -8,6 +8,7 @@ using LangLang.Core.Controller;
 using System.Windows.Ink;
 using System.Windows.Input;
 using LangLang.Core.Model.Enums;
+using LangLang.Domain.Models;
 
 namespace LangLang.Core.Model.DAO;
 

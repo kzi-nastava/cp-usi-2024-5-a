@@ -1,6 +1,8 @@
-﻿using LangLang.Core;
+﻿using LangLang.Aplication.UseCases;
+using LangLang.Core;
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
+using LangLang.Domain.Models;
 using System.ComponentModel;
 
 namespace LangLang.DTO
@@ -56,7 +58,8 @@ namespace LangLang.DTO
             ActivityGrade = grade.ActivityGrade;
             KnowledgeGrade = grade.KnowledgeGrade;
             Course = appController.CourseController.Get(CourseId);
-            Student = appController.StudentController.Get(StudentId);
+            var studentService = new StudentService();
+            Student = studentService.Get(StudentId);
         }
 
         public string this[string columnName]

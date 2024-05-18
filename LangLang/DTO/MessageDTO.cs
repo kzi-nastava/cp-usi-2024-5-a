@@ -1,5 +1,6 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.Aplication.UseCases;
 using LangLang.Core.Model;
+using LangLang.Domain.Models;
 using System;
 
 namespace LangLang.DTO
@@ -19,11 +20,12 @@ namespace LangLang.DTO
             return new Message(Id, Sender, Recipient, Text);
         }
 
-        public MessageDTO(Message message, AppController appController)
+        public MessageDTO(Message message)
         {
             Id = message.Id;
-            Sender = appController.GetProfile(message.SenderId, message.SenderRole);
-            Recipient = appController.GetProfile(message.RecipientId, message.RecipientRole);
+            var profileService = new ProfileService();
+            Sender = profileService.GetProfile(message.SenderId, message.SenderRole);
+            Recipient = profileService.GetProfile(message.RecipientId, message.RecipientRole);
             Text = message.Text;
             SentAt = message.SentAt;
             SenderInfo = Sender.Name + " " + Sender.LastName + " " + Sender.Role.ToString();

@@ -1,6 +1,8 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
+using LangLang.Domain.Models;
 using LangLang.DTO;
+using LangLang.WPF.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -13,8 +15,8 @@ namespace LangLang.View.StudentGUI.Tabs
         private readonly AppController appController;
         private readonly Student currentlyLoggedIn;
         private readonly StudentWindow parentWindow;
-        public ObservableCollection<CourseDTO> Courses {  get; set; }
-        private List<Course> completedCourses {  get; set; }
+        public ObservableCollection<CourseDTO> Courses { get; set; }
+        private List<Course> completedCourses { get; set; }
         public CourseDTO SelectedCourse { get; set; }
         public CompletedCourses(AppController appController, Student currentlyLoggedIn, StudentWindow parentWindow)
         {

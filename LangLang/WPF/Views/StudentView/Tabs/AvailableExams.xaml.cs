@@ -1,6 +1,9 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.Aplication.UseCases;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
+using LangLang.Domain.Models;
 using LangLang.DTO;
+using LangLang.WPF.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -60,7 +63,8 @@ namespace LangLang.View.StudentGUI.Tabs
         }
         private void SendApplicationBtn_Click(object sender, RoutedEventArgs e)
         {
-            bool canApplyForExams = appController.StudentController.CanApplyForExams(currentlyLoggedIn, appController);
+            var studentService = new StudentService();
+            bool canApplyForExams = studentService.CanApplyForExams(currentlyLoggedIn);
             if (canApplyForExams)
             {
                 if (SelectedExam == null) return;
@@ -74,14 +78,14 @@ namespace LangLang.View.StudentGUI.Tabs
                 MessageBox.Show("You successfully applied for exam.");
 
                 SetDataForReview();
-                parentWindow.examApplicationsTab.SetDataForReview();
+                //parentWindow.examApplicationsTab.SetDataForReview();
                 parentWindow.Update();
             }
             else
             {
                 MessageBox.Show("Can't apply for the exam as all results have not yet been received.");
             }
-            
+
         }
     }
 }

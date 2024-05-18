@@ -73,12 +73,13 @@ namespace LangLang.Core.Model.DAO
             return studentApplications;
         }
         //returns list of all students applications for exams (without ones that passed)
-        public List<ExamApplication> GetActiveStudentApplications(int studentId, ExamSlotController examSlotController)
+        public List<ExamApplication> GetActiveStudentApplications(int studentId)
         {
+            var examSlotService = new ExamSlotController();
             List<ExamApplication> studentApplications = new();
             foreach (ExamApplication app in GetAll())
             {
-                if (app.StudentId == studentId && IsApplicationActive(app, examSlotController)) studentApplications.Add(app);
+                if (app.StudentId == studentId && IsApplicationActive(app, examSlotService)) studentApplications.Add(app);
             }
             return studentApplications;
         }
@@ -129,12 +130,13 @@ namespace LangLang.Core.Model.DAO
             return false;
         }
 
-        public bool HasNoGeneratedResults(Student student, ExamSlotController examSlotController)
+        public bool HasNoGeneratedResults(Student student)
         {
+            var examSlotService = new ExamSlotController();
             foreach (ExamApplication application in GetApplications(student))
             {
-                ExamSlot exam = examSlotController.Get(application.ExamSlotId);
-                bool hasPassed = examSlotController.HasPassed(exam);
+                ExamSlot exam = examSlotService.Get(application.ExamSlotId);
+                bool hasPassed = examSlotService.HasPassed(exam);
 
                 if (hasPassed && !exam.ResultsGenerated)
                 {

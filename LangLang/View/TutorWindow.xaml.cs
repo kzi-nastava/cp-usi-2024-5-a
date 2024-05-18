@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System;
 using LangLang.Core;
+using LangLang.Domain.Models;
 
 namespace LangLang
 {
@@ -80,7 +81,7 @@ namespace LangLang
 
             foreach (Message message in messageController.GetReceivedMessages(LoggedIn))
             {
-                Messages.Add(new MessageDTO(message, appController));
+                Messages.Add(new MessageDTO(message));
             }
         }
 

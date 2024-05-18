@@ -1,4 +1,5 @@
 ﻿using LangLang.Core.Repository.Serialization;
+using LangLang.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,8 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
+using LangLang.Domain.Models;
 using LangLang.DTO;
+using LangLang.WPF.Views;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -10,11 +12,11 @@ namespace LangLang.View.StudentGUI.Tabs
 {
     public partial class Notifications : UserControl
     {
-        private StudentWindow parentWindow { get; set; }
+        //private StudentWindow parentWindow { get; set; }
         private AppController appController { get; set; }
         private Student currentlyLoggedIn { get; set; }
         public ObservableCollection<MessageDTO> Messages { get; set; }
-        public MessageDTO SelectedMessage {  get; set; }
+        public MessageDTO SelectedMessage { get; set; }
         public Notifications(AppController appController, Student currentlyLoggedIn, StudentWindow parentWindow)
         {
             InitializeComponent();
@@ -22,7 +24,7 @@ namespace LangLang.View.StudentGUI.Tabs
             Messages = new();
             this.appController = appController;
             this.currentlyLoggedIn = currentlyLoggedIn;
-            this.parentWindow = parentWindow;
+            //this.parentWindow = parentWindow;
             SetDataForReview();
         }
 
@@ -32,7 +34,7 @@ namespace LangLang.View.StudentGUI.Tabs
             List<Message> studentMessages = messageController.GetReceivedMessages(currentlyLoggedIn);
             foreach (Message message in studentMessages)
             {
-                Messages.Add(new MessageDTO(message, appController));
+                Messages.Add(new MessageDTO(message));
             }
         }
 

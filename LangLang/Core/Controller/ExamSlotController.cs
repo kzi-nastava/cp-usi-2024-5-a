@@ -4,6 +4,7 @@ using LangLang.Core.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LangLang.Domain.Models;
 
 namespace LangLang.Core.Controller
 {

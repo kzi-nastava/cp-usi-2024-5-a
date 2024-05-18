@@ -1,5 +1,7 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
+using LangLang.Domain.Models;
+using LangLang.WPF.Views;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -7,9 +9,9 @@ namespace LangLang.View.StudentGUI.Tabs
 {
     public partial class ActiveCourse : UserControl
     {
-        private StudentWindow parentWindow {  get; set; }
-        private AppController appController {  get; set; }
-        private Student currentlyLoggedIn {  get; set; }
+        private StudentWindow parentWindow { get; set; }
+        private AppController appController { get; set; }
+        private Student currentlyLoggedIn { get; set; }
         private int acceptedRequestId { get; set; }
         public ActiveCourse(AppController appController, Student currentlyLoggedIn, StudentWindow studentWindow)
         {
@@ -50,7 +52,8 @@ namespace LangLang.View.StudentGUI.Tabs
         private void CourseWithdrawalBtn_Click(object sender, RoutedEventArgs e)
         {
             var withdrawalController = appController.WithdrawalRequestController;
-            if (withdrawalController.AlreadyExists(acceptedRequestId)) {
+            if (withdrawalController.AlreadyExists(acceptedRequestId))
+            {
                 MessageBox.Show("Request already submitted. Wait for response.");
                 return;
             }

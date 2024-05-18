@@ -40,9 +40,9 @@ namespace LangLang.Core.Controller
         {
             return _applications.GetApplications(student);
         }
-        public List<ExamApplication> GetActiveStudentApplications(int studentId, ExamSlotController examSlotController)
+        public List<ExamApplication> GetActiveStudentApplications(int studentId)
         {
-            return _applications.GetActiveStudentApplications(studentId, examSlotController);
+            return _applications.GetActiveStudentApplications(studentId);
         }
         public List<ExamApplication> GetApplications(int examId)
         {
@@ -60,9 +60,9 @@ namespace LangLang.Core.Controller
         }
 
         //Checks if student has taken exams that don't have generated results yet
-        public bool HasNoGeneratedResults(Student student, ExamSlotController examSlotController)
+        public bool HasNoGeneratedResults(Student student)
         {
-            return _applications.HasNoGeneratedResults(student, examSlotController);
+            return _applications.HasNoGeneratedResults(student);
         }
 
     }

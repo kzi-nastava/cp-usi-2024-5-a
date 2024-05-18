@@ -1,4 +1,5 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.Aplication.UseCases;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Observer;
 using LangLang.View.DTO;
@@ -67,7 +68,8 @@ namespace LangLang.View
         {
             if (SelectedTutor != null)
             {
-                if (appController.EmailExists(emailtb.Text, SelectedTutor.Id, UserType.Tutor))
+                var profileService = new ProfileService();
+                if (profileService.EmailExists(emailtb.Text, SelectedTutor.Id, UserType.Tutor))
                 {
                     MessageBox.Show("Email already exists. Try with a different email address.");
                 }

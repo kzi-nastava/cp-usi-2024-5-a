@@ -1,4 +1,5 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.Aplication.UseCases;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.View.DTO;
 using System;
@@ -36,7 +37,8 @@ namespace LangLang.View
             Tutor.Role = UserType.Tutor;
             if (Tutor.IsValid)
             {
-                if (appController.EmailExists(Tutor.Email)) MessageBox.Show("Email already exists. Try with a different email address.");
+                var profileService = new ProfileService();
+                if (profileService.EmailExists(Tutor.Email)) MessageBox.Show("Email already exists. Try with a different email address.");
                 else {
                     tutorController.Add(Tutor.ToTutor());
                     this.Close();

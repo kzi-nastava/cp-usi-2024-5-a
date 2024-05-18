@@ -1,6 +1,8 @@
 ﻿using System;
+using LangLang.Core;
+using LangLang.Core.Model;
 
-namespace LangLang.Core.Model
+namespace LangLang.Domain.Models
 {
     // Classes containing an attribute of type Profile should implement this interface
     // for abstraction purposes over more complex user types
@@ -18,7 +20,7 @@ namespace LangLang.Core.Model
         public DateTime BirthDate { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }    
+        public string Password { get; set; }
         public UserType Role { get; set; }
         public bool IsActive { get; set; }
 
@@ -42,20 +44,22 @@ namespace LangLang.Core.Model
         /// <exception cref="FormatException">Thrown when date is not in the correct format.</exception>
         public Profile(string id, string name, string lastName, string gender, string birthDate, string phoneNumber, string email, string password, string role, string isActive)
         {
-            try {
+            try
+            {
                 BirthDate = DateTime.ParseExact(birthDate, Constants.DATE_FORMAT, null);
-            } 
-            catch {
+            }
+            catch
+            {
                 throw new FormatException("Date is not in the correct format.");
             }
 
             Id = int.Parse(id);
             Gender = (Gender)Enum.Parse(typeof(Gender), gender);
             Role = (UserType)Enum.Parse(typeof(UserType), role);
-            Name = name; 
+            Name = name;
             LastName = lastName;
             PhoneNumber = phoneNumber;
-            Email = email; 
+            Email = email;
             Password = password;
             IsActive = bool.Parse(isActive);
         }
