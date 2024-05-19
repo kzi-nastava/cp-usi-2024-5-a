@@ -1,4 +1,7 @@
 ﻿
+using LangLang.View.StudentGUI.Tabs;
+using LangLang.WPF.Views.StudentView.Tabs;
+
 namespace LangLang.WPF.ViewModels.StudentViewModels
 {
     public class StudentWindowViewModel
@@ -6,29 +9,31 @@ namespace LangLang.WPF.ViewModels.StudentViewModels
 
         public StudentWindowViewModel()
         {
-            UpdateData();
+            
         }
 
-        public void UpdateData()
+        public void UpdateAvailableCourses(AvailableCourses availableCoursesTab)
         {
-            // TODO: modify when all tabs get ViewModel
+            availableCoursesTab.Update();    
+        }
 
-            //availableCoursesTab.Courses.Clear();
-            //foreach (var course in availableCoursesTab.CoursesForReview)
-            //    availableCoursesTab.Courses.Add(new CourseDTO(course));
-
-            //availableExamsTab.ExamSlots.Clear();
+        public void UpdateAvailableExams(AvailableExams availableExamsTab)
+        {
+            //availableExamsTab.ExamSlots.Clear(); // TOOD: move this logic to AvailableExamsViewModel
             //foreach (var exam in availableExamsTab.ExamsForReview)
-            //    availableExamsTab.ExamSlots.Add(new ExamSlotDTO(exam));
+                //availableExamsTab.ExamSlots.Add(new ExamSlotDTO(exam));
+        }
 
-            //examApplicationsTab.Applications.Clear();
+        public void UpdateExamApplications(ExamApplications examApplicationsTab)
+        {
+            //examApplicationsTab.Applications.Clear(); // TOOD: move this logic to ExamAplicationsViewModel
             //foreach (var app in examApplicationsTab.ApplicationsForReview)
-            //    examApplicationsTab.Applications.Add(new ExamApplicationDTO(app, appController));
+            //    examApplicationsTab.Applications.Add(new ExamApplicationDTO(app));
+        }
 
-            //enrollmentRequestsTab.StudentRequests.Clear();
-            //foreach (EnrollmentRequest er in enrollmentRequestsTab.RequestsForReview)
-            //    enrollmentRequestsTab.StudentRequests.Add(new EnrollmentRequestDTO(er, appController));
-
+        public void UpdateEnrollmentRequests(EnrollmentRequests enrollmentRequestsTab)
+        {
+            enrollmentRequestsTab.Update();
         }
     }
 }

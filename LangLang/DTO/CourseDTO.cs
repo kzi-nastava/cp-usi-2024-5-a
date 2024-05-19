@@ -33,6 +33,7 @@ namespace LangLang.DTO
         public string TutorFullName { get; set; }
         public bool Modifiable { get; set; }
         public int NumberOfStudents { get; set; }
+        public string DaysUntilEnd { get; set; }
 
         public List<bool> BooleanDays
         {
@@ -293,6 +294,11 @@ namespace LangLang.DTO
             Time = course.StartDateTime.ToString("HH:mm");
             Modifiable = course.Modifiable;
             SetDaysProperties(course.Days);
+            DaysUntilEnd = course.DaysUntilEnd().ToString() + " until the end of course.";
+
+            var tutorService = new TutorController();
+            var tutor = tutorService.Get(course.TutorId);
+            TutorFullName = tutor.Profile.Name + " " + tutor.Profile.LastName;
         }
 
         private void  SetDaysProperties(List<DayOfWeek> days)
@@ -303,16 +309,6 @@ namespace LangLang.DTO
             {
                 if (days.Contains((DayOfWeek)(i + 1))) { booleanDays[i] = true; }
             }
-        }
-
-        public CourseDTO(Course course, AppController appController)
-        {
-            Language = course.Language;
-            Level = course.Level;
-            var tutorController = appController.TutorController;
-            var tutor = tutorController.Get(course.TutorId);
-            TutorId = course.TutorId;
-            TutorFullName = tutor.Profile.Name + " " + tutor.Profile.LastName;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

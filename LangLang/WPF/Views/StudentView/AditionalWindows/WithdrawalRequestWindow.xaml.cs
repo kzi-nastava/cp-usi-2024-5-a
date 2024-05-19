@@ -1,28 +1,17 @@
-﻿using LangLang.Core.Controller;
-using LangLang.Core.Model;
-using LangLang.Core.Model.Enums;
-using LangLang.DTO;
-using LangLang.WPF.Views;
-using System;
+﻿using LangLang.WPF.ViewModels.TutorViewModels;
 using System.Windows;
 
 namespace LangLang.View.StudentGUI
 {
     public partial class WithdrawalRequestWindow : Window
     {
-        public WithdrawalRequestDTO WithdrawalRequest { get; set; }
-        public WithdrawalRequestController WRController { get; set; }
-        private readonly StudentWindow parentWindow;
-        private readonly int enrollmentRequestId;
-
-        public WithdrawalRequestWindow(AppController appController, int enrollmentRequestId, StudentWindow parentWindow)
+        public WithdrawalReqPageViewModel viewModel {get; set;}
+        public WithdrawalRequestWindow(int enrollmentRequestId)
         {
             InitializeComponent();
-            DataContext = this;
-            WithdrawalRequest = new WithdrawalRequestDTO();
-            WRController = appController.WithdrawalRequestController;
-            this.parentWindow = parentWindow;
-            this.enrollmentRequestId = enrollmentRequestId;
+            viewModel = new(enrollmentRequestId);
+            DataContext = viewModel;
+            
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
@@ -32,20 +21,7 @@ namespace LangLang.View.StudentGUI
 
         private void SubmitBtn_Click(object sender, RoutedEventArgs e)
         {
-            WithdrawalRequest wr = WithdrawalRequest.ToWithdrawalRequest();
-            if (string.IsNullOrEmpty(wr.Reason))
-            {
-                MessageBox.Show("Please enter a reason for leaving the course." +
-                    "\nWithout providing a reason, we will not be able to process your request." +
-                    "\nThank you for your understanding!");
-                return;
-            }
-            wr.RequestSentAt = DateTime.Now;
-            wr.UpdateStatus(Status.Pending);
-            wr.EnrollmentRequestId = enrollmentRequestId;
-            WRController.Add(wr);
-            MessageBox.Show("Request sent. Please wait for approval.");
-
+            viewModel.Submit();
             Close();
         }
 

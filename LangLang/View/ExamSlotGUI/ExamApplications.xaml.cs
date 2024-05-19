@@ -43,7 +43,7 @@ namespace LangLang.View.ExamSlotGUI
             Applications.Clear();
             foreach (ExamApplication application in applicationController.GetApplications(examSlot.Id))
             {
-                Applications.Add(new ExamApplicationDTO(application, appController));
+                Applications.Add(new ExamApplicationDTO(application));
             }
         }
 

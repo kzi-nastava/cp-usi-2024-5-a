@@ -301,50 +301,50 @@ public class CoursesDAO : Subject
         return filteredCourses;
     }
 
-    public List<Course> SearchCoursesByStudent(AppController appController, Student student, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
+    public List<Course> SearchCoursesByStudent(Student student, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
     {
-        List<Course> availableCourses = GetAvailable(student, appController);
+        List<Course> availableCourses = GetAvailable(student);
         List<Course> filteredCourses = SearchCourses(availableCourses, language, level, startDate, duration, online);
         return filteredCourses;
     }
 
-    public List<Course> GetAvailable(Student student, AppController appController)
+    public List<Course> GetAvailable(Student student)
     {
-        var courseController = appController.CourseController;
-        var enrollmentController = appController.EnrollmentRequestController;
+        var courseService = new CourseController();
+        var enrollmentService = new EnrollmentRequestController();
 
         List<Course> availableCourses = new();
-        foreach (Course course in courseController.GetAll().Values)
+        foreach (Course course in courseService.GetAll().Values)
         {
-            if (courseController.IsAvailable(course.Id))
+            if (courseService.IsAvailable(course.Id))
             {
-                if (!enrollmentController.AlreadyExists(student, course))
+                if (!enrollmentService.AlreadyExists(student, course))
                     availableCourses.Add(course);
             }
         }
         return availableCourses;
     }
 
-    public List<Course> GetCompleted(Student student, AppController appController)
+    public List<Course> GetCompleted(Student student)
     {
-        var enrollmentController = appController.EnrollmentRequestController;
-        var withdrawalController = appController.WithdrawalRequestController;
-        var studentRequests = enrollmentController.GetRequests(student);
+        var enrollmentService = new EnrollmentRequestController();
+        var studentRequests = enrollmentService.GetRequests(student);
         List<Course> courses = new();
 
         foreach (var request in studentRequests)
         {
             Course course = Get(request.CourseId);
-            if (StudentAttendedUntilEnd(course, request, withdrawalController))
+            if (StudentAttendedUntilEnd(course, request))
                 courses.Add(course);
         }
         return courses;
     }
 
-    private bool StudentAttendedUntilEnd(Course course, EnrollmentRequest request, WithdrawalRequestController wrController)
+    private bool StudentAttendedUntilEnd(Course course, EnrollmentRequest request)
     {
+        var withdrawalService = new WithdrawalRequestController();
         return course.IsCompleted() && request.Status == Status.Accepted
-                && !wrController.HasAcceptedWithdrawal(request.Id);
+                && !withdrawalService.HasAcceptedWithdrawal(request.Id);
     }
 
 

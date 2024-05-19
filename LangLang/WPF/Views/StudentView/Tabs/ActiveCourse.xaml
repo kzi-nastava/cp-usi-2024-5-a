@@ -1,15 +1,20 @@
-﻿<UserControl x:Class="LangLang.View.StudentGUI.Tabs.ActiveCourse"
+﻿<UserControl x:Class="LangLang.WPF.Views.StudentView.Tabs.ActiveCourseTab"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:LangLang.View.StudentGUI.Tabs"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Margin="0,0,-3,-9" Background="#FFFAE0E0">
-        <TextBlock x:Name="courseNameTb" Text="" Focusable="True" Width="495" Height="100" MinHeight="9" FontFamily="Broadway" FontSize="40" Margin="0,208,0,0" VerticalAlignment="Top" TextAlignment="Center" IsEnabled="False" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="#FFD28383"/>
-        <TextBlock x:Name="courseLevelTb" Text="" Focusable="True" Width="495" Height="100" MinHeight="9" FontFamily="Broadway" FontSize="40" Margin="0,300,0,0" VerticalAlignment="Top" TextAlignment="Center" IsEnabled="False" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="#FFD28383"/>
-        <TextBlock x:Name="untilEndTb" Text="" Focusable="True" Width="773" Height="100" MinHeight="9" FontFamily="Broadway" FontSize="20" Margin="0,450,0,0" VerticalAlignment="Top" TextAlignment="Center" IsEnabled="False" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="#FFD28383"/>
+        <TextBlock x:Name="courseNameTb" 
+                   Text="{Binding Path=Course.Language}"
+                   Focusable="True" Width="495" Height="100" MinHeight="9" FontFamily="Broadway" FontSize="40" Margin="0,208,0,0" VerticalAlignment="Top" TextAlignment="Center" IsEnabled="False" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="#FFD28383"/>
+        <TextBlock x:Name="courseLevelTb" 
+                   Text="{Binding Path=Course.Level}" 
+                   Focusable="True" Width="495" Height="100" MinHeight="9" FontFamily="Broadway" FontSize="40" Margin="0,300,0,0" VerticalAlignment="Top" TextAlignment="Center" IsEnabled="False" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="#FFD28383"/>
+        <TextBlock x:Name="untilEndTb" 
+                   Text="{Binding Path=Course.DaysUntilEnd}" 
+                   Focusable="True" Width="773" Height="100" MinHeight="9" FontFamily="Broadway" FontSize="20" Margin="0,450,0,0" VerticalAlignment="Top" TextAlignment="Center" IsEnabled="False" HorizontalAlignment="Center" TextWrapping="Wrap" Foreground="#FFD28383"/>
         <Button x:Name="CourseWithdrawalBtn" Content="Withdrawal from course" HorizontalAlignment="Center" Height="29" Margin="0,572,0,0" VerticalAlignment="Top" Width="170" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" Click="CourseWithdrawalBtn_Click"/>
     </Grid>
 </UserControl>

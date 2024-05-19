@@ -1,46 +1,28 @@
-﻿using LangLang.Core.Controller;
-using LangLang.Core.Model;
-using LangLang.Domain.Models;
-using LangLang.WPF.Views;
+﻿using LangLang.Domain.Models;
+using LangLang.WPF.ViewModels.CourseViewModel;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace LangLang.View.StudentGUI.Tabs
+namespace LangLang.WPF.Views.StudentView.Tabs
 {
-    public partial class ActiveCourse : UserControl
+    public partial class ActiveCourseTab : UserControl
     {
-        private StudentWindow parentWindow { get; set; }
-        private AppController appController { get; set; }
-        private Student currentlyLoggedIn { get; set; }
-        private int acceptedRequestId { get; set; }
-        public ActiveCourse(AppController appController, Student currentlyLoggedIn, StudentWindow studentWindow)
+        public ActiveCourseViewModel ActiveCourseVM {  get; set; }
+        public ActiveCourseTab(Student currentlyLoggedIn)
         {
-            this.appController = appController;
-            this.currentlyLoggedIn = currentlyLoggedIn;
             InitializeComponent();
+            ActiveCourseVM = new(currentlyLoggedIn);
+            DataContext = ActiveCourseVM;
             FillCourseInfo();
-            parentWindow = studentWindow;
             AdjustButton();
         }
 
         private void FillCourseInfo()
         {
-            var enrollmentController = appController.EnrollmentRequestController;
-            var courseController = appController.CourseController;
-
-            var enrollmentRequest = enrollmentController.GetActiveCourseRequest(currentlyLoggedIn, appController);
-            if (enrollmentRequest == null)
+            if (!ActiveCourseVM.SetCourse())
             {
                 HideWithdrawalBtn();
-                return;
             }
-
-            acceptedRequestId = enrollmentRequest.Id;
-            Course activeCourse = courseController.Get(enrollmentRequest.CourseId);
-            courseNameTb.Text = activeCourse.Language;
-            courseLevelTb.Text = activeCourse.Level.ToString();
-            string daysUntilEnd = activeCourse.DaysUntilEnd().ToString();
-            untilEndTb.Text = daysUntilEnd + " days until the end of course.";
         }
 
         private void HideWithdrawalBtn()
@@ -51,24 +33,14 @@ namespace LangLang.View.StudentGUI.Tabs
         }
         private void CourseWithdrawalBtn_Click(object sender, RoutedEventArgs e)
         {
-            var withdrawalController = appController.WithdrawalRequestController;
-            if (withdrawalController.AlreadyExists(acceptedRequestId))
-            {
-                MessageBox.Show("Request already submitted. Wait for response.");
-                return;
-            }
-            WithdrawalRequestWindow wrWindow = new(appController, acceptedRequestId, parentWindow);
-            wrWindow.Show();
+            ActiveCourseVM.WithdrawalFromCourse();
         }
 
         private void AdjustButton()
         {
-            var enrollmentController = appController.EnrollmentRequestController;
-            var withdrawalController = appController.WithdrawalRequestController;
             if (CourseWithdrawalBtn.Visibility == Visibility.Visible)
             {
-                // disable the withdrawal request button if the student is ineligible to withdraw or has already withdrawn
-                if (!enrollmentController.CanRequestWithdrawal(acceptedRequestId) || withdrawalController.AlreadyExists(acceptedRequestId))
+                if (ActiveCourseVM.DisableCourseWithdrawal())
                     CourseWithdrawalBtn.IsEnabled = false;
             }
         }

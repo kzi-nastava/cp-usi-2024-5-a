@@ -31,7 +31,7 @@ namespace LangLang.DTO
             return new EnrollmentRequest(Id, StudentId, CourseId, Status, RequestSentAt, LastModifiedAt, IsCanceled);
         }
 
-        public EnrollmentRequestDTO(EnrollmentRequest enrollmentRequest, AppController appController)
+        public EnrollmentRequestDTO(EnrollmentRequest enrollmentRequest)
         {
             Id = enrollmentRequest.Id;
             CourseId = enrollmentRequest.CourseId;
@@ -43,7 +43,9 @@ namespace LangLang.DTO
             RequestSentAt = enrollmentRequest.RequestSentAt;
             LastModifiedAt = enrollmentRequest.LastModifiedAt;
             IsCanceled = enrollmentRequest.IsCanceled;
-            Course = appController.CourseController.Get(CourseId);
+
+            var courseService = new CourseController();
+            Course = courseService.Get(CourseId);
 
             StudentName = student.Profile.Name;
             StudentLastName = student.Profile.LastName;

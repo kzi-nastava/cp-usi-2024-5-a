@@ -130,31 +130,31 @@ namespace LangLang.Core.Model.DAO
             }
         }
 
-        public EnrollmentRequest? GetActiveCourseRequest(Student student, AppController appController)
+        public EnrollmentRequest? GetActiveCourseRequest(Student student)
         {
-            var courseController = appController.CourseController;
-            var withdrawalController = appController.WithdrawalRequestController;
+            var courseService = new CourseController();
             var studentRequests = GetRequests(student);
 
             foreach (var request in studentRequests)
             {
-                var course = courseController.Get(request.CourseId);
+                var course = courseService.Get(request.CourseId);
 
-                if (IsCurrentCourseRequest(request, course, withdrawalController))
+                if (IsCurrentCourseRequest(request, course))
                     return request;
             }
 
             return null;
         }
 
-        private bool IsCurrentCourseRequest(EnrollmentRequest request, Course course, WithdrawalRequestController wrController)
+        private bool IsCurrentCourseRequest(EnrollmentRequest request, Course course)
         {
             if (request.Status != Status.Accepted || course.IsCompleted())
             {
                 return false;
             }
 
-            return !wrController.HasAcceptedWithdrawal(request.Id);
+            var withdrawalService = new WithdrawalRequestController();
+            return !withdrawalService.HasAcceptedWithdrawal(request.Id);
         }
 
         public bool CanRequestWithdrawal(int id)

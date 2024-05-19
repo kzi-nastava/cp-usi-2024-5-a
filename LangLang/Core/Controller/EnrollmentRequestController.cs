@@ -55,9 +55,10 @@ namespace LangLang.Core.Controller
             return _enrollmentRequests.GetRequests(course);
         }
 
-        public bool CancelRequest(EnrollmentRequest enrollmentRequest, CourseController courseController)
+        public bool CancelRequest(EnrollmentRequest enrollmentRequest)
         {
-            Course course = courseController.Get(enrollmentRequest.CourseId);
+            var courseService = new CourseController();
+            Course course = courseService.Get(enrollmentRequest.CourseId);
             return _enrollmentRequests.CancelRequest(enrollmentRequest.Id, course);
         }
 
@@ -78,9 +79,9 @@ namespace LangLang.Core.Controller
             return _enrollmentRequests.CanRequestWithdrawal(id);
         }
 
-        public EnrollmentRequest? GetActiveCourseRequest(Student student, AppController appController)
+        public EnrollmentRequest? GetActiveCourseRequest(Student student)
         {
-            return _enrollmentRequests.GetActiveCourseRequest(student, appController);
+            return _enrollmentRequests.GetActiveCourseRequest(student);
         }
 
         public bool AlreadyExists(Student student, Course course)

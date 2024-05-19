@@ -2,9 +2,8 @@
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using LangLang.DTO;
-using LangLang.WPF.Views;
+using LangLang.WPF.ViewModels.CourseViewModel;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -12,54 +11,32 @@ namespace LangLang.View.StudentGUI.Tabs
 {
     public partial class CompletedCourses : UserControl
     {
-        private readonly AppController appController;
-        private readonly Student currentlyLoggedIn;
-        private readonly StudentWindow parentWindow;
-        public ObservableCollection<CourseDTO> Courses { get; set; }
-        private List<Course> completedCourses { get; set; }
-        public CourseDTO SelectedCourse { get; set; }
-        public CompletedCourses(AppController appController, Student currentlyLoggedIn, StudentWindow parentWindow)
+        
+        public CompletedCourseViewModel completedCourseVM { get; set; }
+        public CompletedCourses(Student currentlyLoggedIn)
         {
             InitializeComponent();
-            DataContext = this;
-            this.appController = appController;
-            this.currentlyLoggedIn = currentlyLoggedIn;
-            this.parentWindow = parentWindow;
-            Courses = new();
+            completedCourseVM = new(currentlyLoggedIn);
+            DataContext = completedCourseVM;
             SetDataForReview();
             rateTutorBtn.IsEnabled = false;
         }
 
         private void SetDataForReview()
         {
-            var courseController = appController.CourseController;
-            completedCourses = courseController.GetCompleted(currentlyLoggedIn, appController);
-
-            foreach (var course in completedCourses)
-                Courses.Add(new CourseDTO(course, appController));
+            completedCourseVM.SetDataForReview();
         }
 
         private void CompletedCoursesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (SelectedCourse == null) rateTutorBtn.IsEnabled = false;
+            if (completedCourseVM.ToEnableButton()) rateTutorBtn.IsEnabled = false;
             else rateTutorBtn.IsEnabled = true;
         }
 
 
         private void rateTutorBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (appController.TutorRatingController.IsRated(currentlyLoggedIn.Id, SelectedCourse.TutorId))
-            {
-                MessageBox.Show("You have already rated this tutor.", "Rating Already Submitted");
-                return;
-            }
-            TutorRatingDTO tutorRatingDTO = new()
-            {
-                TutorId = SelectedCourse.TutorId,
-                StudentId = currentlyLoggedIn.Id
-            };
-            TutorRating ratingWindow = new(appController, tutorRatingDTO, SelectedCourse.TutorFullName);
-            ratingWindow.Show();
+            completedCourseVM.TryRateTutor();
         }
     }
 }

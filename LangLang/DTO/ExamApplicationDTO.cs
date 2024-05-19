@@ -31,9 +31,10 @@ namespace LangLang.DTO
             return new ExamApplication(Id, StudentId, ExamSlotId, SentAt);
         }
 
-        public ExamApplicationDTO(ExamApplication application, AppController appController)
+        public ExamApplicationDTO(ExamApplication application)
         {
-            ExamSlot exam = appController.ExamSlotController.Get(application.ExamSlotId);
+            var examService = new ExamSlotController();
+            ExamSlot exam = examService.Get(application.ExamSlotId);
             var studentService = new StudentService();
             Student student = studentService.Get(application.StudentId);
             Id = application.Id;

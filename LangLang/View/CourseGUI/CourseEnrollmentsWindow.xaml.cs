@@ -79,7 +79,7 @@ namespace LangLang.View.CourseGUI
             {
                 if(enrollment.Status == Status.Pending)
                 {
-                    Enrollments.Add(new EnrollmentRequestDTO(enrollment, appController));
+                    Enrollments.Add(new EnrollmentRequestDTO(enrollment));
                 }
             }
         }

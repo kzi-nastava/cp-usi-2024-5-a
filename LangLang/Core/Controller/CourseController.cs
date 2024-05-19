@@ -1,11 +1,9 @@
 using LangLang.Core.Model;
 using LangLang.Core.Model.DAO;
-using LangLang.Core.Model.Enums;
 using LangLang.Core.Observer;
 using LangLang.Domain.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace LangLang.Core.Controller
 {
@@ -96,9 +94,9 @@ namespace LangLang.Core.Controller
             return _courses.SearchCoursesByTutor(tutorId, language, level, startDate, duration, online);           
         }
 
-        public List<Course> SearchCoursesByStudent(AppController appController, Student student, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
+        public List<Course> SearchCoursesByStudent(Student student, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
         {
-            return _courses.SearchCoursesByStudent(appController, student, language, level, startDate, duration, online);
+            return _courses.SearchCoursesByStudent(student, language, level, startDate, duration, online);
         }
 
         public bool IsCompleted(int id)
@@ -126,14 +124,14 @@ namespace LangLang.Core.Controller
             return _courses.GetBySkills(tutor);
         }
 
-        public List<Course> GetCompleted(Student student, AppController appController)
+        public List<Course> GetCompleted(Student student)
         {
-            return _courses.GetCompleted(student, appController);
+            return _courses.GetCompleted(student);
         }
 
-        public List<Course> GetAvailable(Student student, AppController appController)
+        public List<Course> GetAvailable(Student student)
         {
-            return _courses.GetAvailable(student, appController);
+            return _courses.GetAvailable(student);
         }
 
     }   

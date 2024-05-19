@@ -19,21 +19,19 @@ namespace LangLang.View.StudentGUI.Tabs
         public ObservableCollection<ExamApplicationDTO> Applications { get; set; }
         public List<ExamApplication> ApplicationsForReview { get; set; }
 
-        private AppController appController;
-        private ExamApplicationController applicationController;
+        private ExamApplicationController applicationController {get; set;}
         private ExamSlotController examSlotController;
         private Student currentlyLoggedIn;
 
-        public ExamApplications(AppController appController, Student currentlyLoggedIn, StudentWindow parentWindow)
+        public ExamApplications(Student currentlyLoggedIn, StudentWindow parentWindow)
         {
             InitializeComponent();
             DataContext = this;
 
             this.parentWindow = parentWindow;
-            this.appController = appController;
             this.currentlyLoggedIn = currentlyLoggedIn;
-            applicationController = appController.ExamApplicationController;
-            examSlotController = appController.ExamSlotController;
+            applicationController = new ExamApplicationController();
+            examSlotController = new ExamSlotController();
 
             Applications = new();
 
@@ -49,7 +47,7 @@ namespace LangLang.View.StudentGUI.Tabs
             Applications.Clear();
             foreach (ExamApplication application in applicationController.GetApplications(currentlyLoggedIn))
             {
-                Applications.Add(new ExamApplicationDTO(application, appController));
+                Applications.Add(new ExamApplicationDTO(application));
             }
         }
 
@@ -58,7 +56,7 @@ namespace LangLang.View.StudentGUI.Tabs
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to cancel exam application?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                bool canceled = appController.ExamApplicationController.CancelApplication(SelectedApplication.ToExamApplication(), examSlotController);
+                bool canceled = applicationController.CancelApplication(SelectedApplication.ToExamApplication(), examSlotController);
                 if (canceled)
                 {
                     MessageBox.Show("Cancelation was successful.");
