@@ -3,7 +3,7 @@ using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System.Collections.Generic;
 
-namespace LangLang.Aplication.UseCases
+namespace LangLang.BusinessLogic.UseCases
 {
     public class DirectorService
     {

@@ -1,7 +1,7 @@
 ﻿using LangLang.WPF.ViewModels.TutorViewModels;
 using System.Windows;
 
-namespace LangLang.View.StudentGUI
+namespace LangLang.WPF.Views.StudentView.AdditionalWindows
 {
     public partial class WithdrawalRequestWindow : Window
     {

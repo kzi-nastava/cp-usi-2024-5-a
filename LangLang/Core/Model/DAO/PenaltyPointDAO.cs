@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LangLang.Aplication.UseCases;
+using LangLang.BusinessLogic.UseCases;
 using LangLang.Core.Controller;
 using LangLang.Core.Observer;
 using LangLang.Core.Repository;

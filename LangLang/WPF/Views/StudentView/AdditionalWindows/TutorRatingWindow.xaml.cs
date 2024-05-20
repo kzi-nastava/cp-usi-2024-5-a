@@ -2,7 +2,7 @@
 using LangLang.WPF.ViewModels.TutorViewModels;
 using System.Windows;
 
-namespace LangLang.WPF.Views.StudentView
+namespace LangLang.WPF.Views.StudentView.AdditionalWindows
 {
 
     public partial class TutorRatingWindow : Window

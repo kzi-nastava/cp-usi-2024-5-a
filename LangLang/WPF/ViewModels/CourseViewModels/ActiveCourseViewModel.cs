@@ -1,9 +1,9 @@
-﻿using LangLang.Aplication.UseCases;
+﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using LangLang.DTO;
-using LangLang.View.StudentGUI;
+using LangLang.WPF.Views.StudentView.AdditionalWindows;
 using System.Windows;
 
 namespace LangLang.WPF.ViewModels.CourseViewModel

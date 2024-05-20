@@ -2,7 +2,7 @@
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using LangLang.DTO;
-using LangLang.WPF.Views.StudentView;
+using LangLang.WPF.Views.StudentView.AdditionalWindows;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;

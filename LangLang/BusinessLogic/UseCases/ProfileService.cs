@@ -1,10 +1,9 @@
 ﻿
-using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using System.Collections.Generic;
 
-namespace LangLang.Aplication.UseCases
+namespace LangLang.BusinessLogic.UseCases
 {
     public class ProfileService
     {

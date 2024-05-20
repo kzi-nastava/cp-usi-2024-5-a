@@ -11,7 +11,7 @@ using System.Windows.Controls;
 using System;
 using LangLang.Core;
 using LangLang.Domain.Models;
-using LangLang.Aplication.UseCases;
+using LangLang.BusinessLogic.UseCases;
 
 namespace LangLang
 {

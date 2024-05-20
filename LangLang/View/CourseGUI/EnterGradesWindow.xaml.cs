@@ -19,7 +19,7 @@ using System.Windows.Shapes;
 using System.Windows.Automation;
 using System.Diagnostics.Eventing.Reader;
 using System.Windows.Converters;
-using LangLang.Aplication.UseCases;
+using LangLang.BusinessLogic.UseCases;
 using LangLang.WPF.ViewModels.StudentViewModels;
 using LangLang.Domain.Models;
 

@@ -12,7 +12,7 @@ using LangLang.View.ExamSlotGUI;
 using System.Diagnostics;
 using LangLang.Core.Model.Enums;
 using LangLang.Domain.Models;
-using LangLang.Aplication.UseCases;
+using LangLang.BusinessLogic.UseCases;
 
 namespace LangLang.Core.Model.DAO
 {

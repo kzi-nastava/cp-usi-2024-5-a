@@ -7,7 +7,7 @@ using LangLang.Core.Observer;
 using LangLang.Core.Model;
 using System;
 
-namespace LangLang.Aplication.UseCases
+namespace LangLang.BusinessLogic.UseCases
 {
     public class TutorService
     {

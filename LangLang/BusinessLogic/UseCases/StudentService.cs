@@ -8,7 +8,7 @@ using System.Linq;
 using LangLang.Core.Observer;
 using LangLang.Composition;
 
-namespace LangLang.Aplication.UseCases
+namespace LangLang.BusinessLogic.UseCases
 {
     public class StudentService
     {

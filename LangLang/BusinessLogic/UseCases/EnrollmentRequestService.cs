@@ -11,7 +11,7 @@ using LangLang.Core.Controller;
 using LangLang.Core.Observer;
 using LangLang.Composition;
 
-namespace LangLang.Aplication.UseCases
+namespace LangLang.BusinessLogic.UseCases
 {
     public class EnrollmentRequestService
     {

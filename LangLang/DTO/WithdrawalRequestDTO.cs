@@ -1,4 +1,4 @@
-﻿using LangLang.Aplication.UseCases;
+﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Core.Model;
 using LangLang.Core.Model.Enums;
 using LangLang.Domain.Models;

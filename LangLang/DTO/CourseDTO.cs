@@ -11,7 +11,7 @@ using System.Reflection;
 using System.Windows;
 using LangLang.Core.Controller;
 using System.Windows.Input;
-using LangLang.Aplication.UseCases;
+using LangLang.BusinessLogic.UseCases;
 
 namespace LangLang.DTO
 {

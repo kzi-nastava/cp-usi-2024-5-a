@@ -1,5 +1,5 @@
 ﻿
-using LangLang.Aplication.UseCases;
+using LangLang.BusinessLogic.UseCases;
 using LangLang.Core;
 using LangLang.Core.Controller;
 using LangLang.Core.Model;

@@ -1,5 +1,5 @@
 ﻿
-using LangLang.Aplication.UseCases;
+using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Models;
 using System.CodeDom;
 using System.Collections.Generic;

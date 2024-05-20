@@ -1,4 +1,4 @@
-﻿using LangLang.Aplication.UseCases;
+﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Core.Observer;
 using LangLang.Domain.Models;
 using LangLang.WPF.Views.StudentView.Tabs;
