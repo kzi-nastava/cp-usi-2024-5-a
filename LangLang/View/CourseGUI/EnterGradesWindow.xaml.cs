@@ -37,7 +37,6 @@ namespace LangLang.View.CourseGUI
         private WithdrawalRequestController withdrawalController;
         private EnrollmentRequestController enrollmentController;
         private PenaltyPointController penaltyPointController;
-        private TutorController tutorController;
         private MessageController messageController;
         private GradeController gradeContoller;
         private CourseDTO course;
@@ -51,7 +50,6 @@ namespace LangLang.View.CourseGUI
             withdrawalController = appController.WithdrawalRequestController;
             courseController = appController.CourseController;
             penaltyPointController = appController.PenaltyPointController;
-            tutorController = appController.TutorController;
             enrollmentController = appController.EnrollmentRequestController;
             messageController = appController.MessageController;
             gradeContoller = appController.GradeController;

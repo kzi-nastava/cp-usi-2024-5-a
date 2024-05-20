@@ -11,7 +11,7 @@ using System.Reflection;
 using System.Windows;
 using LangLang.Core.Controller;
 using System.Windows.Input;
-
+using LangLang.Aplication.UseCases;
 
 namespace LangLang.DTO
 {
@@ -296,7 +296,7 @@ namespace LangLang.DTO
             SetDaysProperties(course.Days);
             DaysUntilEnd = course.DaysUntilEnd().ToString() + " until the end of course.";
 
-            var tutorService = new TutorController();
+            var tutorService = new TutorService();
             var tutor = tutorService.Get(course.TutorId);
             TutorFullName = tutor.Profile.Name + " " + tutor.Profile.LastName;
         }

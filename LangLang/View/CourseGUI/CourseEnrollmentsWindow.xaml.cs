@@ -31,7 +31,7 @@ namespace LangLang.View.CourseGUI
         private AppController appController;
         private EnrollmentRequestController enrollmentController;
         private CourseController courseController;
-        private TutorController tutorController;
+        private TutorService tutorService;
         private MessageController messageController;
         private CourseDTO course;
         public CourseEnrollmentsWindow(AppController appController, CourseDTO course)
@@ -43,7 +43,7 @@ namespace LangLang.View.CourseGUI
             this.course = course;
             enrollmentController = appController.EnrollmentRequestController;
             courseController = appController.CourseController;
-            tutorController = appController.TutorController;
+            tutorService = new();
             messageController = appController.MessageController;
 
             Enrollments = new();
@@ -120,13 +120,13 @@ namespace LangLang.View.CourseGUI
         private void NotifyStudentAboutAcceptence(int studentId)
         {
             var studentService = new StudentService();
-            Message message = new Message(0, tutorController.Get(course.TutorId).Profile, studentService.Get(studentId).Profile, "You have been accepted to the course: " + course.Id + " " + course.Language);
+            Message message = new Message(0, tutorService.Get(course.TutorId).Profile, studentService.Get(studentId).Profile, "You have been accepted to the course: " + course.Id + " " + course.Language);
             messageController.Add(message);
         }
         private void NotifyStudentAboutRejection(int studentId, string reason)
         {
             var studentService = new StudentService();
-            Message message = new Message(0, tutorController.Get(course.TutorId).Profile, studentService.Get(studentId).Profile, "You have been rejected from the course: Id " + course.Id + ", " + course.Language + ". The reason: "+reason);
+            Message message = new Message(0, tutorService.Get(course.TutorId).Profile, studentService.Get(studentId).Profile, "You have been rejected from the course: Id " + course.Id + ", " + course.Language + ". The reason: "+reason);
             messageController.Add(message);
         }
         private void ShowSuccess()

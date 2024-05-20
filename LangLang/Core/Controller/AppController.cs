@@ -3,7 +3,6 @@ namespace LangLang.Core.Controller
 {
     public class AppController
     {
-        public readonly TutorController TutorController;
         public readonly CourseController CourseController;
         public readonly DirectorController DirectorController;
         public readonly EnrollmentRequestController EnrollmentRequestController;
@@ -19,13 +18,12 @@ namespace LangLang.Core.Controller
 
         public AppController()
         {
-            TutorController = new();
             CourseController = new();
             DirectorController = new();
             EnrollmentRequestController = new();
             WithdrawalRequestController = new();
             ExamSlotController = new();
-            LoginController = new(TutorController, DirectorController);
+            LoginController = new(DirectorController);
             ExamApplicationController = new();
             GradeController = new();
             TutorRatingController = new();

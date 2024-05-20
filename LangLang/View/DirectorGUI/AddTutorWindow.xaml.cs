@@ -11,7 +11,7 @@ namespace LangLang.View
 {
     public partial class AddTutorWindow : Window, INotifyPropertyChanged
     {
-        private TutorController tutorController;
+        private TutorService tutorService;
         private AppController appController;
         public TutorDTO Tutor { get; set; }
 
@@ -22,7 +22,7 @@ namespace LangLang.View
         {
             InitializeComponent();
             this.appController = appController;
-            this.tutorController = appController.TutorController;
+            tutorService = new();
             Tutor = new TutorDTO();
             DataContext = this;
 
@@ -40,7 +40,7 @@ namespace LangLang.View
                 var profileService = new ProfileService();
                 if (profileService.EmailExists(Tutor.Email)) MessageBox.Show("Email already exists. Try with a different email address.");
                 else {
-                    tutorController.Add(Tutor.ToTutor());
+                    tutorService.Add(Tutor.ToTutor());
                     this.Close();
                 }
             }

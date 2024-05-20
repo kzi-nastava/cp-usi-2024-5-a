@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System;
 using LangLang.Core;
 using LangLang.Domain.Models;
+using LangLang.Aplication.UseCases;
 
 namespace LangLang
 {
@@ -19,6 +20,7 @@ namespace LangLang
     /// </summary>
     public partial class TutorWindow : Window, IObserver
     {
+        private TutorService tutorService;
         // EXAM SLOTS
         public ObservableCollection<ExamSlotDTO> ExamSlots { get; set; }
         public ExamSlotDTO SelectedExamSlot { get; set; }
@@ -39,7 +41,6 @@ namespace LangLang
         public Tutor LoggedIn { get; set; }
         public TutorWindow(AppController appController, Profile currentlyLoggedIn)
         {
-            LoggedIn = appController.TutorController.GetAll()[currentlyLoggedIn.Id];
             InitializeComponent();
             DataContext = this;
 
@@ -47,6 +48,7 @@ namespace LangLang
             examSlotController = appController.ExamSlotController;
             courseController = appController.CourseController;
             messageController = appController.MessageController;
+            tutorService = new();
 
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             Courses = new ObservableCollection<CourseDTO>();

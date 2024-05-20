@@ -10,6 +10,7 @@ namespace LangLang.Composition
         private static Dictionary<Type, object> _implementations = new Dictionary<Type, object>
     {
         { typeof(IStudentRepository), new StudentRepository() },
+        { typeof(ITutorRepository), new TutorRepository()}
     };
 
         public static T CreateInstance<T>()

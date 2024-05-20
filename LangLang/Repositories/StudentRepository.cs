@@ -70,7 +70,7 @@ namespace LangLang.Repositories
             foreach (ExamApplication ar in examAppService.GetApplications(student)) // delete all exam application requests
                 examAppService.Delete(ar.Id, examService);
 
-            _students[id].Profile.IsActive = true;
+            _students[id].Profile.IsActive = false;
             Save();
             NotifyObservers();
         }
