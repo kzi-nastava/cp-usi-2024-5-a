@@ -1,7 +1,9 @@
 ﻿
 using LangLang.Aplication.UseCases;
 using LangLang.Domain.Models;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.DirectoryServices;
 using System.Linq;
 using System.Security.Authentication;
 
@@ -10,21 +12,18 @@ namespace LangLang.Core.Controller
 
     public class LoginController
     {
-        readonly DirectorController directorController;
-        public LoginController(DirectorController directorController)
-        {
-            this.directorController = directorController;
-        }
+        public LoginController() { }
 
         public Profile GetProfileByCredentials(string email, string password)
         {
             var studentService = new StudentService();
             var tutorService = new TutorService();
+            var directorService = new DirectorService();
             try
             {
                 var profile = (GetProfile(studentService.GetAll(), email, password)
                               ?? GetProfile(tutorService.GetAll(), email, password)) 
-                              ?? GetProfile(directorController.GetAll(), email, password)
+                              ?? GetProfile(directorService.GetAll(), email, password)
                               ?? throw new AuthenticationException("Invalid email address.");
                 return profile; // profile with the given credentials exists
             }

@@ -4,7 +4,6 @@ namespace LangLang.Core.Controller
     public class AppController
     {
         public readonly CourseController CourseController;
-        public readonly DirectorController DirectorController;
         public readonly EnrollmentRequestController EnrollmentRequestController;
         public readonly WithdrawalRequestController WithdrawalRequestController;
         public readonly ExamSlotController ExamSlotController;
@@ -19,11 +18,10 @@ namespace LangLang.Core.Controller
         public AppController()
         {
             CourseController = new();
-            DirectorController = new();
             EnrollmentRequestController = new();
             WithdrawalRequestController = new();
             ExamSlotController = new();
-            LoginController = new(DirectorController);
+            LoginController = new();
             ExamApplicationController = new();
             GradeController = new();
             TutorRatingController = new();

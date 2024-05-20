@@ -13,7 +13,7 @@ namespace LangLang.Aplication.UseCases
         {
             var studentService = new StudentService();
             var tutorService = new TutorService();
-            var directorService = new DirectorController();
+            var directorService = new DirectorService();
             if (EmailExistsInList(studentService.GetAll(), email)) return true;
             if (EmailExistsInList(tutorService.GetAll(), email)) return true;
             if (EmailExistsInList(directorService.GetAll(), email)) return true;
@@ -26,7 +26,7 @@ namespace LangLang.Aplication.UseCases
         {
             var studentService = new StudentService();
             var tutorService = new TutorService();
-            var directorService = new DirectorController();
+            var directorService = new DirectorService();
 
             if (role == UserType.Student)
                 return EmailExistsInList(studentService.GetAll(), email, id);
@@ -59,7 +59,7 @@ namespace LangLang.Aplication.UseCases
         {
             var studentService = new StudentService();
             var tutorService = new TutorService();
-            var directorService = new DirectorController();
+            var directorService = new DirectorService();
 
             return role switch
             {
