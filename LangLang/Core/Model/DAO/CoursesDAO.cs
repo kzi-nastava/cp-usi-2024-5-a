@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using LangLang.Core.Repository;
-using LangLang.Core.Model;
 using LangLang.Core.Observer;
 using System;
 using LangLang.Core.Controller;
@@ -9,6 +8,7 @@ using System.Windows.Ink;
 using System.Windows.Input;
 using LangLang.Core.Model.Enums;
 using LangLang.Domain.Models;
+using LangLang.Aplication.UseCases;
 
 namespace LangLang.Core.Model.DAO;
 
@@ -311,7 +311,7 @@ public class CoursesDAO : Subject
     public List<Course> GetAvailable(Student student)
     {
         var courseService = new CourseController();
-        var enrollmentService = new EnrollmentRequestController();
+        var enrollmentService = new EnrollmentRequestService();
 
         List<Course> availableCourses = new();
         foreach (Course course in courseService.GetAll().Values)
@@ -327,8 +327,8 @@ public class CoursesDAO : Subject
 
     public List<Course> GetCompleted(Student student)
     {
-        var enrollmentService = new EnrollmentRequestController();
-        var studentRequests = enrollmentService.GetRequests(student);
+        var enrollmentService = new EnrollmentRequestService();
+        var studentRequests = enrollmentService.GetByStudent(student);
         List<Course> courses = new();
 
         foreach (var request in studentRequests)

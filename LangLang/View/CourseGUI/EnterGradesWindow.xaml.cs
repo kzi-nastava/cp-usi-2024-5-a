@@ -21,6 +21,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Windows.Converters;
 using LangLang.Aplication.UseCases;
 using LangLang.WPF.ViewModels.StudentViewModels;
+using LangLang.Domain.Models;
 
 namespace LangLang.View.CourseGUI
 {
@@ -35,7 +36,7 @@ namespace LangLang.View.CourseGUI
         private AppController appController;
         private CourseController courseController;
         private WithdrawalRequestController withdrawalController;
-        private EnrollmentRequestController enrollmentController;
+        private EnrollmentRequestService enrollmentReqService;
         private PenaltyPointController penaltyPointController;
         private MessageController messageController;
         private GradeController gradeContoller;
@@ -50,7 +51,7 @@ namespace LangLang.View.CourseGUI
             withdrawalController = appController.WithdrawalRequestController;
             courseController = appController.CourseController;
             penaltyPointController = appController.PenaltyPointController;
-            enrollmentController = appController.EnrollmentRequestController;
+            enrollmentReqService = new();
             messageController = appController.MessageController;
             gradeContoller = appController.GradeController;
 
@@ -62,7 +63,7 @@ namespace LangLang.View.CourseGUI
         public void Update()
         {
             Students.Clear();
-            foreach (EnrollmentRequest enrollment in enrollmentController.GetRequests(course.ToCourse()))
+            foreach (EnrollmentRequest enrollment in enrollmentReqService.GetByCourse(course.ToCourse()))
             {
                 // All studnets that attend the course (do not have accepted withdrawals)
                 // and have not been graded

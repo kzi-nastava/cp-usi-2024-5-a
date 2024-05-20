@@ -28,7 +28,7 @@ namespace LangLang.WPF.Views
             ViewModel = new StudentWindowViewModel();
             DataContext = ViewModel;
 
-            GenerateTabs();
+            GenerateTabs(); 
             Update();
         }
 

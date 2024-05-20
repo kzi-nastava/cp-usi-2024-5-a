@@ -170,7 +170,7 @@ namespace LangLang.Repositories
                         Skill = skill
                     };
 
-                    tutors.Add(tutors.Count + 1, tutor);
+                    tutors.Add(tutors.Count, tutor);
                 }
             }
 

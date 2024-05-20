@@ -21,6 +21,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Windows.Converters;
 using LangLang.Aplication.UseCases;
 using LangLang.WPF.ViewModels.StudentViewModels;
+using LangLang.Domain.Models;
 
 namespace LangLang.View.CourseGUI
 {
@@ -37,7 +38,7 @@ namespace LangLang.View.CourseGUI
         private AppController appController;
         private CourseController courseController;
         private WithdrawalRequestController withdrawalController;
-        private EnrollmentRequestController enrollmentController;
+        private EnrollmentRequestService enrollmentReqService;
         private PenaltyPointController penaltyPointController;
         private TutorService tutorService;
         private MessageController messageController;
@@ -53,7 +54,7 @@ namespace LangLang.View.CourseGUI
             courseController = appController.CourseController;
             penaltyPointController = appController.PenaltyPointController;
             tutorService = new();
-            enrollmentController = appController.EnrollmentRequestController;
+            enrollmentReqService = new();
             messageController = appController.MessageController;
 
             Students = new();
@@ -67,7 +68,7 @@ namespace LangLang.View.CourseGUI
         {
             Students.Clear();
             //All studnets that attend the course and do not have accepted withdrawals
-            foreach (EnrollmentRequest enrollment in enrollmentController.GetRequests(course.ToCourse()))
+            foreach (EnrollmentRequest enrollment in enrollmentReqService.GetByCourse(course.ToCourse()))
             {
                 if (enrollment.Status == Status.Accepted && !withdrawalController.HasAcceptedWithdrawal(enrollment.Id))
                 {
@@ -76,11 +77,11 @@ namespace LangLang.View.CourseGUI
                 }
             }
             Withdrawals.Clear();
-            foreach (WithdrawalRequest withdrawal in withdrawalController.GetRequests(course.ToCourse(), enrollmentController))
+            foreach (WithdrawalRequest withdrawal in withdrawalController.GetRequests(course.ToCourse()))
             {
                 if(withdrawal.Status == Status.Pending)
                 {
-                    Withdrawals.Add(new WithdrawalRequestDTO(withdrawal, appController));
+                    Withdrawals.Add(new WithdrawalRequestDTO(withdrawal));
                 }
             }
         }

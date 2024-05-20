@@ -1,10 +1,11 @@
-﻿using LangLang.Core.Model.Enums;
+﻿using LangLang.Core;
+using LangLang.Core.Model.Enums;
 using LangLang.Core.Repository.Serialization;
 using System;
 
-namespace LangLang.Core.Model
+namespace LangLang.Domain.Models
 {
-    public class EnrollmentRequest : ISerializable
+    public class EnrollmentRequest 
     {
         public int Id { get; set; }
         public int StudentId { get; set; }
@@ -31,7 +32,7 @@ namespace LangLang.Core.Model
         {
             LastModifiedAt = lastModifiedAt;
             IsCanceled = isCanceled;
-        }   
+        }
 
         public void UpdateStatus(Status status)
         {
@@ -48,36 +49,6 @@ namespace LangLang.Core.Model
         public bool CanWithdraw()
         {
             return (DateTime.Now - LastModifiedAt).Days > Constants.COURSE_CANCELLATION_PERIOD;
-        }
-
-        public void FromCSV(string[] values)
-        {
-            try {
-                RequestSentAt = DateTime.ParseExact(values[4], Constants.DATE_FORMAT, null);
-                LastModifiedAt = DateTime.ParseExact(values[5], Constants.DATE_FORMAT, null);
-            }
-            catch {
-                throw new FormatException("Date is not in the correct format.");
-            }
-
-            Id = int.Parse(values[0]);
-            StudentId = int.Parse(values[1]);
-            CourseId = int.Parse(values[2]);
-            Status = (Status)Enum.Parse(typeof(Status), values[3]);
-            IsCanceled = bool.Parse(values[6]);
-        }
-
-        public string[] ToCSV()
-        {
-            return new string[] {
-                Id.ToString(),
-                StudentId.ToString(),
-                CourseId.ToString(),
-                Status.ToString(),
-                RequestSentAt.ToString(Constants.DATE_FORMAT),
-                LastModifiedAt.ToString(Constants.DATE_FORMAT),
-                IsCanceled.ToString()
-            };
         }
     }
 }

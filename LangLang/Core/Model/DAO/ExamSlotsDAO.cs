@@ -12,6 +12,7 @@ using LangLang.View.ExamSlotGUI;
 using System.Diagnostics;
 using LangLang.Core.Model.Enums;
 using LangLang.Domain.Models;
+using LangLang.Aplication.UseCases;
 
 namespace LangLang.Core.Model.DAO
 {
@@ -277,7 +278,8 @@ namespace LangLang.Core.Model.DAO
             if (student == null) return null;
             List<ExamSlot> availableExams = new();
 
-            List<EnrollmentRequest> studentRequests = appController.EnrollmentRequestController.GetRequests(student);
+            var enrollmentReqService = new EnrollmentRequestService();
+            List<EnrollmentRequest> studentRequests = enrollmentReqService.GetByStudent(student);
 
             foreach (ExamSlot exam in GetAll().Values)
             {

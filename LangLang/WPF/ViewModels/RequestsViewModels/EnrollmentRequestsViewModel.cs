@@ -1,5 +1,5 @@
-﻿using LangLang.Core.Controller;
-using LangLang.Core.Model;
+﻿using LangLang.Aplication.UseCases;
+using LangLang.Core.Controller;
 using LangLang.Domain.Models;
 using LangLang.DTO;
 using LangLang.WPF.Views;
@@ -27,8 +27,8 @@ namespace LangLang.WPF.ViewModels.RequestsViewModel
 
         public void SetDataForReview()
         {
-            var enrollmentService = new EnrollmentRequestController();
-            RequestsForReview = enrollmentService.GetRequests(currentlyLoggedIn);
+            var enrollmentService = new EnrollmentRequestService();
+            RequestsForReview = enrollmentService.GetByStudent(currentlyLoggedIn);
         }
 
         public void CancelRequest()
@@ -45,10 +45,10 @@ namespace LangLang.WPF.ViewModels.RequestsViewModel
         {
             EnrollmentRequest enrollmentRequest = SelectedEnrollmentRequest.ToEnrollmentRequest();
 
-            var enrollmentService = new EnrollmentRequestController();
+            var enrollmentService = new EnrollmentRequestService();
             try
             {
-                enrollmentService.CancelRequest(enrollmentRequest);
+                enrollmentService.Cancel(enrollmentRequest);
                 parentWindow.AvailableCoursesTab.SetDataForReview();
                 SetDataForReview();
                 parentWindow.Update();

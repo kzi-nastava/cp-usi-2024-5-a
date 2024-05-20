@@ -62,7 +62,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModel
             EnrollmentRequest.LastModifiedAt = DateTime.Now;
             EnrollmentRequest.IsCanceled = false;
 
-            var enrollmentService = new EnrollmentRequestController();
+            var enrollmentService = new EnrollmentRequestService();
             enrollmentService.Add(EnrollmentRequest.ToEnrollmentRequest());
 
             MessageBox.Show("Request sent. Please wait for approval.");

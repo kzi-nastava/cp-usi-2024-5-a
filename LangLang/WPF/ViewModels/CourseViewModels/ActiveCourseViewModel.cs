@@ -1,4 +1,5 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.Aplication.UseCases;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using LangLang.DTO;
@@ -19,7 +20,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModel
 
         public bool SetCourse()
         {
-            var enrollmentService = new EnrollmentRequestController();
+            var enrollmentService = new EnrollmentRequestService();
             var courseService = new CourseController();
 
             var enrollmentRequest = enrollmentService.GetActiveCourseRequest(currentlyLoggedIn);
@@ -47,7 +48,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModel
 
         public bool DisableCourseWithdrawal()
         {
-            var enrollmentService = new EnrollmentRequestController();
+            var enrollmentService = new EnrollmentRequestService();
             var withdrawalService = new WithdrawalRequestController();
 
             return !enrollmentService.CanRequestWithdrawal(acceptedRequestId) || withdrawalService.AlreadyExists(acceptedRequestId);

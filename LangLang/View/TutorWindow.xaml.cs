@@ -50,6 +50,7 @@ namespace LangLang
             messageController = appController.MessageController;
             tutorService = new();
 
+            LoggedIn = tutorService.Get(currentlyLoggedIn.Id);
             ExamSlots = new ObservableCollection<ExamSlotDTO>();
             Courses = new ObservableCollection<CourseDTO>();
             Messages = new ObservableCollection<MessageDTO>();

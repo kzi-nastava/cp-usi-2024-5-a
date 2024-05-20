@@ -1,4 +1,5 @@
-﻿using LangLang.Core;
+﻿using LangLang.Aplication.UseCases;
+using LangLang.Core;
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Observer;
@@ -13,7 +14,7 @@ namespace LangLang.Repositories
     public class StudentRepository : Subject, IStudentRepository
     {
         private readonly Dictionary<int, Student> _students;
-        private string _filePath = Constants.FILENAME_PREFIX + "students.csv";
+        private const string _filePath = Constants.FILENAME_PREFIX + "students.csv";
 
         public StudentRepository() {
             _students = Load();
@@ -60,11 +61,11 @@ namespace LangLang.Repositories
             Student student = Get(id);
             if (student == null) return;
 
-            var enrollmentService = new EnrollmentRequestController();
+            var enrollmentService = new EnrollmentRequestService();
             var examAppService = new ExamApplicationController();
             var examService = new ExamSlotController();
 
-            foreach (EnrollmentRequest er in enrollmentService.GetRequests(student)) // delete all course enrollment requests
+            foreach (EnrollmentRequest er in enrollmentService.GetByStudent(student)) // delete all course enrollment requests
                 enrollmentService.Delete(er.Id);
 
             foreach (ExamApplication ar in examAppService.GetApplications(student)) // delete all exam application requests

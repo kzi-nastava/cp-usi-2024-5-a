@@ -11,8 +11,8 @@ using LangLang.Composition;
 namespace LangLang.Aplication.UseCases
 {
     public class StudentService
-    {     
-        private IStudentRepository _students {  get; set; }
+    {
+        private IStudentRepository _students;
 
         public StudentService() 
         { 
@@ -63,11 +63,11 @@ namespace LangLang.Aplication.UseCases
 
         public bool CanRequestEnrollment(Student student)
         {
-            var enrollmentService = new EnrollmentRequestController();
+            var enrollmentService = new EnrollmentRequestService();
             var courseService = new CourseController();
             var withdrawalService = new WithdrawalRequestController();
 
-            foreach (EnrollmentRequest er in enrollmentService.GetRequests(student))
+            foreach (EnrollmentRequest er in enrollmentService.GetByStudent(student))
             {
                 if (er.Status == Status.Accepted && !er.IsCanceled)
                 {
@@ -81,7 +81,6 @@ namespace LangLang.Aplication.UseCases
         public bool HasAppliedForExam(int studentId)
         {
             var examAppService = new ExamApplicationController();
-            var examService = new ExamSlotController();
             List<ExamApplication> requests = examAppService.GetActiveStudentApplications(studentId);
 
             return requests.Count != 0;

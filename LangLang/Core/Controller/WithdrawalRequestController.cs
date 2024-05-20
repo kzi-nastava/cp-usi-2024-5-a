@@ -1,4 +1,5 @@
-﻿using LangLang.Core.Model;
+﻿using LangLang.Aplication.UseCases;
+using LangLang.Core.Model;
 using LangLang.Core.Model.DAO;
 using LangLang.Core.Model.Enums;
 using LangLang.Core.Observer;
@@ -41,15 +42,17 @@ namespace LangLang.Core.Controller
             _withdrawalRequests.Subscribe(observer);
         }
 
-        public List<WithdrawalRequest> GetRequests(Student student, EnrollmentRequestController enrollmentController)
+        public List<WithdrawalRequest> GetRequests(Student student)
         {
-            var allEnrollmentRequests = enrollmentController.GetAll();
+            var enrollmentReqService = new EnrollmentRequestService(); 
+            var allEnrollmentRequests = enrollmentReqService.GetAll();
             return _withdrawalRequests.GetRequests(student, allEnrollmentRequests);
         }
 
-        public List<WithdrawalRequest> GetRequests(Course course, EnrollmentRequestController enrollmentController)
+        public List<WithdrawalRequest> GetRequests(Course course)
         {
-            var allEnrollmentRequests = enrollmentController.GetAll();
+            var enrollmentReqService = new EnrollmentRequestService();
+            var allEnrollmentRequests = enrollmentReqService.GetAll();
             return _withdrawalRequests.GetRequests(course, allEnrollmentRequests);
         }
 

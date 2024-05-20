@@ -1,5 +1,4 @@
 ﻿using LangLang.Aplication.UseCases;
-using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Model.Enums;
 using LangLang.Domain.Models;
@@ -19,7 +18,7 @@ namespace LangLang.DTO
 
         public WithdrawalRequestDTO() {}
 
-        public WithdrawalRequestDTO(WithdrawalRequest request, AppController appController)
+        public WithdrawalRequestDTO(WithdrawalRequest request)
         {
             Id = request.Id;
             EnrollmentRequestId = request.EnrollmentRequestId;
@@ -27,14 +26,14 @@ namespace LangLang.DTO
             Status = request.Status;
             RequestSentAt = request.RequestSentAt;
             RequestReceivedAt = request.RequestReceivedAt;
-            SetStudent(appController);
+            SetStudent();
         }
 
-        private void SetStudent(AppController appController)
+        private void SetStudent()
         {
             var studentService = new StudentService();
-            var enrollmentController = appController.EnrollmentRequestController;
-            var enrollmentRequest = enrollmentController.Get(EnrollmentRequestId);
+            var enrollmentReqService = new EnrollmentRequestService(); 
+            var enrollmentRequest = enrollmentReqService.Get(EnrollmentRequestId);
 
             Student = studentService.Get(enrollmentRequest.StudentId);
         }
