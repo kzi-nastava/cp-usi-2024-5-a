@@ -36,7 +36,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModel
 
         public void WithdrawalFromCourse()
         {
-            var withdrawalService = new WithdrawalRequestController();
+            var withdrawalService = new WithdrawalRequestService();
             if (withdrawalService.AlreadyExists(acceptedRequestId))
             {
                 MessageBox.Show("Request already submitted. Wait for response.");
@@ -49,7 +49,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModel
         public bool DisableCourseWithdrawal()
         {
             var enrollmentService = new EnrollmentRequestService();
-            var withdrawalService = new WithdrawalRequestController();
+            var withdrawalService = new WithdrawalRequestService();
 
             return !enrollmentService.CanRequestWithdrawal(acceptedRequestId) || withdrawalService.AlreadyExists(acceptedRequestId);
         }

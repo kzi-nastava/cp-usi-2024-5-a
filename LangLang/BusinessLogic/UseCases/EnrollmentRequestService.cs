@@ -133,7 +133,7 @@ namespace LangLang.BusinessLogic.UseCases
                 return false;
             }
 
-            var withdrawalService = new WithdrawalRequestController();
+            var withdrawalService = new WithdrawalRequestService();
             return !withdrawalService.HasAcceptedWithdrawal(request.Id);
         }
 

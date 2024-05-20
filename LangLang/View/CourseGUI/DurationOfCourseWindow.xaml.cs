@@ -37,7 +37,7 @@ namespace LangLang.View.CourseGUI
 
         private AppController appController;
         private CourseController courseController;
-        private WithdrawalRequestController withdrawalController;
+        private WithdrawalRequestService withdrawalReqService;
         private EnrollmentRequestService enrollmentReqService;
         private PenaltyPointController penaltyPointController;
         private TutorService tutorService;
@@ -50,7 +50,7 @@ namespace LangLang.View.CourseGUI
 
             this.appController = appController;
             this.course = course;
-            withdrawalController = appController.WithdrawalRequestController;
+            withdrawalReqService = new();
             courseController = appController.CourseController;
             penaltyPointController = appController.PenaltyPointController;
             tutorService = new();
@@ -70,14 +70,14 @@ namespace LangLang.View.CourseGUI
             //All studnets that attend the course and do not have accepted withdrawals
             foreach (EnrollmentRequest enrollment in enrollmentReqService.GetByCourse(course.ToCourse()))
             {
-                if (enrollment.Status == Status.Accepted && !withdrawalController.HasAcceptedWithdrawal(enrollment.Id))
+                if (enrollment.Status == Status.Accepted && !withdrawalReqService.HasAcceptedWithdrawal(enrollment.Id))
                 {
                     var studentService = new StudentService();
                     Students.Add(new StudentViewModel(studentService.Get(enrollment.StudentId)));
                 }
             }
             Withdrawals.Clear();
-            foreach (WithdrawalRequest withdrawal in withdrawalController.GetRequests(course.ToCourse()))
+            foreach (WithdrawalRequest withdrawal in withdrawalReqService.GetByCourse(course.ToCourse()))
             {
                 if(withdrawal.Status == Status.Pending)
                 {
@@ -151,7 +151,7 @@ namespace LangLang.View.CourseGUI
             if (result == MessageBoxResult.Yes)
             {
                 courseController.RemoveStudent(course.Id);
-                withdrawalController.UpdateStatus(SelectedWithdrawal.Id, Status.Accepted);
+                withdrawalReqService.UpdateStatus(SelectedWithdrawal.Id, Status.Accepted);
                 ShowSuccess();
                 Update();
             }
@@ -161,7 +161,7 @@ namespace LangLang.View.CourseGUI
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to reject the withdrawal?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                withdrawalController.UpdateStatus(SelectedWithdrawal.Id, Status.Rejected);
+                withdrawalReqService.UpdateStatus(SelectedWithdrawal.Id, Status.Rejected);
                 courseController.RemoveStudent(course.Id);
                 penaltyPointController.GivePenaltyPoint(SelectedStudent.ToStudent(), tutorService.Get(course.TutorId), course.ToCourse(), appController);
                 NotifyStudentAboutPenaltyPoint(SelectedStudent.Id);

@@ -35,7 +35,7 @@ namespace LangLang.View.CourseGUI
 
         private AppController appController;
         private CourseController courseController;
-        private WithdrawalRequestController withdrawalController;
+        private WithdrawalRequestService withdrawalReqService;
         private EnrollmentRequestService enrollmentReqService;
         private PenaltyPointController penaltyPointController;
         private MessageController messageController;
@@ -48,7 +48,7 @@ namespace LangLang.View.CourseGUI
 
             this.appController = appController;
             this.course = course;
-            withdrawalController = appController.WithdrawalRequestController;
+            withdrawalReqService = new();
             courseController = appController.CourseController;
             penaltyPointController = appController.PenaltyPointController;
             enrollmentReqService = new();
@@ -67,7 +67,7 @@ namespace LangLang.View.CourseGUI
             {
                 // All studnets that attend the course (do not have accepted withdrawals)
                 // and have not been graded
-                if (enrollment.Status == Status.Accepted && !withdrawalController.HasAcceptedWithdrawal(enrollment.Id))
+                if (enrollment.Status == Status.Accepted && !withdrawalReqService.HasAcceptedWithdrawal(enrollment.Id))
                 {
                     bool graded = false;
                     foreach (Grade grade in gradeContoller.GetByCourse(course.ToCourse()))

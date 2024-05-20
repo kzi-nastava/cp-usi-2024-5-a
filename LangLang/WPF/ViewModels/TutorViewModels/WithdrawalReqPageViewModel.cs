@@ -1,10 +1,10 @@
 ﻿
-using LangLang.Core.Controller;
 using LangLang.Core.Model.Enums;
-using LangLang.Core.Model;
 using LangLang.DTO;
 using System.Windows;
 using System;
+using LangLang.Domain.Models;
+using LangLang.BusinessLogic.UseCases;
 
 namespace LangLang.WPF.ViewModels.TutorViewModels
 {
@@ -32,7 +32,7 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
             wr.RequestSentAt = DateTime.Now;
             wr.UpdateStatus(Status.Pending);
             wr.EnrollmentRequestId = enrollmentRequestId;
-            var withrawalService = new WithdrawalRequestController();
+            var withrawalService = new WithdrawalRequestService();
             withrawalService.Add(wr);
             MessageBox.Show("Request sent. Please wait for approval.");
         }

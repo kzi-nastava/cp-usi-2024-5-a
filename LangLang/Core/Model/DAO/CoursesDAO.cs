@@ -342,7 +342,7 @@ public class CoursesDAO : Subject
 
     private bool StudentAttendedUntilEnd(Course course, EnrollmentRequest request)
     {
-        var withdrawalService = new WithdrawalRequestController();
+        var withdrawalService = new WithdrawalRequestService();
         return course.IsCompleted() && request.Status == Status.Accepted
                 && !withdrawalService.HasAcceptedWithdrawal(request.Id);
     }
