@@ -1,6 +1,6 @@
 ﻿
 
-using LangLang.Core.Controller;
+using LangLang.BusinessLogic.UseCases;
 using LangLang.DTO;
 using System.Windows;
 
@@ -20,7 +20,7 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
 
         public void RateTutor()
         {
-            var service = new TutorRatingController();
+            var service = new TutorRatingService();
             service.Add(tutorRating.ToTutorRating());
             MessageBox.Show("Thank you for your feedback!", "Feedback Submitted");
 

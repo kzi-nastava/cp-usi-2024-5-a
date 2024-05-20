@@ -78,17 +78,15 @@ namespace LangLang.Repositories
 
         public void Save()
         {
-            {
-                using var writer = new StreamWriter(_filePath);
+            var writer = new StreamWriter(_filePath);
                 
-                foreach (var student in GetAll())
-                {
-                    var profile = student.Profile;
-                    var line = string.Join(Constants.DELIMITER.ToString(), 
-                                        profile.ToString(),
-                                        student.Profession);
-                    writer.WriteLine(line);
-                }
+            foreach (var student in GetAll())
+            {
+                var profile = student.Profile;
+                var line = string.Join(Constants.DELIMITER.ToString(), 
+                                    profile.ToString(),
+                                    student.Profession);
+                writer.WriteLine(line);
             }
         }
 

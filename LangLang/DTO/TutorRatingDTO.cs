@@ -1,4 +1,4 @@
-﻿using LangLang.Core.Model;
+﻿using LangLang.Domain.Models;
 
 namespace LangLang.DTO
 {

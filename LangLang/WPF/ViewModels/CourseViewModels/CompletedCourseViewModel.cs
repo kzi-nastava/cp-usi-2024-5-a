@@ -1,4 +1,5 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using LangLang.DTO;
@@ -38,7 +39,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModel
 
         public void TryRateTutor()
         {
-            var tutorRatingService = new TutorRatingController();
+            var tutorRatingService = new TutorRatingService();
             if (tutorRatingService.IsRated(currentlyLoggedIn.Id, SelectedCourse.TutorId))
             {
                 MessageBox.Show("You have already rated this tutor.", "Rating Already Submitted");

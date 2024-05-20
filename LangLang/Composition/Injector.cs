@@ -13,7 +13,8 @@ namespace LangLang.Composition
             { typeof(ITutorRepository), new TutorRepository() },
             { typeof(IDirectorRepository), new DirectorRepository() },
             { typeof(IEnrollmentRequestRepository), new EnrollmentRequestRepository() },
-            { typeof(IWithdrawalRequestRepository), new WithdrawalRequestRepository() }
+            { typeof(IWithdrawalRequestRepository), new WithdrawalRequestRepository() },
+            { typeof(ITutorRatingRepository), new TutorRatingRepository() }
         };
 
         public static T CreateInstance<T>()
