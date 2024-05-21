@@ -1,20 +1,20 @@
-﻿using LangLang.Core.Model.DAO;
-using LangLang.Core.Model;
+﻿using LangLang.Core.Model;
 using LangLang.Core.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using LangLang.Domain.Models;
+using LangLang.BusinessLogic.UseCases;
 
 namespace LangLang.Core.Controller
 {
     public class ExamSlotController
     {
-        private readonly ExamSlotsDAO _exams;
+        private readonly ExamSlotService _exams;
 
         public ExamSlotController()
         {
-            _exams = new ExamSlotsDAO();
+            _exams = new ExamSlotService();
         }
 
         public List<ExamSlot> GetAll()
@@ -40,7 +40,7 @@ namespace LangLang.Core.Controller
         }
         public bool Delete(int examId)
         {
-            return _exams.Remove(examId);
+            return _exams.Delete(examId);
         }
 
         public bool ApplicationsVisible(int id)

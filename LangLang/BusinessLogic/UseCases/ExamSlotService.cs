@@ -12,83 +12,77 @@ using LangLang.View.ExamSlotGUI;
 using System.Diagnostics;
 using LangLang.Core.Model.Enums;
 using LangLang.Domain.Models;
-using LangLang.BusinessLogic.UseCases;
+using LangLang.Core;
+using LangLang.Core.Model;
+using LangLang.Domain.RepositoryInterfaces;
+using LangLang.Composition;
+using Microsoft.Win32;
 
-namespace LangLang.Core.Model.DAO
+namespace LangLang.BusinessLogic.UseCases
 {
-    public class ExamSlotsDAO : Subject
+    public class ExamSlotService : Subject
     {
-        private readonly Dictionary<int, ExamSlot> _exams;
-        private readonly Repository<ExamSlot> _repository;
+        private IExamSlotRepository _exams;
 
-        public ExamSlotsDAO()
+        public ExamSlotService()
         {
-            _repository = new Repository<ExamSlot>("examSlots.csv");
-            _exams = _repository.Load();
+            _exams = Injector.CreateInstance<IExamSlotRepository>();
         }
         private int GenerateId()
         {
-            if (_exams.Count == 0) return 0;
-            return _exams.Keys.Max() + 1;
+            var last = GetAll().LastOrDefault();
+            return last?.Id + 1 ?? 0;
         }
 
         public ExamSlot? Get(int id)
         {
-            return _exams[id];
+            return _exams.Get(id);
         }
 
-        public Dictionary<int, ExamSlot> GetAll()
+        public List<ExamSlot> GetAll()
         {
-            return _exams;
+            return _exams.GetAll();
         }
 
 
         //function takes examslot and adds it to dictionary of examslots
         //function saves changes and returns if adding was successful
-        public bool Add(ExamSlot exam, CourseController courses)
+        public bool Add(ExamSlot exam)
         {
-            
-            if (CanCreateExam(exam, courses))
-            {
-                exam.Id = GenerateId();
-                _exams[exam.Id] = exam;
-                _repository.Save(_exams);
-                NotifyObservers();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-            
+            if (!CanCreateExam(exam)) return false;
+            exam.Id = GenerateId();
+            _exams.Add(exam);
+            return true;
+
         }
 
-        public bool CanCreateExam(ExamSlot exam, CourseController courseController)
+        public bool CanCreateExam(ExamSlot exam)
         {
             int busyClassrooms = 0;
-            return !CoursesAndExamOverlapp(exam, courseController, ref busyClassrooms) && !ExamsOverlapp(exam, ref busyClassrooms);
+            return !CoursesAndExamOverlapp(exam, ref busyClassrooms) && !ExamsOverlapp(exam, ref busyClassrooms);
         }
         // Checks for any overlaps between courses and the exam, considering the availability of the exam's tutor and classrooms
         public bool CoursesAndExamOverlapp(ExamSlot exam, CourseController courseController, ref int busyClassrooms)
         {
-            List<Course> courses = courseController.GetAll().Values.ToList();
+            var courseService = new CourseService();
+            List<Course> courses = courseService.GetAll().Values.ToList();
             // Go through courses
             foreach (Course course in courses)
             {
                 //check for overlapping
-                if (courseController.OverlappsWith(course, exam.TimeSlot))
+                if (courseService.OverlappsWith(course, exam.TimeSlot))
                 {
                     //tutor is busy (has class)
-                    if (course.TutorId == exam.TutorId) 
+                    if (course.TutorId == exam.TutorId)
                         return true;
-                    
-                    if (!course.Online) 
+
+                    if (!course.Online)
                         busyClassrooms++;
-                    
+
                     //all classrooms are busy
-                    if (busyClassrooms == 2) 
+                    if (busyClassrooms == 2)
                         return true;
-                    
+
                 }
             }
             return false;
@@ -97,15 +91,15 @@ namespace LangLang.Core.Model.DAO
         public bool ExamsOverlapp(ExamSlot exam, ref int busyClassrooms)
         {
             // Go through all exams
-            foreach (ExamSlot currExam in GetAll().Values)
+            foreach (ExamSlot currExam in GetAll())
             {
-                if(currExam.Id == exam.Id) 
+                if (currExam.Id == exam.Id)
                     continue;
-                
+
                 if (exam.TimeSlot.OverlappsWith(currExam.TimeSlot))
                 {
                     //tutor is busy (has exam)
-                    if (exam.TutorId == currExam.TutorId) 
+                    if (exam.TutorId == currExam.TutorId)
                         return true;
 
                     busyClassrooms++;
@@ -121,53 +115,31 @@ namespace LangLang.Core.Model.DAO
 
         //function takes id of examslot and removes examslot with that id
         //function saves changes and returns if removing was successful
-        public bool Remove(int id)
+        public bool Delete(int id)
         {
             ExamSlot exam = Get(id);
             if (exam == null) return false;
 
-            if ((exam.TimeSlot.Time - DateTime.Now).TotalDays >= Constants.EXAM_MODIFY_PERIOD)
-            {
-                _exams.Remove(id);
-                _repository.Save(_exams);
-                NotifyObservers();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if (!((exam.TimeSlot.Time - DateTime.Now).TotalDays >= Constants.EXAM_MODIFY_PERIOD)) return false;
+            _exams.Delete(id);
+            return true;
 
         }
         public void AddStudent(ExamSlot exam)
-        {
+        {           
             exam.Applicants++;
-            _repository.Save(_exams);
-            NotifyObservers();
+            _exams.Update(exam);
         }
 
         public void RemoveStudent(ExamSlot exam)
         {
             exam.Applicants--;
-            _repository.Save(_exams);
-            NotifyObservers();
+            _exams.Update(exam);
         }
-        //function for updating examslot takes new version of examslot and updates existing examslot to be same as new one
-        //function saves changes and returns if updating was successful
+        
         public void Update(ExamSlot exam)
         {
-            ExamSlot? oldExam = Get(exam.Id);
-            if (oldExam == null) return;
-
-            oldExam.TutorId = exam.TutorId;
-            oldExam.MaxStudents = exam.MaxStudents;
-            oldExam.TimeSlot = exam.TimeSlot;
-            oldExam.Modifiable = exam.Modifiable;
-            oldExam.ResultsGenerated = exam.ResultsGenerated;
-            oldExam.Applicants = exam.Applicants;
-
-            _repository.Save(_exams);
-            NotifyObservers();
+            _exams.Update(exam);
         }
 
         public bool CanBeUpdated(ExamSlot exam)
@@ -180,18 +152,7 @@ namespace LangLang.Core.Model.DAO
         //function takes tutor id
         public List<ExamSlot> GetExams(Tutor tutor)
         {
-            List<ExamSlot> exams = new List<ExamSlot>();
-
-            foreach (ExamSlot exam in _exams.Values)
-            {
-
-                if (tutor.Id == exam.TutorId)
-                {
-                    exams.Add(exam);
-                }
-            }
-
-            return exams;
+            return _exams.GetExams(tutor);
         }
 
 
@@ -221,7 +182,7 @@ namespace LangLang.Core.Model.DAO
         {
             return exam.TimeSlot.Time < DateTime.Now;
         }
-       
+
         public bool IsFullyBooked(ExamSlot exam)
         {
             return exam.MaxStudents == exam.Applicants;
@@ -241,7 +202,7 @@ namespace LangLang.Core.Model.DAO
         {
             List<ExamSlot> exams = _exams.Values.ToList();
 
-            exams = this.GetExams(tutor);
+            exams = GetExams(tutor);
 
             return Search(exams, examDate, language, level);
         }
@@ -281,11 +242,11 @@ namespace LangLang.Core.Model.DAO
             var enrollmentReqService = new EnrollmentRequestService();
             List<EnrollmentRequest> studentRequests = enrollmentReqService.GetByStudent(student);
 
-            foreach (ExamSlot exam in GetAll().Values)
+            foreach (ExamSlot exam in GetAll())
             {
                 //don't include filled exams and exams that passed or are less then a month away
                 if (!IsAvailable(exam)) continue;
-                
+
                 //don't include exams for which student has already applied
                 bool hasAlreadyApplied = appController.ExamApplicationController.HasApplied(student, exam);
                 if (hasAlreadyApplied) continue;
@@ -302,7 +263,7 @@ namespace LangLang.Core.Model.DAO
 
             return availableExams;
         }
-        
+
         private bool HasStudentAttendedCourse(Course course, EnrollmentRequest enrollmentRequest, ExamSlot examSlot)
         {
             if (course.Language == examSlot.Language && course.Level == examSlot.Level)
@@ -315,6 +276,6 @@ namespace LangLang.Core.Model.DAO
             return false;
         }
 
-        
+
     }
 }
