@@ -4,44 +4,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LangLang.BusinessLogic.UseCases;
+using LangLang.Composition;
 using LangLang.Core.Controller;
 using LangLang.Core.Observer;
 using LangLang.Core.Repository;
 using LangLang.Domain.Models;
+using LangLang.Domain.RepositoryInterfaces;
 
 namespace LangLang.Core.Model.DAO
 {
-    public class PenaltyPointDAO: Subject
+    public class PenaltyPointService: Subject
     {
 
-        private readonly Dictionary<int, PenaltyPoint> _points;
-        private readonly Repository<PenaltyPoint> _repository;
+        
+        private IPenaltyPointRepository _points;
 
-        public PenaltyPointDAO()
+        public PenaltyPointService()
         {
-            _repository = new Repository<PenaltyPoint>("penaltyPoints.csv");
-            _points = _repository.Load();
+            _points = Injector.CreateInstance<IPenaltyPointRepository>();
         }
+
         private int GenerateId()
         {
-            if (_points.Count == 0) return 0;
-            return _points.Keys.Max() + 1;
+            var last = GetAll().LastOrDefault();
+            return last?.Id + 1 ?? 0;
         }
 
         public PenaltyPoint? Get(int id)
         {
-            return _points[id];
+            return _points.Get(id);
         }
-        public Dictionary<int, PenaltyPoint> GetAll()
+        public List<PenaltyPoint> GetAll()
         {
-            return _points;
+            return _points.GetAll();
         }
         private void Add(Student student, Tutor tutor, Course course)
         {
             PenaltyPoint point = new PenaltyPoint(GenerateId(), student.Profile.Id, tutor.Profile.Id, course.Id, DateTime.Now);
-            _points[point.Id] = point;
-            _repository.Save(_points);
-            NotifyObservers();
+            _points.Add(point);
         }
         public void GivePenaltyPoint(Student student, Tutor tutor, Course course, AppController appController)
         {
@@ -63,23 +63,11 @@ namespace LangLang.Core.Model.DAO
         }
         public List<PenaltyPoint> GetPenaltyPoints(Student student)
         {
-            List<PenaltyPoint> points = new List<PenaltyPoint>();
-
-            foreach (var point in _points.Values)
-            {
-                if (point.StudentId == student.Profile.Id)
-                {
-                    points.Add(point);
-                }
-            }
-
-            return points;
+            return _points.GetPenaltyPoints(student);
         }
-        private void Remove(PenaltyPoint point)
+        public void Delete(PenaltyPoint point)
         {
-            _points.Remove(point.Id);
-            _repository.Save(_points);
-            NotifyObservers();
+            _points.Delete(point);
         }
         public void RemovePenaltyPoint(Student student)
         {
@@ -87,26 +75,14 @@ namespace LangLang.Core.Model.DAO
             if (points.Count > 0)
             {
                 PenaltyPoint toRemove = GetOldestPenaltyPoint(GetPenaltyPoints(student));
-                Remove(toRemove);
+                Delete(toRemove);
 
             }
         }
 
         public PenaltyPoint GetOldestPenaltyPoint(List<PenaltyPoint> points)
-        {           
-            PenaltyPoint oldestPoint = null;
-            DateTime oldestDate = DateTime.MaxValue;
-
-            foreach (var point in points)
-            {
-                if (point.Date < oldestDate)
-                {
-                    oldestPoint = point;
-                    oldestDate = point.Date;
-                }
-            }
-
-            return oldestPoint;
+        {
+            return _points.GetOldestPenaltyPoint(points);
         }
 
         public bool HasGivenPenaltyPoint(Student student, Tutor tutor, Course course, AppController appController)

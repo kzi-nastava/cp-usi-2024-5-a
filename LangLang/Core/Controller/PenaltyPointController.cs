@@ -12,11 +12,11 @@ namespace LangLang.Core.Controller
 {
     public class PenaltyPointController
     {
-        private readonly PenaltyPointDAO _points;
+        private readonly PenaltyPointService _points;
 
         public PenaltyPointController()
         {
-            _points = new PenaltyPointDAO();
+            _points = new PenaltyPointService();
         }
 
         public PenaltyPoint? Get(int id)

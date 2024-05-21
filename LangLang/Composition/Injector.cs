@@ -16,7 +16,8 @@ namespace LangLang.Composition
             { typeof(IWithdrawalRequestRepository), new WithdrawalRequestRepository() },
             { typeof(ITutorRatingRepository), new TutorRatingRepository() },
             { typeof(IExamSlotRepository), new ExamSlotRepository() },
-            { typeof(IExamApplicationRepository), new ExamApplicationRepository() }
+            { typeof(IExamApplicationRepository), new ExamApplicationRepository() },
+            { typeof(IPenaltyPointRepository), new PenaltyPointRepository() }
 
 
         };
