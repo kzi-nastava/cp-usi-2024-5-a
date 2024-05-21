@@ -1,18 +1,19 @@
-﻿using System;
+﻿using LangLang.Domain.Models.Enums;
+using System;
 using System.Collections.Generic;
-using System.IO.Packaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LangLang.Core.Model
+namespace LangLang.Domain.Models
 {
     public class Skill
     {
         private List<string> _language;
         private List<LanguageLevel> _level;
 
-        public Skill() { 
+        public Skill()
+        {
             _language = new List<string>();
             _level = new List<LanguageLevel>();
         }
