@@ -1,14 +1,18 @@
-﻿using System;
+﻿using LangLang.Core;
+using LangLang.Core.Model;
+using LangLang.Domain.Models.Enums;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using LangLang.Core.Repository.Serialization;
+using LanguageLevel = LangLang.Domain.Models.Enums.LanguageLevel;
 
-namespace LangLang.Core.Model
+namespace LangLang.Domain.Models
 {
-    public class Course : ISerializable
+    public class Course
     {
         // Properties
         public int Id { get; set; }
@@ -27,7 +31,6 @@ namespace LangLang.Core.Model
 
 
         // Constructors
-
         public Course(int id, int tutorId, string language, LanguageLevel level, int numberOfWeeks, List<DayOfWeek> days,
             bool online, int numberOfStudents, int maxStudents, DateTime startDateTime, bool createdByDirector, bool modifiable)
         {
@@ -45,83 +48,9 @@ namespace LangLang.Core.Model
             Modifiable = modifiable;
             GenerateTimeSlots();
         }
-        
+
         public Course()
-        { 
-        }
-
-        public string ToString()
         {
-            StringBuilder sbDays = new StringBuilder();
-            foreach (DayOfWeek day in Days)
-            {
-                sbDays.Append(day.ToString() + " ");
-            }
-
-            // Deletes the last white space from stringbuilder
-            if (sbDays.Length > 0)
-            {
-                sbDays.Remove(sbDays.Length - 1, 1);
-            }
-
-            return $"ID: {Id,5} | TutorId: {TutorId,5} | Language: {Language,20} | Level: {Level,5} | NumberOfWeeks: {NumberOfWeeks,5} | Days: {sbDays, 10} | Online: {Online,5} | NumberOfStudents : {NumberOfStudents,5} | MaxStudents : {MaxStudents,5} | StartDateTime : {StartDateTime,10} | CreatedByDirector : {CreatedByDirector,5} | Modifiable : {Modifiable, 5} |";
-        }
-
-        public string[] ToCSV()
-        {
-            StringBuilder sbDays = new StringBuilder();
-            foreach (DayOfWeek day in Days)
-            {
-                sbDays.Append(day.ToString() + " ");
-            }
-
-            // Deletes the last white space from stringbuilder
-            if (sbDays.Length > 0)
-            {
-                sbDays.Remove(sbDays.Length - 1, 1);
-            }
-
-            string[] csvValues =
-            {
-                Id.ToString(),
-                TutorId.ToString(),
-                Language,
-                Level.ToString(),
-                NumberOfWeeks.ToString(),
-                sbDays.ToString(),
-                Online.ToString(),
-                NumberOfStudents.ToString(),
-                MaxStudents.ToString(),
-                StartDateTime.ToString(),
-                CreatedByDirector.ToString(),
-                Modifiable.ToString()
-            };
-            return csvValues;
-        }
-
-        public void FromCSV(string[] values)
-        {
-            Id = int.Parse(values[0]);
-            TutorId = int.Parse(values[1]);
-            Language = values[2];
-            Level = (LanguageLevel)Enum.Parse(typeof(LanguageLevel), values[3]);
-            NumberOfWeeks = int.Parse(values[4]);
-
-            // Converting from string to list of WeekDays
-            string[] days = values[5].Split(' ');
-            Days = new List<DayOfWeek>();
-            foreach (string day in days)
-            {
-                Days.Add((DayOfWeek)Enum.Parse(typeof(DayOfWeek), day));
-            }
-
-            Online = bool.Parse(values[6]);
-            NumberOfStudents = int.Parse(values[7]);
-            MaxStudents = int.Parse(values[8]);
-            StartDateTime = DateTime.Parse(values[9]);
-            CreatedByDirector = bool.Parse(values[10]);
-            Modifiable = bool.Parse(values[11]);
-            GenerateTimeSlots();
         }
 
         public bool IsCompleted()
@@ -138,10 +67,10 @@ namespace LangLang.Core.Model
             for (int week = 0; week < NumberOfWeeks; week++)
             {
                 foreach (DayOfWeek day in Days)
-                { 
+                {
                     // if the start date is after some of the days,
                     // skipped over to them in next week
-                    if (day - StartDateTime.DayOfWeek < 0) 
+                    if (day - StartDateTime.DayOfWeek < 0)
                     {
                         skipToNextWeek = 7;
                     }
@@ -176,6 +105,22 @@ namespace LangLang.Core.Model
         public int DaysUntilStart()
         {
             return (StartDateTime - DateTime.Now).Days;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sbDays = new StringBuilder();
+            foreach (DayOfWeek day in Days)
+            {
+                sbDays.Append(day.ToString() + " ");
+            }
+
+            // Deletes the last white space from stringbuilder
+            if (sbDays.Length > 0)
+            {
+                sbDays.Remove(sbDays.Length - 1, 1);
+            }
+            return string.Join("|", new object[] { Id, TutorId, Language, Level.ToString(), NumberOfWeeks, sbDays.ToString(), Online, NumberOfStudents, MaxStudents, StartDateTime.ToString(Constants.DATE_FORMAT), CreatedByDirector, Modifiable });
         }
     }
 }
