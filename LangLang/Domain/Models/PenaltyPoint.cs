@@ -5,9 +5,9 @@ using LangLang.Core.Repository.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LangLang.Core.Model
+namespace LangLang.Domain.Models
 {
-    public class PenaltyPoint: ISerializable
+    public class PenaltyPoint : ISerializable
     {
         public int Id { get; set; }
         public int StudentId { get; set; }
