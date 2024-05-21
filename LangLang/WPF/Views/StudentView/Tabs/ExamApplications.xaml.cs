@@ -1,6 +1,5 @@
 ﻿using LangLang.Core;
 using LangLang.Core.Controller;
-using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.ExamViewModel;
 using LangLang.WPF.Views;
