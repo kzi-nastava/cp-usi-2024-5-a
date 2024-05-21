@@ -1,6 +1,5 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model.Enums;
-using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using System.Collections.Generic;
 using LangLang.Domain.RepositoryInterfaces;

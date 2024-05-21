@@ -1,7 +1,6 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Core;
 using LangLang.Core.Controller;
-using LangLang.Core.Model;
 using LangLang.Core.Observer;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
