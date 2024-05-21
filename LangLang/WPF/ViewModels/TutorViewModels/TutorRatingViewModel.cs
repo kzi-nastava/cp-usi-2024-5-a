@@ -1,16 +1,16 @@
 ﻿using LangLang.Domain.Models;
 
-namespace LangLang.DTO
+namespace LangLang.WPF.ViewModels.TutorViewModels
 {
-    public class TutorRatingDTO
+    public class TutorRatingViewModel
     {
         public int Id { get; set; }
         public int TutorId { get; set; }
         public int StudentId { get; set; }
         public int Rating { get; set; }
 
-        public TutorRatingDTO() { }
-        public TutorRatingDTO(TutorRating rating)
+        public TutorRatingViewModel() { }
+        public TutorRatingViewModel(TutorRating rating)
         {
             Id = rating.Id;
             TutorId = rating.TutorId;

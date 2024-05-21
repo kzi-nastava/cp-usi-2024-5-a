@@ -2,19 +2,19 @@
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
-using LangLang.DTO;
+using LangLang.WPF.ViewModels.TutorViewModels;
 using LangLang.WPF.Views.StudentView.AdditionalWindows;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 
-namespace LangLang.WPF.ViewModels.CourseViewModel
+namespace LangLang.WPF.ViewModels.CourseViewModels
 {
     public class CompletedCourseViewModel
     {
-        public ObservableCollection<CourseDTO> Courses { get; set; }
+        public ObservableCollection<CourseViewModels.CourseViewModel> Courses { get; set; }
         private List<Course> completedCourses { get; set; }
-        public CourseDTO SelectedCourse { get; set; }
+        public CourseViewModels.CourseViewModel SelectedCourse { get; set; }
         private Student currentlyLoggedIn { get; set; }
         public CompletedCourseViewModel(Student currentlyLoggedIn)
         {
@@ -29,7 +29,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModel
 
             Courses.Clear();
             foreach (var course in completedCourses)
-                Courses.Add(new CourseDTO(course));
+                Courses.Add(new CourseViewModel(course));
         }
 
         public bool ToEnableButton()
@@ -45,7 +45,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModel
                 MessageBox.Show("You have already rated this tutor.", "Rating Already Submitted");
                 return;
             }
-            TutorRatingDTO tutorRatingDTO = new()
+            TutorRatingViewModel tutorRatingDTO = new()
             {
                 TutorId = SelectedCourse.TutorId,
                 StudentId = currentlyLoggedIn.Id

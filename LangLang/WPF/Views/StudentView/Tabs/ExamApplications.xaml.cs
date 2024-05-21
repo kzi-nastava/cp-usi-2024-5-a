@@ -2,7 +2,7 @@
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
-using LangLang.DTO;
+using LangLang.WPF.ViewModels.ExamViewModel;
 using LangLang.WPF.Views;
 using System;
 using System.Collections.Generic;
@@ -15,8 +15,8 @@ namespace LangLang.View.StudentGUI.Tabs
     public partial class ExamApplications : UserControl
     {
         private readonly StudentWindow parentWindow;
-        public ExamApplicationDTO SelectedApplication { get; set; }
-        public ObservableCollection<ExamApplicationDTO> Applications { get; set; }
+        public ExamApplicationViewModel SelectedApplication { get; set; }
+        public ObservableCollection<ExamApplicationViewModel> Applications { get; set; }
         public List<ExamApplication> ApplicationsForReview { get; set; }
 
         private ExamApplicationController applicationController {get; set;}
@@ -47,7 +47,7 @@ namespace LangLang.View.StudentGUI.Tabs
             Applications.Clear();
             foreach (ExamApplication application in applicationController.GetApplications(currentlyLoggedIn))
             {
-                Applications.Add(new ExamApplicationDTO(application));
+                Applications.Add(new ExamApplicationViewModel(application));
             }
         }
 

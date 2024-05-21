@@ -1,7 +1,6 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model.Enums;
 using LangLang.Core.Model;
-using LangLang.DTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +21,7 @@ using System.Windows.Converters;
 using LangLang.BusinessLogic.UseCases;
 using LangLang.WPF.ViewModels.StudentViewModels;
 using LangLang.Domain.Models;
+using LangLang.WPF.ViewModels.CourseViewModels;
 
 namespace LangLang.View.CourseGUI
 {
@@ -38,10 +38,9 @@ namespace LangLang.View.CourseGUI
         private WithdrawalRequestService withdrawalReqService;
         private EnrollmentRequestService enrollmentReqService;
         private PenaltyPointController penaltyPointController;
-        private MessageController messageController;
         private GradeController gradeContoller;
-        private CourseDTO course;
-        public EnterGradesWindow(AppController appController, CourseDTO course)
+        private CourseViewModel course;
+        public EnterGradesWindow(AppController appController, CourseViewModel course)
         {
             InitializeComponent();
             DataContext = this;
@@ -52,7 +51,6 @@ namespace LangLang.View.CourseGUI
             courseController = appController.CourseController;
             penaltyPointController = appController.PenaltyPointController;
             enrollmentReqService = new();
-            messageController = appController.MessageController;
             gradeContoller = appController.GradeController;
 
             Students = new();

@@ -1,7 +1,7 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
-using LangLang.DTO;
+using LangLang.WPF.ViewModels.CourseViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,7 +25,7 @@ namespace LangLang.View.CourseGUI
     public partial class CourseSearchWindow : Window
     {
         private CourseController courseController { get; set; }
-        private ObservableCollection<CourseDTO> courses;
+        private ObservableCollection<CourseViewModel> courses;
         private List<Course> coursesForReview;
         private int tutorId { get; set; }
         public CourseSearchWindow(AppController appController, Tutor loggedIn)
@@ -38,7 +38,7 @@ namespace LangLang.View.CourseGUI
             this.courseController = new CourseController();
             this.courseController = courseController;
 
-            this.courses = new ObservableCollection<CourseDTO>();
+            this.courses = new ObservableCollection<CourseViewModel>();
             
             coursesForReview = this.courseController.GetByTutor(tutorId);
 
@@ -52,7 +52,7 @@ namespace LangLang.View.CourseGUI
         {
 
         }
-        public ObservableCollection<CourseDTO> Courses
+        public ObservableCollection<CourseViewModel> Courses
         {
             get { return courses; }
             set { courses = value; }
@@ -81,7 +81,7 @@ namespace LangLang.View.CourseGUI
             Courses.Clear();
             foreach (Course course in coursesForReview)
             {
-                Courses.Add(new CourseDTO(course));
+                Courses.Add(new CourseViewModel(course));
             }
         }
     }

@@ -5,9 +5,9 @@ using System.ComponentModel;
 using System.Text.RegularExpressions;
 
 
-namespace LangLang.DTO
+namespace LangLang.WPF.ViewModels.ExamViewModel
 {
-    public class ExamSlotDTO : INotifyPropertyChanged, IDataErrorInfo
+    public class ExamSlotViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
 
         public int Id { get; set; }
@@ -154,20 +154,20 @@ namespace LangLang.DTO
             }
         }
 
-        public ExamSlotDTO() { }
+        public ExamSlotViewModel() { }
 
-        public ExamSlotDTO(ExamSlot examSlot)
+        public ExamSlotViewModel(ExamSlot examSlot)
         {
-            this.Id = examSlot.Id;
-            this.TutorId = examSlot.TutorId;
-            this.Language = examSlot.Language;
-            this.Level = examSlot.Level;
-            this.MaxStudents = examSlot.MaxStudents.ToString();
-            this.ExamDate = examSlot.TimeSlot.Time;
-            this.Time = examSlot.TimeSlot.Time.ToString("HH:mm");
-            this.Applicants = examSlot.Applicants;
-            this.Modifiable = examSlot.Modifiable;
-            this.ResultsGenerated = examSlot.ResultsGenerated;
+            Id = examSlot.Id;
+            TutorId = examSlot.TutorId;
+            Language = examSlot.Language;
+            Level = examSlot.Level;
+            MaxStudents = examSlot.MaxStudents.ToString();
+            ExamDate = examSlot.TimeSlot.Time;
+            Time = examSlot.TimeSlot.Time.ToString("HH:mm");
+            Applicants = examSlot.Applicants;
+            Modifiable = examSlot.Modifiable;
+            ResultsGenerated = examSlot.ResultsGenerated;
         }
         public string Error => null;
 

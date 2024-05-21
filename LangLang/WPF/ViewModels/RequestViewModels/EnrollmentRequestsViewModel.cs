@@ -1,7 +1,7 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Core.Controller;
 using LangLang.Domain.Models;
-using LangLang.DTO;
+using LangLang.WPF.ViewModels.RequestsViewModels;
 using LangLang.WPF.Views;
 using System;
 using System.Collections.Generic;
@@ -12,10 +12,10 @@ namespace LangLang.WPF.ViewModels.RequestsViewModel
 {
     public class EnrollmentRequestsViewModel
     {
-        public EnrollmentRequestDTO SelectedEnrollmentRequest { get; set; }
+        public EnrollmentRequestViewModel SelectedEnrollmentRequest { get; set; }
         private Student currentlyLoggedIn { get; set; }
         private StudentWindow parentWindow { get; set; }
-        public ObservableCollection<EnrollmentRequestDTO> StudentRequests { get; set; }
+        public ObservableCollection<EnrollmentRequestViewModel> StudentRequests { get; set; }
         public List<EnrollmentRequest> RequestsForReview { get; set; }
         public EnrollmentRequestsViewModel(Student currentlyLoggedIn, StudentWindow studentWindow)
         {
@@ -68,7 +68,7 @@ namespace LangLang.WPF.ViewModels.RequestsViewModel
         {
             StudentRequests.Clear();
             foreach (EnrollmentRequest er in RequestsForReview)
-                StudentRequests.Add(new EnrollmentRequestDTO(er));
+                StudentRequests.Add(new EnrollmentRequestViewModel(er));
         }
     }
 }

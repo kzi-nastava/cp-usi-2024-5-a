@@ -13,9 +13,9 @@ using LangLang.Core.Controller;
 using System.Windows.Input;
 using LangLang.BusinessLogic.UseCases;
 
-namespace LangLang.DTO
+namespace LangLang.WPF.ViewModels.CourseViewModels
 {
-    public class CourseDTO : INotifyPropertyChanged, IDataErrorInfo
+    public class CourseViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         public string StringDays { get; set; }
 
@@ -232,7 +232,7 @@ namespace LangLang.DTO
             }
         }
 
-        private string[] _validatedProperties = {"NotOnline", "MaxStudents", "StartDate", "Language", "Level", "NumberOfWeeks", "Time" };
+        private string[] _validatedProperties = { "NotOnline", "MaxStudents", "StartDate", "Language", "Level", "NumberOfWeeks", "Time" };
 
         // checks if all properties are valid
         public bool IsValid
@@ -257,7 +257,7 @@ namespace LangLang.DTO
 
         public string Error => null;
 
-        public CourseDTO()
+        public CourseViewModel()
         {
             online = true;
             BooleanDays = new List<bool> { false, false, false, false, false };
@@ -279,9 +279,9 @@ namespace LangLang.DTO
             return new Course(Id, tutorId, language, level, numberOfWeeks, days, online, NumberOfStudents, maxStudents, new DateTime(startDate.Year, startDate.Month, startDate.Day, hour, minute, 0), createdByDirector, Modifiable);
         }
 
-        public CourseDTO(Course course)
+        public CourseViewModel(Course course)
         {
-            this.Id = course.Id;
+            Id = course.Id;
             Language = course.Language;
             Level = course.Level;
             NotOnline = !course.Online;
@@ -301,11 +301,11 @@ namespace LangLang.DTO
             TutorFullName = tutor.Profile.Name + " " + tutor.Profile.LastName;
         }
 
-        private void  SetDaysProperties(List<DayOfWeek> days)
+        private void SetDaysProperties(List<DayOfWeek> days)
         {
             BooleanDays = new List<bool> { false, false, false, false, false };
             StringDays = string.Join(", ", days);
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 if (days.Contains((DayOfWeek)(i + 1))) { booleanDays[i] = true; }
             }

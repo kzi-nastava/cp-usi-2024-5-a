@@ -2,15 +2,14 @@
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
-using LangLang.DTO;
 using LangLang.WPF.Views.StudentView.AdditionalWindows;
 using System.Windows;
 
-namespace LangLang.WPF.ViewModels.CourseViewModel
+namespace LangLang.WPF.ViewModels.CourseViewModels
 {
     public class ActiveCourseViewModel
     {
-        public CourseDTO Course { get; set; } // TODO: rename CourseDTO -> CourseViewModel
+        public CourseViewModels.CourseViewModel Course { get; set; } // TODO: rename CourseDTO -> CourseViewModel
         private Student currentlyLoggedIn;
         private int acceptedRequestId;
         public ActiveCourseViewModel(Student currentlyLoggedIn)

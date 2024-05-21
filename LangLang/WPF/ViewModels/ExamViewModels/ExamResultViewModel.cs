@@ -1,5 +1,4 @@
-﻿
-using LangLang.BusinessLogic.UseCases;
+﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Core;
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
@@ -9,9 +8,9 @@ using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 
-namespace LangLang.DTO
+namespace LangLang.WPF.ViewModels.ExamViewModel
 {
-    public class ExamResultDTO: INotifyPropertyChanged, IDataErrorInfo
+    public class ExamResultViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         public int Id { get; set; }
         public int StudentId { get; set; }
@@ -103,7 +102,7 @@ namespace LangLang.DTO
                 {
                     if (string.IsNullOrEmpty(ListeningPoints)) return "Listening points are required";
                     if (!_numberRegex.Match(ListeningPoints).Success) return "The field must consist of numbers.";
-                    if (int.Parse(listeningPoints) > Constants.MAX_LISTENING_POINTS)  return $"The maximum number of points is {Constants.MAX_LISTENING_POINTS}.";
+                    if (int.Parse(listeningPoints) > Constants.MAX_LISTENING_POINTS) return $"The maximum number of points is {Constants.MAX_LISTENING_POINTS}.";
                     else return "";
                 }
 
@@ -134,7 +133,7 @@ namespace LangLang.DTO
             }
         }
 
-        private readonly string[] _validatedProperties = { "ListeningPoints", "ReadingPoints", "WritingPoints", "SpeakingPoints"};
+        private readonly string[] _validatedProperties = { "ListeningPoints", "ReadingPoints", "WritingPoints", "SpeakingPoints" };
 
         public bool IsValid
         {
@@ -149,14 +148,14 @@ namespace LangLang.DTO
             }
         }
 
-        public ExamResultDTO() { }
+        public ExamResultViewModel() { }
 
         public ExamResult ToExamResult()
         {
             return new ExamResult(Id, StudentId, ExamId, int.Parse(readingPoints), int.Parse(speakingPoints), int.Parse(listeningPoints), int.Parse(writingPoints), outcome, Status);
         }
 
-        public ExamResultDTO(ExamResult examResult)
+        public ExamResultViewModel(ExamResult examResult)
         {
             var studentService = new StudentService();
             Student student = studentService.Get(examResult.StudentId);

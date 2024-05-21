@@ -3,10 +3,10 @@ using LangLang.Core.Model.Enums;
 using LangLang.Domain.Models;
 using System;
 
-namespace LangLang.DTO
+namespace LangLang.WPF.ViewModels.RequestsViewModels
 {
-    public class WithdrawalRequestDTO
-    {   
+    public class WithdrawalRequestViewModel
+    {
         public int Id { get; set; }
         public int EnrollmentRequestId;
         public Status Status;
@@ -15,9 +15,9 @@ namespace LangLang.DTO
         public Student Student { get; set; }
         public string Reason { get; set; }
 
-        public WithdrawalRequestDTO() {}
+        public WithdrawalRequestViewModel() { }
 
-        public WithdrawalRequestDTO(WithdrawalRequest request)
+        public WithdrawalRequestViewModel(WithdrawalRequest request)
         {
             Id = request.Id;
             EnrollmentRequestId = request.EnrollmentRequestId;
@@ -31,7 +31,7 @@ namespace LangLang.DTO
         private void SetStudent()
         {
             var studentService = new StudentService();
-            var enrollmentReqService = new EnrollmentRequestService(); 
+            var enrollmentReqService = new EnrollmentRequestService();
             var enrollmentRequest = enrollmentReqService.Get(EnrollmentRequestId);
 
             Student = studentService.Get(enrollmentRequest.StudentId);

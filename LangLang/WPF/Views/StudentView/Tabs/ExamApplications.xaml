@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:LangLang.View.StudentGUI.Tabs"
              mc:Ignorable="d" 
              d:DesignHeight="662.4" d:DesignWidth="934.4">
     <Grid Margin="0,0,-3,-9" Background="#FFFAE0E0">

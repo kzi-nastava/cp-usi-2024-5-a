@@ -1,7 +1,6 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model.Enums;
 using LangLang.Core.Model;
-using LangLang.DTO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +21,8 @@ using System.Windows.Converters;
 using LangLang.BusinessLogic.UseCases;
 using LangLang.WPF.ViewModels.StudentViewModels;
 using LangLang.Domain.Models;
+using LangLang.WPF.ViewModels.CourseViewModels;
+using LangLang.WPF.ViewModels.RequestsViewModels;
 
 namespace LangLang.View.CourseGUI
 {
@@ -31,9 +32,9 @@ namespace LangLang.View.CourseGUI
     public partial class DurationOfCourseWindow : Window
     {
         public StudentViewModel SelectedStudent { get; set; }
-        public WithdrawalRequestDTO SelectedWithdrawal { get; set; }
+        public WithdrawalRequestViewModel SelectedWithdrawal { get; set; }
         public ObservableCollection<StudentViewModel> Students { get; set; }
-        public ObservableCollection<WithdrawalRequestDTO> Withdrawals { get; set; }
+        public ObservableCollection<WithdrawalRequestViewModel> Withdrawals { get; set; }
 
         private AppController appController;
         private CourseController courseController;
@@ -41,9 +42,8 @@ namespace LangLang.View.CourseGUI
         private EnrollmentRequestService enrollmentReqService;
         private PenaltyPointController penaltyPointController;
         private TutorService tutorService;
-        private MessageController messageController;
-        private CourseDTO course;
-        public DurationOfCourseWindow(AppController appController, CourseDTO course)
+        private CourseViewModel course;
+        public DurationOfCourseWindow(AppController appController, CourseViewModel course)
         {
             InitializeComponent();
             DataContext = this;
@@ -55,7 +55,6 @@ namespace LangLang.View.CourseGUI
             penaltyPointController = appController.PenaltyPointController;
             tutorService = new();
             enrollmentReqService = new();
-            messageController = appController.MessageController;
 
             Students = new();
             Withdrawals = new();
@@ -81,7 +80,7 @@ namespace LangLang.View.CourseGUI
             {
                 if(withdrawal.Status == Status.Pending)
                 {
-                    Withdrawals.Add(new WithdrawalRequestDTO(withdrawal));
+                    Withdrawals.Add(new WithdrawalRequestViewModel(withdrawal));
                 }
             }
         }
@@ -125,8 +124,7 @@ namespace LangLang.View.CourseGUI
         private void NotifyStudentAboutPenaltyPoint(int studentId)
         {
             var studentService = new StudentService();
-            Message message = new Message(0, tutorService.Get(course.TutorId).Profile, studentService.Get(studentId).Profile, "You have recieved one penalty point in course: " + course.Id + " " + course.Language);
-            messageController.Add(message);
+            // Implement once the email sending functionality is added.
         }
 
         private void PenaltyBtn_Click(object sender, RoutedEventArgs e)

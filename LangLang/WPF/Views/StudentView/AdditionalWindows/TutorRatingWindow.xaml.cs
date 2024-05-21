@@ -1,5 +1,4 @@
-﻿using LangLang.DTO;
-using LangLang.WPF.ViewModels.TutorViewModels;
+﻿using LangLang.WPF.ViewModels.TutorViewModels;
 using System.Windows;
 
 namespace LangLang.WPF.Views.StudentView.AdditionalWindows
@@ -8,7 +7,7 @@ namespace LangLang.WPF.Views.StudentView.AdditionalWindows
     public partial class TutorRatingWindow : Window
     {
         public TutorRatingPageViewModel TutorRatingViewModel { get; set; }
-        public TutorRatingWindow(TutorRatingDTO tutorRating, string tutorFullName)
+        public TutorRatingWindow(TutorRatingViewModel tutorRating, string tutorFullName)
         {
             TutorRatingViewModel = new(tutorRating);
             InitializeComponent();

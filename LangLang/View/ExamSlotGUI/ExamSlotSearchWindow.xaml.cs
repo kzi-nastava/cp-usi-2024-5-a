@@ -1,7 +1,7 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
-using LangLang.DTO;
+using LangLang.WPF.ViewModels.ExamViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,7 +24,7 @@ namespace LangLang.View.ExamSlotGUI
     /// </summary>
     public partial class ExamSlotSearchWindow : Window
     {
-        public ObservableCollection<ExamSlotDTO> ExamSlots { get; set; }
+        public ObservableCollection<ExamSlotViewModel> ExamSlots { get; set; }
         private List<ExamSlot> examSlotsForReview;
         private CourseController courseController;
         private ExamSlotController examSlotController;
@@ -32,7 +32,7 @@ namespace LangLang.View.ExamSlotGUI
 
         public ExamSlotSearchWindow(AppController appController, Tutor loggedIn)
         {
-            ExamSlots = new ObservableCollection<ExamSlotDTO>();
+            ExamSlots = new ObservableCollection<ExamSlotViewModel>();
             examSlotsForReview = new List<ExamSlot>();
             examSlotController = appController.ExamSlotController;
             this.loggedIn = loggedIn;
@@ -40,7 +40,7 @@ namespace LangLang.View.ExamSlotGUI
 
             foreach(ExamSlot exam in examSlotsForReview)
             {
-                ExamSlots.Add(new ExamSlotDTO(exam));
+                ExamSlots.Add(new ExamSlotViewModel(exam));
             }
 
             this.courseController = courseController;
@@ -56,7 +56,7 @@ namespace LangLang.View.ExamSlotGUI
             ExamSlots.Clear();
             foreach (ExamSlot exam in examSlotsForReview)
             {
-                ExamSlots.Add(new ExamSlotDTO(exam));
+                ExamSlots.Add(new ExamSlotViewModel(exam));
             }
         }
         private void SearchExam_Click(object sender, RoutedEventArgs e)

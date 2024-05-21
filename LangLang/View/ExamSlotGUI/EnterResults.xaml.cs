@@ -1,7 +1,7 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Model.Enums;
-using LangLang.DTO;
+using LangLang.WPF.ViewModels.ExamViewModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -15,15 +15,15 @@ namespace LangLang.View.ExamSlotGUI
     /// </summary>
     public partial class EnterResults : Window
     {
-        public ExamResultDTO SelectedResult { get; set; }
-        public ObservableCollection<ExamResultDTO> ExamResults { get; set; }
+        public ExamResultViewModel SelectedResult { get; set; }
+        public ObservableCollection<ExamResultViewModel> ExamResults { get; set; }
 
         private ExamResultController resultController;
         private ExamSlotController examSlotController;
         private ExamApplicationController applicationController;
-        private ExamSlotDTO exam;
+        private ExamSlotViewModel exam;
 
-        public EnterResults(AppController appController, ExamSlotDTO selectedExam)
+        public EnterResults(AppController appController, ExamSlotViewModel selectedExam)
         {
             InitializeComponent();
             DataContext = this;
@@ -52,7 +52,7 @@ namespace LangLang.View.ExamSlotGUI
 
             foreach (ExamResult exam in resultController.Get(exam.ToExamSlot()))
             {
-                ExamResults.Add(new ExamResultDTO(exam));
+                ExamResults.Add(new ExamResultViewModel(exam));
             }
 
         }

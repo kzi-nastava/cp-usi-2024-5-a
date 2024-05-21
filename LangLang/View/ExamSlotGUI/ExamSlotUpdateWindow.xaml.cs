@@ -2,7 +2,7 @@
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
-using LangLang.DTO;
+using LangLang.WPF.ViewModels.ExamViewModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -27,7 +27,7 @@ namespace LangLang.View.ExamSlotGUI
     {
         public List<Course> Skills { get; set; }
         public Course SelectedCourse { get; set; }
-        public ExamSlotDTO ExamSlot { get; set; }
+        public ExamSlotViewModel ExamSlot { get; set; }
         private ExamSlotController examSlotController { get; set; }
         private AppController appController { get; set; }
 
@@ -38,7 +38,7 @@ namespace LangLang.View.ExamSlotGUI
             SelectedCourse = new Course();
             examSlotController = appController.ExamSlotController;
             this.appController = appController;
-            ExamSlot = new ExamSlotDTO(examSlotController.Get(selectedExamId));
+            ExamSlot = new ExamSlotViewModel(examSlotController.Get(selectedExamId));
             Skills = appController.CourseController.GetBySkills(loggedIn);
 
             //Prefill(ExamSlot);
@@ -46,7 +46,7 @@ namespace LangLang.View.ExamSlotGUI
             DataContext = this;
             
         }
-        public void Prefill(ExamSlotDTO selectedExamSlot)
+        public void Prefill(ExamSlotViewModel selectedExamSlot)
         {
             MaxStudentsTb.Text = selectedExamSlot.MaxStudents;
             languageTb.Text = selectedExamSlot.Language;

@@ -6,11 +6,11 @@ using LangLang.Domain.Models;
 using System;
 using System.ComponentModel;
 
-namespace LangLang.DTO
+namespace LangLang.WPF.ViewModels.ExamViewModel
 {
-    public class ExamApplicationDTO
+    public class ExamApplicationViewModel
     {
-        public ExamApplicationDTO() { }
+        public ExamApplicationViewModel() { }
 
         public int Id { get; set; }
 
@@ -31,7 +31,7 @@ namespace LangLang.DTO
             return new ExamApplication(Id, StudentId, ExamSlotId, SentAt);
         }
 
-        public ExamApplicationDTO(ExamApplication application)
+        public ExamApplicationViewModel(ExamApplication application)
         {
             var examService = new ExamSlotController();
             ExamSlot exam = examService.Get(application.ExamSlotId);

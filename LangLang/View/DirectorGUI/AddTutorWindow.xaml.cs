@@ -1,7 +1,7 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
-using LangLang.View.DTO;
+using LangLang.WPF.ViewModels.TutorViewModels;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -13,7 +13,7 @@ namespace LangLang.View
     {
         private TutorService tutorService;
         private AppController appController;
-        public TutorDTO Tutor { get; set; }
+        public TutorViewModel Tutor { get; set; }
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -23,7 +23,7 @@ namespace LangLang.View
             InitializeComponent();
             this.appController = appController;
             tutorService = new();
-            Tutor = new TutorDTO();
+            Tutor = new TutorViewModel();
             DataContext = this;
 
             genderCB.ItemsSource = Enum.GetValues(typeof(Gender));

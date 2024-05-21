@@ -5,33 +5,33 @@ using LangLang.Core.Model.Enums;
 using LangLang.Domain.Models;
 using System;
 
-namespace LangLang.DTO
+namespace LangLang.WPF.ViewModels.RequestsViewModels
 {
-    public class EnrollmentRequestDTO
+    public class EnrollmentRequestViewModel
     {
-        public EnrollmentRequestDTO() { }
+        public EnrollmentRequestViewModel() { }
 
         public int Id { get; set; }
 
         public int CourseId { get; set; }
         public int StudentId { get; set; }
-        public Status Status { get; set;}
-        public DateTime RequestSentAt {  get; set; }
+        public Status Status { get; set; }
+        public DateTime RequestSentAt { get; set; }
         public string StudentName { get; set; }
         public string StudentLastName { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string BirthDate { get; set; }
         public DateTime LastModifiedAt { get; set; }
-        public bool IsCanceled {  get; set; }
-        public Course Course {  get; set; }
+        public bool IsCanceled { get; set; }
+        public Course Course { get; set; }
 
         public EnrollmentRequest ToEnrollmentRequest()
         {
             return new EnrollmentRequest(Id, StudentId, CourseId, Status, RequestSentAt, LastModifiedAt, IsCanceled);
         }
 
-        public EnrollmentRequestDTO(EnrollmentRequest enrollmentRequest)
+        public EnrollmentRequestViewModel(EnrollmentRequest enrollmentRequest)
         {
             Id = enrollmentRequest.Id;
             CourseId = enrollmentRequest.CourseId;

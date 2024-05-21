@@ -1,6 +1,6 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
-using LangLang.DTO;
+using LangLang.WPF.ViewModels.CourseViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +22,7 @@ namespace LangLang.View.CourseGUI
     /// </summary>
     public partial class CourseUpdateWindow : Window
     {
-        public CourseDTO Course { get; set; }
+        public CourseViewModel Course { get; set; }
         private CourseController courseController;
         private ExamSlotController examController { get; set; }
         public CourseUpdateWindow(AppController appController, int courseId)
@@ -32,7 +32,7 @@ namespace LangLang.View.CourseGUI
             examController = appController.ExamSlotController;
             courseController = appController.CourseController;
 
-            Course = new CourseDTO(courseController.Get(courseId));
+            Course = new CourseViewModel(courseController.Get(courseId));
 
             DataContext = this;
             languageLvlCb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));

@@ -3,7 +3,7 @@ using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Observer;
 using LangLang.Domain.Models;
-using LangLang.View.DTO;
+using LangLang.WPF.ViewModels.TutorViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,8 +14,8 @@ namespace LangLang.View
 {
     public partial class DirectorWindow : Window, IObserver
     {
-        public ObservableCollection<TutorDTO> Tutors { get; set; }
-        public TutorDTO SelectedTutor { get; set; }
+        public ObservableCollection<TutorViewModel> Tutors { get; set; }
+        public TutorViewModel SelectedTutor { get; set; }
         private TutorService tutorService { get; set; }
         private AppController appController;
         private Director currentlyLoggedIn;
@@ -25,7 +25,7 @@ namespace LangLang.View
         {
             InitializeComponent();
             DataContext = this;
-            Tutors = new ObservableCollection<TutorDTO>();
+            Tutors = new ObservableCollection<TutorViewModel>();
 
             this.appController = appController;
             tutorService = new();
@@ -44,7 +44,7 @@ namespace LangLang.View
 
             foreach (Tutor tutor in _tutors)
             {
-                Tutors.Add(new TutorDTO(tutor));
+                Tutors.Add(new TutorViewModel(tutor));
             }
         }
 

@@ -10,7 +10,6 @@ namespace LangLang.Core.Controller
         public readonly GradeController GradeController;
         public readonly ExamResultController ExamResultController;
         public readonly PenaltyPointController PenaltyPointController;
-        public readonly MessageController MessageController;
 
         public AppController()
         {
@@ -21,7 +20,6 @@ namespace LangLang.Core.Controller
             GradeController = new();
             ExamResultController = new();
             PenaltyPointController = new();
-            MessageController = new();
         }
 
 

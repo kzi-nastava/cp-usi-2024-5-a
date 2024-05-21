@@ -1,21 +1,20 @@
 ﻿
 using LangLang.Core.Model.Enums;
-using LangLang.DTO;
 using System.Windows;
 using System;
 using LangLang.Domain.Models;
 using LangLang.BusinessLogic.UseCases;
 
-namespace LangLang.WPF.ViewModels.TutorViewModels
+namespace LangLang.WPF.ViewModels.RequestsViewModels
 {
     public class WithdrawalReqPageViewModel
     {
-        public WithdrawalRequestDTO WithdrawalRequest { get; set; }
+        public WithdrawalRequestViewModel WithdrawalRequest { get; set; }
         private readonly int enrollmentRequestId;
 
         public WithdrawalReqPageViewModel(int enrollmentRequestId)
         {
-            WithdrawalRequest = new WithdrawalRequestDTO();
+            WithdrawalRequest = new WithdrawalRequestViewModel();
             this.enrollmentRequestId = enrollmentRequestId;
         }
 

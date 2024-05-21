@@ -3,7 +3,8 @@ using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Model.Enums;
 using LangLang.Domain.Models;
-using LangLang.DTO;
+using LangLang.WPF.ViewModels.CourseViewModels;
+using LangLang.WPF.ViewModels.RequestsViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,15 +28,14 @@ namespace LangLang.View.CourseGUI
     /// </summary>
     public partial class CourseEnrollmentsWindow : Window
     {
-        public EnrollmentRequestDTO SelectedEnrollment { get; set; }
-        public ObservableCollection<EnrollmentRequestDTO> Enrollments { get; set; }
+        public EnrollmentRequestViewModel SelectedEnrollment { get; set; }
+        public ObservableCollection<EnrollmentRequestViewModel> Enrollments { get; set; }
         private AppController appController;
         private EnrollmentRequestService enrollmentReqService;
         private CourseController courseController;
         private TutorService tutorService;
-        private MessageController messageController;
-        private CourseDTO course;
-        public CourseEnrollmentsWindow(AppController appController, CourseDTO course)
+        private CourseViewModel course;
+        public CourseEnrollmentsWindow(AppController appController, CourseViewModel course)
         {
             InitializeComponent();
             DataContext = this;
@@ -45,7 +45,6 @@ namespace LangLang.View.CourseGUI
             enrollmentReqService = new();
             courseController = appController.CourseController;
             tutorService = new();
-            messageController = appController.MessageController;
 
             Enrollments = new();
 
@@ -80,7 +79,7 @@ namespace LangLang.View.CourseGUI
             {
                 if(enrollment.Status == Status.Pending)
                 {
-                    Enrollments.Add(new EnrollmentRequestDTO(enrollment));
+                    Enrollments.Add(new EnrollmentRequestViewModel(enrollment));
                 }
             }
         }
@@ -95,7 +94,7 @@ namespace LangLang.View.CourseGUI
                     MessageBox.Show("You have exceded the maximal number of students for this course.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
                 { 
-                    foreach (EnrollmentRequestDTO enrollmentDTO in Enrollments)
+                    foreach (EnrollmentRequestViewModel enrollmentDTO in Enrollments)
                     {
                         EnrollmentRequest enrollment = enrollmentDTO.ToEnrollmentRequest();
                         if(enrollment.Status != Core.Model.Enums.Status.Rejected)
@@ -121,14 +120,13 @@ namespace LangLang.View.CourseGUI
         private void NotifyStudentAboutAcceptence(int studentId)
         {
             var studentService = new StudentService();
-            Message message = new Message(0, tutorService.Get(course.TutorId).Profile, studentService.Get(studentId).Profile, "You have been accepted to the course: " + course.Id + " " + course.Language);
-            messageController.Add(message);
+            // Implement once the email sending functionality is added.
+
         }
         private void NotifyStudentAboutRejection(int studentId, string reason)
         {
             var studentService = new StudentService();
-            Message message = new Message(0, tutorService.Get(course.TutorId).Profile, studentService.Get(studentId).Profile, "You have been rejected from the course: Id " + course.Id + ", " + course.Language + ". The reason: "+reason);
-            messageController.Add(message);
+            // Implement once the email sending functionality is added.
         }
         private void ShowSuccess()
         {

@@ -1,5 +1,5 @@
 ﻿using LangLang.Domain.Models;
-using LangLang.WPF.ViewModels.CourseViewModel;
+using LangLang.WPF.ViewModels.CourseViewModels;
 using System.Windows;
 using System.Windows.Controls;
 

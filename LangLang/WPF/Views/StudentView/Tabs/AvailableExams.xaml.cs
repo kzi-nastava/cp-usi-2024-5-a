@@ -2,7 +2,7 @@
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
-using LangLang.DTO;
+using LangLang.WPF.ViewModels.ExamViewModel;
 using LangLang.WPF.Views;
 using System;
 using System.Collections.Generic;
@@ -21,9 +21,9 @@ namespace LangLang.View.StudentGUI.Tabs
         private readonly ExamSlotController examController;
         private readonly Student currentlyLoggedIn;
         public List<ExamSlot> ExamsForReview { get; set; }
-        public ObservableCollection<ExamSlotDTO> ExamSlots { get; set; }
+        public ObservableCollection<ExamSlotViewModel> ExamSlots { get; set; }
         private ExamApplication Application { get; set; }
-        public ExamSlotDTO SelectedExam { get; set; }
+        public ExamSlotViewModel SelectedExam { get; set; }
 
         public AvailableExams(AppController appController, Student currentlyLoggedIn, StudentWindow parentWindow)
         {

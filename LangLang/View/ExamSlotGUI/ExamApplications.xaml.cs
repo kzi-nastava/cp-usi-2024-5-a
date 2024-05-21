@@ -2,7 +2,7 @@
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
-using LangLang.DTO;
+using LangLang.WPF.ViewModels.ExamViewModel;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,14 +14,14 @@ namespace LangLang.View.ExamSlotGUI
     /// </summary>
     public partial class ExamApplications : Window
     {
-        public ExamApplicationDTO SelectedApplication { get; set; }
-        public ObservableCollection<ExamApplicationDTO> Applications { get; set; }
+        public ExamApplicationViewModel SelectedApplication { get; set; }
+        public ObservableCollection<ExamApplicationViewModel> Applications { get; set; }
         private AppController appController;
         private ExamApplicationController applicationController;
         private ExamSlotController examSlotController;
-        private ExamSlotDTO examSlot;
+        private ExamSlotViewModel examSlot;
 
-        public ExamApplications(AppController appController, ExamSlotDTO examSlot)
+        public ExamApplications(AppController appController, ExamSlotViewModel examSlot)
         {
             InitializeComponent();
             DataContext = this;
@@ -43,7 +43,7 @@ namespace LangLang.View.ExamSlotGUI
             Applications.Clear();
             foreach (ExamApplication application in applicationController.GetApplications(examSlot.Id))
             {
-                Applications.Add(new ExamApplicationDTO(application));
+                Applications.Add(new ExamApplicationViewModel(application));
             }
         }
 

@@ -1,8 +1,7 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
-using LangLang.DTO;
-using LangLang.WPF.ViewModels.CourseViewModel;
+using LangLang.WPF.ViewModels.CourseViewModels;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;

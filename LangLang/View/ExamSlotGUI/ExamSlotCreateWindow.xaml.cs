@@ -1,7 +1,7 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
-using LangLang.DTO;
+using LangLang.WPF.ViewModels.ExamViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,14 +27,14 @@ namespace LangLang.View
     {
         public List<Course> Skills { get; set; }
         public Course SelectedCourse { get; set; }
-        public ExamSlotDTO ExamSlot { get; set; }
+        public ExamSlotViewModel ExamSlot { get; set; }
         private ExamSlotController examSlotsController { get; set; }
         public ExamSlotCreateWindow(AppController appController, Tutor loggedIn)
         {
             Skills = appController.CourseController.GetBySkills(loggedIn);
             SelectedCourse = null;
             examSlotsController = appController.ExamSlotController;
-            ExamSlot = new ExamSlotDTO();
+            ExamSlot = new ExamSlotViewModel();
             ExamSlot.ExamDate = DateTime.Now;
             ExamSlot.TutorId = loggedIn.Id;
 

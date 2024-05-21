@@ -5,9 +5,9 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using LangLang.Domain.Models;
 
-namespace LangLang.View.DTO
+namespace LangLang.WPF.ViewModels.TutorViewModels
 {
-    public class TutorDTO : INotifyPropertyChanged, IDataErrorInfo
+    public class TutorViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
 
         public int Id { get; set; }
@@ -23,7 +23,7 @@ namespace LangLang.View.DTO
         private DateTime employmentDate;
         private List<string> languages;
         private List<LanguageLevel> levels;
-        private List<string>  languagelevel;
+        private List<string> languagelevel;
 
         public string Name
         {
@@ -175,7 +175,7 @@ namespace LangLang.View.DTO
             }
         }
 
-       public List<String> Language
+        public List<string> Language
         {
             get
             {
@@ -307,16 +307,16 @@ namespace LangLang.View.DTO
 
         public string Error => null;
 
-        public TutorDTO()
+        public TutorViewModel()
         {
             languages = new List<string>();
             levels = new List<LanguageLevel>();
             languagelevel = new List<string>();
         }
 
-        public TutorDTO(Tutor tutor)
+        public TutorViewModel(Tutor tutor)
         {
-            this.Id = tutor.Id;
+            Id = tutor.Id;
             Name = tutor.Profile.Name;
             LastName = tutor.Profile.LastName;
             Gender = tutor.Profile.Gender;
@@ -324,16 +324,16 @@ namespace LangLang.View.DTO
             PhoneNumber = tutor.Profile.PhoneNumber;
             Email = tutor.Profile.Email;
             Password = tutor.Profile.Password;
-            this.role = tutor.Profile.Role;
-            this.employmentDate = tutor.EmploymentDate;
-            this.languages = tutor.Skill.Language;
-            this.levels = tutor.Skill.Level;
-            this.languagelevel = new List<string>();
+            role = tutor.Profile.Role;
+            employmentDate = tutor.EmploymentDate;
+            languages = tutor.Skill.Language;
+            levels = tutor.Skill.Level;
+            languagelevel = new List<string>();
         }
 
         public Tutor ToTutor()
         {
-            return new Tutor(Id, name, lastName, gender, birthDate, phoneNumber, email, password, role,false, employmentDate, languages, levels);
+            return new Tutor(Id, name, lastName, gender, birthDate, phoneNumber, email, password, role, false, employmentDate, languages, levels);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

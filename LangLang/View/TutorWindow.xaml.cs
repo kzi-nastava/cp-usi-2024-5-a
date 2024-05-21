@@ -1,6 +1,5 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
-using LangLang.DTO;
 using LangLang.View;
 using LangLang.View.CourseGUI;
 using LangLang.View.ExamSlotGUI;
@@ -12,6 +11,8 @@ using System;
 using LangLang.Core;
 using LangLang.Domain.Models;
 using LangLang.BusinessLogic.UseCases;
+using LangLang.WPF.ViewModels.CourseViewModels;
+using LangLang.WPF.ViewModels.ExamViewModel;
 
 namespace LangLang
 {
@@ -22,19 +23,14 @@ namespace LangLang
     {
         private TutorService tutorService;
         // EXAM SLOTS
-        public ObservableCollection<ExamSlotDTO> ExamSlots { get; set; }
-        public ExamSlotDTO SelectedExamSlot { get; set; }
+        public ObservableCollection<ExamSlotViewModel> ExamSlots { get; set; }
+        public ExamSlotViewModel SelectedExamSlot { get; set; }
         private ExamSlotController examSlotController { get; set; }
 
         // COURSES
-        public ObservableCollection<CourseDTO> Courses { get; set; }
-        public CourseDTO SelectedCourse { get; set; }
+        public ObservableCollection<CourseViewModel> Courses { get; set; }
+        public CourseViewModel SelectedCourse { get; set; }
         private CourseController courseController { get; set; }
-
-        // MESSAGES
-        public ObservableCollection<MessageDTO> Messages { get; set; }
-        public MessageDTO SelectedMessage { get; set; }
-        private MessageController messageController { get; set; }
 
         private AppController appController { get; set; }
 
@@ -47,13 +43,11 @@ namespace LangLang
             this.appController = appController;
             examSlotController = appController.ExamSlotController;
             courseController = appController.CourseController;
-            messageController = appController.MessageController;
             tutorService = new();
 
             LoggedIn = tutorService.Get(currentlyLoggedIn.Id);
-            ExamSlots = new ObservableCollection<ExamSlotDTO>();
-            Courses = new ObservableCollection<CourseDTO>();
-            Messages = new ObservableCollection<MessageDTO>();
+            ExamSlots = new ObservableCollection<ExamSlotViewModel>();
+            Courses = new ObservableCollection<CourseViewModel>();
 
             DisableButtonsES();
             DisableButtonsCourse();
@@ -70,21 +64,14 @@ namespace LangLang
 
             foreach (ExamSlot exam in examSlotController.GetExams(LoggedIn))
             {
-                ExamSlots.Add(new ExamSlotDTO(exam));
+                ExamSlots.Add(new ExamSlotViewModel(exam));
             }
 
             Courses.Clear();
 
             foreach (Course course in courseController.GetByTutor(LoggedIn))
             {
-                Courses.Add(new CourseDTO(course));
-            }
-
-            Messages.Clear();
-
-            foreach (Message message in messageController.GetReceivedMessages(LoggedIn))
-            {
-                Messages.Add(new MessageDTO(message));
+                Courses.Add(new CourseViewModel(course));
             }
         }
 

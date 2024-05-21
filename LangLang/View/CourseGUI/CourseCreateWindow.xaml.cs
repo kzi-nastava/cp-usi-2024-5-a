@@ -1,7 +1,7 @@
 ﻿using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
-using LangLang.DTO;
+using LangLang.WPF.ViewModels.CourseViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,12 +23,12 @@ namespace LangLang.View.CourseGUI
     /// </summary>
     public partial class CourseCreateWindow : Window
     {
-        public CourseDTO Course { get; set; }
+        public CourseViewModel Course { get; set; }
         private CourseController courseController { get; set; }
         private ExamSlotController examController { get; set; }
         public CourseCreateWindow(AppController appController, Tutor loggedIn)
         {
-            Course = new CourseDTO();
+            Course = new CourseViewModel();
             Course.TutorId = loggedIn.Id;
 
             examController = appController.ExamSlotController;
