@@ -1,18 +1,17 @@
-﻿using LangLang.Core.Model.DAO;
-using System.Collections.Generic;
-using LangLang.Core.Model;
+﻿using System.Collections.Generic;
 using LangLang.Core.Observer;
 using LangLang.Domain.Models;
+using LangLang.BusinessLogic.UseCases;
 
 namespace LangLang.Core.Controller
 {
     public class ExamApplicationController
     {
-        private readonly ExamApplicationDAO _applications;
+        private readonly ExamApplicationService _applications;
 
         public ExamApplicationController()
         {
-            _applications = new ExamApplicationDAO();
+            _applications = new ExamApplicationService();
         }
 
         public List<ExamApplication> GetAll()
