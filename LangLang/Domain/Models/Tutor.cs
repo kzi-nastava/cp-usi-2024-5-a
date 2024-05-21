@@ -1,4 +1,5 @@
 ﻿using LangLang.Core.Model;
+using LangLang.Domain.Models.Enums;
 using System;
 using System.Collections.Generic;
 

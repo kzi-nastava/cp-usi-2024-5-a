@@ -6,6 +6,7 @@ using System.Linq;
 using LangLang.Core.Observer;
 using LangLang.Core.Model;
 using System;
+using LangLang.Domain.Models.Enums;
 
 namespace LangLang.BusinessLogic.UseCases
 {

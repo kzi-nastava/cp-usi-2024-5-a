@@ -4,6 +4,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using LangLang.Domain.Models;
+using LangLang.Domain.Models.Enums;
 
 namespace LangLang.WPF.ViewModels.TutorViewModels
 {

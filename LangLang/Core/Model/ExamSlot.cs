@@ -1,4 +1,5 @@
 ﻿using LangLang.Core.Repository.Serialization;
+using LangLang.Domain.Models.Enums;
 using System;
 
 namespace LangLang.Core.Model
