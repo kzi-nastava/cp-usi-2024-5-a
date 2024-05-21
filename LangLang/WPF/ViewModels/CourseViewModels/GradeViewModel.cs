@@ -57,7 +57,8 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             StudentId = grade.StudentId;
             ActivityGrade = grade.ActivityGrade;
             KnowledgeGrade = grade.KnowledgeGrade;
-            Course = appController.CourseController.Get(CourseId);
+            var courseService = new CourseService();
+            Course = courseService.Get(CourseId);
             var studentService = new StudentService();
             Student = studentService.Get(StudentId);
         }

@@ -3,6 +3,7 @@ using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Model.Enums;
 using LangLang.Domain.Models;
+using LangLang.Domain.Models.Enums;
 using LangLang.WPF.ViewModels.RequestsViewModels;
 using System;
 using System.Collections.Generic;
@@ -28,19 +29,19 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
 
         public void SetDataForReview()
         {
-            var courseService = new CourseController();
+            var courseService = new CourseService();
             CoursesForReview = courseService.GetAvailable(currentlyLoggedIn);
         }
 
         public void Search(string language, LanguageLevel? level, DateTime courseStartDate, int duration, bool? online)
         {
-            var courseService = new CourseController();
+            var courseService = new CourseService();
             CoursesForReview = courseService.SearchCoursesByStudent(currentlyLoggedIn, language, level, courseStartDate, duration, online);
         }
 
         public void Clear()
         {
-            var courseService = new CourseController();
+            var courseService = new CourseService();
             CoursesForReview = courseService.GetAvailable(currentlyLoggedIn);
         }
 
@@ -67,7 +68,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
 
             MessageBox.Show("Request sent. Please wait for approval.");
 
-            var courseService = new CourseController();
+            var courseService = new CourseService();
             CoursesForReview = courseService.GetAvailable(currentlyLoggedIn);
         }
 

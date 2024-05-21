@@ -34,11 +34,11 @@ namespace LangLang.View.CourseGUI
         public ObservableCollection<StudentViewModel> Students { get; set; }
 
         private AppController appController;
-        private CourseController courseController;
+        private CourseService courseService;
         private WithdrawalRequestService withdrawalReqService;
         private EnrollmentRequestService enrollmentReqService;
         private PenaltyPointController penaltyPointController;
-        private GradeController gradeContoller;
+        private GradeService gradeService;
         private CourseViewModel course;
         public EnterGradesWindow(AppController appController, CourseViewModel course)
         {
@@ -48,10 +48,10 @@ namespace LangLang.View.CourseGUI
             this.appController = appController;
             this.course = course;
             withdrawalReqService = new();
-            courseController = appController.CourseController;
+            courseService = new();
             penaltyPointController = appController.PenaltyPointController;
             enrollmentReqService = new();
-            gradeContoller = appController.GradeController;
+            gradeService = new();
 
             Students = new();
 
@@ -68,7 +68,7 @@ namespace LangLang.View.CourseGUI
                 if (enrollment.Status == Status.Accepted && !withdrawalReqService.HasAcceptedWithdrawal(enrollment.Id))
                 {
                     bool graded = false;
-                    foreach (Grade grade in gradeContoller.GetByCourse(course.ToCourse()))
+                    foreach (Grade grade in gradeService.GetByCourse(course.ToCourse()))
                     {
                         if (enrollment.StudentId == grade.StudentId)
                         {

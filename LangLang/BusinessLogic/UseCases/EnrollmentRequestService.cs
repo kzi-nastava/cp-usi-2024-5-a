@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System;
 using LangLang.Domain.RepositoryInterfaces;
 using System.Linq;
-using LangLang.Core.Model;
+using LangLang.Domain;
 using LangLang.Core;
 using LangLang.Core.Controller;
 using LangLang.Core.Observer;

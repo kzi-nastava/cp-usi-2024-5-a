@@ -24,7 +24,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
 
         public void SetDataForReview()
         {
-            var courseService = new CourseController();
+            var courseService = new CourseService();
             completedCourses = courseService.GetCompleted(currentlyLoggedIn);
 
             Courses.Clear();

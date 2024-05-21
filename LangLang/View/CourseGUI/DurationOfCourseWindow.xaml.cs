@@ -37,7 +37,7 @@ namespace LangLang.View.CourseGUI
         public ObservableCollection<WithdrawalRequestViewModel> Withdrawals { get; set; }
 
         private AppController appController;
-        private CourseController courseController;
+        private CourseService courseService;
         private WithdrawalRequestService withdrawalReqService;
         private EnrollmentRequestService enrollmentReqService;
         private PenaltyPointController penaltyPointController;
@@ -51,7 +51,7 @@ namespace LangLang.View.CourseGUI
             this.appController = appController;
             this.course = course;
             withdrawalReqService = new();
-            courseController = appController.CourseController;
+            courseService = new();
             penaltyPointController = appController.PenaltyPointController;
             tutorService = new();
             enrollmentReqService = new();
@@ -148,7 +148,7 @@ namespace LangLang.View.CourseGUI
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to accept the withdrawal?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                courseController.RemoveStudent(course.Id);
+                courseService.RemoveStudent(course.Id);
                 withdrawalReqService.UpdateStatus(SelectedWithdrawal.Id, Status.Accepted);
                 ShowSuccess();
                 Update();
@@ -160,7 +160,7 @@ namespace LangLang.View.CourseGUI
             if (result == MessageBoxResult.Yes)
             {
                 withdrawalReqService.UpdateStatus(SelectedWithdrawal.Id, Status.Rejected);
-                courseController.RemoveStudent(course.Id);
+                courseService.RemoveStudent(course.Id);
                 penaltyPointController.GivePenaltyPoint(SelectedStudent.ToStudent(), tutorService.Get(course.TutorId), course.ToCourse(), appController);
                 NotifyStudentAboutPenaltyPoint(SelectedStudent.Id);
 

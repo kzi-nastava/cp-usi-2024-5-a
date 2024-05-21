@@ -1,6 +1,8 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
+using LangLang.Domain.Models.Enums;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using System;
 using System.Collections.Generic;
@@ -24,7 +26,7 @@ namespace LangLang.View.CourseGUI
     public partial class CourseCreateWindow : Window
     {
         public CourseViewModel Course { get; set; }
-        private CourseController courseController { get; set; }
+        private CourseService courseService { get; set; }
         private ExamSlotController examController { get; set; }
         public CourseCreateWindow(AppController appController, Tutor loggedIn)
         {
@@ -32,7 +34,7 @@ namespace LangLang.View.CourseGUI
             Course.TutorId = loggedIn.Id;
 
             examController = appController.ExamSlotController;
-            courseController = appController.CourseController;
+            courseService = new();
 
             InitializeComponent();
             DataContext = this;

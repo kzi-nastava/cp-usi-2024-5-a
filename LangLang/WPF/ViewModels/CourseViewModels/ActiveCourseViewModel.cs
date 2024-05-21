@@ -20,7 +20,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
         public bool SetCourse()
         {
             var enrollmentService = new EnrollmentRequestService();
-            var courseService = new CourseController();
+            var courseService = new CourseService();
 
             var enrollmentRequest = enrollmentService.GetActiveCourseRequest(currentlyLoggedIn);
             if (enrollmentRequest == null)
