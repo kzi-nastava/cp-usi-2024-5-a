@@ -169,13 +169,20 @@ namespace LangLang.Core.Model
         }
         public int DaysUntilEnd()
         {
-            var endDate = TimeSlots[TimeSlots.Count - 1].GetEnd();
+            var endDate = TimeSlots[^1].GetEnd();
             return (endDate - DateTime.Now).Days;
         }
 
         public int DaysUntilStart()
         {
             return (StartDateTime - DateTime.Now).Days;
+        }
+
+        public bool IsHeldInLastYear()
+        {
+            var endDate = TimeSlots[^1].GetEnd();
+            DateTime oneYearAgo = DateTime.Now.AddYears(-1);
+            return endDate > oneYearAgo;
         }
     }
 }

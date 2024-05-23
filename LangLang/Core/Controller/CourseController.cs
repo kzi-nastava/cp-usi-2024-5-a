@@ -4,6 +4,7 @@ using LangLang.Core.Observer;
 using LangLang.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LangLang.Core.Controller
 {
@@ -134,6 +135,11 @@ namespace LangLang.Core.Controller
             return _courses.GetAvailable(student);
         }
 
-    }   
+        public List<Course> GetCoursesHeldInLastYear()
+        {
+            return GetAll().Values.Where(course => course.IsHeldInLastYear()).ToList();
+        }
+
+    }
 
 }

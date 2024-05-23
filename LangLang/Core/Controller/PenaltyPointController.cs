@@ -1,4 +1,5 @@
-﻿using LangLang.Core.Model;
+﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.Core.Model;
 using LangLang.Core.Model.DAO;
 using LangLang.Core.Repository;
 using LangLang.Domain.Models;
@@ -47,6 +48,34 @@ namespace LangLang.Core.Controller
         public bool HasGivenPenaltyPoint(Student student, Tutor tutor, Course course, AppController appController)
         {
             return _points.HasGivenPenaltyPoint(student, tutor, course, appController);
+        }
+
+        public int CountByCourse(Course course)
+        {
+            return GetAll().Count(point => point.CourseId == course.Id);
+        }
+
+        public List<PenaltyPoint> GetByCourse(Course course)
+        {
+            return GetAll().Where(point => point.CourseId == course.Id).ToList();
+        }
+
+        public List<Student> GetStudentsByPenaltyCount(Course course, int penaltyCount)
+        {
+            List<Student> students = new();
+            var studentService = new StudentService();
+            foreach (var point in GetByCourse(course))
+            {
+                var student = studentService.Get(point.StudentId);
+                if (HasNPenaltiesOnCourse(course, student.Id, penaltyCount))
+                    students.Add(student);
+            }
+            return students;
+        }
+
+        private bool HasNPenaltiesOnCourse(Course course, int studentId, int n)
+        {
+            return n == GetAll().Count(point => point.CourseId == course.Id && point.StudentId == studentId);
         }
     }
 }
