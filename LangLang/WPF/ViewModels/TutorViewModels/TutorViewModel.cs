@@ -25,6 +25,26 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
         private List<LanguageLevel> levels;
         private List<string> languagelevel;
 
+
+        public TutorViewModel(TutorViewModel other)
+        {
+            if (other == null) throw new ArgumentNullException(nameof(other));
+
+            Id = other.Id;
+            name = other.name;
+            lastName = other.lastName;
+            gender = other.gender;
+            birthDate = other.birthDate;
+            phoneNumber = other.phoneNumber;
+            email = other.email;
+            password = other.password;
+            role = other.role;
+            employmentDate = other.employmentDate;
+            languages = new List<string>(other.languages);
+            levels = new List<LanguageLevel>(other.levels);
+            languagelevel = new List<string>(other.languagelevel);
+        }
+
         public string Name
         {
             get
@@ -333,7 +353,7 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
 
         public Tutor ToTutor()
         {
-            return new Tutor(Id, name, lastName, gender, birthDate, phoneNumber, email, password, role, false, employmentDate, languages, levels);
+            return new Tutor(Id, name, lastName, gender, birthDate, phoneNumber, email, password, role, true, employmentDate, languages, levels);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

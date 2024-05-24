@@ -3,7 +3,7 @@ using LangLang.Core.Model;
 using LangLang.WPF.ViewModels.StudentViewModels;
 using System;
 using System.Windows;
-namespace LangLang.View
+namespace LangLang.WPF.Views.StudentView
 {
     public partial class Registration : Window
     {

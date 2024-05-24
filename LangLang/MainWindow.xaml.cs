@@ -1,10 +1,10 @@
 using LangLang.Core.Controller;
 using System.Windows;
-using LangLang.View;
 using LangLang.Core.Model;
 using System.Security.Authentication;
 using LangLang.Domain.Models;
-using LangLang.WPF.Views;
+using LangLang.WPF.Views.StudentView;
+using LangLang.WPF.Views.DirectorView;
 
 namespace LangLang
 {
@@ -60,7 +60,7 @@ namespace LangLang
                 tutorWindow.Show();
             } else if (profile.Role == UserType.Director)
             {
-                DirectorWindow directorWindow = new(appController);
+                DirectorWindow directorWindow = new();
                 directorWindow.Show();
             }
         }

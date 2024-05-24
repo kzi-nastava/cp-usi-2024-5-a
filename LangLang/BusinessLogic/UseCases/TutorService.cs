@@ -3,7 +3,6 @@ using LangLang.Domain.RepositoryInterfaces;
 using LangLang.Domain.Models;
 using System.Collections.Generic;
 using System.Linq;
-using LangLang.Core.Observer;
 using LangLang.Core.Model;
 using System;
 
@@ -50,6 +49,11 @@ namespace LangLang.BusinessLogic.UseCases
             _tutors.Deactivate(id);
         }
 
+        public List<Tutor> GetActive()
+        {
+            return _tutors.GetActive();
+        }
+
         public List<Tutor> Search(DateTime date, string language, LanguageLevel? level)
         {
             List<Tutor> allTutors = GetAll();
@@ -60,9 +64,5 @@ namespace LangLang.BusinessLogic.UseCases
              (level == null || tutor.Skill.Level.Any(skilll => skilll == level))).ToList();
         }
 
-        public void Subscribe(IObserver observer)
-        {
-            _tutors.Subscribe(observer);
-        }
     }
 }
