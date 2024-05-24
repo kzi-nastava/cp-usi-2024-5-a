@@ -43,7 +43,8 @@ namespace LangLang.WPF.Views.StudentView.Tabs
             if (levelCoursecb.SelectedValue != null)
                 level = (LanguageLevel)levelCoursecb.SelectedValue;
             DateTime courseStartDate = courseStartdp.SelectedDate ?? default;
-            int.TryParse(durationtb.Text, out int duration);
+            bool parsed = int.TryParse(durationtb.Text, out int duration);
+            if (!parsed) duration = 0;
 
             AvailableCoursesVM.Search(language, level, courseStartDate, duration, !onlinecb.IsChecked);
             parentWindow.Update();
@@ -53,7 +54,10 @@ namespace LangLang.WPF.Views.StudentView.Tabs
         private void ClearCourseBtn_Click(object sender, RoutedEventArgs e)
         {
             AvailableCoursesVM.Clear();
+            languagetb.Text = "";
+            durationtb.Text = "";
             levelCoursecb.SelectedItem = null;
+            courseStartdp.SelectedDate = null;
             parentWindow.Update();
         }
 

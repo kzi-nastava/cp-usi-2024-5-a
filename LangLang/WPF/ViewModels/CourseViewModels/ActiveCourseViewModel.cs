@@ -9,7 +9,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
 {
     public class ActiveCourseViewModel
     {
-        public CourseViewModels.CourseViewModel Course { get; set; } // TODO: rename CourseDTO -> CourseViewModel
+        public CourseViewModel Course { get; set; } 
         private Student currentlyLoggedIn;
         private int acceptedRequestId;
         public ActiveCourseViewModel(Student currentlyLoggedIn)

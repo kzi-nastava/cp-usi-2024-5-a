@@ -13,10 +13,10 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
 {
     public class AvailableCoursesViewModel
     {
-        public ObservableCollection<CourseViewModels.CourseViewModel> Courses { get; set; }
+        public ObservableCollection<CourseViewModel> Courses { get; set; }
         public List<Course> CoursesForReview { get; set; }
         private EnrollmentRequestViewModel EnrollmentRequest { get; set; }
-        public CourseViewModels.CourseViewModel SelectedCourse { get; set; }
+        public CourseViewModel SelectedCourse { get; set; }
         private Student currentlyLoggedIn { get; set; }
 
         public AvailableCoursesViewModel(Student currentlyLoggedIn)

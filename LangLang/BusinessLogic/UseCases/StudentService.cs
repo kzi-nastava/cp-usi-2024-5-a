@@ -5,7 +5,6 @@ using LangLang.Domain.Models;
 using System.Collections.Generic;
 using LangLang.Domain.RepositoryInterfaces;
 using System.Linq;
-using LangLang.Core.Observer;
 using LangLang.Composition;
 
 namespace LangLang.BusinessLogic.UseCases
@@ -48,11 +47,6 @@ namespace LangLang.BusinessLogic.UseCases
         public void Deactivate(int id) 
         {
             _students.Deactivate(id);
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _students.Subscribe(observer);
         }
 
         public bool CanModifyData(Student student)

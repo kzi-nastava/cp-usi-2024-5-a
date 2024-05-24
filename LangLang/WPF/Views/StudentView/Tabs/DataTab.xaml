@@ -19,7 +19,7 @@
     <Grid Margin="0,0,-115,-222" Background="#FFFAE0E0">
 
         <!--student name-->
-        <TextBlock x:Name="currenttb" Text="{Binding Path=Student.FullName}" Focusable="True" Width="495" Height="142" MinHeight="9" FontFamily="Broadway" FontSize="40" Margin="0,291,0,0" VerticalAlignment="Top" TextAlignment="Center" IsEnabled="False" HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="#FFD28383" Grid.ColumnSpan="2"/>
+        <TextBlock x:Name="currenttb" Text="{Binding Path=Student.FullName}" Focusable="True" Width="437" Height="214" MinHeight="9" FontFamily="Broadway" FontSize="40" Margin="0,271,0,0" VerticalAlignment="Top" TextAlignment="Center" IsEnabled="False" HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="#FFD28383"/>
 
         <!--edit form-->
         <ScrollViewer HorizontalAlignment="Left" Height="542" Margin="337,0,0,0" VerticalAlignment="Top" Width="540" BorderBrush="Black" Grid.Column="1" Grid.ColumnSpan="5">

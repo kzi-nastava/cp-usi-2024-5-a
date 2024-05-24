@@ -9,7 +9,7 @@ using LangLang.View.StudentGUI.Tabs;
 
 namespace LangLang.WPF.Views.StudentView
 {
-    public partial class StudentWindow : Window, IObserver
+    public partial class StudentWindow : Window
     {
         private Student CurrentlyLoggedIn;
         public AvailableCourses AvailableCoursesTab { get; set; }

@@ -2,7 +2,6 @@
 using LangLang.Core;
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
-using LangLang.Core.Observer;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System.Collections.Generic;
@@ -11,13 +10,13 @@ using System.Linq;
 
 namespace LangLang.Repositories
 {
-    public class StudentRepository : Subject, IStudentRepository
+    public class StudentRepository : IStudentRepository
     {
-        private readonly Dictionary<int, Student> _students;
+        private Dictionary<int, Student> _students;
         private const string _filePath = Constants.FILENAME_PREFIX + "students.csv";
 
         public StudentRepository() {
-            _students = Load();
+            Load();
         }
         public Student Get(int id)
         {
@@ -33,7 +32,6 @@ namespace LangLang.Repositories
         {
             _students.Add(student.Profile.Id, student);
             Save();
-            NotifyObservers();
         }
 
         public void Update(Student student)
@@ -53,7 +51,6 @@ namespace LangLang.Repositories
             oldStudent.Profession = student.Profession;
 
             Save();
-            NotifyObservers();
         }
 
         public void Deactivate(int id)
@@ -73,7 +70,6 @@ namespace LangLang.Repositories
 
             _students[id].Profile.IsActive = false;
             Save();
-            NotifyObservers();
         }
 
         public void Save()
@@ -90,11 +86,11 @@ namespace LangLang.Repositories
             }
         }
 
-        public Dictionary<int, Student> Load()
+        public void Load()
         {
-            var students = new Dictionary<int, Student>();
+            _students = new Dictionary<int, Student>();
 
-            if (!File.Exists(_filePath)) return students;
+            if (!File.Exists(_filePath)) return;
             
             var lines = File.ReadAllLines(_filePath);
             foreach (var line in lines)
@@ -104,10 +100,8 @@ namespace LangLang.Repositories
                 var profile = new Profile(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], 
                                           tokens[5], tokens[6], tokens[7], tokens[8], tokens[9]);
                 var student = new Student(profile, tokens[10]);
-                students.Add(student.Id, student);
+                _students.Add(student.Id, student);
             }
-
-            return students;
         }
 
     }
