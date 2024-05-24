@@ -32,7 +32,7 @@ namespace LangLang.View.CourseGUI
         public ObservableCollection<EnrollmentRequestViewModel> Enrollments { get; set; }
         private AppController appController;
         private EnrollmentRequestService enrollmentReqService;
-        private CourseController courseController;
+        private CourseService courseController;
         private TutorService tutorService;
         private CourseViewModel course;
         public CourseEnrollmentsWindow(AppController appController, CourseViewModel course)
