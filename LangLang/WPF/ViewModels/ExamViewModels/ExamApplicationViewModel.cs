@@ -3,6 +3,7 @@ using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Model.Enums;
 using LangLang.Domain.Models;
+using LangLang.Domain.Models.Enums;
 using System;
 using System.ComponentModel;
 

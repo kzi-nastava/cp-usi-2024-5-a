@@ -1,6 +1,7 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
+using LangLang.Domain.Models.Enums;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using System;
 using System.Collections.Generic;
@@ -24,14 +25,13 @@ namespace LangLang.View.CourseGUI
     public partial class CourseUpdateWindow : Window
     {
         public CourseViewModel Course { get; set; }
-        private CourseController courseController;
         public CourseUpdateWindow(int courseId)
         {
             InitializeComponent();
 
-            courseController = appController.CourseController;
+            var courseService = new CourseService();
 
-            Course = new CourseViewModel(courseController.Get(courseId));
+            Course = new CourseViewModel(courseService.Get(courseId));
 
             DataContext = this;
             languageLvlCb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
@@ -41,9 +41,10 @@ namespace LangLang.View.CourseGUI
         {
             if (Course.IsValid)
             {
-                if(courseController.CanCreateOrUpdate(Course.ToCourse()))
+                var courseService = new CourseService();
+                if(courseService.CanCreateOrUpdate(Course.ToCourse()))
                 {
-                    courseController.Update(Course.ToCourse());
+                    courseService.Update(Course.ToCourse());
                     MessageBox.Show("Success!");
                     Close();
                 }

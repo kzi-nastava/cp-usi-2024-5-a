@@ -44,7 +44,7 @@ namespace LangLang.WPF.ViewModels.RequestsViewModels
             LastModifiedAt = enrollmentRequest.LastModifiedAt;
             IsCanceled = enrollmentRequest.IsCanceled;
 
-            var courseService = new CourseController();
+            var courseService = new CourseService();
             Course = courseService.Get(CourseId);
 
             StudentName = student.Profile.Name;

@@ -1,6 +1,8 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
+using LangLang.Domain.Models.Enums;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using System;
 using System.Collections.Generic;
@@ -24,7 +26,7 @@ namespace LangLang.View.CourseGUI
     /// </summary>
     public partial class CourseSearchWindow : Window
     {
-        private CourseController courseController { get; set; }
+        private CourseService courseService;
         private ObservableCollection<CourseViewModel> courses;
         private List<Course> coursesForReview;
         private int tutorId { get; set; }
@@ -35,12 +37,11 @@ namespace LangLang.View.CourseGUI
             DataContext = this;
 
             this.tutorId = tutorId;
-            this.courseController = new CourseController();
-            this.courseController = courseController;
+            this.courseService = new();
 
             this.courses = new ObservableCollection<CourseViewModel>();
             
-            coursesForReview = this.courseController.GetByTutor(tutorId);
+            coursesForReview = this.courseService.GetByTutor(tutorId);
 
             levelCoursecb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
 
@@ -66,13 +67,13 @@ namespace LangLang.View.CourseGUI
             DateTime courseStartDate = courseStartdp.SelectedDate ?? default;
             int duration = 0;
             int.TryParse(durationtb.Text, out duration);
-            coursesForReview =  this.courseController.SearchCoursesByTutor(tutorId, language, level, courseStartDate, duration, !onlinecb.IsChecked);
+            coursesForReview =  this.courseService.SearchCoursesByTutor(tutorId, language, level, courseStartDate, duration, !onlinecb.IsChecked);
             Update();
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
-            coursesForReview = this.courseController.GetByTutor(tutorId);
+            coursesForReview = this.courseService.GetByTutor(tutorId);
             levelCoursecb.SelectedItem = null;
             Update();
         }

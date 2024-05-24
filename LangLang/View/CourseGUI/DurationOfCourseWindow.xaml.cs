@@ -37,10 +37,6 @@ namespace LangLang.View.CourseGUI
         public ObservableCollection<StudentViewModel> Students { get; set; }
         public ObservableCollection<WithdrawalRequestViewModel> Withdrawals { get; set; }
 
-        private CourseController courseController;
-        private WithdrawalRequestService withdrawalReqService;
-        private EnrollmentRequestService enrollmentReqService;
-        private TutorService tutorService;
         private CourseViewModel course;
         public DurationOfCourseWindow(CourseViewModel course)
         {
@@ -48,10 +44,6 @@ namespace LangLang.View.CourseGUI
             DataContext = this;
 
             this.course = course;
-            withdrawalReqService = new();
-            //courseController = appController.CourseController;
-            tutorService = new();
-            enrollmentReqService = new();
 
             Students = new();
             Withdrawals = new();
@@ -63,17 +55,20 @@ namespace LangLang.View.CourseGUI
         public void Update()
         {
             Students.Clear();
+
+            EnrollmentRequestService enrollmentRequestService = new();
+            WithdrawalRequestService withdrawalRequestService = new();
             //All studnets that attend the course and do not have accepted withdrawals
-            foreach (EnrollmentRequest enrollment in enrollmentReqService.GetByCourse(course.ToCourse()))
+            foreach (EnrollmentRequest enrollment in enrollmentRequestService.GetByCourse(course.ToCourse()))
             {
-                if (enrollment.Status == Status.Accepted && !withdrawalReqService.HasAcceptedWithdrawal(enrollment.Id))
+                if (enrollment.Status == Status.Accepted && !withdrawalRequestService.HasAcceptedWithdrawal(enrollment.Id))
                 {
                     var studentService = new StudentService();
                     Students.Add(new StudentViewModel(studentService.Get(enrollment.StudentId)));
                 }
             }
             Withdrawals.Clear();
-            foreach (WithdrawalRequest withdrawal in withdrawalReqService.GetByCourse(course.ToCourse()))
+            foreach (WithdrawalRequest withdrawal in withdrawalRequestService.GetByCourse(course.ToCourse()))
             {
                 if(withdrawal.Status == Status.Pending)
                 {
@@ -149,8 +144,10 @@ namespace LangLang.View.CourseGUI
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to accept the withdrawal?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                courseController.RemoveStudent(course.Id);
-                withdrawalReqService.UpdateStatus(SelectedWithdrawal.Id, Status.Accepted);
+                WithdrawalRequestService withdrawalRequestService = new();
+                CourseService courseService = new CourseService();
+                courseService.RemoveStudent(course.Id);
+                withdrawalRequestService.UpdateStatus(SelectedWithdrawal.Id, Status.Accepted);
                 ShowSuccess();
                 Update();
             }
@@ -160,10 +157,14 @@ namespace LangLang.View.CourseGUI
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to reject the withdrawal?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
+                WithdrawalRequestService withdrawalRequestService = new();
                 PenaltyPointService penaltyPointService = new();
-                withdrawalReqService.UpdateStatus(SelectedWithdrawal.Id, Status.Rejected);
-                courseController.RemoveStudent(course.Id);
+                withdrawalRequestService.UpdateStatus(SelectedWithdrawal.Id, Status.Rejected);
+
+                CourseService courseService = new();
+                courseService.RemoveStudent(course.Id);
                 penaltyPointService.GivePenaltyPoint(SelectedStudent.ToStudent(), tutorService.Get(course.TutorId), course.ToCourse());
+
                 NotifyStudentAboutPenaltyPoint(SelectedStudent.Id);
 
                 ShowSuccess();

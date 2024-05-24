@@ -12,6 +12,8 @@ using System.Windows;
 using LangLang.Core.Controller;
 using System.Windows.Input;
 using LangLang.BusinessLogic.UseCases;
+using LangLang.Domain.Models;
+using LangLang.Domain.Models.Enums;
 
 namespace LangLang.WPF.ViewModels.CourseViewModels
 {

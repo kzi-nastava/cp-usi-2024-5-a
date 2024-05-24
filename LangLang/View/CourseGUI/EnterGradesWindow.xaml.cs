@@ -34,11 +34,6 @@ namespace LangLang.View.CourseGUI
         public StudentViewModel SelectedStudent { get; set; }
         public ObservableCollection<StudentViewModel> Students { get; set; }
 
-        private CourseController courseController;
-        private WithdrawalRequestService withdrawalReqService;
-        private EnrollmentRequestService enrollmentReqService;
-        private PenaltyPointService penaltyPointService;
-        private GradeController gradeContoller;
         private CourseViewModel course;
         public EnterGradesWindow( CourseViewModel course)
         {
@@ -47,11 +42,6 @@ namespace LangLang.View.CourseGUI
 
             //this.appController = appController;
             this.course = course;
-            withdrawalReqService = new();
-            //courseController = appController.CourseController;
-            penaltyPointService = new();
-            enrollmentReqService = new();
-            //gradeContoller = appController.GradeController;
 
             Students = new();
 
@@ -61,14 +51,17 @@ namespace LangLang.View.CourseGUI
         public void Update()
         {
             Students.Clear();
-            foreach (EnrollmentRequest enrollment in enrollmentReqService.GetByCourse(course.ToCourse()))
+            EnrollmentRequestService enrollmentRequestService = new();
+            WithdrawalRequestService withdrawalRequestService = new();
+            GradeService gradeService = new();
+            foreach (EnrollmentRequest enrollment in enrollmentRequestService.GetByCourse(course.ToCourse()))
             {
                 // All studnets that attend the course (do not have accepted withdrawals)
                 // and have not been graded
-                if (enrollment.Status == Status.Accepted && !withdrawalReqService.HasAcceptedWithdrawal(enrollment.Id))
+                if (enrollment.Status == Status.Accepted && !withdrawalRequestService.HasAcceptedWithdrawal(enrollment.Id))
                 {
                     bool graded = false;
-                    foreach (Grade grade in gradeContoller.GetByCourse(course.ToCourse()))
+                    foreach (Grade grade in gradeService.GetByCourse(course.ToCourse()))
                     {
                         if (enrollment.StudentId == grade.StudentId)
                         {

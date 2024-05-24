@@ -2,6 +2,7 @@
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
+using LangLang.Domain.Models.Enums;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using System;
 using System.Collections.Generic;
@@ -25,16 +26,10 @@ namespace LangLang.View.CourseGUI
     public partial class CourseCreateWindow : Window
     {
         public CourseViewModel Course { get; set; }
-        private CourseController courseController { get; set; }
-        private ExamSlotService examsService { get; set; }
         public CourseCreateWindow(Tutor loggedIn)
         {
             Course = new CourseViewModel();
             Course.TutorId = loggedIn.Id;
-
-            examsService = new();
-            courseController = appController.CourseController;
-
             InitializeComponent();
             DataContext = this;
             languageLvlCb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
@@ -52,9 +47,10 @@ namespace LangLang.View.CourseGUI
         {
             if (Course.IsValid)
             {
-                if(courseController.CanCreateOrUpdate(Course.ToCourse(), examsService))
+                var courseService = new CourseService();
+                if (courseService.CanCreateOrUpdate(Course.ToCourse()))
                 {
-                    courseController.Add(Course.ToCourse());
+                    courseService.Add(Course.ToCourse());
                     MessageBox.Show("Success!");
                     Close();
                 }
