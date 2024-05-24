@@ -33,7 +33,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModel
 
         public ExamApplicationViewModel(ExamApplication application)
         {
-            var examService = new ExamSlotController();
+            var examService = new ExamSlotService();
             ExamSlot exam = examService.Get(application.ExamSlotId);
             var studentService = new StudentService();
             Student student = studentService.Get(application.StudentId);

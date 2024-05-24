@@ -37,7 +37,7 @@ namespace LangLang.BusinessLogic.UseCases
             return _applications.GetAll();
         }
 
-        public ExamApplication Add(ExamApplication application, ExamSlotController examController)
+        public ExamApplication Add(ExamApplication application)
         {
             application.Id = GenerateId();
 
@@ -91,8 +91,10 @@ namespace LangLang.BusinessLogic.UseCases
 
         
         // returns true if the cancellation was successful, otherwise false
-        public bool CancelApplication(ExamApplication application, ExamSlot exam, ExamSlotController examSlotController)
+        public bool CancelApplication(ExamApplication application)
         {
+            ExamSlotService examService = new();
+            ExamSlot exam = examService.Get(application.ExamSlotId);
             if (!CanBeCanceled(exam))
             {
                 return false; // exam start date must be at least 10 days away
@@ -117,7 +119,7 @@ namespace LangLang.BusinessLogic.UseCases
 
         public bool HasNoGeneratedResults(Student student)
         {
-            var examSlotService = new ExamSlotController();
+            var examSlotService = new ExamSlotService();
             foreach (ExamApplication application in GetApplications(student))
             {
                 ExamSlot exam = examSlotService.Get(application.ExamSlotId);

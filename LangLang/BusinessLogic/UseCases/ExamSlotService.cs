@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using LangLang.Core.Observer;
 using System.Collections;
 using System.Windows.Input;
-using LangLang.Core.Controller;
 using LangLang.View.ExamSlotGUI;
 using System.Diagnostics;
 using LangLang.Core.Model.Enums;
@@ -38,7 +37,6 @@ namespace LangLang.BusinessLogic.UseCases
         {
             return _exams.Get(id);
         }
-
         public List<ExamSlot> GetAll()
         {
             return _exams.GetAll();
@@ -62,7 +60,7 @@ namespace LangLang.BusinessLogic.UseCases
             return !CoursesAndExamOverlapp(exam, ref busyClassrooms) && !ExamsOverlapp(exam, ref busyClassrooms);
         }
         // Checks for any overlaps between courses and the exam, considering the availability of the exam's tutor and classrooms
-        public bool CoursesAndExamOverlapp(ExamSlot exam, CourseController courseController, ref int busyClassrooms)
+        public bool CoursesAndExamOverlapp(ExamSlot exam, ref int busyClassrooms)
         {
             var courseService = new CourseService();
             List<Course> courses = courseService.GetAll().Values.ToList();
@@ -200,7 +198,7 @@ namespace LangLang.BusinessLogic.UseCases
         // Method to search exam slots by tutor and criteria
         public List<ExamSlot> SearchByTutor(Tutor tutor, DateTime examDate, string language, LanguageLevel? level)
         {
-            List<ExamSlot> exams = _exams.Values.ToList();
+            List<ExamSlot> exams = _exams.GetAll();
 
             exams = GetExams(tutor);
 
@@ -225,15 +223,15 @@ namespace LangLang.BusinessLogic.UseCases
             return examSlot.ApplicationsVisible();
         }
 
-        public List<ExamSlot> SearchByStudent(AppController appController, Student student, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
+        public List<ExamSlot> SearchByStudent(Student student, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
         {
-            List<ExamSlot> availableExamSlots = GetAvailableExams(student, appController);
+            List<ExamSlot> availableExamSlots = GetAvailableExams(student);
             return Search(availableExamSlots, examDate, courseLanguage, languageLevel);
         }
 
 
         // returns a list of exams that are available for student application
-        public List<ExamSlot> GetAvailableExams(Student student, AppController appController)
+        public List<ExamSlot> GetAvailableExams(Student student)
         {
 
             if (student == null) return null;
@@ -248,12 +246,14 @@ namespace LangLang.BusinessLogic.UseCases
                 if (!IsAvailable(exam)) continue;
 
                 //don't include exams for which student has already applied
-                bool hasAlreadyApplied = appController.ExamApplicationController.HasApplied(student, exam);
+                ExamApplicationService appService = new();
+                bool hasAlreadyApplied = appService.HasApplied(student, exam);
                 if (hasAlreadyApplied) continue;
 
                 foreach (EnrollmentRequest enrollmentRequest in studentRequests)
                 {
-                    Course course = appController.CourseController.Get(enrollmentRequest.CourseId);
+                    CourseService courseService = new();
+                    Course course = courseService.Get(enrollmentRequest.CourseId);
                     if (HasStudentAttendedCourse(course, enrollmentRequest, exam))
                     {
                         availableExams.Add(exam);

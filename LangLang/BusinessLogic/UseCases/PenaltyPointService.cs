@@ -43,7 +43,7 @@ namespace LangLang.Core.Model.DAO
             PenaltyPoint point = new PenaltyPoint(GenerateId(), student.Profile.Id, tutor.Profile.Id, course.Id, DateTime.Now);
             _points.Add(point);
         }
-        public void GivePenaltyPoint(Student student, Tutor tutor, Course course, AppController appController)
+        public void GivePenaltyPoint(Student student, Tutor tutor, Course course)
         {
             Add(student,tutor, course);
             if (ShouldDeactivate(student))
@@ -85,7 +85,7 @@ namespace LangLang.Core.Model.DAO
             return _points.GetOldestPenaltyPoint(points);
         }
 
-        public bool HasGivenPenaltyPoint(Student student, Tutor tutor, Course course, AppController appController)
+        public bool HasGivenPenaltyPoint(Student student, Tutor tutor, Course course)
         {
             List<PenaltyPoint> studentPenaltyPoints = GetPenaltyPoints(student);
             foreach(PenaltyPoint point in studentPenaltyPoints)

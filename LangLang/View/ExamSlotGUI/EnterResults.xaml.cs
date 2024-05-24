@@ -1,4 +1,5 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Model.Enums;
 using LangLang.Domain.Models;
@@ -20,18 +21,18 @@ namespace LangLang.View.ExamSlotGUI
         public ObservableCollection<ExamResultViewModel> ExamResults { get; set; }
 
         private ExamResultController resultController;
-        private ExamSlotController examSlotController;
-        private ExamApplicationController applicationController;
+        private ExamSlotService examSlotService;
+        private ExamApplicationService applicationService;
         private ExamSlotViewModel exam;
 
-        public EnterResults(AppController appController, ExamSlotViewModel selectedExam)
+        public EnterResults(ExamSlotViewModel selectedExam)
         {
             InitializeComponent();
             DataContext = this;
 
-            this.resultController = appController.ExamResultController;
-            this.applicationController = appController.ExamApplicationController;
-            this.examSlotController = appController.ExamSlotController;
+            //this.resultController = appController.ExamResultController;
+            this.applicationService = new();
+            this.examSlotService = new() ;
             this.exam = selectedExam;
 
             ExamResults = new ();
@@ -141,12 +142,12 @@ namespace LangLang.View.ExamSlotGUI
         private void RefreshExam()
         {
             exam.ResultsGenerated = true;
-            examSlotController.Update(exam.ToExamSlot());
+            examSlotService.Update(exam.ToExamSlot());
         }
 
         private void GenerateResults()
         {
-            List<ExamApplication> applications = applicationController.GetApplications(exam.Id);
+            List<ExamApplication> applications = applicationService.GetApplications(exam.Id);
             foreach (ExamApplication application in applications)  // for each application for exam, default result is generated
             {
                 resultController.Add(application.StudentId, exam.Id);

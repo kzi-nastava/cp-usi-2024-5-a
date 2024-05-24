@@ -114,9 +114,9 @@ namespace LangLang.Core.Controller
             return course.OverlappsWith(timeSlot);
         }
 
-        public bool CanCreateOrUpdate(Course course, ExamSlotController examSlotController)
+        public bool CanCreateOrUpdate(Course course)
         {
-            return _courses.CanCreateOrUpdate(course, examSlotController);
+            return _courses.CanCreateOrUpdate(course);
         }
       
         public List<Course> GetBySkills(Tutor tutor)

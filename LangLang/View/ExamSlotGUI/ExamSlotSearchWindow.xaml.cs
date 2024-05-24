@@ -1,4 +1,5 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.ExamViewModel;
@@ -26,25 +27,21 @@ namespace LangLang.View.ExamSlotGUI
     {
         public ObservableCollection<ExamSlotViewModel> ExamSlots { get; set; }
         private List<ExamSlot> examSlotsForReview;
-        private CourseController courseController;
-        private ExamSlotController examSlotController;
         private Tutor loggedIn;
 
-        public ExamSlotSearchWindow(AppController appController, Tutor loggedIn)
+        public ExamSlotSearchWindow(Tutor loggedIn)
         {
             ExamSlots = new ObservableCollection<ExamSlotViewModel>();
             examSlotsForReview = new List<ExamSlot>();
-            examSlotController = appController.ExamSlotController;
             this.loggedIn = loggedIn;
-            examSlotsForReview = examSlotController.GetExams(loggedIn);
+            ExamSlotService examsService = new();
+            examSlotsForReview = examsService.GetExams(loggedIn);
 
             foreach(ExamSlot exam in examSlotsForReview)
             {
                 ExamSlots.Add(new ExamSlotViewModel(exam));
             }
 
-            this.courseController = courseController;
-            this.examSlotController = examSlotController;
             InitializeComponent();
             DataContext = this;
             levelExamcb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
@@ -67,14 +64,15 @@ namespace LangLang.View.ExamSlotGUI
                 level = (LanguageLevel)levelExamcb.SelectedValue;
             DateTime examDate = examdatePicker.SelectedDate ?? default;
 
-
-            examSlotsForReview = examSlotController.SearchByTutor(loggedIn, examDate, language, level); 
+            ExamSlotService examsService = new();
+            examSlotsForReview = examsService.SearchByTutor(loggedIn, examDate, language, level); 
             Update();
         }
 
         private void ClearExam_Click(object sender, RoutedEventArgs e)
         {
-            examSlotsForReview = examSlotController.GetExams(loggedIn);
+            ExamSlotService examsService = new();
+            examSlotsForReview = examsService.GetExams(loggedIn);
             Update();
         }
     }

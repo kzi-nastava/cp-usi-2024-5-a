@@ -79,7 +79,7 @@ namespace LangLang.BusinessLogic.UseCases
 
         public bool HasAppliedForExam(int studentId)
         {
-            var examAppService = new ExamApplicationController();
+            var examAppService = new ExamApplicationService();
             List<ExamApplication> requests = examAppService.GetActiveStudentApplications(studentId);
 
             return requests.Count != 0;
@@ -87,7 +87,7 @@ namespace LangLang.BusinessLogic.UseCases
 
         public bool CanApplyForCourses(Student student)
         {
-            var examAppService = new ExamApplicationController();
+            var examAppService = new ExamApplicationService();
             var examResultService = new ExamResultController();
             bool hasNoResults = examAppService.HasNoGeneratedResults(student);
             bool hasNotGradedExams = examResultService.HasNotGradedResults(student);

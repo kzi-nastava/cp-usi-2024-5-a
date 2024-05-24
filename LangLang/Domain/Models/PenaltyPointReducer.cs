@@ -5,6 +5,7 @@ using LangLang.BusinessLogic.UseCases;
 using LangLang.Core;
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
+using LangLang.Core.Model.DAO;
 using LangLang.Domain.Models;
 
 public class PenaltyPointReducer
@@ -43,7 +44,7 @@ public class PenaltyPointReducer
         File.WriteAllText(fileName, LastReduced.ToString());
     }
 
-    public void UpdatePenaltyPoints(AppController appController)
+    public void UpdatePenaltyPoints()
     {
         DateTime currentMonth = DateTime.Today;
         
@@ -55,17 +56,18 @@ public class PenaltyPointReducer
             var studentService = new StudentService();
             foreach (var student in studentService.GetAll())
             {
-                Remove(pointsToRemove, student, appController);
+                Remove(pointsToRemove, student);
             }
 
             Write();
         }
     }
-    public void Remove(int toRemove, Student student, AppController appController)
+    public void Remove(int toRemove, Student student)
     {
         for(int i = 0; i<toRemove; i++)
         {
-            appController.PenaltyPointController.RemovePenaltyPoint(student);
+            PenaltyPointService penaltyPointService = new();
+            penaltyPointService.RemovePenaltyPoint(student);
         }
     }
 }
