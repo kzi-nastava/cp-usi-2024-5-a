@@ -72,5 +72,20 @@ namespace LangLang.BusinessLogic.UseCases
 
             return grades;
         }
+        public double GetAverageGrade(List<Student> students, Course course)
+        {
+            var grades = GetByCourse(course);
+            var studentIds = students.Select(s => s.Id).ToHashSet(); // for a quick check of key existence
+
+            var filteredGrades = grades.Where(g => studentIds.Contains(g.StudentId)).ToList();
+
+            if (filteredGrades.Count == 0)
+                return 0;
+
+            double total = filteredGrades.Sum(g => (g.ActivityGrade + g.KnowledgeGrade) / 2);
+            double average = total / filteredGrades.Count;
+
+            return average;
+        }
     }
 }
