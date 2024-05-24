@@ -124,7 +124,10 @@ namespace LangLang.View.CourseGUI
         private void NotifyStudentAboutPenaltyPoint(int studentId)
         {
             var studentService = new StudentService();
-            // Implement once the email sending functionality is added.
+            var student = studentService.Get(studentId); 
+            var mailMessage = $"You have received one penalty point in course: {course.Language}, level: {course.Level}";
+
+            EmailService.SendEmail(student.Profile.Email, "Penalty point", mailMessage);
         }
 
         private void PenaltyBtn_Click(object sender, RoutedEventArgs e)

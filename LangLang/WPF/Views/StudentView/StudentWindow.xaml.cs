@@ -59,8 +59,6 @@ namespace LangLang.WPF.Views
             AddTab("Course enrollment requests", EnrollmentRequestsTab);
             
             AddTab("Completed courses", new CompletedCourses(CurrentlyLoggedIn));
-
-            AddTab("Notifications", new Notifications(CurrentlyLoggedIn));
         }
 
         private void AddTab(string header, UserControl content)

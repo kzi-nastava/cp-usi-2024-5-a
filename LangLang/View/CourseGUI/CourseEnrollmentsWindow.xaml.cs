@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -120,13 +121,34 @@ namespace LangLang.View.CourseGUI
         private void NotifyStudentAboutAcceptence(int studentId)
         {
             var studentService = new StudentService();
-            // Implement once the email sending functionality is added.
+            var student = studentService.Get(studentId);
+            var mailMessage = $"You have been accepted to the course: {course.Language} {course.Level}";
+
+            try
+            {
+                EmailService.SendEmail(student.Profile.Email, $"Accepted: {course.Language} {course.Level}", mailMessage);
+                MessageBox.Show("Email sent to student.");
+            } catch (SmtpException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
         }
         private void NotifyStudentAboutRejection(int studentId, string reason)
         {
             var studentService = new StudentService();
-            // Implement once the email sending functionality is added.
+            var student = studentService.Get(studentId);
+            var mailMessage = $"You have been rejected from the course: {course.Language} {course.Level}. Reason: {reason}";
+
+            try
+            {
+                EmailService.SendEmail(student.Profile.Email, $"Request rejected: {course.Language} {course.Level}", mailMessage);
+                MessageBox.Show("Email sent to student.");
+            }
+            catch (SmtpException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
         private void ShowSuccess()
         {
