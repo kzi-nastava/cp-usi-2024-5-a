@@ -16,6 +16,7 @@ using LangLang.Core.Model;
 using LangLang.Domain.RepositoryInterfaces;
 using LangLang.Composition;
 using Microsoft.Win32;
+using LangLang.Domain.Models.Enums;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -64,12 +65,12 @@ namespace LangLang.BusinessLogic.UseCases
         public bool CoursesAndExamOverlapp(ExamSlot exam, ref int busyClassrooms)
         {
             var courseService = new CourseService();
-            List<Course> courses = courseService.GetAll().Values.ToList();
+            List<Course> courses = courseService.GetAll().ToList();
             // Go through courses
             foreach (Course course in courses)
             {
                 //check for overlapping
-                if (courseService.OverlappsWith(course, exam.TimeSlot))
+                if (course.OverlappsWith(exam.TimeSlot))
                 {
                     //tutor is busy (has class)
                     if (course.TutorId == exam.TutorId)
