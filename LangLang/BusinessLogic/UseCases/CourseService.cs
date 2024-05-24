@@ -79,14 +79,14 @@ namespace LangLang.BusinessLogic.UseCases
         public bool CanCreateOrUpdate(Course course)
         {
             int busyClassrooms = 0;
-            var examSlotService = new ExamSlotService();
-            return !ExamsAndCourseOverlapp(course, examSlotService, ref busyClassrooms) && !CoursesOverlapp(course, ref busyClassrooms);
+            return !ExamsAndCourseOverlapp(course, ref busyClassrooms) && !CoursesOverlapp(course, ref busyClassrooms);
         }
 
         // Checks for any overlaps between exams and the course,
         // considering the availability of the courses's tutor and classrooms
-        public bool ExamsAndCourseOverlapp(Course course, ExamSlotService examSlotService, ref int busyClassrooms)
+        public bool ExamsAndCourseOverlapp(Course course, ref int busyClassrooms)
         {
+            var examSlotService = new ExamSlotService();
             List<ExamSlot> examSlots = examSlotService.GetAll();
             // Go through exams
             foreach (ExamSlot exam in examSlots)
