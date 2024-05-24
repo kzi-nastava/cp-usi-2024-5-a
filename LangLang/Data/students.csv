@@ -1,7 +1,7 @@
-0|Novak|Djokovic|Male|1980-01-01|+36245621|nole||Student|false|tenis player
-1|Nikola|Jokic|Male|1980-01-01|+36245621|jokic||Student|false|basketball player
-2|Bogdan|Bogdanovic|Male|1998-05-08|+3816532598|bodan@gmail.com|partizan10|Student|false|basketball player
-3|Marko|Markovic|Male|1998-05-08|+3816532598|mare@gmail.com|marko|Student|false|basketball player
-4|Mila|Bogdanovic|Female|1998-05-08|+3816532598|mila@gmail.com|mojasifra|Student|false|basketball player
-5|Petar|Peric|Male|1998-04-08|+3816532598|pericp@gmail.com|sifsif|Student|false|basketball player
-6|Mika|Mikic|Male|1998-04-08|+3816532598|mikic@gmail.com|sifsif2|Student|false|basketball player
+0|Novak|Djokovic|Male|1980-01-01|+36245621|nole||Student|true|tenis player
+1|Nikola|Jokic|Male|1980-01-01|+36245621|jokic||Student|true|basketball player
+2|Bogdan|Bogdanovic|Male|1998-05-08|+3816532598|bodan@gmail.com|partizan10|Student|true|basketball player
+3|Marko|Markovic|Male|1998-05-08|+3816532598|mare@gmail.com|marko|Student|true|basketball player
+4|Mila|Bogdanovic|Female|1998-05-08|+3816532598|mila@gmail.com|mojasifra|Student|true|basketball player
+5|Petar|Peric|Male|1998-04-08|+3816532598|pericp@gmail.com|sifsif|Student|true|basketball player
+6|Mika|Mikic|Male|1998-04-08|+3816532598|mikic@gmail.com|sifsif2|Student|true|basketball player
