@@ -128,6 +128,7 @@ namespace LangLang.View.CourseGUI
             if (result == MessageBoxResult.Yes)
             {
                 PenaltyPointService penaltyPointService = new();
+                TutorService tutorService = new();
                 if (penaltyPointService.HasGivenPenaltyPoint(SelectedStudent.ToStudent(), tutorService.Get(course.TutorId), course.ToCourse()))
                     MessageBox.Show("You have already given the student a penalty point today.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
@@ -162,6 +163,7 @@ namespace LangLang.View.CourseGUI
                 withdrawalRequestService.UpdateStatus(SelectedWithdrawal.Id, Status.Rejected);
 
                 CourseService courseService = new();
+                TutorService tutorService = new();
                 courseService.RemoveStudent(course.Id);
                 penaltyPointService.GivePenaltyPoint(SelectedStudent.ToStudent(), tutorService.Get(course.TutorId), course.ToCourse());
 
