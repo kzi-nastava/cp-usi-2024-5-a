@@ -2,6 +2,7 @@
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
+using LangLang.Domain.Models.Enums;
 using LangLang.WPF.ViewModels.ExamViewModel;
 using LangLang.WPF.Views.StudentView;
 using System;
