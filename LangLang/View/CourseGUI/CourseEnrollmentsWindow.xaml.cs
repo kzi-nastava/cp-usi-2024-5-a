@@ -127,7 +127,6 @@ namespace LangLang.View.CourseGUI
             try
             {
                 EmailService.SendEmail(student.Profile.Email, $"Accepted: {course.Language} {course.Level}", mailMessage);
-                MessageBox.Show("Email sent to student.");
             } catch (SmtpException ex)
             {
                 MessageBox.Show(ex.Message);
@@ -143,7 +142,6 @@ namespace LangLang.View.CourseGUI
             try
             {
                 EmailService.SendEmail(student.Profile.Email, $"Request rejected: {course.Language} {course.Level}", mailMessage);
-                MessageBox.Show("Email sent to student.");
             }
             catch (SmtpException ex)
             {
