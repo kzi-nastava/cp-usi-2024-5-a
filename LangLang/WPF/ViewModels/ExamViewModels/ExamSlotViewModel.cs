@@ -1,5 +1,6 @@
 ﻿using LangLang.Core;
 using LangLang.Core.Model;
+using LangLang.Domain.Models;
 using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;

@@ -1,6 +1,5 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Core.Controller;
-using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.ExamViewModel;
 using System.Collections.ObjectModel;
@@ -16,20 +15,18 @@ namespace LangLang.View.ExamSlotGUI
     {
         public ExamApplicationViewModel SelectedApplication { get; set; }
         public ObservableCollection<ExamApplicationViewModel> Applications { get; set; }
-        private AppController appController;
-        private ExamApplicationController applicationController;
-        private ExamSlotController examSlotController;
+        private ExamApplicationService applicationsService;
+        private ExamSlotService examsService;
         private ExamSlotViewModel examSlot;
 
-        public ExamApplications(AppController appController, ExamSlotViewModel examSlot)
+        public ExamApplications(ExamSlotViewModel examSlot)
         {
             InitializeComponent();
             DataContext = this;
 
-            this.appController = appController;
             this.examSlot = examSlot;
-            applicationController = appController.ExamApplicationController;
-            examSlotController = appController.ExamSlotController;
+            applicationsService = new();
+            examsService = new();
 
             Applications = new();
 
@@ -41,7 +38,7 @@ namespace LangLang.View.ExamSlotGUI
         public void Update()
         {
             Applications.Clear();
-            foreach (ExamApplication application in applicationController.GetApplications(examSlot.Id))
+            foreach (ExamApplication application in applicationsService.GetApplications(examSlot.Id))
             {
                 Applications.Add(new ExamApplicationViewModel(application));
             }
@@ -59,7 +56,7 @@ namespace LangLang.View.ExamSlotGUI
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to confirm list?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes) {
                 examSlot.Modifiable = false;
-                examSlotController.Update(examSlot.ToExamSlot());
+                examsService.Update(examSlot.ToExamSlot());
                 AdjustButtons();
                 ShowSuccess();
             }

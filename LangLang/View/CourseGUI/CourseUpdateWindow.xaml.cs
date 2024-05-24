@@ -1,4 +1,5 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using System;
@@ -24,12 +25,10 @@ namespace LangLang.View.CourseGUI
     {
         public CourseViewModel Course { get; set; }
         private CourseController courseController;
-        private ExamSlotController examController { get; set; }
-        public CourseUpdateWindow(AppController appController, int courseId)
+        public CourseUpdateWindow(int courseId)
         {
             InitializeComponent();
 
-            examController = appController.ExamSlotController;
             courseController = appController.CourseController;
 
             Course = new CourseViewModel(courseController.Get(courseId));
@@ -42,7 +41,7 @@ namespace LangLang.View.CourseGUI
         {
             if (Course.IsValid)
             {
-                if(courseController.CanCreateOrUpdate(Course.ToCourse(), examController))
+                if(courseController.CanCreateOrUpdate(Course.ToCourse()))
                 {
                     courseController.Update(Course.ToCourse());
                     MessageBox.Show("Success!");

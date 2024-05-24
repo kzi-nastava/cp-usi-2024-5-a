@@ -25,7 +25,7 @@ namespace LangLang
         // EXAM SLOTS
         public ObservableCollection<ExamSlotViewModel> ExamSlots { get; set; }
         public ExamSlotViewModel SelectedExamSlot { get; set; }
-        private ExamSlotController examSlotController { get; set; }
+        private ExamSlotService ExamSlotService { get; set; }
 
         // COURSES
         public ObservableCollection<CourseViewModel> Courses { get; set; }
@@ -41,7 +41,7 @@ namespace LangLang
             DataContext = this;
 
             this.appController = appController;
-            examSlotController = appController.ExamSlotController;
+            ExamSlotService = appController.ExamSlotService;
             courseController = appController.CourseController;
             tutorService = new();
 
@@ -53,7 +53,7 @@ namespace LangLang
             DisableButtonsCourse();
 
             courseController.Subscribe(this);
-            examSlotController.Subscribe(this);
+            ExamSlotService.Subscribe(this);
 
             Update();
         }
@@ -62,7 +62,7 @@ namespace LangLang
         {
             ExamSlots.Clear();
 
-            foreach (ExamSlot exam in examSlotController.GetExams(LoggedIn))
+            foreach (ExamSlot exam in ExamSlotService.GetExams(LoggedIn))
             {
                 ExamSlots.Add(new ExamSlotViewModel(exam));
             }
@@ -84,14 +84,14 @@ namespace LangLang
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
             ExamSlotUpdateWindow updateWindow = new (appController, SelectedExamSlot.Id, LoggedIn);
-            if(examSlotController.CanBeUpdated(SelectedExamSlot.ToExamSlot()))
+            if(ExamSlotService.CanBeUpdated(SelectedExamSlot.ToExamSlot()))
                 updateWindow.Show();
             else
                 MessageBox.Show($"Can't update exam, there is less than {Constants.EXAM_MODIFY_PERIOD} days before exam or exam has passed.");
         }
         private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (!examSlotController.Delete(SelectedExamSlot.Id))
+            if (!ExamSlotService.Delete(SelectedExamSlot.Id))
             {
                 MessageBox.Show($"Can't delete exam, there is less than {Constants.EXAM_MODIFY_PERIOD} days before exam.");
             }
@@ -234,7 +234,7 @@ namespace LangLang
 
         private void ButtonSeeApplications_Click(object sender, RoutedEventArgs e)
         {
-            if (examSlotController.ApplicationsVisible(SelectedExamSlot.Id) && SelectedExamSlot.Applicants != 0)
+            if (ExamSlotService.ApplicationsVisible(SelectedExamSlot.Id) && SelectedExamSlot.Applicants != 0)
             {
                 ExamApplications applicationsWindow = new(appController, SelectedExamSlot);
                 applicationsWindow.Show();

@@ -10,14 +10,12 @@ namespace LangLang
 {
     public partial class MainWindow : Window
     {
-        private AppController appController { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
-            appController = new();
             PenaltyPointReducer reducer = new PenaltyPointReducer();
-            reducer.UpdatePenaltyPoints(appController);
+            reducer.UpdatePenaltyPoints();
         }
 
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
@@ -56,7 +54,7 @@ namespace LangLang
                 studentWindow.Show();
             } else if (profile.Role == UserType.Tutor)
             {
-                TutorWindow tutorWindow = new(appController, profile);
+                TutorWindow tutorWindow = new( profile);
                 tutorWindow.Show();
             } else if (profile.Role == UserType.Director)
             {

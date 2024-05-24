@@ -22,6 +22,7 @@ using LangLang.BusinessLogic.UseCases;
 using LangLang.WPF.ViewModels.StudentViewModels;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.CourseViewModels;
+using LangLang.Core.Model.DAO;
 
 namespace LangLang.View.CourseGUI
 {
@@ -33,25 +34,24 @@ namespace LangLang.View.CourseGUI
         public StudentViewModel SelectedStudent { get; set; }
         public ObservableCollection<StudentViewModel> Students { get; set; }
 
-        private AppController appController;
         private CourseController courseController;
         private WithdrawalRequestService withdrawalReqService;
         private EnrollmentRequestService enrollmentReqService;
-        private PenaltyPointController penaltyPointController;
+        private PenaltyPointService penaltyPointService;
         private GradeController gradeContoller;
         private CourseViewModel course;
-        public EnterGradesWindow(AppController appController, CourseViewModel course)
+        public EnterGradesWindow( CourseViewModel course)
         {
             InitializeComponent();
             DataContext = this;
 
-            this.appController = appController;
+            //this.appController = appController;
             this.course = course;
             withdrawalReqService = new();
-            courseController = appController.CourseController;
-            penaltyPointController = appController.PenaltyPointController;
+            //courseController = appController.CourseController;
+            penaltyPointService = new();
             enrollmentReqService = new();
-            gradeContoller = appController.GradeController;
+            //gradeContoller = appController.GradeController;
 
             Students = new();
 

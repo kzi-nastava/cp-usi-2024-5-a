@@ -1,4 +1,5 @@
-﻿using LangLang.Core.Controller;
+﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.ExamViewModel;
@@ -28,12 +29,12 @@ namespace LangLang.View
         public List<Course> Skills { get; set; }
         public Course SelectedCourse { get; set; }
         public ExamSlotViewModel ExamSlot { get; set; }
-        private ExamSlotController examSlotsController { get; set; }
+        private ExamSlotService examSlotsController { get; set; }
         public ExamSlotCreateWindow(AppController appController, Tutor loggedIn)
         {
             Skills = appController.CourseController.GetBySkills(loggedIn);
             SelectedCourse = null;
-            examSlotsController = appController.ExamSlotController;
+            examSlotsController = appController.ExamSlotService;
             ExamSlot = new ExamSlotViewModel();
             ExamSlot.ExamDate = DateTime.Now;
             ExamSlot.TutorId = loggedIn.Id;

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using LangLang.Core.Repository.Serialization;
+using LangLang.Domain.Models;
 
 namespace LangLang.Core.Model
 {

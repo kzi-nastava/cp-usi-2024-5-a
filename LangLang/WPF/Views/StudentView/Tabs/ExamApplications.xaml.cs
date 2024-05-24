@@ -1,6 +1,6 @@
-﻿using LangLang.Core;
+﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.Core;
 using LangLang.Core.Controller;
-using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.ExamViewModel;
 using LangLang.WPF.Views.StudentView;
@@ -19,8 +19,6 @@ namespace LangLang.View.StudentGUI.Tabs
         public ObservableCollection<ExamApplicationViewModel> Applications { get; set; }
         public List<ExamApplication> ApplicationsForReview { get; set; }
 
-        private ExamApplicationController applicationController {get; set;}
-        private ExamSlotController examSlotController;
         private Student currentlyLoggedIn;
 
         public ExamApplications(Student currentlyLoggedIn, StudentWindow parentWindow)
@@ -30,8 +28,6 @@ namespace LangLang.View.StudentGUI.Tabs
 
             this.parentWindow = parentWindow;
             this.currentlyLoggedIn = currentlyLoggedIn;
-            applicationController = new ExamApplicationController();
-            examSlotController = new ExamSlotController();
 
             Applications = new();
 
@@ -40,12 +36,14 @@ namespace LangLang.View.StudentGUI.Tabs
 
         public void SetDataForReview()
         {
-            ApplicationsForReview = applicationController.GetApplications(currentlyLoggedIn);
+            ExamApplicationService appService = new();
+            ApplicationsForReview = appService.GetApplications(currentlyLoggedIn);
         }
         public void Update()
         {
             Applications.Clear();
-            foreach (ExamApplication application in applicationController.GetApplications(currentlyLoggedIn))
+            ExamApplicationService appService = new();
+            foreach (ExamApplication application in appService.GetApplications(currentlyLoggedIn))
             {
                 Applications.Add(new ExamApplicationViewModel(application));
             }
@@ -56,7 +54,8 @@ namespace LangLang.View.StudentGUI.Tabs
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to cancel exam application?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                bool canceled = applicationController.CancelApplication(SelectedApplication.ToExamApplication(), examSlotController);
+                ExamApplicationService appService = new();
+                bool canceled = appService.CancelApplication(SelectedApplication.ToExamApplication());
                 if (canceled)
                 {
                     MessageBox.Show("Cancelation was successful.");

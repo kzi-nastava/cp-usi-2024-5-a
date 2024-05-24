@@ -1,8 +1,9 @@
 ﻿using LangLang.Core.Model.Enums;
 using System;
 using LangLang.Core.Repository.Serialization;
+using LangLang.Core;
 
-namespace LangLang.Core.Model
+namespace LangLang.Domain.Models
 {
     public class TimeSlot
     {
@@ -35,12 +36,12 @@ namespace LangLang.Core.Model
             DateTime end = Time.AddHours(Duration);
             DateTime otherEnd = timeSlot.Time.AddHours(timeSlot.Duration);
 
-            return ((Time <= otherEnd && Time >= timeSlot.Time) || (end >= timeSlot.Time && end <= otherEnd));
+            return Time <= otherEnd && Time >= timeSlot.Time || end >= timeSlot.Time && end <= otherEnd;
         }
 
         public bool IsInFuture()
         {
-            return (Time > DateTime.Now);
+            return Time > DateTime.Now;
         }
 
         public string ToString()

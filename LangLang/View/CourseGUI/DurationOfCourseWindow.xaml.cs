@@ -23,6 +23,7 @@ using LangLang.WPF.ViewModels.StudentViewModels;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using LangLang.WPF.ViewModels.RequestsViewModels;
+using LangLang.Core.Model.DAO;
 
 namespace LangLang.View.CourseGUI
 {
@@ -36,23 +37,19 @@ namespace LangLang.View.CourseGUI
         public ObservableCollection<StudentViewModel> Students { get; set; }
         public ObservableCollection<WithdrawalRequestViewModel> Withdrawals { get; set; }
 
-        private AppController appController;
         private CourseController courseController;
         private WithdrawalRequestService withdrawalReqService;
         private EnrollmentRequestService enrollmentReqService;
-        private PenaltyPointController penaltyPointController;
         private TutorService tutorService;
         private CourseViewModel course;
-        public DurationOfCourseWindow(AppController appController, CourseViewModel course)
+        public DurationOfCourseWindow(CourseViewModel course)
         {
             InitializeComponent();
             DataContext = this;
 
-            this.appController = appController;
             this.course = course;
             withdrawalReqService = new();
-            courseController = appController.CourseController;
-            penaltyPointController = appController.PenaltyPointController;
+            //courseController = appController.CourseController;
             tutorService = new();
             enrollmentReqService = new();
 
@@ -135,11 +132,12 @@ namespace LangLang.View.CourseGUI
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to give the student a penalty point?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                if (penaltyPointController.HasGivenPenaltyPoint(SelectedStudent.ToStudent(), tutorService.Get(course.TutorId), course.ToCourse(), appController))
+                PenaltyPointService penaltyPointService = new();
+                if (penaltyPointService.HasGivenPenaltyPoint(SelectedStudent.ToStudent(), tutorService.Get(course.TutorId), course.ToCourse()))
                     MessageBox.Show("You have already given the student a penalty point today.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
                 {
-                    penaltyPointController.GivePenaltyPoint(SelectedStudent.ToStudent(), tutorService.Get(course.TutorId), course.ToCourse(), appController);
+                    penaltyPointService.GivePenaltyPoint(SelectedStudent.ToStudent(), tutorService.Get(course.TutorId), course.ToCourse());
                     NotifyStudentAboutPenaltyPoint(SelectedStudent.Id);
                     
                     ShowSuccess();
@@ -162,9 +160,10 @@ namespace LangLang.View.CourseGUI
             MessageBoxResult result = MessageBox.Show("Are you sure that you want to reject the withdrawal?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
+                PenaltyPointService penaltyPointService = new();
                 withdrawalReqService.UpdateStatus(SelectedWithdrawal.Id, Status.Rejected);
                 courseController.RemoveStudent(course.Id);
-                penaltyPointController.GivePenaltyPoint(SelectedStudent.ToStudent(), tutorService.Get(course.TutorId), course.ToCourse(), appController);
+                penaltyPointService.GivePenaltyPoint(SelectedStudent.ToStudent(), tutorService.Get(course.TutorId), course.ToCourse());
                 NotifyStudentAboutPenaltyPoint(SelectedStudent.Id);
 
                 ShowSuccess();

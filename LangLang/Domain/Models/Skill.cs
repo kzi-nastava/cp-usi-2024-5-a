@@ -4,15 +4,17 @@ using System.IO.Packaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LangLang.Core.Model;
 
-namespace LangLang.Core.Model
+namespace LangLang.Domain.Models
 {
     public class Skill
     {
         private List<string> _language;
         private List<LanguageLevel> _level;
 
-        public Skill() { 
+        public Skill()
+        {
             _language = new List<string>();
             _level = new List<LanguageLevel>();
         }

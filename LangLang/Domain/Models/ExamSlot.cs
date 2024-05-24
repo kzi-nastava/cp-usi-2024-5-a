@@ -1,9 +1,10 @@
-﻿using LangLang.Core.Repository.Serialization;
+﻿using LangLang.Core;
+using LangLang.Core.Model;
 using System;
 
-namespace LangLang.Core.Model
+namespace LangLang.Domain.Models
 {
-    public class ExamSlot: ISerializable
+    public class ExamSlot
     {
         public int Id { get; set; }
         public string Language { get; set; }
@@ -29,34 +30,6 @@ namespace LangLang.Core.Model
         }
 
         public ExamSlot() { }
-
-        public string[] ToCSV()
-        {
-            return new string[] {
-            Id.ToString(),
-            Language,
-            Level.ToString(),
-            TutorId.ToString(),
-            TimeSlot.ToString(),
-            MaxStudents.ToString(),
-            Applicants.ToString(),
-            Modifiable.ToString(),
-            ResultsGenerated.ToString()
-            };
-        }
-
-        public void FromCSV(string[] values)
-        {
-            Id = int.Parse(values[0]);
-            Language = values[1];
-            Level = (LanguageLevel)Enum.Parse(typeof(LanguageLevel), values[2]);
-            TutorId = int.Parse(values[3]);
-            TimeSlot = new (values[4], values[5]);
-            MaxStudents = int.Parse(values[6]);
-            Applicants = int.Parse(values[7]);
-            Modifiable = bool.Parse(values[8]);
-            ResultsGenerated = bool.Parse(values[9]);
-        }
 
         public bool ApplicationsVisible()
         {

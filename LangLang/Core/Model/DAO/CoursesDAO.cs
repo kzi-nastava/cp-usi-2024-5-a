@@ -111,17 +111,18 @@ public class CoursesDAO : Subject
         return course.IsCompleted();
     }
 
-    public bool CanCreateOrUpdate(Course course, ExamSlotController examSlotController)
+    public bool CanCreateOrUpdate(Course course)
     {
         int busyClassrooms = 0;
-        return !ExamsAndCourseOverlapp(course, examSlotController, ref busyClassrooms) && !CoursesOverlapp(course, ref busyClassrooms);
+        return !ExamsAndCourseOverlapp(course, ref busyClassrooms) && !CoursesOverlapp(course, ref busyClassrooms);
     }
 
     // Checks for any overlaps between exams and the course,
     // considering the availability of the courses's tutor and classrooms
-    public bool ExamsAndCourseOverlapp(Course course, ExamSlotController examSlotController, ref int busyClassrooms)
+    public bool ExamsAndCourseOverlapp(Course course, ref int busyClassrooms)
     {
-        List<ExamSlot> examSlots = examSlotController.GetAll();
+        var examsService = new ExamSlotService();
+        List<ExamSlot> examSlots = examsService.GetAll();
         // Go through exams
         foreach (ExamSlot exam in examSlots)
         {

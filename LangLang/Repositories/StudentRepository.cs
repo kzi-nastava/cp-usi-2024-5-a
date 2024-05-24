@@ -1,7 +1,7 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Core;
 using LangLang.Core.Controller;
-using LangLang.Core.Model;
+using LangLang.Core.Observer;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System.Collections.Generic;
@@ -59,8 +59,8 @@ namespace LangLang.Repositories
             if (student == null) return;
 
             var enrollmentService = new EnrollmentRequestService();
-            var examAppService = new ExamApplicationController();
-            var examService = new ExamSlotController();
+            var examAppService = new ExamApplicationService();
+            var examService = new ExamSlotService();
 
             foreach (EnrollmentRequest er in enrollmentService.GetByStudent(student)) // delete all course enrollment requests
                 enrollmentService.Delete(er.Id);
