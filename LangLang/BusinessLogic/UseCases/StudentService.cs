@@ -89,7 +89,7 @@ namespace LangLang.BusinessLogic.UseCases
         public bool CanApplyForCourses(Student student)
         {
             var examAppService = new ExamApplicationController();
-            var examResultService = new ExamResultController();
+            var examResultService = new ExamResultService();
             bool hasNoResults = examAppService.HasNoGeneratedResults(student);
             bool hasNotGradedExams = examResultService.HasNotGradedResults(student);
             return !hasNoResults && !hasNotGradedExams;
@@ -97,7 +97,7 @@ namespace LangLang.BusinessLogic.UseCases
 
         public bool CanApplyForExams(Student student)
         {
-            var examResultService = new ExamResultController();
+            var examResultService = new ExamResultService();
             if (CanApplyForCourses(student))
             {
                 bool hasPreliminaryResults = examResultService.HasPreliminaryResults(student);
