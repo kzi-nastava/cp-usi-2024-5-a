@@ -314,5 +314,9 @@ namespace LangLang.BusinessLogic.UseCases
         {
             _courses.Subscribe(observer);
         }
+        public List<Course> GetCoursesHeldInLastYear()
+        {
+            return GetAll().Where(course => course.IsHeldInLastYear()).ToList();
+        }
     }
 }
