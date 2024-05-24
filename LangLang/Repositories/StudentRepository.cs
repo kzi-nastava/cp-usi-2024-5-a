@@ -66,7 +66,7 @@ namespace LangLang.Repositories
                 enrollmentService.Delete(er.Id);
 
             foreach (ExamApplication ar in examAppService.GetApplications(student)) // delete all exam application requests
-                examAppService.Delete(ar.Id, examService);
+                examAppService.Delete(ar.Id);
 
             _students[id].Profile.IsActive = false;
             Save();
