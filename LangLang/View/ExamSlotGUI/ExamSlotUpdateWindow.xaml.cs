@@ -29,18 +29,16 @@ namespace LangLang.View.ExamSlotGUI
         public List<Course> Skills { get; set; }
         public Course SelectedCourse { get; set; }
         public ExamSlotViewModel ExamSlot { get; set; }
-        private ExamSlotService ExamSlotService { get; set; }
-        private AppController appController { get; set; }
 
-        public ExamSlotUpdateWindow(AppController appController, int selectedExamId, Tutor loggedIn)
+        public ExamSlotUpdateWindow(int selectedExamId, Tutor loggedIn)
         {
             
             //Courses = courses.Values.ToList<Course>();
             SelectedCourse = new Course();
-            ExamSlotService = appController.ExamSlotService;
-            this.appController = appController;
-            ExamSlot = new ExamSlotViewModel(ExamSlotService.Get(selectedExamId));
-            Skills = appController.CourseController.GetBySkills(loggedIn);
+            ExamSlotService examSlotService = new();
+            ExamSlot = new ExamSlotViewModel(examSlotService.Get(selectedExamId));
+            CourseService courseService = new();
+            Skills = courseService.GetBySkills(loggedIn);
 
             //Prefill(ExamSlot);
             InitializeComponent();
@@ -59,17 +57,18 @@ namespace LangLang.View.ExamSlotGUI
         {
             if (ExamSlot.IsValid)
             {
-                if (!ExamSlotService.CanBeUpdated(ExamSlot.ToExamSlot()))
+                ExamSlotService examSlotService = new();
+                if (!examSlotService.CanBeUpdated(ExamSlot.ToExamSlot()))
                 {
                     MessageBox.Show($"Exam can not be updated. There is less than {Constants.EXAM_MODIFY_PERIOD} weeks left before the exam.");
-                }else if (!ExamSlotService.CanCreateExam(ExamSlot.ToExamSlot(), appController.CourseController))
+                }else if (!examSlotService.CanCreateExam(ExamSlot.ToExamSlot()))
                 {
                     MessageBox.Show($"Exam can not be updated. You must change exams date or time.");
 
                 }
                 else
                 {
-                    ExamSlotService.Update(ExamSlot.ToExamSlot());
+                    examSlotService.Update(ExamSlot.ToExamSlot());
                     MessageBox.Show($"Exam successfuly updated.");
                     Close();
                 }

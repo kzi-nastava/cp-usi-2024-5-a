@@ -29,12 +29,12 @@ namespace LangLang.View
         public List<Course> Skills { get; set; }
         public Course SelectedCourse { get; set; }
         public ExamSlotViewModel ExamSlot { get; set; }
-        private ExamSlotService examSlotsController { get; set; }
-        public ExamSlotCreateWindow(AppController appController, Tutor loggedIn)
+        public ExamSlotCreateWindow (Tutor loggedIn)
         {
-            Skills = appController.CourseController.GetBySkills(loggedIn);
+            CourseService courseService = new();
+            Skills = courseService.GetBySkills(loggedIn);
             SelectedCourse = null;
-            examSlotsController = appController.ExamSlotService;
+
             ExamSlot = new ExamSlotViewModel();
             ExamSlot.ExamDate = DateTime.Now;
             ExamSlot.TutorId = loggedIn.Id;
@@ -46,13 +46,13 @@ namespace LangLang.View
 
         private void examSlotCreateBtn_Click(object sender, RoutedEventArgs e)
         {
-            CourseController courseController = new CourseController();
+            ExamSlotService examSlotService = new();
             if (ExamSlot.IsValid)
             {               
                 if (SelectedCourse==null) MessageBox.Show("Must select language and level.");
                 else
                 {
-                    bool added = examSlotsController.Add(ExamSlot.ToExamSlot(), courseController);
+                    bool added = examSlotService.Add(ExamSlot.ToExamSlot());
                     
                     if (!added) MessageBox.Show("Choose another exam date or time.");
                     else

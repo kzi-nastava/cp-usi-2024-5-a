@@ -31,22 +31,13 @@ namespace LangLang.View.CourseGUI
     {
         public EnrollmentRequestViewModel SelectedEnrollment { get; set; }
         public ObservableCollection<EnrollmentRequestViewModel> Enrollments { get; set; }
-        private AppController appController;
-        private EnrollmentRequestService enrollmentReqService;
-        private CourseService courseController;
-        private TutorService tutorService;
+
         private CourseViewModel course;
-        public CourseEnrollmentsWindow(AppController appController, CourseViewModel course)
+        public CourseEnrollmentsWindow(CourseViewModel course)
         {
             InitializeComponent();
             DataContext = this;
-
-            this.appController = appController;
             this.course = course;
-            enrollmentReqService = new();
-            courseController = appController.CourseController;
-            tutorService = new();
-
             Enrollments = new();
 
             rejectBtn.IsEnabled = false;
@@ -63,7 +54,8 @@ namespace LangLang.View.CourseGUI
             {
                 EnrollmentRequest enrollment = SelectedEnrollment.ToEnrollmentRequest();
                 enrollment.UpdateStatus(Status.Rejected);
-                enrollmentReqService.Update(enrollment);
+                EnrollmentRequestService enrollmentRequestService = new();
+                enrollmentRequestService.Update(enrollment);
                 Update();
                 InputPopupWindow inputPopup = new InputPopupWindow();
                 inputPopup.ShowDialog();
@@ -76,7 +68,8 @@ namespace LangLang.View.CourseGUI
         public void Update()
         {
             Enrollments.Clear();
-            foreach (EnrollmentRequest enrollment in enrollmentReqService.GetByCourse(course.ToCourse()))
+            EnrollmentRequestService enrollmentRequestService = new();
+            foreach (EnrollmentRequest enrollment in enrollmentRequestService.GetByCourse(course.ToCourse()))
             {
                 if(enrollment.Status == Status.Pending)
                 {
@@ -101,7 +94,8 @@ namespace LangLang.View.CourseGUI
                         if(enrollment.Status != Core.Model.Enums.Status.Rejected)
                         {
                             enrollment.UpdateStatus(Status.Accepted);
-                            enrollmentReqService.Update(enrollment);
+                            EnrollmentRequestService enrollmentRequestService = new();
+                            enrollmentRequestService.Update(enrollment);
                             NotifyStudentAboutAcceptence(enrollment.StudentId);
                         }
                     }
@@ -116,7 +110,8 @@ namespace LangLang.View.CourseGUI
         {
             course.Modifiable = modifiable;
             course.NumberOfStudents = studentsCount;
-            courseController.Update(course.ToCourse());
+            CourseService courseService = new();
+            courseService.Update(course.ToCourse());
         }
         private void NotifyStudentAboutAcceptence(int studentId)
         {

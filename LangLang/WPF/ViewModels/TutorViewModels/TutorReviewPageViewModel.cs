@@ -36,7 +36,7 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
 
         public void DeleteTutor()
         {
-            var courseService = new CourseController();
+            var courseService = new CourseService();
             var tutorService = new TutorService();
 
             courseService.DeleteByTutor(SelectedTutor.ToTutor());

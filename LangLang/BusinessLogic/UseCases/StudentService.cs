@@ -57,7 +57,7 @@ namespace LangLang.BusinessLogic.UseCases
         public bool CanRequestEnrollment(Student student)
         {
             var enrollmentService = new EnrollmentRequestService();
-            var courseService = new CourseController();
+            var courseService = new CourseService();
             var withdrawalService = new WithdrawalRequestService();
 
             foreach (EnrollmentRequest er in enrollmentService.GetByStudent(student))

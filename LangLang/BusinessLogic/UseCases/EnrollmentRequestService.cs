@@ -112,7 +112,7 @@ namespace LangLang.BusinessLogic.UseCases
 
         public EnrollmentRequest? GetActiveCourseRequest(Student student)
         {
-            var courseService = new CourseController();
+            var courseService = new CourseService();
             var studentRequests = GetByStudent(student);
 
             foreach (var request in studentRequests)

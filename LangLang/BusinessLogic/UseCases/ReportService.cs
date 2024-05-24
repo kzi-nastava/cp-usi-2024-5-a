@@ -2,6 +2,7 @@
 using LangLang.Core;
 using LangLang.Core.Controller;
 using LangLang.Core.Model;
+using LangLang.Core.Model.DAO;
 using LangLang.Domain.Models;
 using System.Collections.Generic;
 
@@ -12,8 +13,8 @@ namespace LangLang.BusinessLogic.UseCases
         public Dictionary<Course, int> GetPenaltiesLastYear()
         {
             var penaltiesByCourse = new Dictionary<Course, int>();
-            var penaltyService = new PenaltyPointController();
-            var courseService = new CourseController();
+            var penaltyService = new PenaltyPointService();
+            var courseService = new CourseService();
 
             foreach (var course in courseService.GetCoursesHeldInLastYear())
             {
@@ -26,7 +27,7 @@ namespace LangLang.BusinessLogic.UseCases
 
         public Dictionary<(Course, int), double> GetAverageGradeByPenaltyCount()
         {
-            var courseService = new CourseController();
+            var courseService = new CourseService();
             var averageGrades = new Dictionary<(Course, int), double>(); // key is pair (course, penaltyCount), value is avg grade
 
             foreach (var course in courseService.GetCoursesHeldInLastYear())
@@ -43,8 +44,8 @@ namespace LangLang.BusinessLogic.UseCases
 
         private double GetAverageGrade(Course course, int points)
         {
-            var gradeService = new GradeController();
-            var penaltyService = new PenaltyPointController();
+            var gradeService = new GradeService();
+            var penaltyService = new PenaltyPointService();
             List<Student> students = penaltyService.GetStudentsByPenaltyCount(course, points);
             return gradeService.GetAverageGrade(students, course);
         }

@@ -50,7 +50,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             return new Grade(Id, CourseId, StudentId, ActivityGrade, KnowledgeGrade);
         }
 
-        public GradeViewModel(Grade grade, AppController appController)
+        public GradeViewModel(Grade grade)
         {
             Id = grade.Id;
             CourseId = grade.CourseId;

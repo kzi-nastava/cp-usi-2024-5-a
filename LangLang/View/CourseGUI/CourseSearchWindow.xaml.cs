@@ -26,22 +26,21 @@ namespace LangLang.View.CourseGUI
     /// </summary>
     public partial class CourseSearchWindow : Window
     {
-        private CourseService courseService;
         private ObservableCollection<CourseViewModel> courses;
         private List<Course> coursesForReview;
         private int tutorId { get; set; }
-        public CourseSearchWindow(AppController appController, Tutor loggedIn)
+        public CourseSearchWindow(Tutor loggedIn)
         {
 
             InitializeComponent();
             DataContext = this;
 
             this.tutorId = tutorId;
-            this.courseService = new();
 
             this.courses = new ObservableCollection<CourseViewModel>();
-            
-            coursesForReview = this.courseService.GetByTutor(tutorId);
+
+            CourseService courseService = new();
+            coursesForReview = courseService.GetByTutor(tutorId);
 
             levelCoursecb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
 
@@ -67,13 +66,15 @@ namespace LangLang.View.CourseGUI
             DateTime courseStartDate = courseStartdp.SelectedDate ?? default;
             int duration = 0;
             int.TryParse(durationtb.Text, out duration);
-            coursesForReview =  this.courseService.SearchCoursesByTutor(tutorId, language, level, courseStartDate, duration, !onlinecb.IsChecked);
+            CourseService courseService = new();
+            coursesForReview =  courseService.SearchCoursesByTutor(tutorId, language, level, courseStartDate, duration, !onlinecb.IsChecked);
             Update();
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
-            coursesForReview = this.courseService.GetByTutor(tutorId);
+            CourseService courseService = new();
+            coursesForReview = courseService.GetByTutor(tutorId);
             levelCoursecb.SelectedItem = null;
             Update();
         }

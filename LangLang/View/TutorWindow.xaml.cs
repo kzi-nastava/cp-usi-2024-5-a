@@ -21,29 +21,21 @@ namespace LangLang
     /// </summary>
     public partial class TutorWindow : Window, IObserver
     {
-        private TutorService tutorService;
         // EXAM SLOTS
         public ObservableCollection<ExamSlotViewModel> ExamSlots { get; set; }
         public ExamSlotViewModel SelectedExamSlot { get; set; }
-        private ExamSlotService ExamSlotService { get; set; }
 
         // COURSES
         public ObservableCollection<CourseViewModel> Courses { get; set; }
         public CourseViewModel SelectedCourse { get; set; }
-        private CourseController courseController { get; set; }
-
-        private AppController appController { get; set; }
 
         public Tutor LoggedIn { get; set; }
-        public TutorWindow(AppController appController, Profile currentlyLoggedIn)
+        public TutorWindow(Profile currentlyLoggedIn)
         {
             InitializeComponent();
             DataContext = this;
 
-            this.appController = appController;
-            ExamSlotService = appController.ExamSlotService;
-            courseController = appController.CourseController;
-            tutorService = new();
+            TutorService tutorService = new();
 
             LoggedIn = tutorService.Get(currentlyLoggedIn.Id);
             ExamSlots = new ObservableCollection<ExamSlotViewModel>();
@@ -51,9 +43,10 @@ namespace LangLang
 
             DisableButtonsES();
             DisableButtonsCourse();
-
-            courseController.Subscribe(this);
-            ExamSlotService.Subscribe(this);
+            CourseService courseService = new();
+            courseService.Subscribe(this);
+            ExamSlotService examSlotService = new();
+            examSlotService.Subscribe(this);
 
             Update();
         }
@@ -61,15 +54,17 @@ namespace LangLang
         public void Update()
         {
             ExamSlots.Clear();
+            ExamSlotService examSlotService = new();
+            CourseService courseService = new();
 
-            foreach (ExamSlot exam in ExamSlotService.GetExams(LoggedIn))
+            foreach (ExamSlot exam in examSlotService.GetExams(LoggedIn))
             {
                 ExamSlots.Add(new ExamSlotViewModel(exam));
             }
 
             Courses.Clear();
 
-            foreach (Course course in courseController.GetByTutor(LoggedIn))
+            foreach (Course course in courseService.GetByTutor(LoggedIn))
             {
                 Courses.Add(new CourseViewModel(course));
             }
@@ -77,21 +72,23 @@ namespace LangLang
 
         private void ExamSlotCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotCreateWindow createWindow = new (appController, LoggedIn);
+            ExamSlotCreateWindow createWindow = new (LoggedIn);
             createWindow.Show();
         }
 
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotUpdateWindow updateWindow = new (appController, SelectedExamSlot.Id, LoggedIn);
-            if(ExamSlotService.CanBeUpdated(SelectedExamSlot.ToExamSlot()))
+            ExamSlotService examSlotService = new();
+            ExamSlotUpdateWindow updateWindow = new (SelectedExamSlot.Id, LoggedIn);
+            if(examSlotService.CanBeUpdated(SelectedExamSlot.ToExamSlot()))
                 updateWindow.Show();
             else
                 MessageBox.Show($"Can't update exam, there is less than {Constants.EXAM_MODIFY_PERIOD} days before exam or exam has passed.");
         }
         private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (!ExamSlotService.Delete(SelectedExamSlot.Id))
+            ExamSlotService examSlotService = new();
+            if (!examSlotService.Delete(SelectedExamSlot.Id))
             {
                 MessageBox.Show($"Can't delete exam, there is less than {Constants.EXAM_MODIFY_PERIOD} days before exam.");
             }
@@ -104,22 +101,23 @@ namespace LangLang
         }
         private void CourseCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            CourseCreateWindow createWindow = new (appController, LoggedIn);
+            CourseCreateWindow createWindow = new (LoggedIn);
             createWindow.Show();
         }
 
         private void CourseSearchWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            CourseSearchWindow searchWindow = new (appController, LoggedIn);
+            CourseSearchWindow searchWindow = new (LoggedIn);
             searchWindow.Show();
         }
 
         
         private void CourseUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (courseController.CanChange(SelectedCourse.Id))
+            CourseService courseService = new();
+            if (courseService.CanChange(SelectedCourse.Id))
             {
-                CourseUpdateWindow updateWindow = new (appController, SelectedCourse.Id);
+                CourseUpdateWindow updateWindow = new (SelectedCourse.Id);
                 updateWindow.Show();
             }
             else
@@ -130,9 +128,10 @@ namespace LangLang
 
         private void CourseDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (courseController.CanChange(SelectedCourse.Id))
+            CourseService courseService = new();
+            if (courseService.CanChange(SelectedCourse.Id))
             {
-                courseController.Delete(SelectedCourse.Id);
+                courseService.Delete(SelectedCourse.Id);
                 Update();
                 MessageBox.Show("The course has been successfully deleted.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -144,9 +143,10 @@ namespace LangLang
 
         private void EnterGradeBtn_Click(object sender, RoutedEventArgs e)
         {
-            if(courseController.GetEnd(SelectedCourse.ToCourse()) < DateTime.Now)
+            CourseService courseService = new();
+            if (courseService.GetEnd(SelectedCourse.ToCourse()) < DateTime.Now)
             {
-                EnterGradesWindow gradesWindow = new(appController, SelectedCourse);
+                EnterGradesWindow gradesWindow = new(SelectedCourse);
                 gradesWindow.Show();
             }
             else
@@ -156,9 +156,10 @@ namespace LangLang
         }
         private void DurationOfCourseBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (courseController.IsActive(SelectedCourse.ToCourse()))
+            CourseService courseService = new();
+            if (courseService.IsActive(SelectedCourse.ToCourse()))
             {
-                DurationOfCourseWindow courseWindow = new(appController, SelectedCourse);
+                DurationOfCourseWindow courseWindow = new(SelectedCourse);
                 courseWindow.Show();
             }
             else
@@ -172,7 +173,7 @@ namespace LangLang
         {
             if (SelectedCourse.Modifiable)
             {
-                CourseEnrollmentsWindow enrollmentsWindow = new (appController, SelectedCourse);
+                CourseEnrollmentsWindow enrollmentsWindow = new (SelectedCourse);
                 enrollmentsWindow.Show();
             }
             else
@@ -212,7 +213,7 @@ namespace LangLang
 
         private void ExamSlotSearchBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotSearchWindow searchWindow = new (appController, LoggedIn);
+            ExamSlotSearchWindow searchWindow = new (LoggedIn);
             searchWindow.Show();
         }
 
@@ -234,9 +235,10 @@ namespace LangLang
 
         private void ButtonSeeApplications_Click(object sender, RoutedEventArgs e)
         {
-            if (ExamSlotService.ApplicationsVisible(SelectedExamSlot.Id) && SelectedExamSlot.Applicants != 0)
+            ExamSlotService examSlotService = new();
+            if (examSlotService.ApplicationsVisible(SelectedExamSlot.Id) && SelectedExamSlot.Applicants != 0)
             {
-                ExamApplications applicationsWindow = new(appController, SelectedExamSlot);
+                ExamApplications applicationsWindow = new(SelectedExamSlot);
                 applicationsWindow.Show();
             }
             else
@@ -249,7 +251,7 @@ namespace LangLang
         {
             if (SelectedExamSlot.ExamDate.AddHours(Constants.EXAM_DURATION) < DateTime.Now) // after the EXAM_DURATION-hour exam concludes, it is possible to open a window.
             {
-                EnterResults resultsWindow = new(appController, SelectedExamSlot);
+                EnterResults resultsWindow = new(SelectedExamSlot);
                 resultsWindow.Show();
             }
             else
