@@ -2,7 +2,7 @@
 using LangLang.Core.Controller;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.RequestsViewModels;
-using LangLang.WPF.Views;
+using LangLang.WPF.Views.StudentView;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

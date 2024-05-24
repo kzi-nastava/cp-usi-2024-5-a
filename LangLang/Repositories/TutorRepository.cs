@@ -1,5 +1,4 @@
-﻿using LangLang.Core.Observer;
-using LangLang.Domain.Models;
+﻿using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System.Collections.Generic;
 using LangLang.Core;
@@ -10,7 +9,7 @@ using System;
 
 namespace LangLang.Repositories
 {
-    public class TutorRepository : Subject, ITutorRepository
+    public class TutorRepository : ITutorRepository
     {
 
         private readonly Dictionary<int, Tutor> _tutors;
@@ -25,7 +24,6 @@ namespace LangLang.Repositories
         {
             _tutors.Add(tutor.Profile.Id, tutor);
             Save();
-            NotifyObservers();
         }
 
         public void Deactivate(int id)
@@ -36,7 +34,6 @@ namespace LangLang.Repositories
             _tutors[id].Profile.IsActive = false;
 
             Save();
-            NotifyObservers();
         }
 
         public Tutor Get(int id)
@@ -47,6 +44,11 @@ namespace LangLang.Repositories
         public List<Tutor> GetAll()
         {
             return _tutors.Values.ToList();
+        }
+
+        public List<Tutor> GetActive()
+        {
+            return GetAll().ToList().Where(tutor => tutor.Profile.IsActive == true).ToList();
         }
 
         public void Save()
@@ -77,7 +79,6 @@ namespace LangLang.Repositories
             oldTutor.EmploymentDate = tutor.EmploymentDate;
 
             Save();
-            NotifyObservers();
         }
 
         // NOTE: The methods below are temporary until connecting to the database.

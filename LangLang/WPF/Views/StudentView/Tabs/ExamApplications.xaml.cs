@@ -3,7 +3,7 @@ using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.ExamViewModel;
-using LangLang.WPF.Views;
+using LangLang.WPF.Views.StudentView;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

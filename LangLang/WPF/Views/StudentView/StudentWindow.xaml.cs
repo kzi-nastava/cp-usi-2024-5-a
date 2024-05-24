@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using LangLang.WPF.ViewModels.StudentViewModels;
 using LangLang.View.StudentGUI.Tabs;
 
-namespace LangLang.WPF.Views
+namespace LangLang.WPF.Views.StudentView
 {
     public partial class StudentWindow : Window, IObserver
     {
