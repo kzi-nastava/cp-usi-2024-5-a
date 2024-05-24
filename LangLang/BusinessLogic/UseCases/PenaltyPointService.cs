@@ -94,6 +94,30 @@ namespace LangLang.Core.Model.DAO
             }
             return false;
         }
+        private bool HasNPenaltiesOnCourse(Course course, int studentId, int n)
+        {
+            return n == GetAll().Count(point => point.CourseId == course.Id && point.StudentId == studentId);
+        }
+        public List<Student> GetStudentsByPenaltyCount(Course course, int penaltyCount)
+        {
+            List<Student> students = new();
+            var studentService = new StudentService();
+            foreach (var point in GetByCourse(course))
+            {
+                var student = studentService.Get(point.StudentId);
+                if (HasNPenaltiesOnCourse(course, student.Id, penaltyCount))
+                    students.Add(student);
+            }
+            return students;
+        }
+        public int CountByCourse(Course course)
+        {
+            return GetAll().Count(point => point.CourseId == course.Id);
+        }
 
+        public List<PenaltyPoint> GetByCourse(Course course)
+        {
+            return GetAll().Where(point => point.CourseId == course.Id).ToList();
+        }
     }
 }
