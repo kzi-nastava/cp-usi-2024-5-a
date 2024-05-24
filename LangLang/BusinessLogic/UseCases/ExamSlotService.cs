@@ -27,6 +27,7 @@ namespace LangLang.BusinessLogic.UseCases
         {
             _exams = Injector.CreateInstance<IExamSlotRepository>();
         }
+
         private int GenerateId()
         {
             var last = GetAll().LastOrDefault();
