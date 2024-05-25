@@ -78,9 +78,6 @@ namespace LangLang.Repositories
                 int id = int.Parse(values[0]);
                 int studentId = int.Parse(values[1]);
                 int examSlotId = int.Parse(values[2]);
-                Status status = (Status)Enum.Parse(typeof(Status), values[3]);
-                DateTime requestSentAt;
-                DateTime lastModifiedAt;
                 DateTime sentAt;
                 try
                 {
