@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LangLang.Core.Model;
+﻿using System.Collections.Generic;
 using LangLang.Domain.Enums;
 
 namespace LangLang.Domain.Models

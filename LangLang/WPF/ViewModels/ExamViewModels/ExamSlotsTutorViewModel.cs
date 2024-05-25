@@ -1,19 +1,10 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Configuration;
-using LangLang.Core;
 using LangLang.Domain.Models;
 using LangLang.View.ExamSlotGUI;
-using LangLang.WPF.ViewModels.CourseViewModels;
 using LangLang.WPF.ViewModels.ExamViewModel;
-using LangLang.WPF.ViewModels.RequestsViewModels;
-using LangLang.WPF.Views.StudentView;
 using LangLang.WPF.Views.TutorView.Tabs;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace LangLang.WPF.ViewModels.ExamViewModels

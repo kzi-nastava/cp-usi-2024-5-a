@@ -1,19 +1,8 @@
-﻿using LangLang.Core.Model;
-using LangLang.View;
-using LangLang.View.CourseGUI;
-using LangLang.View.ExamSlotGUI;
-using LangLang.Core.Observer;
-using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System;
 using LangLang.Domain.Models;
 using LangLang.BusinessLogic.UseCases;
-using LangLang.WPF.ViewModels.CourseViewModels;
-using LangLang.WPF.ViewModels.ExamViewModel;
-using LangLang.WPF.Views.DirectorView.Tabs;
 using LangLang.WPF.Views.TutorView.Tabs;
-using LangLang.Configuration;
 
 namespace LangLang
 {
