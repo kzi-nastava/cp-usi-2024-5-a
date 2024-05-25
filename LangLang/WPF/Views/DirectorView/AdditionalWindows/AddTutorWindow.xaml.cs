@@ -1,5 +1,4 @@
-﻿using LangLang.Core.Model;
-using LangLang.Domain.Enums;
+﻿using LangLang.Domain.Enums;
 using LangLang.WPF.ViewModels.TutorViewModels;
 using System;
 using System.ComponentModel;

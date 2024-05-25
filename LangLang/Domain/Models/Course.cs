@@ -1,5 +1,4 @@
 ﻿using LangLang.Configuration;
-using LangLang.Core.Model;
 using System;
 using System.Collections.Generic;
 using System.Data;

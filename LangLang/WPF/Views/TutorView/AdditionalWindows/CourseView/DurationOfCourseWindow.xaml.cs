@@ -7,7 +7,6 @@ using LangLang.WPF.ViewModels.StudentViewModels;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using LangLang.WPF.ViewModels.RequestsViewModels;
-using LangLang.Core.Model.DAO;
 
 namespace LangLang.View.CourseGUI
 {

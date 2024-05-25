@@ -1,6 +1,5 @@
 ﻿
 using LangLang.BusinessLogic.UseCases;
-using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using LangLang.WPF.Views.DirectorView.AdditionalWindows;
 using LangLang.WPF.Views.DirectorView.Tabs;

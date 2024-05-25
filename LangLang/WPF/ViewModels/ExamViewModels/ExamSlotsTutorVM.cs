@@ -18,12 +18,12 @@ using System.Windows;
 
 namespace LangLang.WPF.ViewModels.ExamViewModels
 {
-    public class ExamSlotsTutorViewModel
+    public class ExamSlotsTutorVM
     {
         public ObservableCollection<ExamSlotViewModel> ExamSlots { get; set; }
         public ExamSlotViewModel SelectedExamSlot { get; set; }
         public Tutor LoggedIn { get;set; }
-        public ExamSlotsTutorViewModel(Tutor LoggedIn)
+        public ExamSlotsTutorVM(Tutor LoggedIn)
         {
             this.LoggedIn = LoggedIn;
             ExamSlots = new ObservableCollection<ExamSlotViewModel>();

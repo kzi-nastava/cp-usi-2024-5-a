@@ -1,5 +1,4 @@
-﻿using LangLang.Core.Model;
-using LangLang.Core.Observer;
+﻿using LangLang.Core.Observer;
 using LangLang.Domain.Models;
 using System;
 using System.Collections.Generic;
