@@ -1,25 +1,10 @@
-﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Domain.Models;
+﻿using LangLang.Domain.Models;
 using LangLang.View;
-using LangLang.View.CourseGUI;
 using LangLang.View.ExamSlotGUI;
-using LangLang.View.StudentGUI.Tabs;
-using LangLang.WPF.ViewModels.CourseViewModels;
 using LangLang.WPF.ViewModels.ExamViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace LangLang.WPF.Views.TutorView.Tabs
 {

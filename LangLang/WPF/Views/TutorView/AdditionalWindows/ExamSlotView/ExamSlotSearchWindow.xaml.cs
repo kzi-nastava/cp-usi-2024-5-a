@@ -1,5 +1,4 @@
-﻿
-using LangLang.Domain.Enums;
+﻿using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.ExamViewModels;
 using System;

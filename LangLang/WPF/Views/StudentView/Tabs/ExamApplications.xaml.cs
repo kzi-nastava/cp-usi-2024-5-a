@@ -1,12 +1,6 @@
-﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Configuration;
-using LangLang.Domain.Models;
-using LangLang.WPF.ViewModels.ExamViewModel;
+﻿using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.ExamViewModels;
 using LangLang.WPF.Views.StudentView;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
