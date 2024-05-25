@@ -49,11 +49,11 @@ namespace LangLang.WPF.Views.StudentView
             AvailableCoursesTab = new(CurrentlyLoggedIn, this);
             AddTab("Available courses", AvailableCoursesTab);
             
-            //availableExamsTab = new(currentlyLoggedIn, this);
-            //AddTab("Available exams", availableExamsTab);
+            AvailableExamsTab = new(CurrentlyLoggedIn, this);
+            AddTab("Available exams", AvailableExamsTab);
             
-            //examApplicationsTab = new(currentlyLoggedIn, this);
-            //AddTab("Exam applications", examApplicationsTab);
+            ExamApplicationsTab = new(CurrentlyLoggedIn, this);
+            AddTab("Exam applications", ExamApplicationsTab);
             
             EnrollmentRequestsTab = new(CurrentlyLoggedIn, this);
             AddTab("Course enrollment requests", EnrollmentRequestsTab);
