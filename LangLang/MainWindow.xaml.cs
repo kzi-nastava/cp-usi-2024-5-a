@@ -1,5 +1,6 @@
 using System.Windows;
 using LangLang.WPF.ViewModels;
+using LangLang.Domain.Models;
 
 namespace LangLang
 {

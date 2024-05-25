@@ -1,5 +1,4 @@
 ﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.TutorViewModels;
 using LangLang.WPF.Views.StudentView.AdditionalWindows;

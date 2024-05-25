@@ -1,5 +1,4 @@
 ﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Core.Model;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.ExamViewModel;
@@ -7,10 +6,8 @@ using LangLang.WPF.Views.StudentView;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace LangLang.View.StudentGUI.Tabs
 {
