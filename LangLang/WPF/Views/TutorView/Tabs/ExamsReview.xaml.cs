@@ -2,6 +2,7 @@
 using LangLang.Domain.Models;
 using LangLang.View;
 using LangLang.View.CourseGUI;
+using LangLang.View.ExamSlotGUI;
 using LangLang.View.StudentGUI.Tabs;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using LangLang.WPF.ViewModels.ExamViewModels;
@@ -57,14 +58,16 @@ namespace LangLang.WPF.Views.TutorView.Tabs
         {
             deleteExamBtn.IsEnabled = false;
             updateExamBtn.IsEnabled = false;
-
+            examApplicationBtn.IsEnabled = false;
+            enterResultsBtn.IsEnabled = false;
         }
 
         private void EnableButtonsES()
         {
             deleteExamBtn.IsEnabled = true;
             updateExamBtn.IsEnabled = true;
-
+            examApplicationBtn.IsEnabled = true;
+            enterResultsBtn.IsEnabled = true;
         }
         private void ExamSlotsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -105,5 +108,43 @@ namespace LangLang.WPF.Views.TutorView.Tabs
             }
             */
         }
+        private void ExamSlotSearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //ExamSlotSearchWindow searchWindow = new( LoggedIn);
+            //searchWindow.Show();
+        }
+
+        
+
+        private void ButtonSeeApplications_Click(object sender, RoutedEventArgs e)
+        {
+            /*
+            if (ExamSlotService.ApplicationsVisible(SelectedExamSlot.Id) && SelectedExamSlot.Applicants != 0)
+            {
+                ExamApplications applicationsWindow = new(appController, SelectedExamSlot);
+                applicationsWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show($"If there are applications, they can only be viewed {Constants.PRE_START_VIEW_PERIOD} days before exam and during the exam.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            */
+        }
+
+        private void ButtonEnterResults_Click(object sender, RoutedEventArgs e)
+        {
+            /*
+            if (SelectedExamSlot.ExamDate.AddHours(Constants.EXAM_DURATION) < DateTime.Now) // after the EXAM_DURATION-hour exam concludes, it is possible to open a window.
+            {
+                EnterResults resultsWindow = new(appController, SelectedExamSlot);
+                resultsWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("This window can be opened once the exam is passed!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            */
+        }
+
     }
 }

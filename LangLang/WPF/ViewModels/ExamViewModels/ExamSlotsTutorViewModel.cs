@@ -1,4 +1,5 @@
 ﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.Configuration;
 using LangLang.Core;
 using LangLang.Domain.Models;
 using LangLang.View.ExamSlotGUI;
