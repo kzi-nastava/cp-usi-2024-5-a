@@ -27,8 +27,9 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
             
             this.loggedIn = loggedIn;
             this._parent = parent;
-            SetDataForReview();
             ExamSlots = new();
+            SetDataForReview();
+
         }
 
         public void SetDataForReview()
@@ -36,6 +37,11 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
             //TODO: Update to show only available exams tat student hasn't applied for
             ExamSlotService examsService = new();
             ExamsForReview = examsService.GetAvailableExams(loggedIn);
+            foreach(ExamSlot exam in ExamsForReview)
+            {
+                ExamSlots.Add(new ExamSlotViewModel(exam));
+
+            }
         }
         
         public void SendApplication()
@@ -54,9 +60,10 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
 
                 MessageBox.Show("You successfully applied for exam.");
 
-                SetDataForReview();
                 //parentWindow.examApplicationsTab.SetDataForReview();
                 _parent.Update();
+                SetDataForReview();
+
             }
             else
             {
