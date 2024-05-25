@@ -1,5 +1,5 @@
-﻿using LangLang.Core.Model;
-using LangLang.Domain.Models;
+﻿using LangLang.Domain.Models;
+using LangLang.Domain.Enums;
 using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace LangLang.WPF.ViewModels.StudentViewModels
 {
-    public class StudentViewModel : INotifyPropertyChanged
+    public class StudentViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         public StudentViewModel() { }
         public int Id { get; set; }
@@ -196,9 +196,11 @@ namespace LangLang.WPF.ViewModels.StudentViewModels
             }
         }
 
+        public string Error => throw new NotImplementedException();
+
         public Student ToStudent()
         {
-            return new Student(Id, name, lastName, gender, birthDate, phoneNumber, email, password, UserType.Student, false, profession);
+            return new Student(Id, name, lastName, gender, birthDate, phoneNumber, email, password, UserType.Student, true, profession);
         }
 
         public StudentViewModel(Student student)

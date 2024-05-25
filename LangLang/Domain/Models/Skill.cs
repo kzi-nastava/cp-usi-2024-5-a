@@ -1,10 +1,10 @@
-﻿using LangLang.Domain.Models.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LangLang.Core.Model;
+using LangLang.Domain.Enums;
 
 namespace LangLang.Domain.Models
 {

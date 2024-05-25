@@ -1,7 +1,7 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Core.Model;
+using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
-using LangLang.Domain.Models.Enums;
 using LangLang.WPF.ViewModels.ExamViewModel;
 using LangLang.WPF.Views.StudentView;
 using System;

@@ -1,7 +1,9 @@
 ﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
-using LangLang.Domain.Models.Enums;
 using LangLang.WPF.ViewModels.CourseViewModels;
+using LangLang.WPF.ViewModels.TutorViewModels;
+using LangLang.WPF.Views.TutorView.Tabs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,49 +25,27 @@ namespace LangLang.View.CourseGUI
     /// </summary>
     public partial class CourseCreateWindow : Window
     {
-        public CourseViewModel Course { get; set; }
-        public CourseCreateWindow(Tutor loggedIn)
+        public CreateCoursePageViewModel CreateCourseViewModel { get; set; }
+        private Courses _parent;
+        public CourseCreateWindow(Courses parent)
         {
-            Course = new CourseViewModel();
-            Course.TutorId = loggedIn.Id;
             InitializeComponent();
-            DataContext = this;
-            languageLvlCb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
-            classsroomCb.IsChecked = false;
-            maxNumOfStudentsTb.IsEnabled = false;
-            mon.IsChecked = false;
-            tue.IsChecked = false;
-            wed.IsChecked = false;
-            thu.IsChecked = false;
-            fri.IsChecked = false;
-            startDateDp.SelectedDate = DateTime.Now;
+            _parent = parent;
+            CreateCourseViewModel = new();
+            DataContext = CreateCourseViewModel;
+            SetUpForm();
         }
 
         private void CourseCreateBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (Course.IsValid)
+            if (CreateCourseViewModel.CreateCourse())
             {
-                var courseService = new CourseService();
-                if (courseService.CanCreateOrUpdate(Course.ToCourse()))
-                {
-                    courseService.Add(Course.ToCourse());
-                    MessageBox.Show("Success!");
-                    Close();
-                }
-                else
-                {
-                    MessageBox.Show("The course cannot be created, there are time overlaps or no available classroms (if the course is held in a classroom).");
-                }
+                _parent.CoursesViewModel.Update();
+                Close();
             }
-            else
-            {
-                MessageBox.Show("Something went wrong. Please check all fields in the form.");
-            }
-
         }
 
         // Method enables textbox for maxNumOfStudents when the course is to be held in a classroom
-
         private void ClasssroomCb_Checked(object sender, RoutedEventArgs e)
         {
             maxNumOfStudentsTb.IsEnabled = true;
@@ -76,6 +56,19 @@ namespace LangLang.View.CourseGUI
         {
             maxNumOfStudentsTb.IsEnabled = false;
             inClassroomErrorTb.Text = "";
+        }
+
+        private void SetUpForm()
+        {
+            languageLvlCb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
+            classsroomCb.IsChecked = false;
+            maxNumOfStudentsTb.IsEnabled = false;
+            mon.IsChecked = false;
+            tue.IsChecked = false;
+            wed.IsChecked = false;
+            thu.IsChecked = false;
+            fri.IsChecked = false;
+            startDateDp.SelectedDate = DateTime.Now;
         }
     }
 }

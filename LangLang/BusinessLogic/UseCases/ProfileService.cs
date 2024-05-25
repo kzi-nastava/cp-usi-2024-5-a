@@ -1,6 +1,6 @@
 ﻿
-using LangLang.Core.Model;
 using LangLang.Domain.Models;
+using LangLang.Domain.Enums;
 using System.Collections.Generic;
 
 namespace LangLang.BusinessLogic.UseCases

@@ -1,42 +1,25 @@
-﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Core.Model;
+﻿using LangLang.Domain.Enums;
 using LangLang.WPF.ViewModels.StudentViewModels;
 using System;
 using System.Windows;
+
 namespace LangLang.WPF.Views.StudentView
 {
     public partial class Registration : Window
     {
-        public StudentViewModel Student { get; set; }
+        public RegistrationViewModel ViewModel {  get; set; }
 
         public Registration()
         {
             InitializeComponent();
-            DataContext = this;
-            Student = new StudentViewModel();
+            ViewModel = new();
+            DataContext = ViewModel;
             gendercb.ItemsSource = Enum.GetValues(typeof(Gender));
         }
 
         private void SignUp_Click(object sender, RoutedEventArgs e)
         {
-            var profileService = new ProfileService();
-            var studentService = new StudentService();
-            
-            if (!Student.IsValid)
-            {
-                MessageBox.Show("Something went wrong. Please check all fields in registration form.");
-                return;
-            }
-
-            if (profileService.EmailExists(Student.Email))
-            {
-                MessageBox.Show("Email already exists. Try with a different email address.");
-                return;
-            }
-            
-            studentService.Add(Student.ToStudent());
-            MessageBox.Show("Success!");
-            Close();
+            if (ViewModel.SignUp()) Close();
         }
 
     }

@@ -1,6 +1,4 @@
-﻿
-
-using LangLang.Core.Model;
+﻿using LangLang.Domain.Enums;
 using System.Windows;
 using System;
 using LangLang.BusinessLogic.UseCases;

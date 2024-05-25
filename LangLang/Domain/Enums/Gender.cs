@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LangLang.Core.Model.Enums
+namespace LangLang.Domain.Enums
 {
-    public enum ResultStatus
+    public enum Gender
     {
-        Preliminary,
-        Final
+        Male,
+        Female
     }
 }

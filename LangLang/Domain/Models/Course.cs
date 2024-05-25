@@ -1,6 +1,5 @@
-﻿using LangLang.Core;
+﻿using LangLang.Configuration;
 using LangLang.Core.Model;
-using LangLang.Domain.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using LanguageLevel = LangLang.Domain.Models.Enums.LanguageLevel;
+using LanguageLevel = LangLang.Domain.Enums.LanguageLevel;
 
 namespace LangLang.Domain.Models
 {

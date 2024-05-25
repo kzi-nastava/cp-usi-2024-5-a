@@ -1,5 +1,5 @@
 ﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Core.Model;
+using LangLang.Domain.Enums;
 using System.Windows;
 
 namespace LangLang.WPF.ViewModels.TutorViewModels

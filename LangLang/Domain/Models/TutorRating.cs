@@ -1,5 +1,4 @@
-﻿using LangLang.Core.Repository.Serialization;
-
+﻿
 namespace LangLang.Domain.Models
 {
     public class TutorRating 

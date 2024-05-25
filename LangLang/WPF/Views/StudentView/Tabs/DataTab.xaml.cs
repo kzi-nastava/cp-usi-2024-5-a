@@ -1,5 +1,5 @@
-﻿using LangLang.Core.Model;
-using LangLang.Domain.Models;
+﻿using LangLang.Domain.Models;
+using LangLang.Domain.Enums;
 using LangLang.WPF.ViewModels.StudentViewModels;
 using System;
 using System.Windows;
