@@ -1,4 +1,5 @@
-﻿using LangLang.Domain.Models;
+﻿using LangLang.Core.Model;
+using LangLang.Domain.Models;
 using System;
 using System.Collections.Generic;
 

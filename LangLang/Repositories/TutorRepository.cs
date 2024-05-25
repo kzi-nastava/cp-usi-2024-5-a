@@ -3,6 +3,7 @@ using LangLang.Domain.RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using LangLang.Core.Model;
 using System;
 using LangLang.Domain.Enums;
 using LangLang.Configuration;

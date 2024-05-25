@@ -28,11 +28,11 @@ namespace LangLang.WPF.Views.TutorView.Tabs
     /// </summary>
     public partial class ExamsReview : UserControl
     {
-        public ExamSlotsTutorVM ExamsTutorVM { get; set; }
+        public ExamSlotsTutorViewModel ExamsTutorVM { get; set; }
         public ExamsReview(Tutor LoggedIn)
         {
             InitializeComponent();
-            ExamsTutorVM = new ExamSlotsTutorVM(LoggedIn);
+            ExamsTutorVM = new ExamSlotsTutorViewModel(LoggedIn);
             DataContext = ExamsTutorVM;
 
             Update();
@@ -53,11 +53,6 @@ namespace LangLang.WPF.Views.TutorView.Tabs
         private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
             ExamsTutorVM.DeleteExam();
-        }
-        private void ExamSlotSearchBtn_Click(object sender, RoutedEventArgs e)
-        {
-            ExamSlotSearchWindow searchWindow = new(ExamsTutorVM.LoggedIn);
-            searchWindow.Show();
         }
         private void DisableButtonsES()
         {
@@ -112,7 +107,14 @@ namespace LangLang.WPF.Views.TutorView.Tabs
                 MessageBox.Show("The course is not active.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             */
-        }   
+        }
+        private void ExamSlotSearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ExamSlotSearchWindow searchWindow = new(ExamsTutorVM.LoggedIn);
+            searchWindow.Show();
+        }
+
+        
 
         private void ButtonSeeApplications_Click(object sender, RoutedEventArgs e)
         {

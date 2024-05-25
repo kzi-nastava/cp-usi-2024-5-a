@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using LangLang.Core.Model;
+using System.ComponentModel;
 using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;

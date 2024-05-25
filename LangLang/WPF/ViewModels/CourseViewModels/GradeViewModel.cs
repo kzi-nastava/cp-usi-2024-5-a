@@ -1,5 +1,6 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Configuration;
+using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using System.ComponentModel;
 

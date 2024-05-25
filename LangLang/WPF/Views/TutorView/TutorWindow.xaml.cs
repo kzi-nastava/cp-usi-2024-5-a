@@ -1,4 +1,5 @@
-﻿using LangLang.View;
+﻿using LangLang.Core.Model;
+using LangLang.View;
 using LangLang.View.CourseGUI;
 using LangLang.View.ExamSlotGUI;
 using LangLang.Core.Observer;
