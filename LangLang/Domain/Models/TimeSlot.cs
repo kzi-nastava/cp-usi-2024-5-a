@@ -1,7 +1,5 @@
-﻿using LangLang.Core.Model.Enums;
-using System;
-using LangLang.Core.Repository.Serialization;
-using LangLang.Core;
+﻿using System;
+using LangLang.Configuration;
 
 namespace LangLang.Domain.Models
 {

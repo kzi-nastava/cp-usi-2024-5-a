@@ -36,6 +36,7 @@ namespace LangLang.View
 
             ExamSlot = new ExamSlotViewModel();
             ExamSlot.ExamDate = DateTime.Now;
+            ExamSlot.Modifiable = true;
             ExamSlot.TutorId = loggedIn.Id;
 
             InitializeComponent();

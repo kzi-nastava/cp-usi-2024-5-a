@@ -1,5 +1,5 @@
 ﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Core;
+using LangLang.Configuration;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.ExamViewModel;
 using LangLang.WPF.Views.StudentView;

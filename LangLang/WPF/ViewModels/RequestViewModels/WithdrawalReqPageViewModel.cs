@@ -1,9 +1,9 @@
 ﻿
-using LangLang.Core.Model.Enums;
 using System.Windows;
 using System;
 using LangLang.Domain.Models;
 using LangLang.BusinessLogic.UseCases;
+using LangLang.Domain.Enums;
 
 namespace LangLang.WPF.ViewModels.RequestsViewModels
 {

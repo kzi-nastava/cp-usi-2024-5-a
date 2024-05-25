@@ -1,4 +1,4 @@
-﻿using LangLang.Core.Model.Enums;
+﻿using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using System.Collections.Generic;
 using LangLang.Domain.RepositoryInterfaces;

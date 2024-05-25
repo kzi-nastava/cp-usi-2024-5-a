@@ -2,11 +2,10 @@
 using System;
 using System.Collections.Generic;
 using LangLang.Domain.Models;
-using LangLang.Core;
 using System.Linq;
-using LangLang.Core.Model;
-using LangLang.Core.Model.Enums;
 using System.IO;
+using LangLang.Configuration;
+using LangLang.Domain.Enums;
 
 namespace LangLang.Repositories
 {

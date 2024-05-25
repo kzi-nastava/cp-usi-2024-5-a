@@ -1,4 +1,4 @@
-﻿using LangLang.Core.Model;
+﻿using LangLang.Domain.Enums;
 using LangLang.WPF.ViewModels.TutorViewModels;
 using LangLang.WPF.Views.DirectorView.Tabs;
 using System;

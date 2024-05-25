@@ -1,10 +1,7 @@
 ﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Core.Model;
-using LangLang.Core.Model.Enums;
+using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
-using LangLang.Domain.Models.Enums;
 using System;
-using System.ComponentModel;
 
 namespace LangLang.WPF.ViewModels.ExamViewModel
 {

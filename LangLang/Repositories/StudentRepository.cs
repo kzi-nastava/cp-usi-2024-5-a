@@ -1,6 +1,5 @@
 ﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Core;
-using LangLang.Core.Observer;
+using LangLang.Configuration;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System.Collections.Generic;
@@ -73,15 +72,16 @@ namespace LangLang.Repositories
 
         public void Save()
         {
-            var writer = new StreamWriter(_filePath);
-                
-            foreach (var student in GetAll())
+            using (var writer = new StreamWriter(_filePath))
             {
-                var profile = student.Profile;
-                var line = string.Join(Constants.DELIMITER.ToString(), 
-                                    profile.ToString(),
-                                    student.Profession);
-                writer.WriteLine(line);
+                foreach (var student in GetAll())
+                {
+                    var profile = student.Profile;
+                    var line = string.Join(Constants.DELIMITER.ToString(),
+                                        profile.ToString(),
+                                        student.Profession);
+                    writer.WriteLine(line);
+                }
             }
         }
 

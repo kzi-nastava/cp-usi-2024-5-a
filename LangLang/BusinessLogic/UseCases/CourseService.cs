@@ -1,19 +1,15 @@
 ﻿using LangLang.Composition;
-using LangLang.Core;
-using LangLang.Core.Model;
-using LangLang.Core.Model.Enums;
+using LangLang.Configuration;
 using LangLang.Core.Observer;
+using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
-using LangLang.Domain.Models.Enums;
+using LangLang.Domain.Enums;
 using LangLang.Domain.RepositoryInterfaces;
-using LangLang.View.StudentGUI.Tabs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Course = LangLang.Domain.Models.Course;
-using LanguageLevel = LangLang.Domain.Models.Enums.LanguageLevel;
+using LanguageLevel = LangLang.Domain.Enums.LanguageLevel;
 
 namespace LangLang.BusinessLogic.UseCases
 {

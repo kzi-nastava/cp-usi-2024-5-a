@@ -1,5 +1,6 @@
-﻿using LangLang.Core.Model.Enums;
-using System;
+﻿using System;
+using LangLang.Domain.Enums;
+
 
 namespace LangLang.Domain.Models
 {

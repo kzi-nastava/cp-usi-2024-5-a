@@ -1,25 +1,12 @@
 ﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Core.Model;
-using LangLang.Core.Model.Enums;
+using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using LangLang.WPF.ViewModels.RequestsViewModels;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace LangLang.View.CourseGUI
 {
@@ -90,7 +77,7 @@ namespace LangLang.View.CourseGUI
                     foreach (EnrollmentRequestViewModel enrollmentDTO in Enrollments)
                     {
                         EnrollmentRequest enrollment = enrollmentDTO.ToEnrollmentRequest();
-                        if(enrollment.Status != Core.Model.Enums.Status.Rejected)
+                        if(enrollment.Status != Status.Rejected)
                         {
                             enrollment.UpdateStatus(Status.Accepted);
                             EnrollmentRequestService enrollmentRequestService = new();

@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Text.RegularExpressions;
 using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Models;
-using LangLang.Domain.Models.Enums;
+using LangLang.Domain.Enums;
 
 namespace LangLang.WPF.ViewModels.CourseViewModels
 {

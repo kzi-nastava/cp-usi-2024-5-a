@@ -1,6 +1,6 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Core.Model;
-using LangLang.Domain.Models.Enums;
+using LangLang.Domain.Enums;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using System;
 using System.Collections.Generic;

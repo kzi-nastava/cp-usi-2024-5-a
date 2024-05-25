@@ -1,7 +1,6 @@
 ﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Core;
-using LangLang.Core.Model;
-using LangLang.Core.Model.Enums;
+using LangLang.Configuration;
+using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using System;
 using System.ComponentModel;

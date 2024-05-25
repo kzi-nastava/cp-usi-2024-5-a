@@ -1,22 +1,14 @@
-﻿using LangLang.Core.Repository;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LangLang.Core.Observer;
-using System.Collections;
-using System.Windows.Input;
-using LangLang.View.ExamSlotGUI;
-using System.Diagnostics;
-using LangLang.Core.Model.Enums;
 using LangLang.Domain.Models;
-using LangLang.Core;
-using LangLang.Core.Model;
 using LangLang.Domain.RepositoryInterfaces;
 using LangLang.Composition;
-using Microsoft.Win32;
-using LangLang.Domain.Models.Enums;
+using LangLang.Domain.Enums;
+using LangLang.Configuration;
+using LangLang.Domain.Enums;
+
 
 namespace LangLang.BusinessLogic.UseCases
 {
