@@ -48,7 +48,7 @@ namespace LangLang.WPF.Views.TutorView.Tabs
         }
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamsTutorVM.UpdateExam();
+            ExamsTutorVM.UpdateExam(this);
         }
         private void ExamSlotDeleteBtn_Click(object sender, RoutedEventArgs e)
         {

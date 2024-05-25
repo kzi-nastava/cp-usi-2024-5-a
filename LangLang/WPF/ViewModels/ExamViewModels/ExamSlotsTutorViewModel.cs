@@ -7,6 +7,7 @@ using LangLang.WPF.ViewModels.CourseViewModels;
 using LangLang.WPF.ViewModels.ExamViewModel;
 using LangLang.WPF.ViewModels.RequestsViewModels;
 using LangLang.WPF.Views.StudentView;
+using LangLang.WPF.Views.TutorView.Tabs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -39,10 +40,15 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
             }
         }
   
-        public void UpdateExam()
+        public void UpdateExam(ExamsReview window)
         {
+            if (!IsExamSelected())
+            {
+                MessageBox.Show("Please select exam.");
+                return;
+            }
             ExamSlotService examSlotService = new();
-            ExamSlotUpdateWindow updateWindow = new(SelectedExamSlot.Id, LoggedIn);
+            ExamSlotUpdateWindow updateWindow = new(SelectedExamSlot.Id, LoggedIn,window);
             if (examSlotService.CanBeUpdated(SelectedExamSlot.ToExamSlot()))
                 updateWindow.Show();
             else
