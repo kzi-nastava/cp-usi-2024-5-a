@@ -17,7 +17,7 @@ namespace LangLang.Repositories
     public class PenaltyPointRepository : Subject, IPenaltyPointRepository
     {
         private readonly Dictionary<int, PenaltyPoint> _points;
-        private const string _filePath = Constants.FILENAME_PREFIX + "examSlots.csv";
+        private const string _filePath = Constants.FILENAME_PREFIX + "penaltyPoints.csv";
 
         public PenaltyPointRepository()
         {
