@@ -6,9 +6,6 @@ using LangLang.WPF.Views.StudentView;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace LangLang.WPF.ViewModels.ExamViewModels
@@ -28,19 +25,19 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
             this.loggedIn = loggedIn;
             this._parent = parent;
             ExamSlots = new();
+            ExamsForReview = new();
             SetDataForReview();
 
         }
 
         public void SetDataForReview()
         {
-            //TODO: Update to show only available exams tat student hasn't applied for
+            ExamSlots.Clear();
             ExamSlotService examsService = new();
             ExamsForReview = examsService.GetAvailableExams(loggedIn);
             foreach(ExamSlot exam in ExamsForReview)
             {
                 ExamSlots.Add(new ExamSlotViewModel(exam));
-
             }
         }
         
@@ -60,7 +57,6 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
 
                 MessageBox.Show("You successfully applied for exam.");
 
-                //parentWindow.examApplicationsTab.SetDataForReview();
                 _parent.Update();
                 SetDataForReview();
 
