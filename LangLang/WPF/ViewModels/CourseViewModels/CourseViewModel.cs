@@ -9,7 +9,6 @@ using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using System.Reflection;
 using System.Windows;
-using LangLang.Core.Controller;
 using System.Windows.Input;
 using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Models;

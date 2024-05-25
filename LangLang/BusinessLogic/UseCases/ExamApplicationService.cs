@@ -1,6 +1,5 @@
 ﻿using LangLang.Composition;
 using LangLang.Core;
-using LangLang.Core.Controller;
 using LangLang.Core.Model.Enums;
 using LangLang.Core.Observer;
 using LangLang.Core.Repository;
@@ -67,7 +66,7 @@ namespace LangLang.BusinessLogic.UseCases
 
         public List<ExamApplication> GetApplications(int examId)
         {
-            return GetApplications(examId);
+            return _applications.GetApplications(examId);
         }
 
         //returns list of all students applications for exams (without ones that passed)

@@ -1,5 +1,4 @@
 ﻿
-using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Observer;
 using LangLang.Domain.Models;

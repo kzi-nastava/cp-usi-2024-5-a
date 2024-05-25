@@ -19,8 +19,8 @@ namespace LangLang.Composition
             { typeof(IExamApplicationRepository), new ExamApplicationRepository() },
             { typeof(IPenaltyPointRepository), new PenaltyPointRepository() },
             { typeof(ICourseRepository), new CourseRepository() },
-            { typeof(IGradeRepository), new GradeRepository() }
-
+            { typeof(IGradeRepository), new GradeRepository() },
+            { typeof(IExamResultRepository), new ExamResultRepository() }
         };
 
         public static T CreateInstance<T>()

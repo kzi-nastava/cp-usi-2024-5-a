@@ -1,5 +1,4 @@
-﻿using LangLang.Core.Controller;
-using LangLang.Core.Model.Enums;
+﻿using LangLang.Core.Model.Enums;
 using LangLang.Domain.Models;
 using System.Collections.Generic;
 using LangLang.Domain.RepositoryInterfaces;
@@ -82,7 +81,8 @@ namespace LangLang.BusinessLogic.UseCases
         public bool CanApplyForCourses(Student student)
         {
             var examAppService = new ExamApplicationService();
-            var examResultService = new ExamResultController();
+            var examResultService = new ExamResultService();
+
             bool hasNoResults = examAppService.HasNoGeneratedResults(student);
             bool hasNotGradedExams = examResultService.HasNotGradedResults(student);
             return !hasNoResults && !hasNotGradedExams;
@@ -90,7 +90,7 @@ namespace LangLang.BusinessLogic.UseCases
 
         public bool CanApplyForExams(Student student)
         {
-            var examResultService = new ExamResultController();
+            var examResultService = new ExamResultService();
             if (CanApplyForCourses(student))
             {
                 bool hasPreliminaryResults = examResultService.HasPreliminaryResults(student);

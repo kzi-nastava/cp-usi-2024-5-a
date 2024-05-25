@@ -1,5 +1,4 @@
 ﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Core.Controller;
 using LangLang.Core.Model;
 using LangLang.Core.Model.Enums;
 using LangLang.Domain.Models;
@@ -20,9 +19,6 @@ namespace LangLang.View.ExamSlotGUI
         public ExamResultViewModel SelectedResult { get; set; }
         public ObservableCollection<ExamResultViewModel> ExamResults { get; set; }
 
-        private ExamResultController resultController;
-        private ExamSlotService examSlotService;
-        private ExamApplicationService applicationService;
         private ExamSlotViewModel exam;
 
         public EnterResults(ExamSlotViewModel selectedExam)
@@ -30,11 +26,7 @@ namespace LangLang.View.ExamSlotGUI
             InitializeComponent();
             DataContext = this;
 
-            //this.resultController = appController.ExamResultController;
-            this.applicationService = new();
-            this.examSlotService = new() ;
-            this.exam = selectedExam;
-
+            exam = selectedExam;
             ExamResults = new ();
             SelectedResult = new();
 
@@ -46,13 +38,15 @@ namespace LangLang.View.ExamSlotGUI
         {
             ExamResults.Clear();
 
+            var resultService = new ExamResultService();
+
             if (!exam.ResultsGenerated)
             {
                 RefreshExam();
                 GenerateResults();
             }
 
-            foreach (ExamResult exam in resultController.Get(exam.ToExamSlot()))
+            foreach (ExamResult exam in resultService.GetByExam(exam.ToExamSlot()))
             {
                 ExamResults.Add(new ExamResultViewModel(exam));
             }
@@ -117,10 +111,12 @@ namespace LangLang.View.ExamSlotGUI
 
         private void confirmResultBtn_Click(object sender, RoutedEventArgs e)
         {
+            var resultService = new ExamResultService();
+
             if (SelectedResult.Outcome == ExamOutcome.NotGraded && SelectedResult.IsValid)
             {
                 UpdateDTO();
-                resultController.Update(SelectedResult.ToExamResult());
+                resultService.Update(SelectedResult.ToExamResult());
                 ShowSuccess();
                 Update();
             }
@@ -141,17 +137,21 @@ namespace LangLang.View.ExamSlotGUI
 
         private void RefreshExam()
         {
+            var examSlotService = new ExamSlotService();
+
             exam.ResultsGenerated = true;
             examSlotService.Update(exam.ToExamSlot());
         }
 
         private void GenerateResults()
         {
+
+            var resultService = new ExamResultService();
+            var applicationService = new ExamApplicationService();
+
             List<ExamApplication> applications = applicationService.GetApplications(exam.Id);
             foreach (ExamApplication application in applications)  // for each application for exam, default result is generated
-            {
-                resultController.Add(application.StudentId, exam.Id);
-            }
+                resultService.Add(application.StudentId, exam.Id);
         }
 
         private void ShowSuccess() // TODO: move to utils
