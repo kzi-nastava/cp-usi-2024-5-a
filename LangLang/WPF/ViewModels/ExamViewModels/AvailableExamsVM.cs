@@ -26,13 +26,11 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
             this._parent = parent;
             ExamSlots = new();
             ExamsForReview = new();
-            ExamSlotService examsService = new();
-            ExamsForReview = examsService.GetAvailableExams(loggedIn);
             SetDataForReview();
 
         }
 
-        public void SetDataForReview()
+        public void Update()
         {
             ExamSlots.Clear();
             
@@ -41,7 +39,11 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
                 ExamSlots.Add(new ExamSlotViewModel(exam));
             }
         }
-        
+        public void SetDataForReview()
+        {
+            ExamSlotService examsService = new();
+            ExamsForReview = examsService.GetAvailableExams(loggedIn);
+        }
         public void SendApplication()
         {
             var studentService = new StudentService();
@@ -53,12 +55,13 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
                 Application.ExamSlotId = SelectedExam.ToExamSlot().Id;
                 Application.StudentId = loggedIn.Id;
                 Application.SentAt = DateTime.Now;
-                ExamApplicationService examsService = new();
-                examsService.Add(Application);
+                ExamApplicationService appsService = new();
+                appsService.Add(Application);
 
                 MessageBox.Show("You successfully applied for exam.");
 
                 SetDataForReview();
+                _parent.Update();
 
             }
             else
@@ -71,16 +74,14 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
         {
             ExamSlotService examsService = new();
             ExamsForReview = examsService.SearchByStudent(loggedIn, examDate, language, level);
-            _parent.Update();
-            SetDataForReview();
+            Update();
         }
 
 
         public void ClearExams()
         {
-            ExamSlotService examsService = new();
-            ExamsForReview = examsService.GetAvailableExams(loggedIn);
             SetDataForReview();
+            Update();
         }
     }
 }

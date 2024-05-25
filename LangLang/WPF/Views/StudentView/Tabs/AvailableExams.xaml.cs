@@ -28,6 +28,7 @@ namespace LangLang.View.StudentGUI.Tabs
         public void Update()
         {
             AvailableExamsVM.SetDataForReview();
+            AvailableExamsVM.Update();
         }
         private void SearchExams(object sender, RoutedEventArgs e)
         {
