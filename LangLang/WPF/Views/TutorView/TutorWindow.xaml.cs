@@ -36,8 +36,8 @@ namespace LangLang
         {
             var coursesTab = new Courses(LoggedIn);
             AddTab("Courses", coursesTab);
-            //var examsTab = new Exams(LoggedIn); ;
-            //AddTab("Exams", examsTab);
+            var examsTab = new ExamsReview(LoggedIn); ;
+            AddTab("Exams", examsTab);
         }
         private void AddTab(string header, UserControl content)
         {
