@@ -10,7 +10,7 @@ using LangLang.Core.Observer;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 
-namespace LangLang.Core.Model.DAO
+namespace LangLang.BusinessLogic.UseCases
 {
     public class PenaltyPointService: Subject
     {

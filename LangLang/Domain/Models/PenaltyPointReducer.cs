@@ -3,70 +3,71 @@ using System.Diagnostics;
 using System.IO;
 using LangLang.BusinessLogic.UseCases;
 using LangLang.Configuration;
-using LangLang.Core.Model;
-using LangLang.Core.Model.DAO;
 using LangLang.Domain.Models;
 
-public class PenaltyPointReducer
+namespace LangLang.Domain.Models
 {
-    private string fileName;
-    public DateTime LastReduced { get; set; }
-
-    public PenaltyPointReducer()
+    public class PenaltyPointReducer
     {
-        fileName = Constants.REDUCER_FILE_NAME;
-        Load();
-    }
+        private string fileName;
+        public DateTime LastReduced { get; set; }
 
-    public PenaltyPointReducer(DateTime lastReduced)
-    {
-        LastReduced = lastReduced;
-    }
-
-    public void Load()
-    {
-        if (!File.Exists(fileName))
+        public PenaltyPointReducer()
         {
-            return;
+            fileName = Constants.REDUCER_FILE_NAME;
+            Load();
         }
-        DateTime dateTime = DateTime.MinValue;
-        if (File.Exists(fileName))
+
+        public PenaltyPointReducer(DateTime lastReduced)
         {
-            string content = File.ReadAllText(fileName);
-            DateTime.TryParse(content, out dateTime);
-            LastReduced = dateTime;
+            LastReduced = lastReduced;
         }
-    }
 
-    public void Write()
-    {
-        File.WriteAllText(fileName, LastReduced.ToString());
-    }
-
-    public void UpdatePenaltyPoints()
-    {
-        DateTime currentMonth = DateTime.Today;
-        
-        if (currentMonth.Month != LastReduced.Month)
+        public void Load()
         {
-            int pointsToRemove = ((DateTime.Now.Year - LastReduced.Year) * 12) + DateTime.Now.Month - LastReduced.Month;
-            LastReduced = currentMonth;
-
-            var studentService = new StudentService();
-            foreach (var student in studentService.GetAll())
+            if (!File.Exists(fileName))
             {
-                Remove(pointsToRemove, student);
+                return;
             }
-
-            Write();
+            DateTime dateTime = DateTime.MinValue;
+            if (File.Exists(fileName))
+            {
+                string content = File.ReadAllText(fileName);
+                DateTime.TryParse(content, out dateTime);
+                LastReduced = dateTime;
+            }
         }
-    }
-    public void Remove(int toRemove, Student student)
-    {
-        for(int i = 0; i<toRemove; i++)
+
+        public void Write()
         {
-            PenaltyPointService penaltyPointService = new();
-            penaltyPointService.RemovePenaltyPoint(student);
+            File.WriteAllText(fileName, LastReduced.ToString());
+        }
+
+        public void UpdatePenaltyPoints()
+        {
+            DateTime currentMonth = DateTime.Today;
+
+            if (currentMonth.Month != LastReduced.Month)
+            {
+                int pointsToRemove = ((DateTime.Now.Year - LastReduced.Year) * 12) + DateTime.Now.Month - LastReduced.Month;
+                LastReduced = currentMonth;
+
+                var studentService = new StudentService();
+                foreach (var student in studentService.GetAll())
+                {
+                    Remove(pointsToRemove, student);
+                }
+
+                Write();
+            }
+        }
+        public void Remove(int toRemove, Student student)
+        {
+            for (int i = 0; i < toRemove; i++)
+            {
+                PenaltyPointService penaltyPointService = new();
+                penaltyPointService.RemovePenaltyPoint(student);
+            }
         }
     }
 }
