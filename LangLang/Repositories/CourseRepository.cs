@@ -1,6 +1,5 @@
 ﻿using LangLang.Core;
 using LangLang.Core.Observer;
-using LangLang.Core.Repository;
 using LangLang.Domain.Models;
 using LangLang.Domain.Models.Enums;
 using LangLang.Domain.RepositoryInterfaces;
