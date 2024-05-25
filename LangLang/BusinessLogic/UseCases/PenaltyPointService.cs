@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LangLang.BusinessLogic.UseCases;
 using LangLang.Composition;
+using LangLang.Configuration;
 using LangLang.Core.Observer;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;

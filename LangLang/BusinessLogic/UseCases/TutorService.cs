@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LangLang.Core.Model;
 using System;
-using LangLang.Domain.Models.Enums;
+using LangLang.Domain.Enums;
 
 namespace LangLang.BusinessLogic.UseCases
 {

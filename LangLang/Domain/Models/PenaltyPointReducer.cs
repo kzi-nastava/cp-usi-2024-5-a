@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using LangLang.BusinessLogic.UseCases;
-using LangLang.Core;
+using LangLang.Configuration;
 using LangLang.Core.Model;
 using LangLang.Core.Model.DAO;
 using LangLang.Domain.Models;

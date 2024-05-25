@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        xmlns:local="clr-namespace:LangLang.Core.Model.Enums"
+        xmlns:local="clr-namespace:LangLang.Domain.Enums"
         Title="AddTutorWindow" Height="580" Width="800">
     
     <!--validation-->

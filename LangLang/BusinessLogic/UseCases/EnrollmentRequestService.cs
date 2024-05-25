@@ -1,14 +1,12 @@
-﻿
-using LangLang.Core.Model.Enums;
-using LangLang.Domain.Models;
+﻿using LangLang.Domain.Models;
+using LangLang.Domain.Enums;
 using System.Collections.Generic;
 using System;
 using LangLang.Domain.RepositoryInterfaces;
 using System.Linq;
-using LangLang.Domain;
-using LangLang.Core;
 using LangLang.Core.Observer;
 using LangLang.Composition;
+using LangLang.Configuration;
 
 namespace LangLang.BusinessLogic.UseCases
 {

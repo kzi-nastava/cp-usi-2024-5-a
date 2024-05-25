@@ -1,8 +1,9 @@
 ﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Core.Model;
+using LangLang.Domain.Enums;
 using LangLang.WPF.ViewModels.StudentViewModels;
 using System;
 using System.Windows;
+
 namespace LangLang.WPF.Views.StudentView
 {
     public partial class Registration : Window

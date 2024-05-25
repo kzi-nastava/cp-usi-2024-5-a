@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LangLang.Domain.Models.Enums
+namespace LangLang.Domain.Enums
 {
     public enum LanguageLevel
     {

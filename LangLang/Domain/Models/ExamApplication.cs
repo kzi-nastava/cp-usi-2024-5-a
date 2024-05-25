@@ -1,6 +1,5 @@
-﻿using LangLang.Core;
-using LangLang.Core.Model.Enums;
-using System;
+﻿using System;
+
 namespace LangLang.Domain.Models
 {
     public class ExamApplication

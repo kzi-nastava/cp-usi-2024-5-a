@@ -1,5 +1,4 @@
-﻿
-namespace LangLang.Core.Model
+﻿namespace LangLang.Domain.Enums
 {
     public enum UserType
     {

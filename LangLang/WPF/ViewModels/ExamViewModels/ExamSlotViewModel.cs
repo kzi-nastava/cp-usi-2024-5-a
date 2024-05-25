@@ -1,6 +1,6 @@
-﻿using LangLang.Core;
+﻿using LangLang.Configuration;
+using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
-using LangLang.Domain.Models.Enums;
 using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;

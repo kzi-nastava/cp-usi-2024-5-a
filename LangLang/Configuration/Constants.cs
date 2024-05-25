@@ -1,5 +1,4 @@
-﻿
-namespace LangLang.Core
+﻿namespace LangLang.Configuration
 {
     static class Constants
     {

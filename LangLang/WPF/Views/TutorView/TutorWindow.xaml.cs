@@ -7,11 +7,11 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System;
-using LangLang.Core;
 using LangLang.Domain.Models;
 using LangLang.BusinessLogic.UseCases;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using LangLang.WPF.ViewModels.ExamViewModel;
+using LangLang.Configuration;
 
 namespace LangLang
 {

@@ -1,7 +1,6 @@
 ﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Core.Model;
-using LangLang.Core.Model.Enums;
 using LangLang.Domain.Models;
+using LangLang.Domain.Enums;
 using System;
 
 namespace LangLang.WPF.ViewModels.RequestsViewModels

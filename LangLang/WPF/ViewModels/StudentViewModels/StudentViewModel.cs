@@ -1,5 +1,5 @@
-﻿using LangLang.Core.Model;
-using LangLang.Domain.Models;
+﻿using LangLang.Domain.Models;
+using LangLang.Domain.Enums;
 using System;
 using System.ComponentModel;
 using System.Text.RegularExpressions;

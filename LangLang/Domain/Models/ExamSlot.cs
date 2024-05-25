@@ -1,6 +1,6 @@
-﻿using LangLang.Core;
+﻿using LangLang.Configuration;
 using LangLang.Core.Model;
-using LangLang.Domain.Models.Enums;
+using LangLang.Domain.Enums;
 using System;
 
 namespace LangLang.Domain.Models

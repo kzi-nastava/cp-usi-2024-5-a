@@ -1,5 +1,4 @@
-﻿    
-namespace LangLang.Core.Model.Enums
+﻿namespace LangLang.Domain.Enums
 {
     public enum ExamOutcome
     {
