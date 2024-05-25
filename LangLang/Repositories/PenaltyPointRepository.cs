@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace LangLang.Repositories
 {
-    public class PenaltyPointRepository : Subject, IPenaltyPointRepository
+    public class PenaltyPointRepository : IPenaltyPointRepository
     {
         private readonly Dictionary<int, PenaltyPoint> _points;
         private const string _filePath = Constants.FILENAME_PREFIX + "penaltyPoints.csv";
@@ -62,13 +62,11 @@ namespace LangLang.Repositories
         {
             _points[point.Id] = point;
             Save();
-            NotifyObservers();
         }
         public void Delete(PenaltyPoint point)
         {
             _points.Remove(point.Id);
             Save();
-            NotifyObservers();
         }
         public void Save()
         {

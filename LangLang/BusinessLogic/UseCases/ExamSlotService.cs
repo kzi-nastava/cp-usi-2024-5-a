@@ -11,7 +11,7 @@ using LangLang.Configuration;
 
 namespace LangLang.BusinessLogic.UseCases
 {
-    public class ExamSlotService : Subject
+    public class ExamSlotService
     {
         private IExamSlotRepository _exams;
 

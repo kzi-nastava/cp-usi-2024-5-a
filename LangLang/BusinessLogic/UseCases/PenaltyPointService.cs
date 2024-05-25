@@ -9,7 +9,7 @@ using LangLang.Domain.RepositoryInterfaces;
 
 namespace LangLang.BusinessLogic.UseCases
 {
-    public class PenaltyPointService: Subject
+    public class PenaltyPointService
     {
 
         

@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace LangLang.BusinessLogic.UseCases
 {
-    public class ExamApplicationService : Subject
+    public class ExamApplicationService
     {
         private IExamApplicationRepository _applications;
 

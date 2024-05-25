@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace LangLang.Repositories
 {
-    public class ExamApplicationRepository : Subject, IExamApplicationRepository
+    public class ExamApplicationRepository : IExamApplicationRepository
     {
         private Dictionary<int, ExamApplication> _applications;
         private const string _filePath = Constants.FILENAME_PREFIX + "examApplications.csv";
@@ -53,14 +53,12 @@ namespace LangLang.Repositories
         {
             _applications.Add(app.Id, app);
             Save();
-            NotifyObservers();
         }
 
         public void Delete(int id)
         {
             _applications.Remove(id);
             Save();
-            NotifyObservers();
         }
 
         public Dictionary<int, ExamApplication> Load()
