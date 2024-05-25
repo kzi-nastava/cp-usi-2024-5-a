@@ -110,8 +110,8 @@ namespace LangLang.WPF.Views.TutorView.Tabs
         }
         private void ExamSlotSearchBtn_Click(object sender, RoutedEventArgs e)
         {
-            //ExamSlotSearchWindow searchWindow = new( LoggedIn);
-            //searchWindow.Show();
+            ExamSlotSearchWindow searchWindow = new(ExamsTutorVM.LoggedIn);
+            searchWindow.Show();
         }
 
         
