@@ -3,6 +3,7 @@ using LangLang.Core.Model;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.ExamViewModel;
+using LangLang.WPF.ViewModels.ExamViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,36 +26,22 @@ namespace LangLang.View.ExamSlotGUI
     /// </summary>
     public partial class ExamSlotSearchWindow : Window
     {
-        public ObservableCollection<ExamSlotViewModel> ExamSlots { get; set; }
-        private List<ExamSlot> examSlotsForReview;
-        private Tutor loggedIn;
+        public ExamSlotSearchVM ExamsSearchVM { get; set; }
 
         public ExamSlotSearchWindow(Tutor loggedIn)
         {
-            ExamSlots = new ObservableCollection<ExamSlotViewModel>();
-            examSlotsForReview = new List<ExamSlot>();
-            this.loggedIn = loggedIn;
-            ExamSlotService examsService = new();
-            examSlotsForReview = examsService.GetExams(loggedIn);
-
-            foreach(ExamSlot exam in examSlotsForReview)
-            {
-                ExamSlots.Add(new ExamSlotViewModel(exam));
-            }
-
+            
+            
             InitializeComponent();
-            DataContext = this;
+            ExamsSearchVM = new ExamSlotSearchVM(loggedIn);
+
+            DataContext = ExamsSearchVM;
             levelExamcb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
 
         }
         public void Update()
         {
-
-            ExamSlots.Clear();
-            foreach (ExamSlot exam in examSlotsForReview)
-            {
-                ExamSlots.Add(new ExamSlotViewModel(exam));
-            }
+            ExamsSearchVM.SetDataForView();
         }
         private void SearchExam_Click(object sender, RoutedEventArgs e)
         {
@@ -64,16 +51,12 @@ namespace LangLang.View.ExamSlotGUI
                 level = (LanguageLevel)levelExamcb.SelectedValue;
             DateTime examDate = examdatePicker.SelectedDate ?? default;
 
-            ExamSlotService examsService = new();
-            examSlotsForReview = examsService.SearchByTutor(loggedIn, examDate, language, level); 
-            Update();
+            ExamsSearchVM.SearchExams(ExamsSearchVM.loggedIn, examDate, language, level);
         }
 
         private void ClearExam_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotService examsService = new();
-            examSlotsForReview = examsService.GetExams(loggedIn);
-            Update();
+            ExamsSearchVM.ClearExams();
         }
     }
 

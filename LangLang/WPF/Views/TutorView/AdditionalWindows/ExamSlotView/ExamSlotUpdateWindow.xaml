@@ -237,7 +237,7 @@
                   x:Name="CoursesDataGrid"
                   ItemsSource="{Binding Skills, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}"
-                  SelectionMode="Single" IsReadOnly="True" SelectionChanged="CoursesDataGrid_SelectionChanged">
+                  SelectionMode="Single" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Language" Binding="{Binding Language}"/>
                 <DataGridTextColumn Header="Language level" Binding="{Binding Level}"/>
