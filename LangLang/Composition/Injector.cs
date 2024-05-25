@@ -17,8 +17,9 @@ namespace LangLang.Composition
             { typeof(ITutorRatingRepository), new TutorRatingRepository() },
             { typeof(IExamSlotRepository), new ExamSlotRepository() },
             { typeof(IExamApplicationRepository), new ExamApplicationRepository() },
-            { typeof(IPenaltyPointRepository), new PenaltyPointRepository() }
-
+            { typeof(IPenaltyPointRepository), new PenaltyPointRepository() },
+            { typeof(ICourseRepository), new CourseRepository() },
+            { typeof(IGradeRepository), new GradeRepository() }
 
         };
 
