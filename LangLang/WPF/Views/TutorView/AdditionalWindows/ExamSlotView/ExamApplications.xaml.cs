@@ -1,16 +1,10 @@
-﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Domain.Models;
-using LangLang.WPF.ViewModels.ExamViewModel;
+﻿using LangLang.WPF.ViewModels.ExamViewModel;
 using LangLang.WPF.ViewModels.ExamViewModels;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace LangLang.View.ExamSlotGUI
+namespace LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView
 {
-    /// <summary>
-    /// Interaction logic for ExamApplications.xaml
-    /// </summary>
     public partial class ExamApplications : Window
     {   
         public ExamApplicationsPageViewModel ExamApplicationsViewModel { get; set; }

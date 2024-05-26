@@ -4,6 +4,7 @@ using LangLang.Domain.Models;
 using LangLang.View.ExamSlotGUI;
 using LangLang.WPF.ViewModels.ExamViewModel;
 using LangLang.WPF.Views.TutorView.Tabs;
+using LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;

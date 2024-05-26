@@ -4,9 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 
 
-namespace LangLang.View.ExamSlotGUI
+namespace LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView
 {
-
     public partial class EnterResults : Window
     {
         public EnterResultsViewModel EnterResultsViewModel { get; set; }
