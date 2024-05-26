@@ -30,15 +30,7 @@
         </Grid.ColumnDefinitions>
 
         <!--LABEL ABOVE THE TABLE-->
-        <Label Content="Students that entered exam and their points" Grid.Row="0" HorizontalAlignment="Center" Height="30" Margin="0,24,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.499,0.077" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
+        <Label Content="Students that entered exam and their points" Grid.Row="0" HorizontalAlignment="Center" Height="30" Margin="0,24,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
             <Label.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1"/>
@@ -64,15 +56,7 @@
 
 
         <!-- START OF STUDENT INFO LABEL-->
-        <Label x:Name="Lbl" Grid.Column="1" Content="Student information" Grid.Row="0" HorizontalAlignment="Center" Height="30" Margin="0,10,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.499,0.077" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
+        <Label x:Name="Lbl" Grid.Column="1" Content="Student information" Grid.Row="0" HorizontalAlignment="Center" Height="30" Margin="0,10,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black"  FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
             <Label.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1"/>
@@ -83,15 +67,7 @@
         </Label>
 
         <!--NAME LABEL-->
-        <Label x:Name="nameLBL" Content="name" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,57,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
+        <Label x:Name="nameLBL" Content="name" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,57,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" FontFamily="Arial" FontWeight="Bold">
             <Label.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1"/>
@@ -103,7 +79,7 @@
         
         <!--NAME TEXTBOX-->
         <TextBox x:Name="nameTB" Grid.Column="1" HorizontalAlignment="Center" Height="26"  Margin="0,83,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Student.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                 Text="{Binding Path=SelectedResult.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                  VerticalAlignment="Top" Width="200" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
             <TextBox.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -114,15 +90,7 @@
         </TextBox>
         
         <!--LASTNAME LABEL-->
-        <Label Grid.Column="1" Content="lastname" HorizontalAlignment="Center" Height="26" Margin="0,119,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
+        <Label Grid.Column="1" Content="lastname" HorizontalAlignment="Center" Height="26" Margin="0,119,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" FontFamily="Arial" FontWeight="Bold">
             <Label.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1"/>
@@ -134,7 +102,7 @@
         
         <!--LASTNAME TEXTBOX-->
         <TextBox x:Name="lastnameTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,145,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Student.LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                 Text="{Binding Path=SelectedResult.LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                  VerticalAlignment="Top" Width="200" VerticalContentAlignment="Center" Background="#FFFFF3F3"
                  BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
             <TextBox.OpacityMask>
@@ -146,15 +114,7 @@
         </TextBox>
 
         <!--EMAIL LABEL-->
-        <Label Content="email" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,181,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
+        <Label Content="email" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,181,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" FontFamily="Arial" FontWeight="Bold">
             <Label.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1"/>
@@ -166,7 +126,7 @@
         
         <!--EMAIL TEXTBOX-->
         <TextBox x:Name="emailTB" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,207,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Student.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                 Text="{Binding Path=SelectedResult.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                  VerticalAlignment="Top" Width="200" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
             <TextBox.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -177,15 +137,7 @@
         </TextBox>
         
         <!--READING POINTS LABEL-->
-        <Label Content="Reading points" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,243,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
+        <Label Content="Reading points" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,243,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" FontFamily="Arial" FontWeight="Bold">
             <Label.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1"/>
@@ -209,15 +161,7 @@
         </TextBox>
 
         <!--LISTENING POINTS LABEL-->
-        <Label Content="Listening points" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,305,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
+        <Label Content="Listening points" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,305,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" FontFamily="Arial" FontWeight="Bold">
             <Label.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1"/>
@@ -241,15 +185,7 @@
         </TextBox>
 
         <!--WRITING POINTS LABEL-->
-        <Label Content="Writing points" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,367,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
+        <Label Content="Writing points" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,367,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" FontFamily="Arial" FontWeight="Bold">
             <Label.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1"/>
@@ -273,15 +209,7 @@
         </TextBox>
         
         <!-- SPEAKING POINTS LABEL-->
-        <Label Content="Speaking points" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,429,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
+        <Label Content="Speaking points" Grid.Column="1" HorizontalAlignment="Center" Height="26" Margin="0,429,0,0" VerticalAlignment="Top" Width="200" FontStyle="Italic" Foreground="Black" FontFamily="Arial" FontWeight="Bold">
             <Label.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1"/>

@@ -8,9 +8,6 @@ using System.Windows.Controls;
 
 namespace LangLang.WPF.Views.TutorView.Tabs
 {
-    /// <summary>
-    /// Interaction logic for Exams.xaml
-    /// </summary>
     public partial class ExamsReview : UserControl
     {
         public ExamSlotsTutorViewModel ExamsTutorVM { get; set; }
@@ -57,78 +54,25 @@ namespace LangLang.WPF.Views.TutorView.Tabs
         private void ExamSlotsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!ExamsTutorVM.IsExamSelected()) // when the DataGrid listener is triggered, check if there is a selection, and based on that, decide whether to enable or disable the buttons
-            {
                 DisableButtonsES();
-            }
             else
-            {
                 EnableButtonsES();
-            }
         }
-        private void EnterGradeBtn_Click(object sender, RoutedEventArgs e)
-        {
-            /*
-            if (courseController.GetEnd(SelectedCourse.ToCourse()) < DateTime.Now)
-            {
-                EnterGradesWindow gradesWindow = new(appController, SelectedCourse);
-                gradesWindow.Show();
-            }
-            else
-            {
-                MessageBox.Show("The course is not finished.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            */
-        }
-        private void DurationOfCourseBtn_Click(object sender, RoutedEventArgs e)
-        {
-            /*
-            if (courseController.IsActive(SelectedCourse.ToCourse()))
-            {
-                DurationOfCourseWindow courseWindow = new(appController, SelectedCourse);
-                courseWindow.Show();
-            }
-            else
-            {
-                MessageBox.Show("The course is not active.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            */
-        }
+ 
         private void ExamSlotSearchBtn_Click(object sender, RoutedEventArgs e)
         {
             ExamSlotSearchWindow searchWindow = new(ExamsTutorVM.LoggedIn);
             searchWindow.Show();
         }
 
-        
-
         private void ButtonSeeApplications_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            if (ExamSlotService.ApplicationsVisible(SelectedExamSlot.Id) && SelectedExamSlot.Applicants != 0)
-            {
-                ExamApplications applicationsWindow = new(appController, SelectedExamSlot);
-                applicationsWindow.Show();
-            }
-            else
-            {
-                MessageBox.Show($"If there are applications, they can only be viewed {Constants.PRE_START_VIEW_PERIOD} days before exam and during the exam.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            */
+            ExamsTutorVM.SeeApplications();
         }
 
         private void ButtonEnterResults_Click(object sender, RoutedEventArgs e)
         {
-            /*
-            if (SelectedExamSlot.ExamDate.AddHours(Constants.EXAM_DURATION) < DateTime.Now) // after the EXAM_DURATION-hour exam concludes, it is possible to open a window.
-            {
-                EnterResults resultsWindow = new(appController, SelectedExamSlot);
-                resultsWindow.Show();
-            }
-            else
-            {
-                MessageBox.Show("This window can be opened once the exam is passed!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            */
+            ExamsTutorVM.EnterResults();
         }
 
     }

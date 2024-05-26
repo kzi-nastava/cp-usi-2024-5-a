@@ -1,6 +1,7 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.ExamViewModel;
+using LangLang.WPF.ViewModels.ExamViewModels;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,78 +12,47 @@ namespace LangLang.View.ExamSlotGUI
     /// Interaction logic for ExamApplications.xaml
     /// </summary>
     public partial class ExamApplications : Window
-    {
-        public ExamApplicationViewModel SelectedApplication { get; set; }
-        public ObservableCollection<ExamApplicationViewModel> Applications { get; set; }
-        private ExamApplicationService applicationsService;
-        private ExamSlotService examsService;
-        private ExamSlotViewModel examSlot;
+    {   
+        public ExamApplicationsPageViewModel ExamApplicationsViewModel { get; set; }
+        private ExamSlotViewModel ExamSlot;
 
         public ExamApplications(ExamSlotViewModel examSlot)
         {
             InitializeComponent();
-            DataContext = this;
+            ExamApplicationsViewModel = new(examSlot);
 
-            this.examSlot = examSlot;
-            applicationsService = new();
-            examsService = new();
-
-            Applications = new();
+            DataContext = ExamApplicationsViewModel;
+            ExamSlot = examSlot;
 
             AdjustButtons();
-
             Update();
         }
 
         public void Update()
         {
-            Applications.Clear();
-            foreach (ExamApplication application in applicationsService.GetApplications(examSlot.Id))
-            {
-                Applications.Add(new ExamApplicationViewModel(application));
-            }
+            ExamApplicationsViewModel.Update();
         }
 
         private void AdjustButtons()
         {
-            if (examSlot.Modifiable == false)
+            if (ExamSlot.Modifiable == false)
                 confirmApplicationsBtn.IsEnabled = false;
             deleteBtn.IsEnabled = false;
         }
 
         private void ConfirmApplicationsBtn_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure that you want to confirm list?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes) {
-                examSlot.Modifiable = false;
-                examsService.Update(examSlot.ToExamSlot());
-                AdjustButtons();
-                ShowSuccess();
-            }
+            ExamApplicationsViewModel.ConfirmApplications();
         }
 
         private void DeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Are you sure that you want to delete " + SelectedApplication.StudentName + " " + SelectedApplication.StudentLastName  + " from the examination?", "Yes", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
-            {
-                var studentService = new StudentService();
-                Student student = studentService.Get(SelectedApplication.StudentId);
-                studentService.Deactivate(student.Id);
-                Update();
-                ShowSuccess();
-            }
-        }
-
-        // NOTE: think about moving to utils
-        private void ShowSuccess()
-        {
-            MessageBox.Show("Successfully completed", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            ExamApplicationsViewModel.Delete();
         }
 
         private void ApplicationTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (SelectedApplication != null)
+            if (ExamApplicationsViewModel.SelectedApplication != null)
                 deleteBtn.IsEnabled = true;
             else
                 deleteBtn.IsEnabled = false;
