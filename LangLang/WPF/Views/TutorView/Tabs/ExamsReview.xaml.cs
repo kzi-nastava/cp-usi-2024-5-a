@@ -65,34 +65,6 @@ namespace LangLang.WPF.Views.TutorView.Tabs
                 EnableButtonsES();
             }
         }
-        private void EnterGradeBtn_Click(object sender, RoutedEventArgs e)
-        {
-            /*
-            if (courseController.GetEnd(SelectedCourse.ToCourse()) < DateTime.Now)
-            {
-                EnterGradesWindow gradesWindow = new(appController, SelectedCourse);
-                gradesWindow.Show();
-            }
-            else
-            {
-                MessageBox.Show("The course is not finished.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            */
-        }
-        private void DurationOfCourseBtn_Click(object sender, RoutedEventArgs e)
-        {
-            /*
-            if (courseController.IsActive(SelectedCourse.ToCourse()))
-            {
-                DurationOfCourseWindow courseWindow = new(appController, SelectedCourse);
-                courseWindow.Show();
-            }
-            else
-            {
-                MessageBox.Show("The course is not active.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            */
-        }
         private void ExamSlotSearchBtn_Click(object sender, RoutedEventArgs e)
         {
             ExamSlotSearchWindow searchWindow = new(ExamsTutorVM.LoggedIn);
