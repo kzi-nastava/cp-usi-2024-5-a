@@ -1,10 +1,10 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
-using LangLang.View.CourseGUI;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using LangLang.WPF.ViewModels.RequestsViewModels;
 using LangLang.WPF.Views.StudentView;
+using LangLang.WPF.Views.TutorView.AddidtionalWindows.CourseView;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace LangLang.View.CourseGUI
+namespace LangLang.WPF.Views.TutorView.AddidtionalWindows.CourseView
 {
     /// <summary>
     /// Interaction logic for CourseSearchWindow.xaml

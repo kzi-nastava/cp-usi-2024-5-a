@@ -7,7 +7,7 @@ using LangLang.WPF.Views.TutorView.Tabs;
 using System;
 using System.Windows;
 
-namespace LangLang.View.CourseGUI
+namespace LangLang.WPF.Views.TutorView.AddidtionalWindows.CourseView
 {
     /// <summary>
     /// Interaction logic for CourseUpdateWindow.xaml
