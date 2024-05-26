@@ -268,6 +268,10 @@ namespace LangLang.BusinessLogic.UseCases
             }
             return false;
         }
+        public List<ExamSlot> GetExamsHeldInLastYear()
+        {
+            return GetAll().Where(exam => exam.IsHeldInLastYear()).ToList();
+        }
 
 
     }
