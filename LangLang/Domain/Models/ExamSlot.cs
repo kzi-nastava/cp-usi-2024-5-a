@@ -40,6 +40,10 @@ namespace LangLang.Domain.Models
             else if (daysLeft == 0 && timeLeft > 0) return true; // on the exam day, applications are visible until the end of exam
             return false;
         }
-
+        public bool IsHeldInLastYear()
+        {
+            DateTime oneYearAgo = DateTime.Now.AddYears(-1);
+            return TimeSlot.Time > oneYearAgo;
+        }
     }
 }
