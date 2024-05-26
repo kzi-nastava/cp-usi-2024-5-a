@@ -54,7 +54,8 @@ namespace LangLang.Repositories
                     var rating = new TutorRating( id,
                                         int.Parse(parts[1]),
                                         int.Parse(parts[2]),
-                                        int.Parse(parts[3]));
+                                        int.Parse(parts[3]),
+                                        int.Parse(parts[4]));
 
                         tutorRatings.Add(id, rating);
                     }
@@ -71,6 +72,7 @@ namespace LangLang.Repositories
 
                 var line = string.Join(Constants.DELIMITER.ToString(),
                                    rating.Id,
+                                   rating.CourseId,
                                    rating.TutorId,
                                    rating.StudentId,
                                    rating.Rating);
