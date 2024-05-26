@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using LangLang.Core.Observer;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using LangLang.Composition;

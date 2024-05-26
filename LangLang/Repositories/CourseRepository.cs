@@ -1,5 +1,4 @@
 ﻿using LangLang.Configuration;
-using LangLang.Core.Observer;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
@@ -7,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LangLang.Repositories
 {

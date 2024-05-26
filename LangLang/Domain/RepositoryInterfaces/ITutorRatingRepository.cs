@@ -1,5 +1,4 @@
 ﻿
-using LangLang.Core.Observer;
 using LangLang.Domain.Models;
 using System.Collections.Generic;
 
@@ -12,6 +11,5 @@ namespace LangLang.Domain.RepositoryInterfaces
         public void Add(TutorRating rating);
         public void Save();
         public Dictionary<int, TutorRating> Load();
-        public void Subscribe(IObserver observer);
     }
 }

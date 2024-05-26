@@ -1,7 +1,6 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Enums;
 using LangLang.Configuration;
-using LangLang.Core.Observer;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System;
@@ -11,7 +10,7 @@ using System.Linq;
 
 namespace LangLang.Repositories
 {
-    public class WithdrawalRequestRepository : Subject, IWithdrawalRequestRepository
+    public class WithdrawalRequestRepository : IWithdrawalRequestRepository
     {
         private Dictionary<int, WithdrawalRequest> _withdrawalRequests;
         private const string _filePath = Constants.FILENAME_PREFIX + "withdrawalRequests.csv";
@@ -35,7 +34,6 @@ namespace LangLang.Repositories
         {
             _withdrawalRequests.Add(request.Id, request);
             Save();
-            NotifyObservers();
         }
 
         public void Delete(int id)
@@ -45,7 +43,6 @@ namespace LangLang.Repositories
 
             _withdrawalRequests.Remove(request.Id);
             Save();
-            NotifyObservers();
         }
 
         public void Update(WithdrawalRequest request)
@@ -55,7 +52,6 @@ namespace LangLang.Repositories
 
             oldRequest.UpdateStatus(request.Status);
             Save();
-            NotifyObservers();
         }
 
         public List<WithdrawalRequest> GetByStudent(Student student)

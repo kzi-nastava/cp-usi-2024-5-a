@@ -1,6 +1,4 @@
-﻿
-using LangLang.Core.Observer;
-using LangLang.Domain.Models;
+﻿using LangLang.Domain.Models;
 using System.Collections.Generic;
 
 namespace LangLang.Domain.RepositoryInterfaces
