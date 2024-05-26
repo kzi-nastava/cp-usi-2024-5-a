@@ -42,5 +42,10 @@ namespace LangLang.View.CourseGUI
         {
             Close();
         }
+
+        public void ChangeLabelName(string newName)
+        {
+            lbl.Content = newName;
+        }
     }
 }
