@@ -1,5 +1,4 @@
 ﻿using LangLang.Configuration;
-using LangLang.Core.Observer;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System;
@@ -9,7 +8,7 @@ using System.Linq;
 
 namespace LangLang.Repositories
 {
-    public class TutorRatingRepository : Subject, ITutorRatingRepository
+    public class TutorRatingRepository : ITutorRatingRepository
     {
         private Dictionary<int, TutorRating> _tutorRatings;
         private const string _filePath = Constants.FILENAME_PREFIX + "tutorRatings.csv";
@@ -37,7 +36,6 @@ namespace LangLang.Repositories
 
             _tutorRatings.Add(rating.Id, rating);
             Save();
-            NotifyObservers();
         }
 
         public Dictionary<int, TutorRating> Load()

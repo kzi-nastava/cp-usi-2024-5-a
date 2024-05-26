@@ -1,5 +1,4 @@
 ﻿using LangLang.Configuration;
-using LangLang.Core.Observer;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System;
@@ -10,7 +9,7 @@ using LangLang.Domain.Enums;
 
 namespace LangLang.Repositories
 {
-    public class EnrollmentRequestRepository : Subject, IEnrollmentRequestRepository
+    public class EnrollmentRequestRepository : IEnrollmentRequestRepository
     {
         private Dictionary<int, EnrollmentRequest> _enrollmentRequests;
         private const string _filePath = Constants.FILENAME_PREFIX + "enrollmentRequests.csv";
@@ -32,7 +31,6 @@ namespace LangLang.Repositories
         {
             _enrollmentRequests.Add(enrollmentRequest.Id, enrollmentRequest);
             Save();
-            NotifyObservers();
         }
 
         public void Delete(int id)
@@ -42,7 +40,6 @@ namespace LangLang.Repositories
 
             _enrollmentRequests.Remove(enrollmentRequest.Id);
             Save();
-            NotifyObservers();
         }
 
         public void Update(EnrollmentRequest enrollmentRequest)
@@ -52,7 +49,6 @@ namespace LangLang.Repositories
 
             oldRequest.UpdateStatus(enrollmentRequest.Status);
             Save();
-            NotifyObservers();
         }
 
         public List<EnrollmentRequest> GetByStudent(Student student)

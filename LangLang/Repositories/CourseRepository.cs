@@ -1,5 +1,4 @@
 ﻿using LangLang.Configuration;
-using LangLang.Core.Observer;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
