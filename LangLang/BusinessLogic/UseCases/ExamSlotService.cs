@@ -7,12 +7,11 @@ using LangLang.Domain.RepositoryInterfaces;
 using LangLang.Composition;
 using LangLang.Domain.Enums;
 using LangLang.Configuration;
-using LangLang.Domain.Enums;
 
 
 namespace LangLang.BusinessLogic.UseCases
 {
-    public class ExamSlotService : Subject
+    public class ExamSlotService
     {
         private IExamSlotRepository _exams;
 

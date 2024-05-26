@@ -1,7 +1,5 @@
 ﻿
 using LangLang.Configuration;
-using LangLang.Core.Model;
-using LangLang.Core.Model.DAO;
 using LangLang.Domain.Models;
 using System.Collections.Generic;
 

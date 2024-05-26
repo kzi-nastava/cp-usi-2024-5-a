@@ -3,13 +3,10 @@ using LangLang.Configuration;
 using LangLang.Core.Observer;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
-using LangLang.Domain.Enums;
 using LangLang.Domain.RepositoryInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Course = LangLang.Domain.Models.Course;
-using LanguageLevel = LangLang.Domain.Enums.LanguageLevel;
 
 namespace LangLang.BusinessLogic.UseCases
 {

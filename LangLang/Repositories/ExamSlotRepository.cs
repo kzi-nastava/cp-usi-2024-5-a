@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace LangLang.Repositories
 {
-    public class ExamSlotRepository : Subject, IExamSlotRepository
+    public class ExamSlotRepository : IExamSlotRepository
     {
         private readonly Dictionary<int, ExamSlot> _exams;
         private const string _filePath = Constants.FILENAME_PREFIX + "examSlots.csv";
@@ -53,7 +53,6 @@ namespace LangLang.Repositories
         {
             _exams.Add(exam.Id, exam);
             Save();
-            NotifyObservers();
 
         }
         //function for updating examslot takes new version of examslot and updates existing examslot to be same as new one
@@ -71,7 +70,6 @@ namespace LangLang.Repositories
             oldExam.Applicants = exam.Applicants;
 
             Save();
-            NotifyObservers();
         }
         //function takes id of examslot and removes examslot with that id
         //function saves changes and returns if removing was successful
@@ -80,7 +78,6 @@ namespace LangLang.Repositories
             
             _exams.Remove(id);
             Save();
-            NotifyObservers();
 
         }
         public void Save()
