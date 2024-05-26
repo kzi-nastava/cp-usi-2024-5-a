@@ -69,6 +69,7 @@ namespace LangLang.Repositories
             oldExam.Modifiable = exam.Modifiable;
             oldExam.ResultsGenerated = exam.ResultsGenerated;
             oldExam.Applicants = exam.Applicants;
+            oldExam.ExamineesNotified = exam.ExamineesNotified;
 
             Save();
             NotifyObservers();
@@ -96,7 +97,8 @@ namespace LangLang.Repositories
                     exam.MaxStudents.ToString(),
                     exam.Applicants.ToString(),
                     exam.Modifiable.ToString(),
-                    exam.ResultsGenerated.ToString());
+                    exam.ResultsGenerated.ToString(),
+                    exam.ExamineesNotified.ToString());
         });
 
             File.WriteAllLines(_filePath, lines);
@@ -123,8 +125,9 @@ namespace LangLang.Repositories
                 int applicants = int.Parse(values[7]);
                 bool modifiable = bool.Parse(values[8]);
                 bool resultsGenerated = bool.Parse(values[9]);
+                bool examineesNotified = bool.Parse(values[10]);
                 
-                ExamSlot exam = new ExamSlot(id, language, level, timeSlot, maxStudents, tutorId, applicants, modifiable, resultsGenerated);
+                ExamSlot exam = new ExamSlot(id, language, level, timeSlot, maxStudents, tutorId, applicants, modifiable, resultsGenerated, examineesNotified);
                 exams.Add(id, exam);
 
             }

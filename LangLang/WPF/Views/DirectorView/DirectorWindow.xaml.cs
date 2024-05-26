@@ -20,6 +20,8 @@ namespace LangLang.WPF.Views.DirectorView
             AddTab("Tutor review", reviewTab);
             var reportsTab = new Reports();
             AddTab("Reports", reportsTab);
+            var resultsTab = new ResultsSending();
+            AddTab("Results Sending", resultsTab);
         }
 
         private void AddTab(string header, UserControl content)

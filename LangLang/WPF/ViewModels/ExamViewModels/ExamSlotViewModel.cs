@@ -22,6 +22,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModel
         private int applicants;
         public bool Modifiable { get; set; }
         public bool ResultsGenerated { get; set; }
+        public bool ExamineesNotified { get; set; }
         public string Language
         {
             get { return language; }
@@ -169,6 +170,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModel
             Applicants = examSlot.Applicants;
             Modifiable = examSlot.Modifiable;
             ResultsGenerated = examSlot.ResultsGenerated;
+            ExamineesNotified = examSlot.ExamineesNotified;
         }
         public string Error => null;
 
@@ -177,7 +179,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModel
             string[] timeParts = time.Split(':');
             int hour = int.Parse(timeParts[0]);
             int minute = int.Parse(timeParts[1]);
-            return new ExamSlot(Id, language, level, new TimeSlot(Constants.EXAM_DURATION, new DateTime(examDate.Year, examDate.Month, examDate.Day, hour, minute, 0)), maxStudents, TutorId, applicants, Modifiable, ResultsGenerated);
+            return new ExamSlot(Id, language, level, new TimeSlot(Constants.EXAM_DURATION, new DateTime(examDate.Year, examDate.Month, examDate.Day, hour, minute, 0)), maxStudents, TutorId, applicants, Modifiable, ResultsGenerated, ExamineesNotified);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
