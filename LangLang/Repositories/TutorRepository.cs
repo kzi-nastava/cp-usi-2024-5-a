@@ -38,6 +38,7 @@ namespace LangLang.Repositories
 
         public Tutor Get(int id)
         {
+            if (id == Constants.DELETED_TUTOR_ID) return null;
             return _tutors[id];
         }
 

@@ -5,6 +5,8 @@ using System.Text.RegularExpressions;
 using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Models;
 using LangLang.Domain.Enums;
+using System.Reflection.Metadata;
+using LangLang.Configuration;
 
 namespace LangLang.WPF.ViewModels.CourseViewModels
 {
@@ -260,11 +262,17 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             Modifiable = course.Modifiable;
             SetDaysProperties(course.Days);
             DaysUntilEnd = course.DaysUntilEnd().ToString() + " until the end of course.";
-
-            var tutorService = new TutorService();
-            var tutor = tutorService.Get(course.TutorId);
-            TutorFullName = tutor.Profile.Name + " " + tutor.Profile.LastName;
-            
+           
+            if(course.TutorId == Constants.DELETED_TUTOR_ID)
+            {
+                TutorFullName = "Deleted tutor";
+            }
+            else
+            {
+                var tutorService = new TutorService();
+                var tutor = tutorService.Get(course.TutorId);
+                TutorFullName = tutor.Profile.Name + " " + tutor.Profile.LastName;
+            }
             var gradeService = new GradeService();
             GradedStudentsCount = gradeService.CountGradedStudents(course);
             GratitudeEmailSent = course.GratitudeEmailSent;

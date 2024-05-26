@@ -49,17 +49,19 @@ namespace LangLang.BusinessLogic.UseCases
                 {
                     if (course.CreatedByDirector)
                     {
-                        course.TutorId = -1;
+                        course.TutorId = Constants.DELETED_TUTOR_ID;
                         Update(course);
                     }
                     else
                     {
+                        EnrollmentRequestService enrollmentRequestService = new();
+                        enrollmentRequestService.
                         Delete(course.Id);
                     }
                 }
                 else
                 {
-                    course.TutorId = -1;
+                    course.TutorId = Constants.DELETED_TUTOR_ID;
                     Update(course);
                 }
             }
@@ -185,13 +187,6 @@ namespace LangLang.BusinessLogic.UseCases
             return false;
         }
 
-        public List<DateTime> CalculateClassDates(DateTime startDate, DateTime endDate, List<DayOfWeek> weekdays, TimeSpan classTime)
-        {
-            List<DateTime> classDates = new List<DateTime>();
-
-
-            return classDates;
-        }
         public List<Course> GetByTutor(Tutor tutor)
         {
             List<Course> coursesByTutor = new List<Course>();
