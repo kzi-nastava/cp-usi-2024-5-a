@@ -1,4 +1,5 @@
-﻿using LangLang.Composition;
+﻿using iText.StyledXmlParser.Jsoup.Parser;
+using LangLang.Composition;
 using LangLang.Configuration;
 using LangLang.Core.Observer;
 using LangLang.Domain.Enums;
@@ -305,6 +306,56 @@ namespace LangLang.BusinessLogic.UseCases
         public List<Course> GetCoursesHeldInLastYear()
         {
             return GetAll().Where(course => course.IsHeldInLastYear()).ToList();
+        }
+        public List<Student> GetStudentsAttended(Course course)
+        {
+            List<Student> attended = new();
+            EnrollmentRequestService enrollmentsService = new();
+            List<EnrollmentRequest> enrollments = enrollmentsService.GetByCourse(course);
+            StudentService studentsService = new();
+            Student student;
+            foreach(EnrollmentRequest request in enrollments)
+            {
+                if(StudentAttendedUntilEnd(course, request))
+                {
+                    student = studentsService.Get(request.StudentId);
+                    attended.Add(student);
+                }
+            }
+            return attended;
+        }
+        public int NumStudentsAttended(Course course)
+        {
+            return GetStudentsAttended(course).Count;
+        }
+        public int NumStudentsPassed(Course course)
+        {
+            List<Student> passed = new();
+
+            foreach(Student student in GetStudentsAttended(course))
+            {
+                if (HasStudentPassed(student, course))
+                {
+                    passed.Add(student);
+                }
+            }
+            return passed.Count;
+
+        }
+        public bool HasStudentPassed(Student student,Course course)
+        {
+            ExamResultService resultsService = new();
+            List<ExamResult> results = new();
+            results = resultsService.GetByStudent(student);
+
+            foreach (ExamResult result in results)
+            {
+                if (resultsService.IsResultForCourse(result, course) && result.Outcome == ExamOutcome.Passed)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
