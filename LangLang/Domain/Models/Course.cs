@@ -22,11 +22,12 @@ namespace LangLang.Domain.Models
         public bool CreatedByDirector { get; set; }
         public List<TimeSlot> TimeSlots { get; set; }
         public bool Modifiable { get; set; }
+        public bool GratitudeEmailSent {  get; set; }
 
 
         // Constructors
         public Course(int id, int tutorId, string language, LanguageLevel level, int numberOfWeeks, List<DayOfWeek> days,
-            bool online, int numberOfStudents, int maxStudents, DateTime startDateTime, bool createdByDirector, bool modifiable)
+            bool online, int numberOfStudents, int maxStudents, DateTime startDateTime, bool createdByDirector, bool modifiable, bool gratitudeEmailSent)
         {
             Id = id;
             TutorId = tutorId;
@@ -41,6 +42,7 @@ namespace LangLang.Domain.Models
             CreatedByDirector = createdByDirector;
             Modifiable = modifiable;
             GenerateTimeSlots();
+            GratitudeEmailSent = gratitudeEmailSent;
         }
 
         public Course()
@@ -121,7 +123,7 @@ namespace LangLang.Domain.Models
             {
                 sbDays.Remove(sbDays.Length - 1, 1);
             }
-            return string.Join("|", new object[] { Id, TutorId, Language, Level.ToString(), NumberOfWeeks, sbDays.ToString(), Online, NumberOfStudents, MaxStudents, StartDateTime.ToString(Constants.DATE_FORMAT), CreatedByDirector, Modifiable });
+            return string.Join("|", new object[] { Id, TutorId, Language, Level.ToString(), NumberOfWeeks, sbDays.ToString(), Online, NumberOfStudents, MaxStudents, StartDateTime.ToString(Constants.DATE_FORMAT), CreatedByDirector, Modifiable, GratitudeEmailSent });
         }
     }
 }
