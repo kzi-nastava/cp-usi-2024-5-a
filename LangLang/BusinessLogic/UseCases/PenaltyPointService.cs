@@ -115,5 +115,10 @@ namespace LangLang.BusinessLogic.UseCases
         {
             return GetAll().Where(point => point.CourseId == course.Id).ToList();
         }
+
+        public int CountPenaltyPoints(Student student, Course course)
+        {
+            return GetAll().Where(point => point.CourseId == course.Id && point.StudentId == student.Id).Count();
+        }
     }
 }

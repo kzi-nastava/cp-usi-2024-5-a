@@ -2,7 +2,6 @@
 using System.Net.Mail;
 using System.Net;
 using System.IO;
-using System.Windows;
 using Syncfusion.Pdf;
 
 namespace LangLang.BusinessLogic.UseCases
@@ -46,7 +45,6 @@ namespace LangLang.BusinessLogic.UseCases
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Nije poslat mail " + ex.Message);
                 throw new SmtpException(ex.Message);
             }
         }
