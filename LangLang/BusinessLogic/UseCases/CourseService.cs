@@ -305,10 +305,6 @@ namespace LangLang.BusinessLogic.UseCases
             List<Course> filteredCourses = SearchCourses(availableCourses, language, level, startDate, duration, online);
             return filteredCourses;
         }
-        public void Subscribe(IObserver observer)
-        {
-            _courses.Subscribe(observer);
-        }
         public List<Course> GetCoursesHeldInLastYear()
         {
             return GetAll().Where(course => course.IsHeldInLastYear()).ToList();

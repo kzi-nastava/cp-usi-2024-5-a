@@ -17,6 +17,5 @@ namespace LangLang.Domain.RepositoryInterfaces
         public void Delete(int id);
         public void Save();
         public Dictionary<int, Grade> Load();
-        public void Subscribe(IObserver observer);
     }
 }

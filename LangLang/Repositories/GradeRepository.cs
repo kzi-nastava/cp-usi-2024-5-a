@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LangLang.Repositories
 {
-    public class GradeRepository : Subject, IGradeRepository
+    public class GradeRepository : IGradeRepository
     {
         private readonly Dictionary<int, Grade> _grades;
         private string _filePath = Constants.FILENAME_PREFIX + "grades.csv";
@@ -24,7 +24,6 @@ namespace LangLang.Repositories
         {
             _grades.Add(grade.Id, grade);
             Save();
-            NotifyObservers();
         }
 
         public void Delete(int id)
@@ -33,7 +32,6 @@ namespace LangLang.Repositories
             if (grade == null) return;
             _grades.Remove(id);
             Save();
-            NotifyObservers();
         }
 
         public Grade Get(int id)
@@ -90,7 +88,6 @@ namespace LangLang.Repositories
             oldGrade.KnowledgeGrade = grade.KnowledgeGrade;
 
             Save();
-            NotifyObservers();
         }
     }
 }

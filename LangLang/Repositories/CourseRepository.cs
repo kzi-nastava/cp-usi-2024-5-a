@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LangLang.Repositories
 {
-    public class CourseRepository :Subject, ICourseRepository
+    public class CourseRepository : ICourseRepository
     {
         private readonly Dictionary<int, Course> _courses;
         private string _filePath = Constants.FILENAME_PREFIX + "courses.csv";
@@ -84,7 +84,6 @@ namespace LangLang.Repositories
         {
             _courses.Add(course.Id, course);
             Save();
-            NotifyObservers();
         }
 
         public void Update(Course course)
@@ -104,14 +103,12 @@ namespace LangLang.Repositories
             oldCourse.Modifiable = course.Modifiable;
 
             Save();
-            NotifyObservers();
         }
 
         public void Delete(int id)
         {
             _courses.Remove(id);
             Save();
-            NotifyObservers();
         }
 
     }
