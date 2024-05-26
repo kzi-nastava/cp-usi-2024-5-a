@@ -9,7 +9,7 @@ using LangLang.Domain.Enums;
 using LangLang.WPF.Views.TutorView.Tabs;
 using System.Windows.Input;
 
-namespace LangLang.View.CourseGUI
+namespace LangLang.WPF.Views.TutorView.AddidtionalWindows.CourseView
 {
     /// <summary>
     /// Interaction logic for EnterGradesWindow.xaml

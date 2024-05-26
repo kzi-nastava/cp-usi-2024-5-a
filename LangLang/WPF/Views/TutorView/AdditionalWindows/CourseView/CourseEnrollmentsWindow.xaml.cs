@@ -10,7 +10,7 @@ using System.Net.Mail;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace LangLang.View.CourseGUI
+namespace LangLang.WPF.Views.TutorView.AddidtionalWindows.CourseView
 {
     /// <summary>
     /// Interaction logic for CourseEnrollmentsWindow.xaml

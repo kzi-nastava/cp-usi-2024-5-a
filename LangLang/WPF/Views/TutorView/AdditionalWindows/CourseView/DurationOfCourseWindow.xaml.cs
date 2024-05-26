@@ -8,7 +8,7 @@ using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using LangLang.WPF.ViewModels.RequestsViewModels;
 
-namespace LangLang.View.CourseGUI
+namespace LangLang.WPF.Views.TutorView.AddidtionalWindows.CourseView
 {
     /// <summary>
     /// Interaction logic for DurationOfCourseWindow.xaml

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace LangLang.View.CourseGUI
+namespace LangLang.WPF.Views.TutorView.AddidtionalWindows.CourseView
 {
     /// <summary>
     /// Interaction logic for GradeSelectionPopup.xaml
