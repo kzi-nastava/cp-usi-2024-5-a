@@ -25,36 +25,19 @@ namespace LangLang.View.CourseGUI
     /// </summary>
     public partial class CourseSearchWindow : Window
     {
-        private ObservableCollection<CourseViewModel> courses;
-        private List<Course> coursesForReview;
-        private int tutorId { get; set; }
+        public CourseSearchViewModel CourseSearchViewModel { get; set; }
         public CourseSearchWindow(Tutor loggedIn)
         {
-
             InitializeComponent();
-            DataContext = this;
-
-            this.tutorId = tutorId;
-
-            this.courses = new ObservableCollection<CourseViewModel>();
-
-            CourseService courseService = new();
-            coursesForReview = courseService.GetByTutor(tutorId);
+            CourseSearchViewModel = new(loggedIn);
+            DataContext = CourseSearchViewModel;
 
             levelCoursecb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
-
-            //this.courseController.Subscribe((Core.Observer.IObserver)this);
-            Update();
         }
 
         private void CoursesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-        }
-        public ObservableCollection<CourseViewModel> Courses
-        {
-            get { return courses; }
-            set { courses = value; }
         }
         private void SearchCourses(object sender, RoutedEventArgs e)
         {
@@ -65,25 +48,14 @@ namespace LangLang.View.CourseGUI
             DateTime courseStartDate = courseStartdp.SelectedDate ?? default;
             int duration = 0;
             int.TryParse(durationtb.Text, out duration);
-            CourseService courseService = new();
-            coursesForReview =  courseService.SearchCoursesByTutor(tutorId, language, level, courseStartDate, duration, !onlinecb.IsChecked);
-            Update();
+            CourseSearchViewModel.Search(language, level, courseStartDate, duration, onlinecb.IsChecked);
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
-            CourseService courseService = new();
-            coursesForReview = courseService.GetByTutor(tutorId);
             levelCoursecb.SelectedItem = null;
-            Update();
-        }
-        public void Update()
-        {
-            Courses.Clear();
-            foreach (Course course in coursesForReview)
-            {
-                Courses.Add(new CourseViewModel(course));
-            }
+            CourseSearchViewModel.Reset();
+            CourseSearchViewModel.Update();
         }
     }
 }

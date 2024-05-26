@@ -6,6 +6,8 @@ using LangLang.WPF.ViewModels.StudentViewModels;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using LangLang.Domain.Enums;
+using LangLang.WPF.Views.TutorView.Tabs;
+using System.Windows.Input;
 
 namespace LangLang.View.CourseGUI
 {
@@ -14,55 +16,14 @@ namespace LangLang.View.CourseGUI
     /// </summary>
     public partial class EnterGradesWindow : Window
     {
-        public StudentViewModel SelectedStudent { get; set; }
-        public ObservableCollection<StudentViewModel> Students { get; set; }
-
-        private CourseViewModel course;
-        public EnterGradesWindow( CourseViewModel course)
+        public CourseGradesViewModel CourseGradesVM { get; set; }
+        public EnterGradesWindow(CourseViewModel course)
         {
             InitializeComponent();
-            DataContext = this;
-
-            //this.appController = appController;
-            this.course = course;
-
-            Students = new();
-
+            CourseGradesVM = new(course);
+            DataContext = CourseGradesVM;
             DisableForm();
-            Update();
-        }
-        public void Update()
-        {
-            Students.Clear();
-            EnrollmentRequestService enrollmentRequestService = new();
-            WithdrawalRequestService withdrawalRequestService = new();
-            GradeService gradeService = new();
-            foreach (EnrollmentRequest enrollment in enrollmentRequestService.GetByCourse(course.ToCourse()))
-            {
-                // All studnets that attend the course (do not have accepted withdrawals)
-                // and have not been graded
-                if (enrollment.Status == Status.Accepted && !withdrawalRequestService.HasAcceptedWithdrawal(enrollment.Id))
-                {
-                    bool graded = false;
-                    foreach (Grade grade in gradeService.GetByCourse(course.ToCourse()))
-                    {
-                        if (enrollment.StudentId == grade.StudentId)
-                        {
-                            graded = true;
-                            break;
-                        }
-                    }
-                    if (!graded)
-                    {
-                        var studentService = new StudentService();
-                        Students.Add(new StudentViewModel(studentService.Get(enrollment.StudentId)));
-                    }
-                }
-            }
-        }
-        private void ShowSuccess()
-        {
-            MessageBox.Show("Successfully completed", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            CourseGradesVM.Update();
         }
 
         private void EnableForm()
@@ -75,31 +36,35 @@ namespace LangLang.View.CourseGUI
         }
         private void StudentTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (SelectedStudent != null)
+            if (CourseGradesVM.SelectedStudent != null)
                 EnableForm();
             else
                 DisableForm();
         }
         private void GradeBtn_Click(object sender, RoutedEventArgs e)
         {
-            GradeSelectionPopup popup = new GradeSelectionPopup();
+            GradeSelectionPopup activityPopup = new GradeSelectionPopup();
+            activityPopup.ChangeLabelName("Enter activity garde");
+            bool? activityResult = activityPopup.ShowDialog();
 
-            bool? result = popup.ShowDialog();
-            if (result == true)
+            GradeSelectionPopup knowledgePopup = new GradeSelectionPopup();
+            knowledgePopup.ChangeLabelName("Enter knowledge garde");
+            bool? knowledgeResult = knowledgePopup.ShowDialog();
+
+            if (activityResult == true && knowledgeResult == true)
             {
-                int? selectedNumber = popup.SelectedNumber;
+                int? selectedActivityGrade = activityPopup.SelectedNumber;
+                int? selectedKnowledgeGrade = knowledgePopup.SelectedNumber;
 
-                if (selectedNumber.HasValue)
+                if (selectedActivityGrade.HasValue && selectedKnowledgeGrade.HasValue)
                 {
-                    //gradeContoller.Add(new Grade(0, course.Id, SelectedStudent.Id, (int)selectedNumber)); //TODO: Implement addition through DTO class when it's implemented
-                    ShowSuccess();
+                    CourseGradesVM.Grade((int)selectedActivityGrade, (int)selectedKnowledgeGrade);
                 }
                 else
                 {
-                    MessageBox.Show("No number selected.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("You have not selected at least one of the grades.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
-            Update();
         }
     }
 }
