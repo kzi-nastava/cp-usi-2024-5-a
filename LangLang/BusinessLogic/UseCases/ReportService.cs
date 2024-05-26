@@ -88,18 +88,20 @@ namespace LangLang.BusinessLogic.UseCases
             return (passed / attended)*100;
         }
 
-        public double[] GetAverageGradesOfCourses()
+        public Dictionary<Course, List<double>> GetAverageGradesOfCourses()
         {
-            double[] averages = new double[] { 0f, 0f, 0f };
+            Dictionary<Course, List<double>> averages = new();
             CourseService courseService = new();
             List<Course> courses = courseService.GetCoursesHeldInLastYear();
             GradeService gradeService = new();
             TutorRatingService tutorRatingService = new();  
             foreach (Course course in courses)
             {
-                averages[0] += gradeService.GetAverageKnowledgeGrade(course);
-                averages[1] += gradeService.GetAverageActivityGrade(course);
-                averages[2] += tutorRatingService.GetAverageTutorRating(course);
+                List<double> avg = new();
+                avg.Add(gradeService.GetAverageKnowledgeGrade(course));
+                avg.Add(gradeService.GetAverageActivityGrade(course));
+                avg.Add(tutorRatingService.GetAverageTutorRating(course));
+                averages.Add(course, avg);
             }
             return averages;
         }
