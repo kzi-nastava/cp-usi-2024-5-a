@@ -1,5 +1,4 @@
-﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Configuration;
+﻿using LangLang.Configuration;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System.Collections.Generic;
@@ -55,16 +54,6 @@ namespace LangLang.Repositories
         {
             Student student = Get(id);
             if (student == null) return;
-
-            var enrollmentService = new EnrollmentRequestService();
-            var examAppService = new ExamApplicationService();
-            var examService = new ExamSlotService();
-
-            foreach (EnrollmentRequest er in enrollmentService.GetByStudent(student)) // delete all course enrollment requests
-                enrollmentService.Delete(er.Id);
-
-            foreach (ExamApplication ar in examAppService.GetApplications(student)) // delete all exam application requests
-                examAppService.Delete(ar.Id);
 
             _students[id].Profile.IsActive = true;
             Save();

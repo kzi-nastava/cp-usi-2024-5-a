@@ -4,6 +4,8 @@ using LangLang.Domain.Models;
 using LangLang.View.ExamSlotGUI;
 using LangLang.WPF.ViewModels.ExamViewModel;
 using LangLang.WPF.Views.TutorView.Tabs;
+using LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -30,7 +32,31 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
                 ExamSlots.Add(new ExamSlotViewModel(exam));
             }
         }
-  
+
+        public void EnterResults()
+        {
+
+            if (SelectedExamSlot.ExamDate.AddHours(Constants.EXAM_DURATION) < DateTime.Now) // after the EXAM_DURATION-hour exam concludes, it is possible to open a window.
+            {
+                EnterResults resultsWindow = new(SelectedExamSlot);
+                resultsWindow.Show();
+            }
+            else
+                MessageBox.Show("This window can be opened once the exam is passed!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public void SeeApplications()
+        {
+            var examService = new ExamSlotService();
+            if (examService.ApplicationsVisible(SelectedExamSlot.Id) && SelectedExamSlot.Applicants != 0)
+            {
+                ExamApplications applicationsWindow = new(SelectedExamSlot);
+                applicationsWindow.Show();
+            }
+            else
+                MessageBox.Show($"If there are applications, they can only be viewed {Constants.PRE_START_VIEW_PERIOD} days before exam and during the exam.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
         public void UpdateExam(ExamsReview window)
         {
             if (!IsExamSelected())
