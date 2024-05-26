@@ -30,7 +30,7 @@
         <!-- end of label -->
 
         <!--table for students-->
-        <DataGrid SelectionChanged="EnrollmentTable_SelectionChanged"  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="enrollmentTable" Margin="49,43,49,82" ItemsSource="{Binding Enrollments, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedEnrollment, UpdateSourceTrigger=PropertyChanged}">
+        <DataGrid SelectionChanged="EnrollmentTable_SelectionChanged"  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="enrollmentTable" Margin="49,43,49,82" ItemsSource="{Binding CourseRequests, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedEnrollmentRequest, UpdateSourceTrigger=PropertyChanged}">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding StudentName}"/>
                 <DataGridTextColumn IsReadOnly="True" Header="LastName" Binding="{Binding StudentLastName}"/>

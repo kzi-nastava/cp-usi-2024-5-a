@@ -29,8 +29,8 @@
                 <DataGridTextColumn Header="Language level" Binding="{Binding Level}"/>
                 <DataGridTextColumn Header="Duration (weeks)" Binding="{Binding NumberOfWeeks}"/>
                 <DataGridTextColumn Header="In classroom" Binding="{Binding NotOnline}"/>
-                <DataGridTextColumn Header="Days" Binding="{Binding ConcatenatedDays}"/>
-                <DataGridTextColumn Header="Start date" Binding="{Binding StartDateTime}"/>
+                <DataGridTextColumn Header="Days" Binding="{Binding StringDays}"/>
+                <DataGridTextColumn Header="Start date" Binding="{Binding StartDate}"/>
             </DataGrid.Columns>
         </DataGrid>
 
