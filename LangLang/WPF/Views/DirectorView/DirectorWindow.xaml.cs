@@ -18,6 +18,8 @@ namespace LangLang.WPF.Views.DirectorView
         {
             var reviewTab = new TutorReview();
             AddTab("Tutor review", reviewTab);
+            var coursesTab = new CoursesReview();
+            AddTab("Courses", coursesTab);
             var reportsTab = new Reports();
             AddTab("Reports", reportsTab);
         }
