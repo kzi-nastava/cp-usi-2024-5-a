@@ -19,6 +19,9 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
         public int NumberOfStudents { get; set; }
         public string DaysUntilEnd { get; set; }
         public bool CreatedByDirector { get; set; }
+        public int GradedStudentsCount {  get; set; }
+
+        public bool GratitudeEmailSent {  get; set; }
 
         private string language;
         private LanguageLevel level;
@@ -237,7 +240,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             {
                 if (booleanDays[i]) { days.Add((DayOfWeek)(i + 1)); }
             }
-            return new Course(Id, TutorId, language, level, numberOfWeeks, days, online, NumberOfStudents, maxStudents, new DateTime(startDate.Year, startDate.Month, startDate.Day, hour, minute, 0), CreatedByDirector, Modifiable);
+            return new Course(Id, TutorId, language, level, numberOfWeeks, days, online, NumberOfStudents, maxStudents, new DateTime(startDate.Year, startDate.Month, startDate.Day, hour, minute, 0), CreatedByDirector, Modifiable, GratitudeEmailSent);
         }
 
         public CourseViewModel(Course course)
@@ -261,6 +264,10 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             var tutorService = new TutorService();
             var tutor = tutorService.Get(course.TutorId);
             TutorFullName = tutor.Profile.Name + " " + tutor.Profile.LastName;
+            
+            var gradeService = new GradeService();
+            GradedStudentsCount = gradeService.CountGradedStudents(course);
+            GratitudeEmailSent = course.GratitudeEmailSent;
         }
 
         private void SetDaysProperties(List<DayOfWeek> days)

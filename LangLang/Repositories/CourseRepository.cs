@@ -71,8 +71,8 @@ namespace LangLang.Repositories
                 var startDateTime = DateTime.Parse(tokens[9]);
                 bool createdByDirector = bool.Parse(tokens[10]);
                 bool modifiable = bool.Parse(tokens[11]);
-
-                var course = new Course(id, tutorId, language, level, numOfWeeks, daysOfWeek, online, numOfStud, maxStud, startDateTime, createdByDirector, modifiable);
+                bool gratitudeEmailSent = bool.Parse(tokens[12]);
+                var course = new Course(id, tutorId, language, level, numOfWeeks, daysOfWeek, online, numOfStud, maxStud, startDateTime, createdByDirector, modifiable, gratitudeEmailSent);
 
                 courses.Add(course.Id, course);
             }
@@ -101,6 +101,7 @@ namespace LangLang.Repositories
             oldCourse.StartDateTime = course.StartDateTime;
             oldCourse.TutorId = course.TutorId;
             oldCourse.Modifiable = course.Modifiable;
+            oldCourse.GratitudeEmailSent = course.GratitudeEmailSent;
 
             Save();
         }

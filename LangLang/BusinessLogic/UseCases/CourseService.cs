@@ -303,10 +303,12 @@ namespace LangLang.BusinessLogic.UseCases
             List<Course> filteredCourses = SearchCourses(availableCourses, language, level, startDate, duration, online);
             return filteredCourses;
         }
+
         public List<Course> GetCoursesHeldInLastYear()
         {
             return GetAll().Where(course => course.IsHeldInLastYear()).ToList();
         }
+
         public List<Student> GetStudentsAttended(Course course)
         {
             List<Student> attended = new();
@@ -342,7 +344,7 @@ namespace LangLang.BusinessLogic.UseCases
             return passed.Count;
 
         }
-        public bool HasStudentPassed(Student student,Course course)
+        public bool HasStudentPassed(Student student, Course course)
         {
             ExamResultService resultsService = new();
             List<ExamResult> results = new();
@@ -356,6 +358,12 @@ namespace LangLang.BusinessLogic.UseCases
                 }
             }
             return false;
+        }
+
+        public List<Course> GetGraded()
+        {
+            var gradeService = new GradeService();
+            return GetAll().Where(course => gradeService.IsGraded(course) && !course.GratitudeEmailSent).ToList();
         }
     }
 }

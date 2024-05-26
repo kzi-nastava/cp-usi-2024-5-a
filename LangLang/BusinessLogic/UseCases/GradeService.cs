@@ -75,5 +75,15 @@ namespace LangLang.BusinessLogic.UseCases
 
             return average;
         }
+
+        public bool IsGraded(Course course)
+        {
+            return GetAll().Any(grade => grade.CourseId == course.Id);
+        }
+
+        public int CountGradedStudents(Course course)
+        {
+            return GetAll().Count(grade => grade.CourseId == course.Id);
+        }
     }
 }
