@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="LangLang.WPF.Views.DirectorView.Tabs.GradedCourses"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="649.883" d:DesignWidth="944.219">
+    <Grid Background="#FFFAE0E0">
+        <DataGrid
+  
+  AutoGenerateColumns="False"
+  x:Name="CompletedCoursesDataGrid"
+  ItemsSource="{Binding GradedCourses, UpdateSourceTrigger=PropertyChanged}"
+  SelectionMode="Single" IsReadOnly="True" Margin="31,210,244,210" 
+  SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="CompletedCoursesDataGrid_SelectionChanged">
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="*"/>
+                <DataGridTextColumn Header="Language Level" Binding="{Binding Level}" Width="*"/>
+                <DataGridTextColumn Header="Number of Students Attended" Binding="{Binding NumberOfStudents}" Width="*"/>
+                <DataGridTextColumn Header="Number of Students Graded" Binding="{Binding GradedStudentsCount}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="startSmartSystem" Content="RUN SMART SYSTEM FOR SENDING EMAILS TO TOP STUDENTS" HorizontalAlignment="Left" Height="29" Margin="132,482,0,0" VerticalAlignment="Top" Width="467" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" Click="startSmartSystem_Click" 
+    />
+        <TextBlock x:Name="priority" HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" VerticalAlignment="Top" Width="203" FontFamily="Broadway" FontSize="15" TextAlignment="Center" Foreground="#FFD28383" Text="Which do you prioritize?" Margin="705,292,0,0"/>
+
+        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Width="203" Margin="705,330,0,0">
+            <RadioButton x:Name="knowledge" Content="Knowledge" Width="129" Height="39" IsChecked="True"/>
+            <RadioButton x:Name="activity" Content="Activity" Width="117" Height="17" />
+        </StackPanel>
+    </Grid>
+
+</UserControl>

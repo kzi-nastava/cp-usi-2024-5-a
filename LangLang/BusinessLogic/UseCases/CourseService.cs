@@ -302,9 +302,16 @@ namespace LangLang.BusinessLogic.UseCases
             List<Course> filteredCourses = SearchCourses(availableCourses, language, level, startDate, duration, online);
             return filteredCourses;
         }
+
         public List<Course> GetCoursesHeldInLastYear()
         {
             return GetAll().Where(course => course.IsHeldInLastYear()).ToList();
+        }
+
+        public List<Course> GetGraded()
+        {
+            var gradeService = new GradeService();
+            return GetAll().Where(course => gradeService.IsGraded(course) && !course.GratitudeEmailSent).ToList();
         }
     }
 }
