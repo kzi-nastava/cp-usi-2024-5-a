@@ -57,18 +57,9 @@ namespace LangLang.BusinessLogic.UseCases
 
         public List<Grade> GetByCourse(Course course)
         {
-            List<Grade> grades = new List<Grade>();
-
-            foreach (Grade grade in GetAll())
-            {
-                if (grade.CourseId == course.Id)
-                {
-                    grades.Add(grade);
-                }
-            }
-
-            return grades;
+            return GetAll().Where(grade => grade.CourseId == course.Id).ToList();
         }
+
         public double GetAverageGrade(List<Student> students, Course course)
         {
             var grades = GetByCourse(course);
