@@ -38,9 +38,9 @@ namespace LangLang.View.CourseGUI
 
         private void CourseCreateBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (CreateCourseViewModel.CreateCourse())
+            if (CreateCourseViewModel.CreatedCourse())
             {
-                _parent.CoursesViewModel.Update();
+                _parent.Update();
                 Close();
             }
         }

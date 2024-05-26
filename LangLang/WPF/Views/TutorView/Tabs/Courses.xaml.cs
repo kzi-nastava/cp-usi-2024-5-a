@@ -81,7 +81,7 @@ namespace LangLang.WPF.Views.TutorView.Tabs
             CourseService courseService = new();
             if (courseService.CanChange(CoursesViewModel.SelectedCourse.Id))
             {
-                CourseUpdateWindow updateWindow = new(CoursesViewModel.SelectedCourse.Id);
+                CourseUpdateWindow updateWindow = new(this, CoursesViewModel.SelectedCourse.ToCourse());
                 updateWindow.Show();
             }
             else
@@ -137,13 +137,17 @@ namespace LangLang.WPF.Views.TutorView.Tabs
         {
             if (CoursesViewModel.SelectedCourse.Modifiable)
             {
-                CourseEnrollmentsWindow enrollmentsWindow = new(CoursesViewModel.SelectedCourse);
+                CourseEnrollmentsWindow enrollmentsWindow = new(this, CoursesViewModel.SelectedCourse);
                 enrollmentsWindow.Show();
             }
             else
             {
                 MessageBox.Show("The enrollments for this course have already been confirmed. No further changes are allowed.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+        }
+        public void Update()
+        {
+            CoursesViewModel.Update();
         }
     }
 }

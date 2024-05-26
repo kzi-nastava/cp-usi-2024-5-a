@@ -18,7 +18,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             Course = new CourseViewModel();
         }
 
-        public bool CreateCourse()
+        public bool CreatedCourse()
         {
             if (!Course.IsValid)
             {
