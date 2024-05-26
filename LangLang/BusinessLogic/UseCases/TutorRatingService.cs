@@ -2,8 +2,10 @@
 using LangLang.Composition;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -37,10 +39,27 @@ namespace LangLang.BusinessLogic.UseCases
             _tutorRatings.Add(rating);
         }
 
-        public bool IsRated(int studentId, int tutorId)
+        public int IsRated(int studentId, int courseId)
         {
-            return GetAll().Any(rating => rating.StudentId == studentId && rating.TutorId == tutorId);
+            TutorRating foundRating = GetAll().FirstOrDefault(rating => rating.StudentId == studentId && rating.CourseId == courseId);
+            if (foundRating != null) return foundRating.Id;
+            return -1;
         }
 
+        public double GetAverageTutorRating(Course course)
+        {
+            CourseService courseService = new();
+            List<int> ratings = new();
+            foreach (Student student in courseService.GetStudentsAttended(course))
+            {
+                int ratingId = IsRated(student.Id, course.Id);
+                if (ratingId != -1)
+                {
+                    ratings.Add(Get(ratingId).Rating);
+                }
+            }
+            if (ratings.Count == 0) return 0;
+            return ratings.Average();
+        }
     }
 }

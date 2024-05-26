@@ -38,7 +38,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
         public void TryRateTutor()
         {
             var tutorRatingService = new TutorRatingService();
-            if (tutorRatingService.IsRated(currentlyLoggedIn.Id, SelectedCourse.TutorId))
+            if (tutorRatingService.IsRated(currentlyLoggedIn.Id, SelectedCourse.Id) != -1)
             {
                 MessageBox.Show("You have already rated this tutor.", "Rating Already Submitted");
                 return;
