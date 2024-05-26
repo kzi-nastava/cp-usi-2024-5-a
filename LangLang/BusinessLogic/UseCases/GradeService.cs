@@ -3,6 +3,7 @@ using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Channels;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -75,6 +76,28 @@ namespace LangLang.BusinessLogic.UseCases
 
             return average;
         }
+        public double GetAverageKnowledgeGrade(Course course)
+        {
+            List<int> knowledgeGrades = new();
+            foreach (Grade grade in GetByCourse(course))
+            {
+                knowledgeGrades.Add(grade.KnowledgeGrade);
+            }
+            if (knowledgeGrades.Count == 0) return 0;
+            return knowledgeGrades.Average();
+        }
+
+        public double GetAverageActivityGrade(Course course)
+        {
+            List<int> activityGrades = new();
+            foreach (Grade grade in GetByCourse(course))
+            {
+                activityGrades.Add(grade.ActivityGrade);
+            }
+            if (activityGrades.Count == 0) return 0;
+            return activityGrades.Average();
+        }
+
 
         public bool IsGraded(Course course)
         {
