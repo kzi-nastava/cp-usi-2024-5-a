@@ -33,8 +33,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             Update();
         }
         public void Update()
-        {
-            SelectedCourse.TutorId = Constants.DELETED_TUTOR_ID;
+        {           
             Courses.Clear();
             CourseService courseService = new();
             foreach (Course course in courseService.GetAll())
