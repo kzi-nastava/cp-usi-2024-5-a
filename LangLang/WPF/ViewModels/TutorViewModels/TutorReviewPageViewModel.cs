@@ -33,8 +33,10 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
         {
             var courseService = new CourseService();
             var tutorService = new TutorService();
+            var examService = new ExamSlotService();
 
             courseService.DeleteByTutor(SelectedTutor.ToTutor());
+            examService.DeleteByTutor(SelectedTutor.ToTutor());
             tutorService.Deactivate(SelectedTutor.Id);
 
             ShowSuccess();
