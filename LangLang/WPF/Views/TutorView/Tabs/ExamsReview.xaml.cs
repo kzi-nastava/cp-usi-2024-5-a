@@ -1,7 +1,6 @@
 ﻿using LangLang.Domain.Models;
-using LangLang.View;
-using LangLang.View.ExamSlotGUI;
 using LangLang.WPF.ViewModels.ExamViewModels;
+using LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView;
 using System.Windows;
 using System.Windows.Controls;
 

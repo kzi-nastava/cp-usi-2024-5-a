@@ -1,5 +1,4 @@
 ﻿
-using LangLang.View.StudentGUI.Tabs;
 using LangLang.WPF.Views.StudentView.Tabs;
 
 namespace LangLang.WPF.ViewModels.StudentViewModels

@@ -3,15 +3,10 @@ using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using LangLang.WPF.ViewModels.RequestsViewModels;
-using LangLang.WPF.Views.StudentView;
-using LangLang.WPF.Views.TutorView.AddidtionalWindows.CourseView;
-using System;
+using LangLang.WPF.Views.TutorView.AdditionalWindows.CourseView;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace LangLang.WPF.ViewModels.RequestViewModels

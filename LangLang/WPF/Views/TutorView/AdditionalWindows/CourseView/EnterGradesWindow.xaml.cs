@@ -1,15 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using LangLang.BusinessLogic.UseCases;
-using LangLang.WPF.ViewModels.StudentViewModels;
-using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.CourseViewModels;
-using LangLang.Domain.Enums;
-using LangLang.WPF.Views.TutorView.Tabs;
-using System.Windows.Input;
 
-namespace LangLang.WPF.Views.TutorView.AddidtionalWindows.CourseView
+namespace LangLang.WPF.Views.TutorView.AdditionalWindows.CourseView
 {
     /// <summary>
     /// Interaction logic for EnterGradesWindow.xaml

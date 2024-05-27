@@ -1,13 +1,11 @@
-﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Domain.Enums;
+﻿using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.CourseViewModels;
-using LangLang.WPF.ViewModels.ExamViewModels;
 using LangLang.WPF.Views.TutorView.Tabs;
 using System;
 using System.Windows;
 
-namespace LangLang.WPF.Views.TutorView.AddidtionalWindows.CourseView
+namespace LangLang.WPF.Views.TutorView.AdditionalWindows.CourseView
 {
     /// <summary>
     /// Interaction logic for CourseUpdateWindow.xaml

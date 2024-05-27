@@ -3,7 +3,7 @@ using LangLang.WPF.ViewModels.ExamViewModels;
 using LangLang.WPF.Views.TutorView.Tabs;
 using System.Windows;
 
-namespace LangLang.View.ExamSlotGUI
+namespace LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView   
 {
     /// <summary>
     /// Interaction logic for ExamSlotUpdateWindow.xaml

@@ -2,7 +2,7 @@
 using LangLang.Configuration;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.CourseViewModels;
-using LangLang.WPF.Views.TutorView.AddidtionalWindows.CourseView;
+using LangLang.WPF.Views.TutorView.AdditionalWindows.CourseView;
 using System;
 using System.Windows;
 using System.Windows.Controls;

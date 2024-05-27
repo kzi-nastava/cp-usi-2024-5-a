@@ -1,10 +1,9 @@
 ﻿using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.ExamViewModels;
-using LangLang.WPF.Views.StudentView;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace LangLang.View.StudentGUI.Tabs
+namespace LangLang.WPF.Views.StudentView.Tabs
 {
     public partial class ExamApplications : UserControl
     {

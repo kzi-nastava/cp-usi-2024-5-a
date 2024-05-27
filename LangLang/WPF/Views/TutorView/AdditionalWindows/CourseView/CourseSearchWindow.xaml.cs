@@ -1,14 +1,11 @@
-﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Domain.Enums;
+﻿using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace LangLang.WPF.Views.TutorView.AddidtionalWindows.CourseView
+namespace LangLang.WPF.Views.TutorView.AdditionalWindows.CourseView
 {
     /// <summary>
     /// Interaction logic for CourseSearchWindow.xaml

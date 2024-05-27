@@ -4,7 +4,7 @@ using LangLang.WPF.ViewModels.ExamViewModels;
 using System;
 using System.Windows;
 
-namespace LangLang.View.ExamSlotGUI
+namespace LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView
 {
     /// <summary>
     /// Interaction logic for ExamSlotSearchWindow.xaml

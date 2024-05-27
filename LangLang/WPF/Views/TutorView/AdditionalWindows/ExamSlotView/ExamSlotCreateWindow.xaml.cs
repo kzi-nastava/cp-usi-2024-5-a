@@ -4,7 +4,7 @@ using LangLang.WPF.Views.TutorView.Tabs;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace LangLang.View
+namespace LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView
 {
     /// <summary>
     /// Interaction logic for ExamSlotCreateWindow.xaml
