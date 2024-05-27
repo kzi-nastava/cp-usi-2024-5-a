@@ -89,9 +89,9 @@ namespace LangLang.BusinessLogic.UseCases
             return (passed / attended)*100;
         }
 
-        public Dictionary<Course, List<double>> GetAverageGradesOfCourses()
+        public Dictionary<string, List<double>> GetAverageGradesOfCourses()
         {
-            Dictionary<Course, List<double>> averages = new();
+            Dictionary<string, List<double>> averages = new();
             CourseService courseService = new();
             List<Course> courses = courseService.GetCoursesHeldInLastYear();
             GradeService gradeService = new();
@@ -102,7 +102,7 @@ namespace LangLang.BusinessLogic.UseCases
                 avg.Add(gradeService.GetAverageKnowledgeGrade(course));
                 avg.Add(gradeService.GetAverageActivityGrade(course));
                 avg.Add(tutorRatingService.GetAverageTutorRating(course));
-                averages.Add(course, avg);
+                averages.Add(course.ToPdfString(), avg);
             }
             return averages;
         }
