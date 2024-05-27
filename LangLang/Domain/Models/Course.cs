@@ -107,7 +107,7 @@ namespace LangLang.Domain.Models
         {
             var endDate = TimeSlots[^1].GetEnd();
             DateTime oneYearAgo = DateTime.Now.AddYears(-1);
-            return endDate > oneYearAgo;
+            return endDate > oneYearAgo && endDate <= DateTime.Now;
         }
 
         public override string ToString()
@@ -124,6 +124,11 @@ namespace LangLang.Domain.Models
                 sbDays.Remove(sbDays.Length - 1, 1);
             }
             return string.Join("|", new object[] { Id, TutorId, Language, Level.ToString(), NumberOfWeeks, sbDays.ToString(), Online, NumberOfStudents, MaxStudents, StartDateTime.ToString(), CreatedByDirector, Modifiable, GratitudeEmailSent });
+        }
+
+        public string ToPdfString()
+        {
+            return Id + " " + " " + Language + " " + Level;
         }
     }
 }
