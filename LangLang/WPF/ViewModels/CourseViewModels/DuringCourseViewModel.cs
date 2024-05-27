@@ -80,6 +80,8 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             CourseService courseService = new CourseService();
             courseService.RemoveStudent(course.Id);
             withdrawalRequestService.UpdateStatus(SelectedWithdrawal.Id, Status.Accepted);
+            EnrollmentRequestService enrollmentRequestService = new();
+            enrollmentRequestService.ResumePausedRequests(SelectedWithdrawal.Student);
             Update();
         }
 
@@ -92,6 +94,10 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             CourseService courseService = new();
             TutorService tutorService = new();
             courseService.RemoveStudent(course.Id);
+
+            EnrollmentRequestService enrollmentRequestService = new();
+            enrollmentRequestService.ResumePausedRequests(SelectedWithdrawal.Student);
+
             penaltyPointService.GivePenaltyPoint(SelectedStudent.ToStudent(), tutorService.Get(course.TutorId), course.ToCourse());
 
             NotifyStudentAboutPenaltyPoint(SelectedStudent.Id);

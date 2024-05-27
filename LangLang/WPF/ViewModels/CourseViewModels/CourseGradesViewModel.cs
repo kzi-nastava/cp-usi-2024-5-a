@@ -58,6 +58,8 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
         {
             GradeService gradeService = new();
             gradeService.Add(new Grade(0, course.Id, SelectedStudent.Id, activityGrade, knowledgeGrade));
+            EnrollmentRequestService enrollmentRequestService = new();
+            enrollmentRequestService.ResumePausedRequests(SelectedStudent.ToStudent());
             ShowSuccess();
             Update();
         }
