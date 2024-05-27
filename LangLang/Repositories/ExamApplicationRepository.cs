@@ -101,5 +101,13 @@ namespace LangLang.Repositories
 
             File.WriteAllLines(_filePath, lines);
         }
+        public void DeleteByExam(ExamSlot exam)
+        {
+            List<ExamApplication> apps = GetApplications(exam.Id);
+            foreach (ExamApplication app in apps)
+            {
+                Delete(app.Id);
+            }
+        }
     }
 }

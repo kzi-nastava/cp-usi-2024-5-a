@@ -1,27 +1,34 @@
-﻿using LangLang.Configuration;
+using LangLang.Composition;
+using LangLang.Configuration;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
+using LangLang.Domain.RepositoryInterfaces;
 using LangLang.Utilities;
 using System.Collections.Generic;
-using System.IO;
 
 namespace LangLang.BusinessLogic.UseCases
 {
     public class SenderService
     {
 
+        private IEmailRepository _emails;
+
+        public SenderService()
+        {
+            _emails = Injector.CreateInstance<IEmailRepository>();
+        }
+
         public void SendResults(ExamSlot exam)
         {
             var resultService = new ExamResultService();
             var studentService = new StudentService();
-            var emailService = new EmailService();
 
             List<ExamResult> results = resultService.GetByExam(exam);
             foreach (ExamResult result in results)
             {
                 Student student = studentService.Get(result.StudentId);
 
-                string subject = emailService.GetSubject();
+                string subject = GetSubject();
                 string body = GetBody(result);
 
                 body = Utils.ReplacePlaceholders(body, GetBodyReplacements(result, exam));
@@ -54,8 +61,19 @@ namespace LangLang.BusinessLogic.UseCases
             var document = PdfService.GeneratePdf<Dictionary<string, double>>(reportService.GetAveragePenaltyPoints(), headers, reportName, data => pdfService.DataToGrid(data));
             EmailService.SendEmail(director.Profile.Email, reportName, "", document);
         }
+        public void SendGratitudeMail(Course course, List<Student> students)
+        {
+            foreach (var student in students)
+            {
+                string subject = GetGratitudeSubject();
+                string body = GetGratitudeMessage();
 
+                subject = Utils.ReplacePlaceholders(subject, GetSubjectReplacements(course));
+                body = Utils.ReplacePlaceholders(body, GetBodyReplacements(student));
 
+                EmailService.SendEmail(student.Profile.Email, subject, body);
+            }
+        }
 
         private string[] GetBodyReplacements(ExamResult result, ExamSlot exam)
         {
@@ -81,13 +99,53 @@ namespace LangLang.BusinessLogic.UseCases
 
         private string GetBody(ExamResult result)
         {
-            var emailService = new EmailService();
-
             if (result.Outcome == ExamOutcome.Passed)
-                return emailService.GetPassingMessage();
+                return GetPassingMessage();
             else
-                return emailService.GetFailingMessage();
+                return GetFailingMessage();
         }
 
+        private string[] GetSubjectReplacements(Course course)
+        {
+            return new string[]
+            {
+                course.Language,
+                course.Level.ToString()
+            };
+        }
+
+        private string[] GetBodyReplacements(Student student)
+        {
+            return new string[]
+            {
+                student.Profile.Name,
+                student.Profile.LastName
+            };
+        }
+
+        private string GetSubject()
+        {
+            return _emails.GetContent("resultSubject");
+        }
+
+        private string GetFailingMessage()
+        {
+            return _emails.GetContent("failingMessage");
+        }
+
+        private string GetPassingMessage()
+        {
+            return _emails.GetContent("passingMessage");
+        }
+
+        private string GetGratitudeMessage()
+        {
+            return _emails.GetContent("gratitudeMessage");
+        }
+
+        private string GetGratitudeSubject()
+        {
+            return _emails.GetContent("gratitudeSubject");
+        }
     }
 }

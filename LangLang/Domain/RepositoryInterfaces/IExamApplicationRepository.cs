@@ -12,6 +12,7 @@ namespace LangLang.Domain.RepositoryInterfaces
         public List<ExamApplication> GetApplications(int examId);
         public void Add(ExamApplication app);
         public void Delete(int id);
+        public void DeleteByExam(ExamSlot exam);
         public void Save();
         public Dictionary<int, ExamApplication> Load();
     }
