@@ -18,38 +18,47 @@ namespace LangLang.BusinessLogic.UseCases
         {
             try
             {
-                MailAddress fromAddress = new("langschool5a@gmail.com", "LangLang"); 
-                MailAddress toAddress = new(toEmail);
-
-                MailMessage mail = new();
-                mail.From = fromAddress;
-                mail.To.Add(toAddress);
-                mail.Subject = subject;
-                mail.Body = body;
-
-                if (pdf != null)
-                {
-                    var attachment = ConvertFromPdf(pdf);
-                    mail.Attachments.Add(attachment);
-                }
-
-                SmtpClient smtpClient = new SmtpClient
-                {
-                    Host = "smtp.gmail.com", 
-                    Port = 587,
-                    EnableSsl = true, 
-                    Credentials = new NetworkCredential("langschool5a@gmail.com", "lckfqhhpgyespyso")
-                };
-
+                MailMessage mail = CreateMailMessage(toEmail, subject, body, pdf);
+                SmtpClient smtpClient = ConfigureSmtpClient();
                 smtpClient.Send(mail);
-                
             }
             catch (Exception ex)
             {
-                throw new SmtpException(ex.Message);
+                throw new SmtpException("Failed to send email: " + ex.Message, ex);
             }
-        }      
-        
+        }
+
+        private static MailMessage CreateMailMessage(string toEmail, string subject, string body, PdfDocument? pdf)
+        {
+            MailAddress fromAddress = new("langschool5a@gmail.com", "LangLang");
+            MailAddress toAddress = new(toEmail);
+
+            MailMessage mail = new();
+            mail.From = fromAddress;
+            mail.To.Add(toAddress);
+            mail.Subject = subject;
+            mail.Body = body;
+
+            if (pdf != null)
+            {
+                var attachment = ConvertFromPdf(pdf);
+                mail.Attachments.Add(attachment);
+            }
+
+            return mail;
+        }
+
+        private static SmtpClient ConfigureSmtpClient()
+        {
+            return new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                Credentials = new NetworkCredential("langschool5a@gmail.com", "lckfqhhpgyespyso")
+            };
+        }
+
         private static Attachment ConvertFromPdf(PdfDocument document)
         {
             MemoryStream ms = new MemoryStream();
