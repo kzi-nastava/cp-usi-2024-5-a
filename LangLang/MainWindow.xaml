@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LangLang"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="LangSchool" Height="500" Width="400"
@@ -13,14 +12,6 @@ ResizeMode="NoResize">
         <TextBlock x:Name="schoolNametb" Height="38" Margin="0,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" FontFamily="Gill Sans Ultra Bold" HorizontalAlignment="Center" Foreground="#FF302A2A" FontSize="22" RenderTransformOrigin="0.5,0.5" FlowDirection="RightToLeft" TextAlignment="Center">
             <TextBlock.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" MappingMode="RelativeToBoundingBox" SpreadMethod="Repeat" Opacity="0.99">
-                    <LinearGradientBrush.RelativeTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleY="-1"/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </LinearGradientBrush.RelativeTransform>
                     <GradientStop Color="Black"/>
                     <GradientStop Color="White" Offset="0"/>
                 </LinearGradientBrush>
@@ -45,7 +36,8 @@ ResizeMode="NoResize">
             </Label.Background>
         </Label>
         <TextBox x:Name="emailtb" HorizontalAlignment="Center" Height="24" Margin="0,168,0,0" TextWrapping="Wrap" 
-              VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" >
+              VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" 
+                 Text="{Binding Path=Email}">
             <TextBox.OpacityMask>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -73,7 +65,8 @@ ResizeMode="NoResize">
             </Label.Background>
         </Label>
         <TextBox x:Name="passwordtb" HorizontalAlignment="Center" VerticalAlignment="Top" Width="310" Height="24"
-                  SelectionBrush="#FFFFDFDF" BorderBrush="#FF724879" Background="#FFFFF3F3" SelectionTextBrush="#FFFFF3F3" Foreground="#FFFFF3F3" Margin="0,242,0,0"/>
+                  SelectionBrush="#FFFFDFDF" BorderBrush="#FF724879" Background="#FFFFF3F3" SelectionTextBrush="#FFFFF3F3" Foreground="#FFFFF3F3" Margin="0,242,0,0"
+                 Text="{Binding Path=Password}"/>
 
 
 
@@ -82,6 +75,7 @@ ResizeMode="NoResize">
         <TextBlock x:Name="dontHaveAccount" HorizontalAlignment="Center" Height="20" Margin="0,410,0,0" TextWrapping="Wrap" Text="Don't have an account?" VerticalAlignment="Top" Width="144" TextAlignment="Center"/>
         <Button x:Name="signupBtn" Content="Sign up" HorizontalAlignment="Center" Height="22" Margin="0,430,0,0" VerticalAlignment="Top" Width="100" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" VerticalContentAlignment="Stretch" 
                 Click="SignupBtn_Click"/>
-        <TextBlock x:Name="errortb" HorizontalAlignment="Center" Height="29" Margin="0,284,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="204" TextAlignment="Center" Foreground="#FFAD8080"/>
+        <TextBlock x:Name="errortb" HorizontalAlignment="Center" Height="29" Margin="0,284,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="204" TextAlignment="Center" Foreground="#FFAD8080"
+                   Text="{Binding Path=Error}"/>
     </Grid>
 </Window>

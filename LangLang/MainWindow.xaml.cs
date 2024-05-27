@@ -1,68 +1,30 @@
-using LangLang.Core.Controller;
 using System.Windows;
-using LangLang.View;
-using LangLang.Core.Model;
-using LangLang.View.StudentGUI;
-using System.Security.Authentication;
+using LangLang.WPF.ViewModels;
+using LangLang.Domain.Models;
 
 namespace LangLang
 {
     public partial class MainWindow : Window
     {
-        private AppController appController { get; set; }
-
+        public MainWindowViewModel ViewModel {  get; set; }
         public MainWindow()
         {
+            ViewModel = new();
+            DataContext = ViewModel;
             InitializeComponent();
-            appController = new();
             PenaltyPointReducer reducer = new PenaltyPointReducer();
-            reducer.UpdatePenaltyPoints(appController);
+            reducer.UpdatePenaltyPoints();
         }
 
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
-            string enteredEmail = emailtb.Text;
-            string enteredPassword = passwordtb.Text;
-
-            TrySignUp(enteredEmail, enteredPassword);
+            if (ViewModel.Login()) Close();
         }
 
         private void SignupBtn_Click(object sender, RoutedEventArgs e)
         {
-            Registration registrationWindow = new(appController);
-            registrationWindow.Show();
+            ViewModel.ShowRegistrationWindow();
             Close();
         }
-        
-        private void TrySignUp(string email, string password)
-        {
-            try
-            {
-                Profile profile = appController.LoginController.GetProfileByCredentials(email, password);
-                OpenAppropriateWindow(profile);
-                Close();
-            } 
-            catch (AuthenticationException ex) {
-                errortb.Text = ex.Message;
-            }
-        }
-
-        private void OpenAppropriateWindow(Profile profile)
-        {
-            if (profile.Role == UserType.Student)
-            {
-                StudentWindow studentWindow = new(appController, profile);
-                studentWindow.Show();
-            } else if (profile.Role == UserType.Tutor)
-            {
-                TutorWindow tutorWindow = new(appController, profile);
-                tutorWindow.Show();
-            } else if (profile.Role == UserType.Director)
-            {
-                DirectorWindow directorWindow = new(appController);
-                directorWindow.Show();
-            }
-        }
-
     }
 }
