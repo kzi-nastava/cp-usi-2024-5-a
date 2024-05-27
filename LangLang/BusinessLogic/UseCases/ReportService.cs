@@ -1,8 +1,9 @@
-﻿
+﻿using System;
 using LangLang.Configuration;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -105,5 +106,68 @@ namespace LangLang.BusinessLogic.UseCases
             }
             return averages;
         }
+
+
+        // methods below for average penalty points
+        public Dictionary<string, double> GetAveragePenaltyPoints()
+        {
+            var points = new Dictionary<string, double>();
+            var courseService = new CourseService();
+            foreach (string language in courseService.GetLanguages())
+                points[language] = GetAveragePenaltyPoints(language);
+            return points;
+        }
+
+        private double GetAveragePenaltyPoints(string language)
+        {
+            int points = 0;
+
+            var courseService = new CourseService();
+            var penaltyPointService = new PenaltyPointService();
+
+            var courses = courseService.GetAll().Where(course => course.Language.Equals(language, StringComparison.OrdinalIgnoreCase));
+            foreach (Course course in courses)
+                points += penaltyPointService.GetByCourse(course).Count;
+
+            return points;
+        }
+
+        // methods below for average points
+        public Dictionary<string, double> GetAveragePoints()
+        {
+            var courseService = new CourseService();
+            var points = new Dictionary<string, double>();
+            foreach (string language in courseService.GetLanguages())
+                points[language] = GetAveragePoints(language);
+            return points;
+        }
+
+        private double GetAveragePoints(string language)
+        {
+            var examService = new ExamSlotService();
+            var resultService = new ExamResultService();
+            var exams = examService.GetByLanguage(language);
+
+            int total = 0;
+            int examinees = 0;
+
+            foreach (ExamSlot exam in exams)
+            {
+                var results = resultService.GetByExam(exam);
+                total += GetTotalPoints(results);
+                examinees += results.Count;
+            }
+
+            return examinees == 0 ? 0 : (double)total / examinees;
+        }
+
+        private int GetTotalPoints(List<ExamResult> results)
+        {
+            int total = 0;
+            foreach (ExamResult result in results)
+                total += result.ListeningPoints + result.ReadingPoints + result.SpeakingPoints + result.WritingPoints;
+            return total;
+        }
+
     }
 }

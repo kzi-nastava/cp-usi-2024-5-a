@@ -48,7 +48,14 @@ namespace LangLang.BusinessLogic.UseCases
             return gradedExams;
         }
 
-   
+        // returns all graded exams for a specified language
+        public List<ExamSlot> GetByLanguage(string language)
+        {
+            var exams = GetAll().Where(exam => exam.Language.Equals(language, StringComparison.OrdinalIgnoreCase)).ToList();
+            var resultService = new ExamResultService();
+
+            return exams.Where(exam => !resultService.GetByExam(exam).All(result => result.Outcome != ExamOutcome.NotGraded && exam.ResultsGenerated)).ToList();
+        }
 
         //function takes examslot and adds it to dictionary of examslots
         //function saves changes and returns if adding was successful

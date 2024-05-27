@@ -16,5 +16,10 @@ namespace LangLang.BusinessLogic.UseCases
         {
             return _directors.GetAll();
         }
+
+        public Director Get(int id)
+        {
+            return _directors.Get(id);
+        }
     }
 }

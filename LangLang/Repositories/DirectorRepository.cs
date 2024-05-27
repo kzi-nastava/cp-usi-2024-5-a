@@ -20,6 +20,11 @@ namespace LangLang.Repositories
             return _directors.Values.ToList();
         }
 
+        public Director Get(int id)
+        {
+            return _directors[id];
+        }
+
         // NOTE: The methods below are temporary until connecting to the database.
 
         public void Save()

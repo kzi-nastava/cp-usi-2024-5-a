@@ -1,4 +1,4 @@
-﻿using LangLang.Composition;
+using LangLang.Composition;
 using LangLang.Configuration;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
@@ -10,6 +10,7 @@ namespace LangLang.BusinessLogic.UseCases
 {
     public class SenderService
     {
+
         private IEmailRepository _emails;
 
         public SenderService()
@@ -37,6 +38,29 @@ namespace LangLang.BusinessLogic.UseCases
             }
         }
 
+        public void SendAveragePoints(Director director)
+        {
+            var reportService = new ReportService();
+            var pdfService = new PdfService();
+
+            var reportName = "Average points per language";
+            var headers = new string[] { "Language", "Average points" };
+
+            var document = PdfService.GeneratePdf<Dictionary<string, double>>(reportService.GetAveragePoints(), headers, reportName, data => pdfService.DataToGrid(data));
+            EmailService.SendEmail(director.Profile.Email, reportName, "", document);
+        }
+
+        public void SendAveragePenaltyPoints(Director director)
+        {
+            var reportService = new ReportService();
+            var pdfService = new PdfService();
+
+            var reportName = "Average penalty points per language";
+            var headers = new string[] { "Language", "Average penalty points" };
+
+            var document = PdfService.GeneratePdf<Dictionary<string, double>>(reportService.GetAveragePenaltyPoints(), headers, reportName, data => pdfService.DataToGrid(data));
+            EmailService.SendEmail(director.Profile.Email, reportName, "", document);
+        }
         public void SendGratitudeMail(Course course, List<Student> students)
         {
             foreach (var student in students)
@@ -123,6 +147,5 @@ namespace LangLang.BusinessLogic.UseCases
         {
             return _emails.GetContent("gratitudeSubject");
         }
-
     }
 }

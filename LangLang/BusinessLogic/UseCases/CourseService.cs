@@ -36,6 +36,11 @@ namespace LangLang.BusinessLogic.UseCases
             _courses.Update(course);
         }
 
+        public List<string> GetLanguages()
+        {
+            return GetAll().Select(course => course.Language).Distinct().ToList();
+        }
+
         public void Delete(int id)
         {
             _courses.Delete(id);

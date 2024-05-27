@@ -1,16 +1,20 @@
 using System.Windows;
 using System.Windows.Controls;
+using LangLang.BusinessLogic.UseCases;
+using LangLang.Domain.Models;
 using LangLang.WPF.Views.DirectorView.Tabs;
 
 namespace LangLang.WPF.Views.DirectorView
 {
     public partial class DirectorWindow : Window
     {
-
-        public DirectorWindow()
+        public Director CurrentlyLoggedIn { get; set; }
+        public DirectorWindow(Profile currentlyLoggedIn)
         {
             InitializeComponent();
             DataContext = this;
+            var directorService = new DirectorService();
+            CurrentlyLoggedIn = directorService.Get(currentlyLoggedIn.Id);
             GenerateTabs();
         }
 
@@ -22,7 +26,7 @@ namespace LangLang.WPF.Views.DirectorView
             AddTab("Results Sending", resultsTab);
             var gradedCoursesTab = new GradedCourses();
             AddTab("Graded courses", gradedCoursesTab);
-            var reportsTab = new Reports();
+            var reportsTab = new Reports(CurrentlyLoggedIn);
             AddTab("Reports", reportsTab);
             var coursesTab = new CoursesReview();
             AddTab("Courses", coursesTab);
