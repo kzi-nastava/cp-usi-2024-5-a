@@ -10,6 +10,7 @@ namespace LangLang.Domain.RepositoryInterfaces
         public List<ExamSlot> GetExams(Tutor tutor);
         public void Add(ExamSlot exam);
         public void Delete(int id);
+        public void DeleteByTutor(Tutor tutor);
         public void Update(ExamSlot exam);
         public void Save();
         public Dictionary<int, ExamSlot> Load();

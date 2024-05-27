@@ -128,30 +128,17 @@ namespace LangLang.Repositories
             return exams;
             
         }
-        /*
-        private List<ExamSlot> Search(List<ExamSlot> exams, DateTime examDate, string language, LanguageLevel? level)
+        //deletes future exams by given tutor
+        public void DeleteByTutor(Tutor tutor)
         {
-            List<ExamSlot> filteredExams = exams.Where(exam =>
-                (examDate == default || exam.TimeSlot.Time.Date == examDate.Date) &&
-                (language == "" || exam.Language == language) &&
-                (level == null || exam.Level == level)
-            ).ToList();
-
-            return filteredExams;
+            List<ExamSlot> exams = GetExams(tutor);
+            foreach(ExamSlot exam in exams)
+            {
+                if(exam.TimeSlot.Time > DateTime.Now)
+                {
+                    Delete(exam.Id);
+                }
+            }
         }
-        // Method to search exam slots by tutor and criteria
-        public List<ExamSlot> SearchByTutor(Tutor tutor, DateTime examDate, string language, LanguageLevel? level)
-        {
-            List<ExamSlot> exams = _exams.Values.ToList();
-
-            exams = GetExams(tutor);
-
-            return Search(exams, examDate, language, level);
-        }
-        public List<ExamSlot> SearchByStudent(AppController appController, Student student, DateTime examDate, string language, LanguageLevel? level)
-        {
-            List<ExamSlot> availableExamSlots = GetAvailableExams(student, appController);
-            return Search(availableExamSlots, examDate, language, level);
-        }*/
     }
 }

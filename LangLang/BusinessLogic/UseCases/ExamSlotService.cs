@@ -115,6 +115,10 @@ namespace LangLang.BusinessLogic.UseCases
             return true;
 
         }
+        public void DeleteByTutor(Tutor tutor)
+        {
+            _exams.DeleteByTutor(tutor);
+        }
         public void AddStudent(ExamSlot exam)
         {           
             exam.Applicants++;
