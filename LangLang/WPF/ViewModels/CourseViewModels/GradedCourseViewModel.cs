@@ -27,18 +27,12 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
 
             Course course = SelectedCourse.ToCourse();
             List<Student> students = SmartSystem.GetTopStudents(course, knowledgePriority); 
-            foreach (Student student in students)
-            {
-                string subject = $"Congratulations on Your Outstanding Achievement in {course.Language} {course.Level} Course!";
-                string body = $"Dear {student.Profile.Name},\r\n\r\nI am delighted to extend my heartfelt " +
-                                "congratulations to you for being one of the top students in our course. " +
-                                "Your dedication, hard work, and outstanding performance have truly set you apart. " +
-                                "We are proud to have you as a part of our learning community.\r\n\r\nBest regards,";
-                EmailService.SendEmail(student.Profile.Email, subject, body);
-            }
+            var senderService = new ResultSenderService();
+            senderService.SendGratitudeMail(course, students);
 
             course.GratitudeEmailSent = true;
             _service.Update(course);
+            ShowSuccess();
             Update();
         }
 
@@ -50,6 +44,11 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
                 GradedCourses.Add(new CourseViewModel(course)); 
             }
         }
-       
+
+        private void ShowSuccess()
+        {
+            MessageBox.Show("Successfully completed!");
+        }
+
     }
 }

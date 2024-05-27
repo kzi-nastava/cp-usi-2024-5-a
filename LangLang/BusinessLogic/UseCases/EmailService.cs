@@ -61,7 +61,7 @@ namespace LangLang.BusinessLogic.UseCases
 
         public string GetSubject()
         {
-            return _emails.GetContent("subject");  
+            return _emails.GetContent("resultSubject");  
         }
 
         public string GetFailingMessage()
@@ -72,6 +72,16 @@ namespace LangLang.BusinessLogic.UseCases
         public string GetPassingMessage()
         {
             return _emails.GetContent("passingMessage");
+        }
+
+        public string GetGratitudeMessage()
+        {
+            return _emails.GetContent("gratitudeMessage");
+        }
+
+        public string GetGratitudeSubject()
+        {
+            return _emails.GetContent("gratitudeSubject");
         }
         
         private static Attachment ConvertFromPdf(PdfDocument document)

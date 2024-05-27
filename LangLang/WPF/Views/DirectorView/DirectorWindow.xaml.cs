@@ -26,7 +26,7 @@ namespace LangLang.WPF.Views.DirectorView
             AddTab("Reports", reportsTab);
             var coursesTab = new CoursesReview();
             AddTab("Courses", coursesTab);
-            var examsTab = new ExamSlotsReview()
+            var examsTab = new ExamSlotsReview();
             AddTab("Exams", examsTab);
         }
 

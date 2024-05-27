@@ -30,6 +30,22 @@ namespace LangLang.BusinessLogic.UseCases
             }
         }
 
+        public void SendGratitudeMail(Course course, List<Student> students)
+        {
+            var emailService = new EmailService();
+
+            foreach (var student in students)
+            {
+                string subject = emailService.GetGratitudeSubject();
+                string body = emailService.GetGratitudeMessage();
+
+                subject = Utils.ReplacePlaceholders(subject, GetSubjectReplacements(course));
+                body = Utils.ReplacePlaceholders(body, GetBodyReplacements(student));
+
+                EmailService.SendEmail(student.Profile.Email, subject, body);
+            }
+        }
+
         private string[] GetBodyReplacements(ExamResult result, ExamSlot exam)
         {
             return new string[] {
@@ -60,6 +76,24 @@ namespace LangLang.BusinessLogic.UseCases
                 return emailService.GetPassingMessage();
             else
                 return emailService.GetFailingMessage();
+        }
+
+        private string[] GetSubjectReplacements(Course course)
+        {
+            return new string[]
+            {
+                course.Language,
+                course.Level.ToString()
+            };
+        }
+
+        private string[] GetBodyReplacements(Student student)
+        {
+            return new string[]
+            {
+                student.Profile.Name,
+                student.Profile.LastName
+            };
         }
 
     }
