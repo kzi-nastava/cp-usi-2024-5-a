@@ -28,7 +28,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
         {
             Courses.Clear();
             CourseService courseService = new();
-            foreach (Course course in courseService.GetByTutor(LoggedIn))
+            foreach (Course course in courseService.GetByTutor(LoggedIn.Id))
             {
                 Courses.Add(new CourseViewModel(course));
             }

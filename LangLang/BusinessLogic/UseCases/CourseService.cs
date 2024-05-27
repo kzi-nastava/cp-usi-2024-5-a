@@ -47,7 +47,7 @@ namespace LangLang.BusinessLogic.UseCases
         }
         public void DeleteByTutor(Tutor tutor)
         {
-            foreach (Course course in GetByTutor(tutor))
+            foreach (Course course in GetByTutor(tutor.Id))
             {
                 if (course.StartDateTime > DateTime.Now)
                 {
@@ -180,20 +180,11 @@ namespace LangLang.BusinessLogic.UseCases
         {
             return _courses.GetAll();
         }
-        public DateTime GetEnd(Course course)
-        {
-            return course.TimeSlots[course.TimeSlots.Count - 1].GetEnd();
-        }
 
-        public bool IsActive(Course course)
-        {
-            if (course.StartDateTime <= DateTime.Now && GetEnd(course) >= DateTime.Now) return true;
-            return false;
-        }
         public int NumActiveCourses(Tutor tutor)
         {
             int active = 0;
-            List<Course> coursesByTutor = GetByTutor(tutor);
+            List<Course> coursesByTutor = GetByTutor(tutor.Id);
             foreach (Course course in coursesByTutor)
             {
                 if (course.IsActive())
@@ -202,20 +193,6 @@ namespace LangLang.BusinessLogic.UseCases
                 }
             }
             return active;
-        }
-        public List<Course> GetByTutor(Tutor tutor)
-        {
-            List<Course> coursesByTutor = new List<Course>();
-
-            foreach (Course course in GetAll())
-            {
-                if (course.TutorId == tutor.Id)
-                {
-                    coursesByTutor.Add(course);
-                }
-            }
-
-            return coursesByTutor;
         }
 
         public List<Course> GetByTutor(int tutorId)
