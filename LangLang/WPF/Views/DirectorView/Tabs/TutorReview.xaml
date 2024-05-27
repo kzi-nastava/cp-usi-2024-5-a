@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LangLang.WPF.Views.DirectorView.Tabs"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="648" d:DesignWidth="964">
     <Grid Margin="0,0,0,0"  Background="#FFFAE0E0">
 
         <!--TUTORS LABEL-->
@@ -58,12 +58,13 @@
             <Grid Margin="5,0,-7,0" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="441*"/>
+                    <ColumnDefinition Width="119*"/>
+                    <ColumnDefinition Width="322*"/>
                 </Grid.ColumnDefinitions>
-                <GroupBox x:Name="languagegb" HorizontalAlignment="Left" Height="53" Header="Language" Margin="16,20,0,0" VerticalAlignment="Top" Width="249" Grid.Column="1">
+                <GroupBox x:Name="languagegb" HorizontalAlignment="Left" Height="53" Header="Language" Margin="16,20,0,0" VerticalAlignment="Top" Width="249" Grid.Column="1" Grid.ColumnSpan="2">
                     <TextBox x:Name="languagetb" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="{Binding SearchTutor.Language, Mode=TwoWay}" Width="209" Background="White" SelectionBrush="#FFFAE0E0" BorderBrush="#FFFAE0E0" Margin="10,0,0,0" TextChanged="Search_Click"/>
                 </GroupBox>
-                <GroupBox x:Name="startdategb" HorizontalAlignment="Left" Height="53" Header="Employment date" Margin="80,90,0,0" VerticalAlignment="Top" Width="266" Grid.Column="1">
+                <GroupBox x:Name="startdategb" HorizontalAlignment="Left" Height="53" Header="Employment date" Margin="80,90,0,0" VerticalAlignment="Top" Width="266" Grid.Column="1" Grid.ColumnSpan="2">
                     <DatePicker x:Name="datePickerEmployment" HorizontalAlignment="Center" SelectedDateChanged="Search_Click" Height="24" Width="233" Background="#FFFAE0E0" >
                         <DatePicker.BorderBrush>
                             <LinearGradientBrush EndPoint="0.5,0" StartPoint="0.5,1">
@@ -73,10 +74,10 @@
                         </DatePicker.BorderBrush>
                     </DatePicker>
                 </GroupBox>
-                <GroupBox x:Name="levelgb" HorizontalAlignment="Left" Height="53" Header="Level" Margin="296,20,0,0" VerticalAlignment="Top" Width="100" Grid.Column="1">
+                <GroupBox x:Name="levelgb" HorizontalAlignment="Left" Height="53" Header="Level" Margin="177,20,0,0" VerticalAlignment="Top" Width="100" Grid.Column="2">
                     <ComboBox x:Name="levelCB" HorizontalAlignment="Left" Height="22" Width="71" Margin="10,0,0,0" BorderBrush="#FFE8E8E8" SelectionChanged="Search_Click" />
                 </GroupBox>
-                <Button x:Name="clearhbtn" Content="Clear filters" HorizontalAlignment="Left" Height="29" Margin="109,160,0,0" VerticalAlignment="Top" Width="212" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="Clear_Click" Grid.Column="1"/>
+                <Button x:Name="clearhbtn" Content="Clear filters" HorizontalAlignment="Left" Height="29" Margin="109,160,0,0" VerticalAlignment="Top" Width="212" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="Clear_Click" Grid.Column="1" Grid.ColumnSpan="2"/>
 
             </Grid>
         </GroupBox>

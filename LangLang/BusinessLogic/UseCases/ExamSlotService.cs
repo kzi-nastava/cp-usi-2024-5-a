@@ -34,6 +34,21 @@ namespace LangLang.BusinessLogic.UseCases
             return _exams.GetAll();
         }
 
+        public List<ExamSlot> GetGraded()
+        {
+            var gradedExams = new List<ExamSlot>();
+            var resultsService = new ExamResultService();
+
+            foreach (var exam in GetAll())
+            {
+                if (resultsService.GetByExam(exam).All(result => result.Outcome != ExamOutcome.NotGraded) && exam.ResultsGenerated && !exam.ExamineesNotified)
+                    gradedExams.Add(exam);
+            }
+
+            return gradedExams;
+        }
+
+   
 
         //function takes examslot and adds it to dictionary of examslots
         //function saves changes and returns if adding was successful
