@@ -30,7 +30,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
 
         public void SendResults()
         {
-            var senderService = new ResultSenderService();
+            var senderService = new SenderService();
             senderService.SendResults(SelectedExam.ToExamSlot());
 
             ShowSuccess();
