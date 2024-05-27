@@ -97,6 +97,11 @@ namespace LangLang.BusinessLogic.UseCases
         {
             List<Student> students = new();
             var studentService = new StudentService();
+            var courseService = new CourseService();
+
+            if (penaltyCount == 0)
+                return courseService.GetStudentsAttended(course);
+
             foreach (var point in GetByCourse(course))
             {
                 var student = studentService.Get(point.StudentId);

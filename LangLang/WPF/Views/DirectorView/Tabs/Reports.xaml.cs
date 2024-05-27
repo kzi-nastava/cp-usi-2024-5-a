@@ -26,5 +26,10 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
         {
             _viewModel.SentAveragePenaltyPoints();
         }
+
+        private void AverageGradeByPenaltyCount_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _viewModel.SentAverageGradeByPenaltyCount();
+        }
     }
 }

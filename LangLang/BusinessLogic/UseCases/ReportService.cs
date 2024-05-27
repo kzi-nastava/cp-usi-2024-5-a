@@ -31,7 +31,7 @@ namespace LangLang.BusinessLogic.UseCases
 
             foreach (var course in courseService.GetCoursesHeldInLastYear())
             {
-                for (int i = 0; i < Constants.MAX_PENALTY_POINTS; i++)
+                for (int i = 0; i <= Constants.MAX_PENALTY_POINTS; i++)
                 {
                     var key = (course, i);
                     averageGrades[key] = GetAverageGrade(course, i);

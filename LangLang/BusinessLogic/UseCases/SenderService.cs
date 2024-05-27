@@ -4,6 +4,7 @@ using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using LangLang.Utilities;
+using System;
 using System.Collections.Generic;
 
 namespace LangLang.BusinessLogic.UseCases
@@ -38,6 +39,20 @@ namespace LangLang.BusinessLogic.UseCases
             }
         }
 
+        public void SendGratitudeMail(Course course, List<Student> students)
+        {
+            foreach (var student in students)
+            {
+                string subject = GetGratitudeSubject();
+                string body = GetGratitudeMessage();
+
+                subject = Utils.ReplacePlaceholders(subject, GetSubjectReplacements(course));
+                body = Utils.ReplacePlaceholders(body, GetBodyReplacements(student));
+
+                EmailService.SendEmail(student.Profile.Email, subject, body);
+            }
+        }
+
         public void SendAveragePoints(Director director)
         {
             var reportService = new ReportService();
@@ -61,18 +76,17 @@ namespace LangLang.BusinessLogic.UseCases
             var document = PdfService.GeneratePdf<Dictionary<string, double>>(reportService.GetAveragePenaltyPoints(), headers, reportName, data => pdfService.DataToGrid(data));
             EmailService.SendEmail(director.Profile.Email, reportName, "", document);
         }
-        public void SendGratitudeMail(Course course, List<Student> students)
+
+        internal void SentAverageGradeByPenaltyCount(Director director)
         {
-            foreach (var student in students)
-            {
-                string subject = GetGratitudeSubject();
-                string body = GetGratitudeMessage();
+            var reportService = new ReportService();
+            var pdfService = new PdfService();
 
-                subject = Utils.ReplacePlaceholders(subject, GetSubjectReplacements(course));
-                body = Utils.ReplacePlaceholders(body, GetBodyReplacements(student));
+            var reportName = "Average grade by penalty count";
+            var headers = new string[] { "Language", "Level", "Num of penalties", "Average grade" };
 
-                EmailService.SendEmail(student.Profile.Email, subject, body);
-            }
+            var document = PdfService.GeneratePdf<Dictionary<(Course, int), double>>(reportService.GetAverageGradeByPenaltyCount(), headers, reportName, data => pdfService.DataToGrid(data));
+            EmailService.SendEmail(director.Profile.Email, reportName, "", document);
         }
 
         private string[] GetBodyReplacements(ExamResult result, ExamSlot exam)

@@ -1,5 +1,6 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Models;
+using System;
 using System.Windows;
 
 namespace LangLang.WPF.ViewModels.DirectorViewModels
@@ -22,6 +23,12 @@ namespace LangLang.WPF.ViewModels.DirectorViewModels
         {
             var senderService = new SenderService();
             senderService.SendAveragePenaltyPoints(_director);
+            ShowSuccess();
+        }
+        public void SentAverageGradeByPenaltyCount()
+        {
+            var senderService = new SenderService();
+            senderService.SentAverageGradeByPenaltyCount(_director);
             ShowSuccess();
         }
 

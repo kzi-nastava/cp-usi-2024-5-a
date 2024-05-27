@@ -4,6 +4,7 @@ using Syncfusion.Pdf;
 using System.IO;
 using System;
 using System.Collections.Generic;
+using LangLang.Domain.Models;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -47,6 +48,22 @@ namespace LangLang.BusinessLogic.UseCases
                 row.Cells[0].Value = item.Key;
                 row.Cells[1].Value = item.Value.ToString();
             }
+            return grid;
+        }
+
+        public PdfGrid DataToGrid(Dictionary<(Course, int), double> data)
+        {
+            PdfGrid grid = new PdfGrid();
+            grid.Columns.Add(4);
+            foreach (var item in data)
+            {
+                PdfGridRow row = grid.Rows.Add();
+                row.Cells[0].Value = item.Key.Item1.Language;
+                row.Cells[1].Value = item.Key.Item1.Level.ToString();
+                row.Cells[2].Value = item.Key.Item2.ToString();
+                row.Cells[3].Value = item.Value.ToString();
+            }
+
             return grid;
         }
 
