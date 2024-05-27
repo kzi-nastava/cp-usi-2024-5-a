@@ -190,7 +190,19 @@ namespace LangLang.BusinessLogic.UseCases
             if (course.StartDateTime <= DateTime.Now && GetEnd(course) >= DateTime.Now) return true;
             return false;
         }
-
+        public int NumActiveCourses(Tutor tutor)
+        {
+            int active = 0;
+            List<Course> coursesByTutor = GetByTutor(tutor);
+            foreach (Course course in coursesByTutor)
+            {
+                if (course.IsActive())
+                {
+                    active++;
+                }
+            }
+            return active;
+        }
         public List<Course> GetByTutor(Tutor tutor)
         {
             List<Course> coursesByTutor = new List<Course>();
