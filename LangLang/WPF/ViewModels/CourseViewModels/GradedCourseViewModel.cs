@@ -27,7 +27,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
 
             Course course = SelectedCourse.ToCourse();
             List<Student> students = SmartSystem.GetTopStudents(course, knowledgePriority); 
-            var senderService = new ResultSenderService();
+            var senderService = new SenderService();
             senderService.SendGratitudeMail(course, students);
 
             course.GratitudeEmailSent = true;

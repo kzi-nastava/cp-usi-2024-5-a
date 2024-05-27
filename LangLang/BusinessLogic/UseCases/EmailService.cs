@@ -1,8 +1,6 @@
 using System;
 using System.Net.Mail;
 using System.Net;
-using LangLang.Domain.RepositoryInterfaces;
-using LangLang.Composition;
 using System.IO;
 using Syncfusion.Pdf;
 
@@ -10,13 +8,6 @@ namespace LangLang.BusinessLogic.UseCases
 {
     public class EmailService
     {
-
-        private IEmailRepository _emails;
-
-        public EmailService()
-        {
-            _emails = Injector.CreateInstance<IEmailRepository>();
-        }
 
         public static void SendEmail(string toEmail, string subject, string body)
         {
@@ -57,32 +48,7 @@ namespace LangLang.BusinessLogic.UseCases
             {
                 throw new SmtpException(ex.Message);
             }
-        }
-
-        public string GetSubject()
-        {
-            return _emails.GetContent("resultSubject");  
-        }
-
-        public string GetFailingMessage()
-        {
-            return _emails.GetContent("failingMessage");
-        }
-
-        public string GetPassingMessage()
-        {
-            return _emails.GetContent("passingMessage");
-        }
-
-        public string GetGratitudeMessage()
-        {
-            return _emails.GetContent("gratitudeMessage");
-        }
-
-        public string GetGratitudeSubject()
-        {
-            return _emails.GetContent("gratitudeSubject");
-        }
+        }      
         
         private static Attachment ConvertFromPdf(PdfDocument document)
         {
