@@ -258,51 +258,49 @@ namespace LangLang.BusinessLogic.UseCases
         }
 
 
-        // returns a list of exams that are available for student application
         public List<ExamSlot> GetAvailableExams(Student student)
         {
-
-            if (student == null) return null;
             List<ExamSlot> availableExams = new();
 
             var enrollmentReqService = new EnrollmentRequestService();
+            var resultService = new ExamResultService();
+            var applicationService = new ExamApplicationService();
+            var examService = new ExamSlotService();
+            var courseService = new CourseService();
+
+
             List<EnrollmentRequest> studentRequests = enrollmentReqService.GetByStudent(student);
+            List<ExamResult> studentResults = resultService.GetByStudent(student);
 
-            foreach (ExamSlot exam in GetAll())
-            {
-                //don't include filled exams and exams that passed or are less then a month away
-                if (!IsAvailable(exam)) continue;
-
-                //don't include exams for which student has already applied
-                ExamApplicationService appService = new();
-                bool hasAlreadyApplied = appService.HasApplied(student, exam);
-                if (hasAlreadyApplied) continue;
-
-                foreach (EnrollmentRequest enrollmentRequest in studentRequests)
-                {
-                    CourseService courseService = new();
-                    Course course = courseService.Get(enrollmentRequest.CourseId);
-                    if (HasStudentAttendedCourse(course, enrollmentRequest, exam))
-                    {
-                        availableExams.Add(exam);
-                    }
-                }
-            }
-
-            return availableExams;
+            var exams = GetAll().Where(exam => IsAvailable(exam))  // exclude exams that have been filled, passed, or are less than a month away.
+                           .Where(exam => applicationService.HasApplied(student, exam)) //exclude exams for which student has already applied
+                           .Where(exam => !HasPassedLowerLevel(studentResults, exam))
+                           .Where(exam => HasAttendedRequiredCourse(studentRequests, exam)).ToList();
+            return exams;
         }
 
-        private bool HasStudentAttendedCourse(Course course, EnrollmentRequest enrollmentRequest, ExamSlot examSlot)
+        private bool HasPassedLowerLevel(List<ExamResult> results, ExamSlot exam)
         {
-            if (course.Language == examSlot.Language && course.Level == examSlot.Level)
-            {
-                if (enrollmentRequest.Status == Status.Accepted && course.IsCompleted())
-                {
-                    return true;
-                }
-            }
-            return false;
+            var examService = new ExamSlotService();
+            return results.Any(result => result.Outcome == ExamOutcome.Passed &&
+                               exam.Language == examService.Get(result.ExamSlotId).Language &&
+                               exam.Level < examService.Get(result.ExamSlotId).Level);
         }
+
+        private bool HasAttendedRequiredCourse(List<EnrollmentRequest> requests, ExamSlot exam)
+        {
+            var courseService = new CourseService();
+            return requests.Select(request => courseService.Get(request.CourseId))
+           .Any(course => HasStudentAttendedCourse(course, exam));
+        }
+
+        private bool HasStudentAttendedCourse(Course course, ExamSlot examSlot)
+        {
+            return course.Language == examSlot.Language &&
+               course.Level == examSlot.Level &&
+               course.IsCompleted();
+        }
+
         public List<ExamSlot> GetExamsHeldInLastYear()
         {
             return GetAll().Where(exam => exam.IsHeldInLastYear()).ToList();
