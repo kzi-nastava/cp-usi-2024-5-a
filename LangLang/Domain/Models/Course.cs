@@ -123,7 +123,7 @@ namespace LangLang.Domain.Models
             {
                 sbDays.Remove(sbDays.Length - 1, 1);
             }
-            return string.Join("|", new object[] { Id, TutorId, Language, Level.ToString(), NumberOfWeeks, sbDays.ToString(), Online, NumberOfStudents, MaxStudents, StartDateTime.ToString(Constants.DATE_FORMAT), CreatedByDirector, Modifiable, GratitudeEmailSent });
+            return string.Join("|", new object[] { Id, TutorId, Language, Level.ToString(), NumberOfWeeks, sbDays.ToString(), Online, NumberOfStudents, MaxStudents, StartDateTime.ToString(), CreatedByDirector, Modifiable, GratitudeEmailSent });
         }
     }
 }
