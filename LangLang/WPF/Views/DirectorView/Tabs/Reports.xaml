@@ -27,7 +27,8 @@
             <Button Grid.Row="4" Content="Number of created courses for each of the existing languages in the system in the last year" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" />
             <Button Grid.Row="5" Content="Number of created  exams for each of the existing languages in the system in the last year" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" />
             <Button Grid.Row="6" Content="The average grades of students as well as the average rating of tutor per course in the last year" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" Click="AverageCourseGrades_Click" />
-            <Button Grid.Row="7" Content="Report c" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" />
+            <Button Grid.Row="7" Content="The average exams score for each skill in the last year" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" Click="AverageResultsPerSkill_Click"/>
+            <Button Content="Enrollments and pass rate of courses held in the last year" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" Click="CoursesAccomplishments_Click" Margin="0,50,0,-50" Grid.Row="7" />
         </Grid>
     </Grid>
 </UserControl>
