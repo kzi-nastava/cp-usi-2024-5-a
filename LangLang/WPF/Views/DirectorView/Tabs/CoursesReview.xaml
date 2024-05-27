@@ -35,7 +35,7 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Grid.Row="1" >
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
                 <Button Name="courseCreateWindowBtn" Content="Create course" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="CourseCreateWindowBtn_Click" />
-                <Button x:Name="tutorBtn" Content="Assign tutor" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" />
+                <Button x:Name="tutorBtn" Content="Assign tutor" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="AssignTutorBtn_Click"/>
             </StackPanel>
         </StackPanel>
 
