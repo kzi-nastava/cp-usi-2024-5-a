@@ -115,9 +115,19 @@ namespace LangLang.BusinessLogic.UseCases
             return true;
 
         }
+        //deletes future exams by given tutor
         public void DeleteByTutor(Tutor tutor)
         {
-            _exams.DeleteByTutor(tutor);
+            ExamApplicationService appsService = new();
+            List<ExamSlot> exams = GetExams(tutor);
+            foreach (ExamSlot exam in exams)
+            {
+                if (exam.TimeSlot.Time > DateTime.Now)
+                {
+                    appsService.DeleteByExam(exam);
+                    Delete(exam.Id);
+                }
+            }
         }
         public void AddStudent(ExamSlot exam)
         {           

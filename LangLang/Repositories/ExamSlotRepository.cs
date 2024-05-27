@@ -1,4 +1,5 @@
-﻿using LangLang.Configuration;
+﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.Configuration;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
@@ -127,18 +128,6 @@ namespace LangLang.Repositories
 
             return exams;
             
-        }
-        //deletes future exams by given tutor
-        public void DeleteByTutor(Tutor tutor)
-        {
-            List<ExamSlot> exams = GetExams(tutor);
-            foreach(ExamSlot exam in exams)
-            {
-                if(exam.TimeSlot.Time > DateTime.Now)
-                {
-                    Delete(exam.Id);
-                }
-            }
-        }
+        }        
     }
 }
