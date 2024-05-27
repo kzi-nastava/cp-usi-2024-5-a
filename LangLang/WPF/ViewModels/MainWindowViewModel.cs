@@ -87,7 +87,7 @@ namespace LangLang.WPF.ViewModels
             }
             else if (profile.Role == UserType.Director)
             {
-                DirectorWindow directorWindow = new();
+                DirectorWindow directorWindow = new(profile);
                 directorWindow.Show();
             }
         }

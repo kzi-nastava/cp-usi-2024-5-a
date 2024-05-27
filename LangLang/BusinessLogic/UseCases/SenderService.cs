@@ -3,10 +3,11 @@ using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.Utilities;
 using System.Collections.Generic;
+using System.IO;
 
 namespace LangLang.BusinessLogic.UseCases
 {
-    public class ResultSenderService
+    public class SenderService
     {
 
         public void SendResults(ExamSlot exam)
@@ -29,6 +30,32 @@ namespace LangLang.BusinessLogic.UseCases
                 EmailService.SendEmail(student.Profile.Email, subject, body);
             }
         }
+
+        public void SendAveragePoints(Director director)
+        {
+            var reportService = new ReportService();
+            var pdfService = new PdfService();
+
+            var reportName = "Average points per language";
+            var headers = new string[] { "Language", "Average points" };
+
+            var document = PdfService.GeneratePdf<Dictionary<string, double>>(reportService.GetAveragePoints(), headers, reportName, data => pdfService.DataToGrid(data));
+            EmailService.SendEmail(director.Profile.Email, reportName, "", document);
+        }
+
+        public void SendAveragePenaltyPoints(Director director)
+        {
+            var reportService = new ReportService();
+            var pdfService = new PdfService();
+
+            var reportName = "Average penalty points per language";
+            var headers = new string[] { "Language", "Average penalty points" };
+
+            var document = PdfService.GeneratePdf<Dictionary<string, double>>(reportService.GetAveragePenaltyPoints(), headers, reportName, data => pdfService.DataToGrid(data));
+            EmailService.SendEmail(director.Profile.Email, reportName, "", document);
+        }
+
+
 
         private string[] GetBodyReplacements(ExamResult result, ExamSlot exam)
         {

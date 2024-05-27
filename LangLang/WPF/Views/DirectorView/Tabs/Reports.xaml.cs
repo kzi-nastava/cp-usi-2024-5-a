@@ -1,5 +1,6 @@
 ﻿using LangLang.WPF.ViewModels.DirectorViewModels;
 using System.Windows.Controls;
+using LangLang.Domain.Models;
 
 namespace LangLang.WPF.Views.DirectorView.Tabs
 {
@@ -9,12 +10,21 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
     public partial class Reports : UserControl
     {
         private ReportsViewModel _viewModel;
-        public Reports()
+        public Reports(Director loggedIn)
         {
             InitializeComponent();
-            _viewModel = new();
+            _viewModel = new(loggedIn);
             DataContext = _viewModel;
         }
 
+        private void AveragePoints_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _viewModel.SentAveragePoints();
+        }
+
+        private void AveragePenaltyPoints_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _viewModel.SentAveragePenaltyPoints();
+        }
     }
 }
