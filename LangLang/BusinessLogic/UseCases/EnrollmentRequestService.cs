@@ -69,6 +69,14 @@ namespace LangLang.BusinessLogic.UseCases
            return _enrollmentRequests.GetByCourse(course);
         }
 
+        public void Delete(Course course)
+        {
+            foreach (EnrollmentRequest enrollmentRequest in GetByCourse(course))
+            {
+                Delete(enrollmentRequest.Id);
+            }
+        }
+
         public void CancelRequest(int id, Course course)
         {
             if (course.DaysUntilStart() < Constants.COURSE_CANCELLATION_PERIOD)
