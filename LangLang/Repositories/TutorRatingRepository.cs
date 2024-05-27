@@ -1,15 +1,15 @@
 ﻿using LangLang.Configuration;
-using LangLang.Core.Observer;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 
 namespace LangLang.Repositories
 {
-    public class TutorRatingRepository : Subject, ITutorRatingRepository
+    public class TutorRatingRepository : ITutorRatingRepository
     {
         private Dictionary<int, TutorRating> _tutorRatings;
         private const string _filePath = Constants.FILENAME_PREFIX + "tutorRatings.csv";
@@ -37,7 +37,6 @@ namespace LangLang.Repositories
 
             _tutorRatings.Add(rating.Id, rating);
             Save();
-            NotifyObservers();
         }
 
         public Dictionary<int, TutorRating> Load()
@@ -54,7 +53,8 @@ namespace LangLang.Repositories
                     var rating = new TutorRating( id,
                                         int.Parse(parts[1]),
                                         int.Parse(parts[2]),
-                                        int.Parse(parts[3]));
+                                        int.Parse(parts[3]),
+                                        int.Parse(parts[4]));
 
                         tutorRatings.Add(id, rating);
                     }
@@ -64,13 +64,14 @@ namespace LangLang.Repositories
 
         public void Save()
         {
-            var writer = new StreamWriter(_filePath);
+            using var writer = new StreamWriter(_filePath);
 
             foreach (var rating in GetAll())
             {
 
                 var line = string.Join(Constants.DELIMITER.ToString(),
                                    rating.Id,
+                                   rating.CourseId,
                                    rating.TutorId,
                                    rating.StudentId,
                                    rating.Rating);

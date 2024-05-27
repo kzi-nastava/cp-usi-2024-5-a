@@ -1,9 +1,9 @@
-﻿<Window x:Class="LangLang.View.CourseGUI.CourseEnrollmentsWindow"
+﻿<Window x:Class="LangLang.WPF.Views.TutorView.AdditionalWindows.CourseView.CourseEnrollmentsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LangLang.View.ExamSlotGUI"
+        xmlns:local="LangLang.WPF.Views.TutorView.AdditionalWindows.CourseView"
         mc:Ignorable="d"
         Title="ExamApplications" Height="450" Width="500"
         WindowStartupLocation="CenterScreen"
@@ -30,7 +30,7 @@
         <!-- end of label -->
 
         <!--table for students-->
-        <DataGrid SelectionChanged="EnrollmentTable_SelectionChanged"  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="enrollmentTable" Margin="49,43,49,82" ItemsSource="{Binding Enrollments, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedEnrollment, UpdateSourceTrigger=PropertyChanged}">
+        <DataGrid SelectionChanged="EnrollmentTable_SelectionChanged"  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="enrollmentTable" Margin="49,43,49,82" ItemsSource="{Binding CourseRequests, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedEnrollmentRequest, UpdateSourceTrigger=PropertyChanged}">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding StudentName}"/>
                 <DataGridTextColumn IsReadOnly="True" Header="LastName" Binding="{Binding StudentLastName}"/>

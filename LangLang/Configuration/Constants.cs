@@ -35,5 +35,9 @@
 
         public const int MIN_GRADE = 1;
         public const int MAX_GRADE = 10;
+
+        public const int TOP_STUDENTS_COUNT = 5;
+
+        public const int DELETED_TUTOR_ID = -1;
     }
 }

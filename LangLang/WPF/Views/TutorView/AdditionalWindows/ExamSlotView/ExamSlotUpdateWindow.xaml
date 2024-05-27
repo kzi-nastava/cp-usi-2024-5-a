@@ -1,9 +1,8 @@
-﻿<Window x:Class="LangLang.View.ExamSlotGUI.ExamSlotUpdateWindow"
+﻿<Window x:Class="LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView.ExamSlotUpdateWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LangLang.View.ExamSlotGUI"
         mc:Ignorable="d"
         Title="ExamSlotUpdateWindow" Height="484" Width="800">
     <!--validation-->
@@ -237,7 +236,7 @@
                   x:Name="CoursesDataGrid"
                   ItemsSource="{Binding Skills, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}"
-                  SelectionMode="Single" IsReadOnly="True" SelectionChanged="CoursesDataGrid_SelectionChanged">
+                  SelectionMode="Single" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Language" Binding="{Binding Language}"/>
                 <DataGridTextColumn Header="Language level" Binding="{Binding Level}"/>

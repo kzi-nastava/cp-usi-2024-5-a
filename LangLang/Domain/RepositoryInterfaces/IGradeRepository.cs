@@ -1,10 +1,5 @@
-﻿using LangLang.Core.Observer;
-using LangLang.Domain.Models;
-using System;
+﻿using LangLang.Domain.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LangLang.Domain.RepositoryInterfaces
 {
@@ -17,6 +12,5 @@ namespace LangLang.Domain.RepositoryInterfaces
         public void Delete(int id);
         public void Save();
         public Dictionary<int, Grade> Load();
-        public void Subscribe(IObserver observer);
     }
 }

@@ -44,6 +44,15 @@ namespace LangLang.BusinessLogic.UseCases
 
         public void Deactivate(int id) 
         {
+            var student = Get(id);
+            var enrollmentService = new EnrollmentRequestService();
+            var examAppService = new ExamApplicationService();
+
+            foreach (EnrollmentRequest er in enrollmentService.GetByStudent(student)) // delete all course enrollment requests
+                enrollmentService.Delete(er.Id);
+
+            foreach (ExamApplication ar in examAppService.GetApplications(student)) // delete all exam application requests
+                examAppService.Delete(ar.Id);
             _students.Deactivate(id);
         }
 

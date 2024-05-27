@@ -2,8 +2,11 @@
 using LangLang.Composition;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
+using System.Windows.Media;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -37,10 +40,44 @@ namespace LangLang.BusinessLogic.UseCases
             _tutorRatings.Add(rating);
         }
 
-        public bool IsRated(int studentId, int tutorId)
+        public int GetId(int studentId, int courseId)
         {
-            return GetAll().Any(rating => rating.StudentId == studentId && rating.TutorId == tutorId);
+            foreach (TutorRating rating in GetAll())
+            {
+                if (rating.CourseId == courseId && rating.StudentId == studentId) return rating.Id;
+            }
+            return -1;
+        }
+        public bool IsRated(int studentId, int courseId)
+        {
+            return GetId(studentId, courseId) != -1;
         }
 
+        public double GetAverageTutorRating(Course course)
+        {
+            CourseService courseService = new();
+            List<int> ratings = new();
+            foreach (Student student in courseService.GetStudentsAttended(course))
+            {
+                int ratingId = GetId(student.Id, course.Id);
+                if (ratingId != -1)
+                {
+                    ratings.Add(Get(ratingId).Rating);
+                }
+            }
+            if (ratings.Count == 0) return 0;
+            return ratings.Average();
+        }
+        public double GetAverageRating(Tutor tutor)
+        {
+            CourseService courseService = new();
+            List<double> ratings = new();
+            foreach (Course course in courseService.GetByTutor(tutor))
+            {
+                ratings.Add(GetAverageTutorRating(course));
+            }
+            if (ratings.Count == 0) return 0;
+            return ratings.Average();
+        }
     }
 }

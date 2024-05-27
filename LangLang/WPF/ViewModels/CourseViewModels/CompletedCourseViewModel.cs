@@ -1,5 +1,4 @@
 ﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Core.Model;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.TutorViewModels;
 using LangLang.WPF.Views.StudentView.AdditionalWindows;
@@ -39,13 +38,14 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
         public void TryRateTutor()
         {
             var tutorRatingService = new TutorRatingService();
-            if (tutorRatingService.IsRated(currentlyLoggedIn.Id, SelectedCourse.TutorId))
+            if (tutorRatingService.IsRated(currentlyLoggedIn.Id, SelectedCourse.Id))
             {
                 MessageBox.Show("You have already rated this tutor.", "Rating Already Submitted");
                 return;
             }
             TutorRatingViewModel tutorRatingDTO = new()
             {
+                CourseId = SelectedCourse.Id,
                 TutorId = SelectedCourse.TutorId,
                 StudentId = currentlyLoggedIn.Id
             };

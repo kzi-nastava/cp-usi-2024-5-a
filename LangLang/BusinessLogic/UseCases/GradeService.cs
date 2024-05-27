@@ -1,11 +1,9 @@
 ﻿using LangLang.Composition;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading.Channels;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -60,18 +58,9 @@ namespace LangLang.BusinessLogic.UseCases
 
         public List<Grade> GetByCourse(Course course)
         {
-            List<Grade> grades = new List<Grade>();
-
-            foreach (Grade grade in GetAll())
-            {
-                if (grade.CourseId == course.Id)
-                {
-                    grades.Add(grade);
-                }
-            }
-
-            return grades;
+            return GetAll().Where(grade => grade.CourseId == course.Id).ToList();
         }
+
         public double GetAverageGrade(List<Student> students, Course course)
         {
             var grades = GetByCourse(course);
@@ -86,6 +75,38 @@ namespace LangLang.BusinessLogic.UseCases
             double average = total / filteredGrades.Count;
 
             return average;
+        }
+        public double GetAverageKnowledgeGrade(Course course)
+        {
+            List<int> knowledgeGrades = new();
+            foreach (Grade grade in GetByCourse(course))
+            {
+                knowledgeGrades.Add(grade.KnowledgeGrade);
+            }
+            if (knowledgeGrades.Count == 0) return 0;
+            return knowledgeGrades.Average();
+        }
+
+        public double GetAverageActivityGrade(Course course)
+        {
+            List<int> activityGrades = new();
+            foreach (Grade grade in GetByCourse(course))
+            {
+                activityGrades.Add(grade.ActivityGrade);
+            }
+            if (activityGrades.Count == 0) return 0;
+            return activityGrades.Average();
+        }
+
+
+        public bool IsGraded(Course course)
+        {
+            return GetAll().Any(grade => grade.CourseId == course.Id);
+        }
+
+        public int CountGradedStudents(Course course)
+        {
+            return GetAll().Count(grade => grade.CourseId == course.Id);
         }
     }
 }

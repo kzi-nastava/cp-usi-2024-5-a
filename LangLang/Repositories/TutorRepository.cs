@@ -3,7 +3,6 @@ using LangLang.Domain.RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
-using LangLang.Core.Model;
 using System;
 using LangLang.Domain.Enums;
 using LangLang.Configuration;
@@ -39,6 +38,7 @@ namespace LangLang.Repositories
 
         public Tutor Get(int id)
         {
+            if (id == Constants.DELETED_TUTOR_ID) return null;
             return _tutors[id];
         }
 

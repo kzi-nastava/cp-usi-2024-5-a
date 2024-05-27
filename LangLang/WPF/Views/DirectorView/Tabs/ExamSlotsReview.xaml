@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="LangLang.WPF.Views.DirectorView.Tabs.ExamSlotsReview"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LangLang.WPF.Views.DirectorView.Tabs"
+        mc:Ignorable="d" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <!--label for exam slots table-->
+        <Label x:Name="examSlotsLbl" Content="Exam Slots" Grid.Row="0" HorizontalAlignment="Center" Height="24" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0"/>
+                </TransformGroup>
+            </Label.RenderTransform>
+            <Label.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                </LinearGradientBrush>
+            </Label.Background>
+        </Label>
+
+        <!--buttons for CRUD-->
+        <StackPanel HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Orientation="Vertical" >
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"  Orientation="Horizontal">
+                <Button Name="examSlotCreateWindowBtn" Content="Create exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black"  Click="ExamSlotCreateWindowBtn_Click" />
+            </StackPanel>
+        </StackPanel>
+
+        <!--table for exam slots-->
+        <DataGrid Grid.Column="1" Margin="15,45,15,0" AutoGenerateColumns="False"
+x:Name="ExamSlotsDataGrid"
+ItemsSource="{Binding ExamSlots, UpdateSourceTrigger=PropertyChanged}"
+SelectedItem="{Binding SelectedExamSlot, UpdateSourceTrigger=PropertyChanged}"
+SelectionMode="Single" IsReadOnly="True" SelectionChanged="ExamSlotsDataGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="*"/>
+                <DataGridTextColumn Header="Level" Binding="{Binding Level}" Width="*"/>
+                <DataGridTextColumn Header="Max students" Binding="{Binding MaxStudents}" Width="*"/>
+                <DataGridTextColumn Header="Applicants" Binding="{Binding Applicants}" Width="*"/>
+                <DataGridTextColumn Header="Date and time" Binding="{Binding ExamDate}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

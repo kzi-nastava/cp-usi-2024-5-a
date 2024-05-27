@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LangLang.BusinessLogic.UseCases;
 using LangLang.Composition;
 using LangLang.Configuration;
-using LangLang.Core.Observer;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 
-namespace LangLang.Core.Model.DAO
+namespace LangLang.BusinessLogic.UseCases
 {
-    public class PenaltyPointService: Subject
+    public class PenaltyPointService
     {
 
         
@@ -117,6 +113,11 @@ namespace LangLang.Core.Model.DAO
         public List<PenaltyPoint> GetByCourse(Course course)
         {
             return GetAll().Where(point => point.CourseId == course.Id).ToList();
+        }
+
+        public int CountPenaltyPoints(Student student, Course course)
+        {
+            return GetAll().Where(point => point.CourseId == course.Id && point.StudentId == student.Id).Count();
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Configuration;
-using LangLang.Core.Observer;
+﻿using LangLang.Configuration;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System.Collections.Generic;
@@ -57,31 +55,22 @@ namespace LangLang.Repositories
             Student student = Get(id);
             if (student == null) return;
 
-            var enrollmentService = new EnrollmentRequestService();
-            var examAppService = new ExamApplicationService();
-            var examService = new ExamSlotService();
-
-            foreach (EnrollmentRequest er in enrollmentService.GetByStudent(student)) // delete all course enrollment requests
-                enrollmentService.Delete(er.Id);
-
-            foreach (ExamApplication ar in examAppService.GetApplications(student)) // delete all exam application requests
-                examAppService.Delete(ar.Id);
-
             _students[id].Profile.IsActive = true;
             Save();
         }
 
         public void Save()
         {
-            var writer = new StreamWriter(_filePath);
-                
-            foreach (var student in GetAll())
+            using (var writer = new StreamWriter(_filePath))
             {
-                var profile = student.Profile;
-                var line = string.Join(Constants.DELIMITER.ToString(), 
-                                    profile.ToString(),
-                                    student.Profession);
-                writer.WriteLine(line);
+                foreach (var student in GetAll())
+                {
+                    var profile = student.Profile;
+                    var line = string.Join(Constants.DELIMITER.ToString(),
+                                        profile.ToString(),
+                                        student.Profession);
+                    writer.WriteLine(line);
+                }
             }
         }
 

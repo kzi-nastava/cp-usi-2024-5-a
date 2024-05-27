@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Controls;
 using LangLang.WPF.Views.DirectorView.Tabs;
 
@@ -18,10 +18,16 @@ namespace LangLang.WPF.Views.DirectorView
         {
             var reviewTab = new TutorReview();
             AddTab("Tutor review", reviewTab);
-            var reportsTab = new Reports();
-            AddTab("Reports", reportsTab);
             var resultsTab = new ResultsSending();
             AddTab("Results Sending", resultsTab);
+            var gradedCoursesTab = new GradedCourses();
+            AddTab("Graded courses", gradedCoursesTab);
+            var reportsTab = new Reports();
+            AddTab("Reports", reportsTab);
+            var coursesTab = new CoursesReview();
+            AddTab("Courses", coursesTab);
+            var examsTab = new ExamSlotsReview()
+            AddTab("Exams", examsTab);
         }
 
         private void AddTab(string header, UserControl content)

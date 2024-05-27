@@ -1,5 +1,4 @@
 ﻿
-using LangLang.View.StudentGUI.Tabs;
 using LangLang.WPF.Views.StudentView.Tabs;
 
 namespace LangLang.WPF.ViewModels.StudentViewModels
@@ -19,16 +18,14 @@ namespace LangLang.WPF.ViewModels.StudentViewModels
 
         public void UpdateAvailableExams(AvailableExams availableExamsTab)
         {
-            //availableExamsTab.ExamSlots.Clear(); // TOOD: move this logic to AvailableExamsViewModel
-            //foreach (var exam in availableExamsTab.ExamsForReview)
-                //availableExamsTab.ExamSlots.Add(new ExamSlotDTO(exam));
+            availableExamsTab.Update();
+       
         }
 
         public void UpdateExamApplications(ExamApplications examApplicationsTab)
         {
-            //examApplicationsTab.Applications.Clear(); // TOOD: move this logic to ExamAplicationsViewModel
-            //foreach (var app in examApplicationsTab.ApplicationsForReview)
-            //    examApplicationsTab.Applications.Add(new ExamApplicationDTO(app));
+            examApplicationsTab.Update();
+            
         }
 
         public void UpdateEnrollmentRequests(EnrollmentRequests enrollmentRequestsTab)

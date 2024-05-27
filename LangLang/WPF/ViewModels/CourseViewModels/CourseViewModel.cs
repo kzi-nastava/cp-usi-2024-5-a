@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LangLang.Core.Model;
 using System.Text.RegularExpressions;
-using System.Xml.Linq;
-using System.Reflection;
-using System.Windows;
-using System.Windows.Input;
 using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Models;
 using LangLang.Domain.Enums;
+using System.Reflection.Metadata;
+using LangLang.Configuration;
 
 namespace LangLang.WPF.ViewModels.CourseViewModels
 {
@@ -21,20 +15,24 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
         public string StringDays { get; set; }
 
         public int Id { get; set; }
-        private int tutorId;
+        public int TutorId { get; set; }
+        public string TutorFullName { get; set; }
+        public bool Modifiable { get; set; }
+        public int NumberOfStudents { get; set; }
+        public string DaysUntilEnd { get; set; }
+        public bool CreatedByDirector { get; set; }
+        public int GradedStudentsCount {  get; set; }
+
+        public bool GratitudeEmailSent {  get; set; }
+
         private string language;
         private LanguageLevel level;
         private int numberOfWeeks;
         private bool online;
         private int maxStudents;
         private DateTime startDate;
-        private bool createdByDirector;
         private string time;
         private List<bool> booleanDays;
-        public string TutorFullName { get; set; }
-        public bool Modifiable { get; set; }
-        public int NumberOfStudents { get; set; }
-        public string DaysUntilEnd { get; set; }
 
         public List<bool> BooleanDays
         {
@@ -144,22 +142,6 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             }
         }
 
-        public int TutorId
-        {
-            get
-            {
-                return tutorId;
-            }
-            set
-            {
-                if (value != tutorId)
-                {
-                    tutorId = value;
-                    OnPropertyChanged("TutorId");
-                }
-            }
-        }
-
         public bool NotOnline
         {
             get
@@ -176,24 +158,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             }
         }
 
-        public bool CreatedByDirector
-        {
-            get
-            {
-                return online;
-            }
-            set
-            {
-                if (value != createdByDirector)
-                {
-                    createdByDirector = value;
-                    OnPropertyChanged("CreatedByDirector");
-                }
-            }
-        }
-
         private readonly Regex _TimeRegex = new("^([01]?[0-9]|2[0-3]):[0-5][0-9]$");
-
 
         public string this[string columnName]
         {
@@ -277,7 +242,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             {
                 if (booleanDays[i]) { days.Add((DayOfWeek)(i + 1)); }
             }
-            return new Course(Id, tutorId, language, level, numberOfWeeks, days, online, NumberOfStudents, maxStudents, new DateTime(startDate.Year, startDate.Month, startDate.Day, hour, minute, 0), createdByDirector, Modifiable);
+            return new Course(Id, TutorId, language, level, numberOfWeeks, days, online, NumberOfStudents, maxStudents, new DateTime(startDate.Year, startDate.Month, startDate.Day, hour, minute, 0), CreatedByDirector, Modifiable, GratitudeEmailSent);
         }
 
         public CourseViewModel(Course course)
@@ -290,16 +255,27 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             TutorId = course.TutorId;
             NumberOfStudents = course.NumberOfStudents;
             StartDate = course.StartDateTime;
+            Time = course.StartDateTime.ToString("HH:mm");
+
             NumberOfWeeks = course.NumberOfWeeks.ToString();
             MaxStudents = course.MaxStudents.ToString();
-            Time = course.StartDateTime.ToString("HH:mm");
             Modifiable = course.Modifiable;
             SetDaysProperties(course.Days);
             DaysUntilEnd = course.DaysUntilEnd().ToString() + " until the end of course.";
-
-            var tutorService = new TutorService();
-            var tutor = tutorService.Get(course.TutorId);
-            TutorFullName = tutor.Profile.Name + " " + tutor.Profile.LastName;
+           
+            if(course.TutorId == Constants.DELETED_TUTOR_ID)
+            {
+                TutorFullName = "Deleted tutor";
+            }
+            else
+            {
+                var tutorService = new TutorService();
+                var tutor = tutorService.Get(course.TutorId);
+                TutorFullName = tutor.Profile.Name + " " + tutor.Profile.LastName;
+            }
+            var gradeService = new GradeService();
+            GradedStudentsCount = gradeService.CountGradedStudents(course);
+            GratitudeEmailSent = course.GratitudeEmailSent;
         }
 
         private void SetDaysProperties(List<DayOfWeek> days)

@@ -3,7 +3,6 @@ using LangLang.Domain.RepositoryInterfaces;
 using LangLang.Domain.Models;
 using System.Collections.Generic;
 using System.Linq;
-using LangLang.Core.Model;
 using System;
 using LangLang.Domain.Enums;
 
@@ -53,6 +52,23 @@ namespace LangLang.BusinessLogic.UseCases
         public List<Tutor> GetActive()
         {
             return _tutors.GetActive();
+        }
+
+        public List<Tutor> GetBySkill(string language, LanguageLevel level)
+        {
+            List<Tutor> tutors = new();
+            foreach (Tutor tutor in GetActive())
+            {
+                for (int i = 0; i < tutor.Skill.Language.Count; i++)
+                {
+                    if (tutor.Skill.Language[i] == language && tutor.Skill.Level[i] == level)
+                    {
+                        tutors.Add(tutor);
+                        break;
+                    }
+                }
+            }
+            return tutors;
         }
 
         public List<Tutor> Search(DateTime date, string language, LanguageLevel? level)

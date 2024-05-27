@@ -1,15 +1,11 @@
 ﻿using LangLang.Composition;
 using LangLang.Configuration;
-using LangLang.Core.Observer;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
-using LangLang.Domain.Enums;
 using LangLang.Domain.RepositoryInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Course = LangLang.Domain.Models.Course;
-using LanguageLevel = LangLang.Domain.Enums.LanguageLevel;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -51,17 +47,19 @@ namespace LangLang.BusinessLogic.UseCases
                 {
                     if (course.CreatedByDirector)
                     {
-                        course.TutorId = -1;
+                        course.TutorId = Constants.DELETED_TUTOR_ID;
                         Update(course);
                     }
                     else
                     {
+                        EnrollmentRequestService enrollmentRequestService = new();
+                        enrollmentRequestService.
                         Delete(course.Id);
                     }
                 }
                 else
                 {
-                    course.TutorId = -1;
+                    course.TutorId = Constants.DELETED_TUTOR_ID;
                     Update(course);
                 }
             }
@@ -187,13 +185,6 @@ namespace LangLang.BusinessLogic.UseCases
             return false;
         }
 
-        public List<DateTime> CalculateClassDates(DateTime startDate, DateTime endDate, List<DayOfWeek> weekdays, TimeSpan classTime)
-        {
-            List<DateTime> classDates = new List<DateTime>();
-
-
-            return classDates;
-        }
         public List<Course> GetByTutor(Tutor tutor)
         {
             List<Course> coursesByTutor = new List<Course>();
@@ -305,13 +296,67 @@ namespace LangLang.BusinessLogic.UseCases
             List<Course> filteredCourses = SearchCourses(availableCourses, language, level, startDate, duration, online);
             return filteredCourses;
         }
-        public void Subscribe(IObserver observer)
-        {
-            _courses.Subscribe(observer);
-        }
+
         public List<Course> GetCoursesHeldInLastYear()
         {
             return GetAll().Where(course => course.IsHeldInLastYear()).ToList();
+        }
+
+        public List<Student> GetStudentsAttended(Course course)
+        {
+            List<Student> attended = new();
+            EnrollmentRequestService enrollmentsService = new();
+            List<EnrollmentRequest> enrollments = enrollmentsService.GetByCourse(course);
+            StudentService studentsService = new();
+            Student student;
+            foreach(EnrollmentRequest request in enrollments)
+            {
+                if(StudentAttendedUntilEnd(course, request))
+                {
+                    student = studentsService.Get(request.StudentId);
+                    attended.Add(student);
+                }
+            }
+            return attended;
+        }
+        public int NumStudentsAttended(Course course)
+        {
+            return GetStudentsAttended(course).Count;
+        }
+        public int NumStudentsPassed(Course course)
+        {
+            List<Student> passed = new();
+
+            foreach(Student student in GetStudentsAttended(course))
+            {
+                if (HasStudentPassed(student, course))
+                {
+                    passed.Add(student);
+                }
+            }
+            return passed.Count;
+
+        }
+        public bool HasStudentPassed(Student student, Course course)
+        {
+            ExamResultService resultsService = new();
+            List<ExamResult> results = new();
+            results = resultsService.GetByStudent(student);
+
+            foreach (ExamResult result in results)
+            {
+                if (resultsService.IsResultForCourse(result, course) && result.Outcome == ExamOutcome.Passed)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public List<Course> GetGraded()
+        {
+            var gradeService = new GradeService();
+            return GetAll().Where(course => gradeService.IsGraded(course) && !course.GratitudeEmailSent).ToList();
         }
     }
 }
