@@ -2,6 +2,7 @@
 using LangLang.Configuration;
 using LangLang.Domain.Models;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace LangLang.BusinessLogic.UseCases
@@ -65,21 +66,66 @@ namespace LangLang.BusinessLogic.UseCases
         {
             TutorService tutorService = new();
             List<Tutor> tutors = tutorService.GetBySkill(course.Language, course.Level);
+            //there is no free tutors for given course
             if (tutors.Count == 0) return -1;
-            TutorRatingService tutorRatingService = new();
-            Dictionary<Tutor, double> tutorsAndRatings = new();
+
+            //consider only tutors that are free in time of course
+            List<Tutor> availableTutors = new();
+            CourseService coursesService = new();
             foreach (Tutor tutor in tutors)
             {
-                tutorsAndRatings[tutor] = tutorRatingService.GetAverageRating(tutor);
-            }
-            Dictionary<Tutor, double> sorted = tutorsAndRatings.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
-            CourseService coursesService = new();
-            foreach (Tutor tutor in sorted.Keys)
-            {
                 course.TutorId = tutor.Id;
-                if (coursesService.CanCreateOrUpdate(course)) return tutor.Id;
+                if (coursesService.CanCreateOrUpdate(course)) availableTutors.Add(tutor);
             }
-            return -1;
+            //find least busy tutors
+            List<Tutor> leastBusyTutors = WithLeastActiveCourses(availableTutors);
+            //check who is rated the best
+            return GetBestRankedTutor(leastBusyTutors);
         }
+        private static int MinimumActiveCourses(List<Tutor> tutors)
+        {
+            CourseService coursesService = new();
+            int minActive = int.MaxValue;
+            int active = 0;
+            foreach (var tutor in tutors)
+            {
+                active = coursesService.NumActiveCourses(tutor);
+                if (active < minActive)
+                {
+                    minActive = active;
+                }
+            }
+
+            return minActive;
+        }
+        private static List<Tutor> WithLeastActiveCourses(List<Tutor> tutors)
+        {
+            int minActive = MinimumActiveCourses(tutors);
+            List<Tutor> leastBusyTutors = new List<Tutor>();
+            CourseService coursesService = new();
+
+            foreach (var tutor in tutors)
+            {
+                int active = coursesService.NumActiveCourses(tutor);
+                if (active == minActive)
+                {
+                    leastBusyTutors.Add(tutor);
+                }
+            }
+
+            return leastBusyTutors;
+        }
+        private static int GetBestRankedTutor(List<Tutor> tutors)
+        {
+            TutorRatingService tutorRatingService = new();
+            Dictionary<Tutor, double> ratings = new();
+            foreach (Tutor tutor in tutors)
+            {
+                ratings[tutor] = tutorRatingService.GetAverageRating(tutor);
+            }
+            Tutor bestRanked = ratings.Aggregate((x, y) => x.Value < y.Value ? x : y).Key;
+            return bestRanked.Id;
+        }
+        
     }
 }
