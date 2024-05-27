@@ -54,7 +54,7 @@ namespace LangLang.BusinessLogic.UseCases
                     else
                     {
                         EnrollmentRequestService enrollmentRequestService = new();
-                        enrollmentRequestService.
+                        enrollmentRequestService.Delete(course);
                         Delete(course.Id);
                     }
                 }
