@@ -26,7 +26,6 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             var courseService = new CourseService();
             if (courseService.CanCreateOrUpdate(Course.ToCourse()))
             {
-                Trace.WriteLine("Usao da moze da create za " + Course.ToCourse().TutorId);
                 AssignTutor(Course);
                 courseService.Add(Course.ToCourse());
                 MessageBox.Show("Success!");

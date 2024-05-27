@@ -44,6 +44,7 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
 
         public void Update()
         {
+            tutorBtn.IsEnabled = false;
             CoursesVM.Update();
         }
     }
