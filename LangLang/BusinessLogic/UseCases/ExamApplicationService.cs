@@ -56,6 +56,10 @@ namespace LangLang.BusinessLogic.UseCases
             _applications.Delete(application.Id);
             return application;
         }
+        public void DeleteByExam(ExamSlot exam)
+        {
+            _applications.DeleteByExam(exam);
+        }
         public List<ExamApplication> GetApplications(Student student)
         {
             return _applications.GetApplications(student);

@@ -1,4 +1,5 @@
-﻿using LangLang.Configuration;
+﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.Configuration;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
@@ -130,31 +131,6 @@ namespace LangLang.Repositories
 
             return exams;
             
-        }
-        /*
-        private List<ExamSlot> Search(List<ExamSlot> exams, DateTime examDate, string language, LanguageLevel? level)
-        {
-            List<ExamSlot> filteredExams = exams.Where(exam =>
-                (examDate == default || exam.TimeSlot.Time.Date == examDate.Date) &&
-                (language == "" || exam.Language == language) &&
-                (level == null || exam.Level == level)
-            ).ToList();
-
-            return filteredExams;
-        }
-        // Method to search exam slots by tutor and criteria
-        public List<ExamSlot> SearchByTutor(Tutor tutor, DateTime examDate, string language, LanguageLevel? level)
-        {
-            List<ExamSlot> exams = _exams.Values.ToList();
-
-            exams = GetExams(tutor);
-
-            return Search(exams, examDate, language, level);
-        }
-        public List<ExamSlot> SearchByStudent(AppController appController, Student student, DateTime examDate, string language, LanguageLevel? level)
-        {
-            List<ExamSlot> availableExamSlots = GetAvailableExams(student, appController);
-            return Search(availableExamSlots, examDate, language, level);
-        }*/
+        }        
     }
 }

@@ -1,6 +1,7 @@
 ﻿using LangLang.Configuration;
 using LangLang.WPF.ViewModels.CourseViewModels;
 using LangLang.WPF.Views.DirectorView.AdditionalWindows;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -27,17 +28,18 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
             CourseCreateWindow createWindow = new(this);
             createWindow.Show();
         }
+        private void AssignTutorBtn_Click(object sender, RoutedEventArgs e)
+        {
+            CoursesVM.AssignTutor(CoursesVM.SelectedCourse);
+        }
 
         private void CoursesTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(CoursesVM.SelectedCourse.TutorId == Constants.DELETED_TUTOR_ID)
-            {
-                tutorBtn.IsEnabled = false;
-            }
-            else
-            {
+            if (!CoursesVM.HasTutor())
                 tutorBtn.IsEnabled = true;
-            }
+            else
+                tutorBtn.IsEnabled = false;
+            
         }
 
         public void Update()

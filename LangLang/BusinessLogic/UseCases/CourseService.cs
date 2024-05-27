@@ -5,6 +5,7 @@ using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace LangLang.BusinessLogic.UseCases
@@ -88,7 +89,7 @@ namespace LangLang.BusinessLogic.UseCases
                 if (course.OverlappsWith(exam.TimeSlot))
                 {
                     //tutor is busy (has exam)
-                    if (course.TutorId == exam.TutorId) return true;
+                    if (course.TutorId == exam.TutorId && course.TutorId != Constants.DELETED_TUTOR_ID) return true;
 
                     if (!course.Online)
                     {
@@ -115,7 +116,7 @@ namespace LangLang.BusinessLogic.UseCases
                     if (course.OverlappsWith(timeSlot))
                     {
                         // the tutor already has a course in one of the timeslots
-                        if (course.TutorId == currCourse.TutorId) return true;
+                        if (course.TutorId == currCourse.TutorId && course.TutorId != Constants.DELETED_TUTOR_ID) return true;
 
                         //if the course or the currCourse is online continue,
                         //because the classrooms do not matter
