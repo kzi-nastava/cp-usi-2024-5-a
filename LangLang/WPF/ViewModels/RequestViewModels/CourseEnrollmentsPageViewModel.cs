@@ -51,6 +51,8 @@ namespace LangLang.WPF.ViewModels.RequestViewModels
                     enrollment.UpdateStatus(Status.Accepted);
                     EnrollmentRequestService enrollmentRequestService = new();
                     enrollmentRequestService.Update(enrollment);
+                    StudentService studentService = new();
+                    enrollmentRequestService.PauseRequests(studentService.Get(enrollment.StudentId), enrollment.Id);
                     NotifyStudentAboutAcceptence(enrollment.StudentId);
                 }
             }
