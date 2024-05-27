@@ -49,6 +49,19 @@ namespace LangLang.BusinessLogic.UseCases
             }
             return grid;
         }
-
+        public PdfGrid DataToGrid(Dictionary<string, List<double>> data)
+        {
+            PdfGrid grid = new PdfGrid();
+            grid.Columns.Add(4);
+            foreach (var item in data)
+            {
+                PdfGridRow row = grid.Rows.Add();
+                row.Cells[0].Value = item.Key;
+                row.Cells[1].Value = item.Value[0].ToString();
+                row.Cells[2].Value = item.Value[1].ToString();
+                row.Cells[3].Value = item.Value[2].ToString();
+            }
+            return grid;
+        }
     }
 }
