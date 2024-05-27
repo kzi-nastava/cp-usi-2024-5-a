@@ -27,14 +27,26 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
             _viewModel.SentAveragePenaltyPoints();
         }
 
+        private void AverageGradeByPenaltyCount_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _viewModel.SendAverageGradeByPenaltyCount();
+        }
+
+        private void PenaltiesCountLastYear_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _viewModel.SendPenaltiesCountLastYear();
+        }
+
         private void AverageCourseGrades_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             _viewModel.SentAverageCourseGrades();
         }
+
         private void AverageResultsPerSkill_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             _viewModel.SentAverageResultsPerSkill();
         }
+
         private void CoursesAccomplishments_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             _viewModel.SentCoursesAccomplishments();

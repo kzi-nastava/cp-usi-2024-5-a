@@ -4,6 +4,7 @@ using Syncfusion.Pdf;
 using System.IO;
 using System;
 using System.Collections.Generic;
+using LangLang.Domain.Models;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -63,6 +64,7 @@ namespace LangLang.BusinessLogic.UseCases
             }
             return grid;
         }
+
         public PdfGrid DataToGrid(float[] data)
         {
             PdfGrid grid = new PdfGrid();
@@ -74,6 +76,7 @@ namespace LangLang.BusinessLogic.UseCases
             row.Cells[3].Value = data[3].ToString();
             return grid;
         }
+
         public PdfGrid DataToGrid(Dictionary<string, float[]> data)
         {
             PdfGrid grid = new PdfGrid();
@@ -85,9 +88,38 @@ namespace LangLang.BusinessLogic.UseCases
                 row.Cells[1].Value = item.Value[0].ToString();
                 row.Cells[2].Value = item.Value[1].ToString();
                 row.Cells[3].Value = item.Value[2].ToString();
-
             }
             return grid;
         }
+
+        public PdfGrid DataToGrid(Dictionary<(Course, int), double> data)
+        {
+            PdfGrid grid = new();
+            grid.Columns.Add(4);
+            foreach (var item in data)
+            {
+                PdfGridRow row = grid.Rows.Add();
+                row.Cells[0].Value = item.Key.Item1.Language;
+                row.Cells[1].Value = item.Key.Item1.Level.ToString();
+                row.Cells[2].Value = item.Key.Item2.ToString();
+                row.Cells[3].Value = item.Value.ToString();
+            }
+
+            return grid;
+        }
+
+        public PdfGrid DataToGrid(Dictionary<Course, int> data)
+        {
+            PdfGrid grid = new();
+            grid.Columns.Add(2);
+            foreach (var item in data)
+            {
+                PdfGridRow row = grid.Rows.Add();
+                row.Cells[0].Value = item.Key.Language + " " + item.Key.Level.ToString();
+                row.Cells[1].Value = item.Value.ToString();
+            }
+            return grid;
+        }
+
     }
 }

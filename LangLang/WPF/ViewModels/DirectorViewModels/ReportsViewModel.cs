@@ -1,5 +1,6 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Models;
+using System;
 using System.Windows;
 
 namespace LangLang.WPF.ViewModels.DirectorViewModels
@@ -22,6 +23,18 @@ namespace LangLang.WPF.ViewModels.DirectorViewModels
         {
             var senderService = new SenderService();
             senderService.SendAveragePenaltyPoints(_director);
+            ShowSuccess();
+        }
+        public void SendAverageGradeByPenaltyCount()
+        {
+            var senderService = new SenderService();
+            senderService.SendAverageGradeByPenaltyCount(_director);
+            ShowSuccess();
+        }
+        public void SendPenaltiesCountLastYear()
+        {
+            var senderService = new SenderService();
+            senderService.SendPenaltiesCountLastYear(_director);
             ShowSuccess();
         }
 
@@ -47,6 +60,5 @@ namespace LangLang.WPF.ViewModels.DirectorViewModels
         {
             MessageBox.Show("Successfully completed!", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
     }
 }
