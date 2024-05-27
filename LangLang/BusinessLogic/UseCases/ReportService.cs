@@ -66,10 +66,14 @@ namespace LangLang.BusinessLogic.UseCases
                 averages[2] += result.WritingPoints;
                 averages[3] += result.ListeningPoints;
             }
+
+            if (results.Count == 0) return averages;
+
             for (int i = 0; i < averages.Length; i++)
             {
                 averages[i] /= results.Count;
             }
+
             return averages;
         }
         public int NumStudentsAttended(Course course)
@@ -82,16 +86,31 @@ namespace LangLang.BusinessLogic.UseCases
             CourseService coursesService = new();
             return coursesService.NumStudentsPassed(course);
         }
-        public double CalculatePassingPercentage(Course course)
+        public float CalculatePassingPercentage(Course course)
         {
             int attended = NumStudentsAttended(course);
+            if (attended == 0) return 0;
             int passed = NumStudentsPassed(course);
             return (passed / attended)*100;
         }
-
-        public Dictionary<Course, List<double>> GetAverageGradesOfCourses()
+        public Dictionary<string,float[]> GetCoursesAccomplishment()
         {
-            Dictionary<Course, List<double>> averages = new();
+            Dictionary<string, float[]> accomplishments = new();
+            CourseService courseService = new();
+            List<Course> courses = courseService.GetCoursesHeldInLastYear();
+            foreach (Course course in courses)
+            {
+                float[] res = new float[3];
+                res[0] = NumStudentsAttended(course);
+                res[1] = NumStudentsPassed(course);
+                res[2] = CalculatePassingPercentage(course);
+                accomplishments.Add(course.ToPdfString(), res);
+            }
+            return accomplishments;
+        }
+        public Dictionary<string, List<double>> GetAverageGradesOfCourses()
+        {
+            Dictionary<string, List<double>> averages = new();
             CourseService courseService = new();
             List<Course> courses = courseService.GetCoursesHeldInLastYear();
             GradeService gradeService = new();
@@ -102,7 +121,7 @@ namespace LangLang.BusinessLogic.UseCases
                 avg.Add(gradeService.GetAverageKnowledgeGrade(course));
                 avg.Add(gradeService.GetAverageActivityGrade(course));
                 avg.Add(tutorRatingService.GetAverageTutorRating(course));
-                averages.Add(course, avg);
+                averages.Add(course.ToPdfString(), avg);
             }
             return averages;
         }

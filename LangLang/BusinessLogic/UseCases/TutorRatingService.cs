@@ -72,7 +72,7 @@ namespace LangLang.BusinessLogic.UseCases
         {
             CourseService courseService = new();
             List<double> ratings = new();
-            foreach (Course course in courseService.GetByTutor(tutor))
+            foreach (Course course in courseService.GetByTutor(tutor.Id))
             {
                 ratings.Add(GetAverageTutorRating(course));
             }

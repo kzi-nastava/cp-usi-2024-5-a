@@ -50,6 +50,47 @@ namespace LangLang.BusinessLogic.UseCases
             }
             return grid;
         }
+        public PdfGrid DataToGrid(Dictionary<string, List<double>> data)
+        {
+            PdfGrid grid = new PdfGrid();
+            grid.Columns.Add(4);
+            foreach (var item in data)
+            {
+                PdfGridRow row = grid.Rows.Add();
+                row.Cells[0].Value = item.Key;
+                row.Cells[1].Value = item.Value[0].ToString();
+                row.Cells[2].Value = item.Value[1].ToString();
+                row.Cells[3].Value = item.Value[2].ToString();
+            }
+            return grid;
+        }
+
+        public PdfGrid DataToGrid(float[] data)
+        {
+            PdfGrid grid = new PdfGrid();
+            grid.Columns.Add(4);
+            PdfGridRow row = grid.Rows.Add();
+            row.Cells[0].Value = data[0].ToString();
+            row.Cells[1].Value = data[1].ToString();
+            row.Cells[2].Value = data[2].ToString();
+            row.Cells[3].Value = data[3].ToString();
+            return grid;
+        }
+
+        public PdfGrid DataToGrid(Dictionary<string, float[]> data)
+        {
+            PdfGrid grid = new PdfGrid();
+            grid.Columns.Add(4);
+            foreach (var item in data)
+            {
+                PdfGridRow row = grid.Rows.Add();
+                row.Cells[0].Value = item.Key;
+                row.Cells[1].Value = item.Value[0].ToString();
+                row.Cells[2].Value = item.Value[1].ToString();
+                row.Cells[3].Value = item.Value[2].ToString();
+            }
+            return grid;
+        }
 
         public PdfGrid DataToGrid(Dictionary<(Course, int), double> data)
         {
@@ -77,8 +118,8 @@ namespace LangLang.BusinessLogic.UseCases
                 row.Cells[0].Value = item.Key.Language + " " + item.Key.Level.ToString();
                 row.Cells[1].Value = item.Value.ToString();
             }
-
             return grid;
         }
+
     }
 }

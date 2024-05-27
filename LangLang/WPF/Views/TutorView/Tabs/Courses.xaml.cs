@@ -67,8 +67,7 @@ namespace LangLang.WPF.Views.TutorView.Tabs
 
         private void CourseUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            CourseService courseService = new();
-            if (courseService.CanChange(CoursesViewModel.SelectedCourse.Id))
+            if (CoursesViewModel.SelectedCourse.ToCourse().CanChange())
             {
                 CourseUpdateWindow updateWindow = new(this, CoursesViewModel.SelectedCourse.ToCourse());
                 updateWindow.Show();
@@ -81,9 +80,9 @@ namespace LangLang.WPF.Views.TutorView.Tabs
 
         private void CourseDeleteBtn_Click(object sender, RoutedEventArgs e)
         {
-            CourseService courseService = new();
-            if (courseService.CanChange(CoursesViewModel.SelectedCourse.Id))
+            if (CoursesViewModel.SelectedCourse.ToCourse().CanChange())
             {
+                CourseService courseService = new();
                 courseService.Delete(CoursesViewModel.SelectedCourse.Id);
                 CoursesViewModel.Update();
                 MessageBox.Show("The course has been successfully deleted.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -96,8 +95,7 @@ namespace LangLang.WPF.Views.TutorView.Tabs
 
         private void EnterGradeBtn_Click(object sender, RoutedEventArgs e)
         {
-            CourseService courseService = new();
-            if (courseService.GetEnd(CoursesViewModel.SelectedCourse.ToCourse()) < DateTime.Now)
+            if (CoursesViewModel.SelectedCourse.ToCourse().GetEnd() < DateTime.Now)
             {
                 EnterGradesWindow gradesWindow = new(CoursesViewModel.SelectedCourse);
                 gradesWindow.Show();
@@ -109,8 +107,7 @@ namespace LangLang.WPF.Views.TutorView.Tabs
         }
         private void DurationOfCourseBtn_Click(object sender, RoutedEventArgs e)
         {
-            CourseService courseService = new();
-            if (courseService.IsActive(CoursesViewModel.SelectedCourse.ToCourse()))
+            if (CoursesViewModel.SelectedCourse.ToCourse().IsActive())
             {
                 DurationOfCourseWindow courseWindow = new(CoursesViewModel.SelectedCourse);
                 courseWindow.Show();
