@@ -68,5 +68,16 @@ namespace LangLang.BusinessLogic.UseCases
             if (ratings.Count == 0) return 0;
             return ratings.Average();
         }
+        public double GetAverageRating(Tutor tutor)
+        {
+            CourseService courseService = new();
+            List<double> ratings = new();
+            foreach (Course course in courseService.GetByTutor(tutor))
+            {
+                ratings.Add(GetAverageTutorRating(course));
+            }
+            if (ratings.Count == 0) return 0;
+            return ratings.Average();
+        }
     }
 }
