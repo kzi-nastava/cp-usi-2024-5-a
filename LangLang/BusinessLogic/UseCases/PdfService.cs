@@ -53,7 +53,7 @@ namespace LangLang.BusinessLogic.UseCases
 
         public PdfGrid DataToGrid(Dictionary<(Course, int), double> data)
         {
-            PdfGrid grid = new PdfGrid();
+            PdfGrid grid = new();
             grid.Columns.Add(4);
             foreach (var item in data)
             {
@@ -67,5 +67,18 @@ namespace LangLang.BusinessLogic.UseCases
             return grid;
         }
 
+        public PdfGrid DataToGrid(Dictionary<Course, int> data)
+        {
+            PdfGrid grid = new();
+            grid.Columns.Add(2);
+            foreach (var item in data)
+            {
+                PdfGridRow row = grid.Rows.Add();
+                row.Cells[0].Value = item.Key.Language + " " + item.Key.Level.ToString();
+                row.Cells[1].Value = item.Value.ToString();
+            }
+
+            return grid;
+        }
     }
 }

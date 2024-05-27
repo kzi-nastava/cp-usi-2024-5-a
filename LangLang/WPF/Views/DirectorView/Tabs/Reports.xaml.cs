@@ -29,7 +29,12 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
 
         private void AverageGradeByPenaltyCount_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            _viewModel.SentAverageGradeByPenaltyCount();
+            _viewModel.SendAverageGradeByPenaltyCount();
+        }
+
+        private void PenaltiesCountLastYear_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _viewModel.SendPenaltiesCountLastYear();
         }
     }
 }

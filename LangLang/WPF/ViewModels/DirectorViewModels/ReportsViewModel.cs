@@ -25,10 +25,16 @@ namespace LangLang.WPF.ViewModels.DirectorViewModels
             senderService.SendAveragePenaltyPoints(_director);
             ShowSuccess();
         }
-        public void SentAverageGradeByPenaltyCount()
+        public void SendAverageGradeByPenaltyCount()
         {
             var senderService = new SenderService();
-            senderService.SentAverageGradeByPenaltyCount(_director);
+            senderService.SendAverageGradeByPenaltyCount(_director);
+            ShowSuccess();
+        }
+        public void SendPenaltiesCountLastYear()
+        {
+            var senderService = new SenderService();
+            senderService.SendPenaltiesCountLastYear(_director);
             ShowSuccess();
         }
 
@@ -36,6 +42,5 @@ namespace LangLang.WPF.ViewModels.DirectorViewModels
         {
             MessageBox.Show("Successfully completed!", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
         }
-
     }
 }

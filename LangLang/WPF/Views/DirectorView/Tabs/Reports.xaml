@@ -20,7 +20,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="0" Content="The number of penalty points received in each course in the past year" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" />
+            <Button Grid.Row="0" Content="The number of penalty points received in each course in the past year" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" Click="PenaltiesCountLastYear_Click" />
             <Button Grid.Row="1" Content="The average grade of students who had n points (0 ≤ n ≤ 3)" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" Click="AverageGradeByPenaltyCount_Click" />
             <Button Grid.Row="2" Content="Number of average points per language" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" Click="AveragePoints_Click" />
             <Button Grid.Row="3" Content="Number of average penalty points per language" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF817C7C" FontFamily="Segoe UI Black" Click="AveragePenaltyPoints_Click" />

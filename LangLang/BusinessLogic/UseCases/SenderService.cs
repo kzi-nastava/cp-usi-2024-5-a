@@ -77,7 +77,7 @@ namespace LangLang.BusinessLogic.UseCases
             EmailService.SendEmail(director.Profile.Email, reportName, "", document);
         }
 
-        internal void SentAverageGradeByPenaltyCount(Director director)
+        internal void SendAverageGradeByPenaltyCount(Director director)
         {
             var reportService = new ReportService();
             var pdfService = new PdfService();
@@ -86,6 +86,18 @@ namespace LangLang.BusinessLogic.UseCases
             var headers = new string[] { "Language", "Level", "Num of penalties", "Average grade" };
 
             var document = PdfService.GeneratePdf<Dictionary<(Course, int), double>>(reportService.GetAverageGradeByPenaltyCount(), headers, reportName, data => pdfService.DataToGrid(data));
+            EmailService.SendEmail(director.Profile.Email, reportName, "", document);
+        }
+
+        internal void SendPenaltiesCountLastYear(Director director)
+        {
+            var reportService = new ReportService();
+            var pdfService = new PdfService();
+
+            var reportName = "Number of penalties per course in last year.";
+            var headers = new string[] { "Language", "Num of penalties" };
+
+            var document = PdfService.GeneratePdf<Dictionary<Course, int>>(reportService.GetPenaltiesLastYear(), headers, reportName, data => pdfService.DataToGrid(data));
             EmailService.SendEmail(director.Profile.Email, reportName, "", document);
         }
 
