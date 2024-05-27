@@ -39,5 +39,27 @@ namespace LangLang.BusinessLogic.UseCases
 
             return weightedGrade;
         }
+
+        public static int GetTutorForExam(ExamSlot exam)
+        {
+            TutorService tutorService = new();
+            List<Tutor> tutors = tutorService.GetBySkill(exam.Language, exam.Level);
+            if (tutors.Count == 0) return -1;
+            TutorRatingService tutorRatingService = new();
+            Dictionary<Tutor, double> tutorsAndRatings = new();
+            foreach (Tutor tutor in tutors)
+            {
+                tutorsAndRatings[tutor] = tutorRatingService.GetAverageRating(tutor);
+            }
+            //sort by grades
+            Dictionary<Tutor, double> sorted = tutorsAndRatings.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+            ExamSlotService examSlotService = new();
+            foreach (Tutor tutor in sorted.Keys)
+            {
+                exam.TutorId = tutor.Id;
+                if (examSlotService.CanCreateExam(exam)) return tutor.Id;
+            }
+            return -1;
+        }
     }
 }
