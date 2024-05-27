@@ -1,9 +1,9 @@
-﻿<Window x:Class="LangLang.View.ExamSlotCreateWindow"
+﻿<Window x:Class="LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView.ExamSlotCreateWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LangLang.View" 
+        xmlns:local="LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView" 
         mc:Ignorable="d"
         Title="ExamSlotCreateWindow" Height="480" Width="800">
     <!--validation-->

@@ -1,16 +1,10 @@
-﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Domain.Enums;
-using LangLang.Domain.Models;
-using LangLang.WPF.ViewModels.CourseViewModels;
-using LangLang.WPF.ViewModels.RequestsViewModels;
+﻿using LangLang.WPF.ViewModels.CourseViewModels;
 using LangLang.WPF.ViewModels.RequestViewModels;
 using LangLang.WPF.Views.TutorView.Tabs;
-using System.Collections.ObjectModel;
-using System.Net.Mail;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace LangLang.WPF.Views.TutorView.AddidtionalWindows.CourseView
+namespace LangLang.WPF.Views.TutorView.AdditionalWindows.CourseView
 {
     /// <summary>
     /// Interaction logic for CourseEnrollmentsWindow.xaml
