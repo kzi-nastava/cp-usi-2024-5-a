@@ -15,13 +15,20 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
         public ExamSlotCreateVM(Tutor loggedIn)
         {
             CourseService courseService = new();
-            Skills = courseService.GetBySkills(loggedIn);
-            SelectedCourse = null;
-
             ExamSlot = new ExamSlotViewModel();
+            if (loggedIn == null)
+            {
+                Skills = courseService.GetAll();
+                ExamSlot.TutorId = -1;
+            }
+            else
+            {
+                Skills = courseService.GetBySkills(loggedIn);
+                ExamSlot.TutorId = loggedIn.Id;
+            }
+            SelectedCourse = null;
             ExamSlot.ExamDate = DateTime.Now;
             ExamSlot.Modifiable = true;
-            ExamSlot.TutorId = loggedIn.Id;
 
         }
         public bool CreateExam()
@@ -30,6 +37,17 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
             if (ExamSlot.IsValid)
             {
                 if (SelectedCourse == null) MessageBox.Show("Must select language and level.");
+                else if(ExamSlot.TutorId == -1)
+                {
+                    ExamSlot.TutorId = SmartSystem.GetTutorForExam(ExamSlot.ToExamSlot());
+                    if(ExamSlot.TutorId != -1)
+                    {
+                        examSlotService.Add(ExamSlot.ToExamSlot());
+                        MessageBox.Show("Exam successfuly created.");
+                        return true;
+                    }
+                    MessageBox.Show("There are no suitable tutors for selected parameters.");
+                }
                 else
                 {
                     bool added = examSlotService.Add(ExamSlot.ToExamSlot());
