@@ -49,6 +49,30 @@ namespace LangLang.BusinessLogic.UseCases
             EmailService.SendEmail(director.Profile.Email, reportName, "", document);
 
         }
+        public void SendAverageResultsPerSkill(Director director)
+        {
+            var reportService = new ReportService();
+            var pdfService = new PdfService();
+
+            var reportName = "Average exams results per skill in last year";
+            var headers = new string[] { "Reading average score", "Writing average score", "Listening average score", "Speaking average score" };
+            
+            var document = PdfService.GeneratePdf<float[]>(reportService.GetAverageResults(), headers, reportName, data => pdfService.DataToGrid(data));
+            EmailService.SendEmail(director.Profile.Email, reportName, "", document);
+
+        }
+        public void SendCoursesAccomplishments(Director director)
+        {
+            var reportService = new ReportService();
+            var pdfService = new PdfService();
+
+            var reportName = "Courses enrollments and pass rates analysis";
+            var headers = new string[] { "Course", "Total Attendees", "Students Passed", "Pass Rate (%)" };
+
+            var document = PdfService.GeneratePdf<Dictionary<string, float[]>>(reportService.GetCoursesAccomplishment(), headers, reportName, data => pdfService.DataToGrid(data));
+            EmailService.SendEmail(director.Profile.Email, reportName, "", document);
+
+        }
 
         public void SendAveragePoints(Director director)
         {

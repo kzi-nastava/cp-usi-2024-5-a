@@ -31,7 +31,18 @@ namespace LangLang.WPF.ViewModels.DirectorViewModels
             senderService.SendAverageCourseGrades(_director);
             ShowSuccess();
         }
-
+        public void SentAverageResultsPerSkill()
+        {
+            var senderService = new SenderService();
+            senderService.SendAverageResultsPerSkill(_director);
+            ShowSuccess();
+        }
+        public void SentCoursesAccomplishments()
+        {
+            var senderService = new SenderService();
+            senderService.SendCoursesAccomplishments(_director);
+            ShowSuccess();
+        }
         private void ShowSuccess()
         {
             MessageBox.Show("Successfully completed!", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);
