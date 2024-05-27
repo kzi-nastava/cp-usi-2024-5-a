@@ -1,18 +1,25 @@
-using System.Windows;
-using System.Windows.Controls;
 using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Models;
+using LangLang.WPF.ViewModels.DirectorViewModels;
 using LangLang.WPF.Views.DirectorView.Tabs;
+using LangLang.WPF.Views.StudentView.Tabs;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace LangLang.WPF.Views.DirectorView
 {
     public partial class DirectorWindow : Window
     {
         public Director CurrentlyLoggedIn { get; set; }
+        public CoursesReview coursesTab { get; set; }
+        public ExamSlotsReview examsTab { get; set; }
+        public DirectorWindowViewModel ViewModel { get; set; }
+
         public DirectorWindow(Profile currentlyLoggedIn)
         {
             InitializeComponent();
-            DataContext = this;
+            ViewModel = new DirectorWindowViewModel();
+            DataContext = ViewModel;
             var directorService = new DirectorService();
             CurrentlyLoggedIn = directorService.Get(currentlyLoggedIn.Id);
             GenerateTabs();
@@ -20,7 +27,7 @@ namespace LangLang.WPF.Views.DirectorView
 
         private void GenerateTabs()
         {
-            var reviewTab = new TutorReview();
+            var reviewTab = new TutorReview(this);
             AddTab("Tutor review", reviewTab);
             var resultsTab = new ResultsSending();
             AddTab("Results Sending", resultsTab);
@@ -28,10 +35,16 @@ namespace LangLang.WPF.Views.DirectorView
             AddTab("Graded courses", gradedCoursesTab);
             var reportsTab = new Reports(CurrentlyLoggedIn);
             AddTab("Reports", reportsTab);
-            var coursesTab = new CoursesReview();
+            coursesTab = new CoursesReview();
             AddTab("Courses", coursesTab);
-            var examsTab = new ExamSlotsReview();
+            examsTab = new ExamSlotsReview();
             AddTab("Exams", examsTab);
+        }
+
+        public void Update()
+        {
+            ViewModel.UpdateCourses(coursesTab);
+            ViewModel.UpdateExams(examsTab);
         }
 
         private void AddTab(string header, UserControl content)
