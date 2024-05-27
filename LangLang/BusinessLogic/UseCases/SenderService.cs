@@ -37,6 +37,18 @@ namespace LangLang.BusinessLogic.UseCases
                 EmailService.SendEmail(student.Profile.Email, subject, body);
             }
         }
+        public void SendAverageCourseGrades(Director director)
+        {
+            var reportService = new ReportService();
+            var pdfService = new PdfService();
+
+            var reportName = "Average grades and tutor rating per course";
+            var headers = new string[] { "Course", "Average knowledge grade", "Average activity grade", "Average tutor rating" };
+
+            var document = PdfService.GeneratePdf<Dictionary<string, List<double>>>(reportService.GetAverageGradesOfCourses(), headers, reportName, data => pdfService.DataToGrid(data));
+            EmailService.SendEmail(director.Profile.Email, reportName, "", document);
+
+        }
 
         public void SendAveragePoints(Director director)
         {
