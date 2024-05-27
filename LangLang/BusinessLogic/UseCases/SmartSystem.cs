@@ -61,5 +61,25 @@ namespace LangLang.BusinessLogic.UseCases
             }
             return -1;
         }
+        public static int MostSuitableTutor(Course course)
+        {
+            TutorService tutorService = new();
+            List<Tutor> tutors = tutorService.GetBySkill(course.Language, course.Level);
+            if (tutors.Count == 0) return -1;
+            TutorRatingService tutorRatingService = new();
+            Dictionary<Tutor, double> tutorsAndRatings = new();
+            foreach (Tutor tutor in tutors)
+            {
+                tutorsAndRatings[tutor] = tutorRatingService.GetAverageRating(tutor);
+            }
+            Dictionary<Tutor, double> sorted = tutorsAndRatings.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+            CourseService coursesService = new();
+            foreach (Tutor tutor in sorted.Keys)
+            {
+                course.TutorId = tutor.Id;
+                if (coursesService.CanCreateOrUpdate(course)) return tutor.Id;
+            }
+            return -1;
+        }
     }
 }
