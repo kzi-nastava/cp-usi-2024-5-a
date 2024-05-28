@@ -8,10 +8,12 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
     public partial class TutorReview : UserControl
     {
         public TutorReviewPageViewModel TutorReviewViewModel { get; set; }
+        private DirectorWindow _parent;
 
-        public TutorReview()
+        public TutorReview(DirectorWindow parent)
         {
             InitializeComponent();
+            _parent = parent;
             TutorReviewViewModel = new();
             DataContext = TutorReviewViewModel;
             DisableButtons();
@@ -33,6 +35,7 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
             private void DeleteTutor_Click(object sender, RoutedEventArgs e)
         {
             TutorReviewViewModel.DeleteTutor();
+            _parent.Update();
         }
 
         private void Search_Click(object sender, RoutedEventArgs e)
