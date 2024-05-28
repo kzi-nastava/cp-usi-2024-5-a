@@ -96,7 +96,7 @@ namespace LangLang.Repositories
                     exam.Modifiable.ToString(),
                     exam.ResultsGenerated.ToString(),
                     exam.ExamineesNotified.ToString(),
-                    exam.CreatedAt.ToString());
+                    exam.CreatedAt.ToString(Constants.DATE_TIME_FORMAT));
         });
 
             File.WriteAllLines(_filePath, lines);
@@ -124,8 +124,8 @@ namespace LangLang.Repositories
                 bool modifiable = bool.Parse(values[8]);
                 bool resultsGenerated = bool.Parse(values[9]);
                 bool examineesNotified = bool.Parse(values[10]);
-                DateTime createdAt = DateTime.Parse(values[11]);
-                
+                DateTime createdAt = DateTime.ParseExact(values[11], Constants.DATE_TIME_FORMAT, null);
+
                 ExamSlot exam = new ExamSlot(id, language, level, timeSlot, maxStudents, tutorId, applicants, modifiable, resultsGenerated, examineesNotified, createdAt);
                 exams.Add(id, exam);
 
