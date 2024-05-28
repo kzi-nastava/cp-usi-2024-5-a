@@ -16,8 +16,9 @@ namespace LangLang.Domain.Models
         public bool Modifiable { get; set; }
         public bool ResultsGenerated { get; set; }
         public bool ExamineesNotified { get; set; }
+        public DateTime CreatedAt { get; set; }
 
-        public ExamSlot(int id, string language, LanguageLevel level, TimeSlot timeSlot, int maxStudents, int tutorId, int applicants, bool modifiable, bool generatedResults, bool examineesNotified)
+        public ExamSlot(int id, string language, LanguageLevel level, TimeSlot timeSlot, int maxStudents, int tutorId, int applicants, bool modifiable, bool generatedResults, bool examineesNotified, DateTime createdAt)
         {
             Id = id;
             Language = language;
@@ -29,6 +30,7 @@ namespace LangLang.Domain.Models
             Modifiable = modifiable;
             ResultsGenerated = generatedResults;
             ExamineesNotified = examineesNotified;
+            CreatedAt = createdAt;
         }
 
         public ExamSlot() { }

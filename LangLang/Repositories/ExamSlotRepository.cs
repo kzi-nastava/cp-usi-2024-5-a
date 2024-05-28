@@ -123,8 +123,9 @@ namespace LangLang.Repositories
                 bool modifiable = bool.Parse(values[8]);
                 bool resultsGenerated = bool.Parse(values[9]);
                 bool examineesNotified = bool.Parse(values[10]);
+                DateTime createdAt = DateTime.Parse(values[11]);
                 
-                ExamSlot exam = new ExamSlot(id, language, level, timeSlot, maxStudents, tutorId, applicants, modifiable, resultsGenerated, examineesNotified);
+                ExamSlot exam = new ExamSlot(id, language, level, timeSlot, maxStudents, tutorId, applicants, modifiable, resultsGenerated, examineesNotified, createdAt);
                 exams.Add(id, exam);
 
             }
