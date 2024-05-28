@@ -1,5 +1,6 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Configuration;
+using System;
 using System.Diagnostics;
 using System.Windows;
 
@@ -22,6 +23,8 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
                 MessageBox.Show("Something went wrong. Please check all fields in the form.");
                 return false;
             }
+
+            Course.CreatedAt = DateTime.Now;
 
             var courseService = new CourseService();
             if (courseService.CanCreateOrUpdate(Course.ToCourse()))

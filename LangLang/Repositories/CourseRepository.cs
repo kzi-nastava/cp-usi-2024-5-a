@@ -69,7 +69,8 @@ namespace LangLang.Repositories
                 bool createdByDirector = bool.Parse(tokens[10]);
                 bool modifiable = bool.Parse(tokens[11]);
                 bool gratitudeEmailSent = bool.Parse(tokens[12]);
-                var course = new Course(id, tutorId, language, level, numOfWeeks, daysOfWeek, online, numOfStud, maxStud, startDateTime, createdByDirector, modifiable, gratitudeEmailSent);
+                DateTime createdAt = DateTime.Parse(tokens[13]);
+                var course = new Course(id, tutorId, language, level, numOfWeeks, daysOfWeek, online, numOfStud, maxStud, startDateTime, createdByDirector, modifiable, gratitudeEmailSent, createdAt);
 
                 courses.Add(course.Id, course);
             }

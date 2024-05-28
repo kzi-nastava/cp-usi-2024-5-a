@@ -56,6 +56,21 @@ namespace LangLang.WPF.ViewModels.DirectorViewModels
             senderService.SendCoursesAccomplishments(_director);
             ShowSuccess();
         }
+
+        public void SentCoursesCreated()
+        {
+            var senderService = new SenderService();
+            senderService.SentCoursesCreated(_director);
+            ShowSuccess();
+        }
+
+        public void SentExamsCreated()
+        {
+            var senderService = new SenderService();
+            senderService.SentExamsCreated(_director);
+            ShowSuccess();
+        }
+
         private void ShowSuccess()
         {
             MessageBox.Show("Successfully completed!", "Notification", MessageBoxButton.OK, MessageBoxImage.Information);

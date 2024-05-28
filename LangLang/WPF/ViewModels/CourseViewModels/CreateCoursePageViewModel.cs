@@ -26,6 +26,8 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
                 return false;
             }
 
+            Course.CreatedAt = DateTime.Now;
+
             var courseService = new CourseService();
             if (courseService.CanCreateOrUpdate(Course.ToCourse()))
             {

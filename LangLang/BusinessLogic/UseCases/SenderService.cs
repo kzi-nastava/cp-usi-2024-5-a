@@ -6,6 +6,7 @@ using LangLang.Domain.RepositoryInterfaces;
 using LangLang.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -134,6 +135,30 @@ namespace LangLang.BusinessLogic.UseCases
             var headers = new string[] { "Language", "Num of penalties" };
 
             var document = PdfService.GeneratePdf<Dictionary<Course, int>>(reportService.GetPenaltiesLastYear(), headers, reportName, data => pdfService.DataToGrid(data));
+            EmailService.SendEmail(director.Profile.Email, reportName, "", document);
+        }
+
+        public void SentExamsCreated(Director director)
+        {
+            var reportService = new ReportService();
+            var pdfService = new PdfService();
+
+            var reportName = "Number of exams created in last year per language.";
+            var headers = new string[] { "Language", "Number of exams created" };
+
+            var document = PdfService.GeneratePdf<Dictionary<string, double>>(reportService.GetNumberOfExams(), headers, reportName, data => pdfService.DataToGrid(data));
+            EmailService.SendEmail(director.Profile.Email, reportName, "", document);
+        }
+
+        public void SentCoursesCreated(Director director)
+        {
+            var reportService = new ReportService();
+            var pdfService = new PdfService();
+
+            var reportName = "Number of courses created in last year per language.";
+            var headers = new string[] { "Language", "Number of courses created" };
+
+            var document = PdfService.GeneratePdf<Dictionary<string, double>>(reportService.GetNumberOfCourses(), headers, reportName, data => pdfService.DataToGrid(data));
             EmailService.SendEmail(director.Profile.Email, reportName, "", document);
         }
 

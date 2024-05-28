@@ -4,9 +4,6 @@ using LangLang.Domain.Models;
 
 namespace LangLang.WPF.Views.DirectorView.Tabs
 {
-    // TODO: Add a click listener to the button for the corresponding report
-    // NOTE: The logic should be implemented in ReportsViewModel.cs
-
     public partial class Reports : UserControl
     {
         private ReportsViewModel _viewModel;
@@ -51,5 +48,16 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
         {
             _viewModel.SentCoursesAccomplishments();
         }
+
+        private void CoursesCreated_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _viewModel.SentCoursesCreated();
+        }
+
+        private void ExamsCreated_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _viewModel.SentExamsCreated();
+        }
+
     }
 }

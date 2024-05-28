@@ -188,5 +188,40 @@ namespace LangLang.BusinessLogic.UseCases
             return total;
         }
 
+        // methods below - number of courses created in the past year
+        public Dictionary<string, double> GetNumberOfCourses()
+        {
+            var courses = new Dictionary<string, double>();
+            var courseService = new CourseService();
+            foreach (string language in courseService.GetLanguages())
+                courses[language] = GetNumberOfCourses(language);
+            return courses;
+        }
+
+        private int GetNumberOfCourses(string language)
+        {
+            var courseService = new CourseService();
+            var courses = courseService.GetAll().Where(exam => exam.CreatedAt >= DateTime.Now.AddYears(-1) && exam.CreatedAt <= DateTime.Now);
+            return courses.Count(course => course.Language.Equals(language, StringComparison.OrdinalIgnoreCase));
+        }
+
+        // methods below - number of exams created in the past year
+
+        public Dictionary<string, double> GetNumberOfExams()
+        {
+            var exams = new Dictionary<string, double>();
+            var courseService = new CourseService();
+            foreach (string language in courseService.GetLanguages())
+                exams[language] = GetNumberOfExams(language);
+            return exams;
+        }
+
+        private int GetNumberOfExams(string language)
+        {
+            var examService = new ExamSlotService();
+            var exams = examService.GetAll().Where(exam => exam.Language.Equals(language, StringComparison.OrdinalIgnoreCase)).ToList();
+            return exams.Count(exam => exam.CreatedAt >= DateTime.Now.AddYears(-1) && exam.CreatedAt <= DateTime.Now);
+        }
+
     }
 }

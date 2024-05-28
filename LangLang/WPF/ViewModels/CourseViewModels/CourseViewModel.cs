@@ -24,6 +24,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
         public int GradedStudentsCount {  get; set; }
 
         public bool GratitudeEmailSent {  get; set; }
+        public DateTime CreatedAt { get; set; }
 
         private string language;
         private LanguageLevel level;
@@ -242,7 +243,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             {
                 if (booleanDays[i]) { days.Add((DayOfWeek)(i + 1)); }
             }
-            return new Course(Id, TutorId, language, level, numberOfWeeks, days, online, NumberOfStudents, maxStudents, new DateTime(startDate.Year, startDate.Month, startDate.Day, hour, minute, 0), CreatedByDirector, Modifiable, GratitudeEmailSent);
+            return new Course(Id, TutorId, language, level, numberOfWeeks, days, online, NumberOfStudents, maxStudents, new DateTime(startDate.Year, startDate.Month, startDate.Day, hour, minute, 0), CreatedByDirector, Modifiable, GratitudeEmailSent, CreatedAt);
         }
 
         public CourseViewModel(Course course)

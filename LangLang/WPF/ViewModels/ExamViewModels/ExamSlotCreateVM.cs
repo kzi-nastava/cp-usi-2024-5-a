@@ -33,6 +33,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
         }
         public bool CreateExam()
         {
+            ExamSlot.CreatedAt = DateTime.Now;
             ExamSlotService examSlotService = new();
             if (ExamSlot.IsValid)
             {
