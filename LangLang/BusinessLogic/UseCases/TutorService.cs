@@ -78,7 +78,8 @@ namespace LangLang.BusinessLogic.UseCases
             return allTutors.Where(tutor =>
             (date == default || tutor.EmploymentDate.Date == date.Date) &&
              (language == "" || tutor.Skill.Language.Any(skill => skill.Contains(language))) &&
-             (level == null || tutor.Skill.Level.Any(skilll => skilll == level))).ToList();
+             (level == null || tutor.Skill.Level.Any(skill => skill == level)) &&
+             (tutor.Profile.IsActive == true)).ToList();
         }
 
     }

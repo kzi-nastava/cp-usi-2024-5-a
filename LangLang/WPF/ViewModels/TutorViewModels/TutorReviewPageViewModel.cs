@@ -1,6 +1,8 @@
 ﻿
 using LangLang.BusinessLogic.UseCases;
+using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -10,23 +12,29 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
     public class TutorReviewPageViewModel
     {
         public ObservableCollection<TutorViewModel> Tutors { get; set; }
-        private List<Tutor> tutors;
+        public List<Tutor> TutorsForReview { get; set; }
         public TutorViewModel SelectedTutor { get; set; }
         public TutorViewModel SearchTutor { get; set; }
 
         public TutorReviewPageViewModel()
         {
             Tutors = new();
+            TutorsForReview = new();
+            SetDataForReview();
+            Update();
         }
 
         public void Update(){
-            var tutorService = new TutorService();
-            tutors = tutorService.GetActive();
-
             Tutors.Clear();
 
-            foreach (Tutor tutor in tutors)
+            foreach (Tutor tutor in TutorsForReview)
                 Tutors.Add(new TutorViewModel(tutor));
+        }
+
+        public void SetDataForReview()
+        {
+            var tutorService = new TutorService();
+            TutorsForReview = tutorService.GetActive();
         }
 
         public void DeleteTutor()
@@ -40,6 +48,7 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
             tutorService.Deactivate(SelectedTutor.Id);
 
             ShowSuccess();
+            SetDataForReview();
             Update();
         }
 
@@ -48,12 +57,10 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
             MessageBox.Show("Tutor is successfully deleted");
 
         }
-        public void Search()
+        public void Search(DateTime employmentDate, string language, LanguageLevel? level)
         {
             var tutorService = new TutorService();
-
-            // TODO: implement when skill is refactored
-
+            TutorsForReview = tutorService.Search(employmentDate, language, level);
             Update();
         }
 

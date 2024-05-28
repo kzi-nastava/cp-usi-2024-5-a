@@ -1,5 +1,8 @@
-﻿using LangLang.WPF.ViewModels.TutorViewModels;
+﻿using LangLang.Domain.Enums;
+using LangLang.WPF.ViewModels.ExamViewModels;
+using LangLang.WPF.ViewModels.TutorViewModels;
 using LangLang.WPF.Views.DirectorView.AdditionalWindows;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -17,6 +20,7 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
             TutorReviewViewModel = new();
             DataContext = TutorReviewViewModel;
             DisableButtons();
+            levelCB.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
             Update();
         }
 
@@ -40,7 +44,12 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-            TutorReviewViewModel.Search();
+            string? language = languagetb.Text;
+            LanguageLevel? level = null;
+            if (levelCB.SelectedValue != null)
+                level = (LanguageLevel)levelCB.SelectedValue;
+            DateTime employmentDate = datePickerEmployment.SelectedDate ?? default;
+            TutorReviewViewModel.Search(employmentDate, language, level);
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)

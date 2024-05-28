@@ -24,12 +24,13 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
         private void AddTutor_Click(object sender, RoutedEventArgs e)
         {
             AddTutorViewModel.AddTutor();
+            _parent.TutorReviewViewModel.SetDataForReview();
             _parent.Update();
         }
 
         private void AddSkill_Click(object sender, RoutedEventArgs e)
         {
-            AddTutorViewModel.AddSkill();
+            AddTutorViewModel.AddSkill(languageTB.Text, (LanguageLevel)levelCB.SelectedValue);
         }
 
         private void PopulateComboBox()

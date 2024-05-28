@@ -41,9 +41,11 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
             Tutor.Role = UserType.Tutor;
         }
 
-        public void AddSkill()
+        public void AddSkill(string language, LanguageLevel level)
         {
-            // TODO: implement once when skill is refactored
+            Tutor.Language.Add(language);
+            Tutor.Level.Add(level);
+            MessageBox.Show("Success!");
         }
 
     }
