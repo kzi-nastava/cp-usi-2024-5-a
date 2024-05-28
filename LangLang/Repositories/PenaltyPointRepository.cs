@@ -76,7 +76,7 @@ namespace LangLang.Repositories
                     point.StudentId.ToString(),
                     point.TutorId.ToString(),
                     point.CourseId.ToString(),
-                    point.Date.ToString());
+                    point.Date.ToString(Constants.DATE_TIME_FORMAT));
             });
 
             File.WriteAllLines(_filePath, lines);
@@ -98,7 +98,7 @@ namespace LangLang.Repositories
                 int studentId = int.Parse(values[1]);
                 int tutorId = int.Parse(values[2]);
                 int courseId = int.Parse(values[3]);
-                DateTime date = DateTime.Parse(values[4]);
+                DateTime date = DateTime.ParseExact(values[4], Constants.DATE_TIME_FORMAT, null);
                 PenaltyPoint point = new PenaltyPoint( id, studentId, tutorId, courseId, date);
                 points.Add(point.Id, point);
 

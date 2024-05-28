@@ -124,7 +124,7 @@ namespace LangLang.Domain.Models
             {
                 sbDays.Remove(sbDays.Length - 1, 1);
             }
-            return string.Join("|", new object[] { Id, TutorId, Language, Level.ToString(), NumberOfWeeks, sbDays.ToString(), Online, NumberOfStudents, MaxStudents, StartDateTime.ToString(), CreatedByDirector, Modifiable, GratitudeEmailSent, CreatedAt});
+            return string.Join("|", new object[] { Id, TutorId, Language, Level.ToString(), NumberOfWeeks, sbDays.ToString(), Online, NumberOfStudents, MaxStudents, StartDateTime.ToString(Constants.DATE_TIME_FORMAT), CreatedByDirector, Modifiable, GratitudeEmailSent, CreatedAt.ToString(Constants.DATE_TIME_FORMAT) });
         }
 
         public string ToPdfString()
