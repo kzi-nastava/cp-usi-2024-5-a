@@ -273,7 +273,7 @@ namespace LangLang.BusinessLogic.UseCases
             List<ExamResult> studentResults = resultService.GetByStudent(student);
 
             var exams = GetAll().Where(exam => IsAvailable(exam))  // exclude exams that have been filled, passed, or are less than a month away.
-                           .Where(exam => applicationService.HasApplied(student, exam)) //exclude exams for which student has already applied
+                           .Where(exam => !applicationService.HasApplied(student, exam)) //exclude exams for which student has already applied
                            .Where(exam => !HasPassedLowerLevel(studentResults, exam))
                            .Where(exam => HasAttendedRequiredCourse(studentRequests, exam)).ToList();
             return exams;
@@ -297,7 +297,7 @@ namespace LangLang.BusinessLogic.UseCases
         private bool HasStudentAttendedCourse(Course course, ExamSlot examSlot)
         {
             return course.Language == examSlot.Language &&
-               course.Level == examSlot.Level &&
+               course.Level <= examSlot.Level &&
                course.IsCompleted();
         }
 

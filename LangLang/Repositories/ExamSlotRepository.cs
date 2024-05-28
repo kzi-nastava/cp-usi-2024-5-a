@@ -95,7 +95,8 @@ namespace LangLang.Repositories
                     exam.Applicants.ToString(),
                     exam.Modifiable.ToString(),
                     exam.ResultsGenerated.ToString(),
-                    exam.ExamineesNotified.ToString());
+                    exam.ExamineesNotified.ToString(),
+                    exam.CreatedAt.ToString());
         });
 
             File.WriteAllLines(_filePath, lines);
