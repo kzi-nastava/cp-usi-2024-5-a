@@ -297,7 +297,7 @@ namespace LangLang.BusinessLogic.UseCases
         private bool HasStudentAttendedCourse(Course course, ExamSlot examSlot)
         {
             return course.Language == examSlot.Language &&
-               course.Level == examSlot.Level &&
+               course.Level <= examSlot.Level &&
                course.IsCompleted();
         }
 

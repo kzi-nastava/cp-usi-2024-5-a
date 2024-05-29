@@ -1,5 +1,26 @@
-0|0|English|B1|4|Monday Wednesday|True|1|20|1/1/2025 12:00:00 PM|False|False|False|2024-05-03 21:55
-1|1|Spanish|A1|10|Thursday|True|0|5|5/1/2024 2:00:00 PM|False|False|False|2024-05-03 21:55
-2|0|Serbian|C2|7|Wednesday|True|2|3|1/2/2024 4:00:00 PM|False|False|False|2024-05-03 21:55
-3|0|Italian|A1|5|Thursday Friday|True|0|30|10/12/2024 6:00:00 PM|False|True|False|2024-05-03 21:55
-4|0|Korean|B2|6|Monday Thursday|True|2|0|5/5/2024 10:00:00 AM|False|False|False|2024-05-03 21:55
+0|1|Serbian|C1|10|Tuesday Thursday|False|0|10|2024-01-20 17:00|False|True|False|2023-12-01 20:22
+1|0|Serbian|B1|5|Tuesday Thursday|False|1|10|2024-01-21 15:00|False|True|False|2023-12-01 20:23
+2|-1|Italian|B2|10|Wednesday Friday|False|0|10|2024-01-01 19:00|False|True|False|2023-12-01 20:24
+3|1|German|B2|10|Monday Thursday|True|0|8|2024-07-01 10:00|False|True|False|2023-12-01 20:25
+4|-1|Spanish|B1|10|Tuesday Wednesday|True|0|0|2024-01-10 11:00|False|True|False|2023-12-01 20:25
+5|1|Korean|B1|10|Tuesday Wednesday|True|0|0|2024-01-10 11:00|False|True|False|2023-12-01 20:25
+6|2|Spanish|B2|10|Tuesday Wednesday|True|0|0|2024-01-10 11:00|False|True|False|2023-12-01 20:25
+7|2|Chinese|B2|10|Tuesday Wednesday|True|0|0|2024-01-10 11:00|False|True|False|2023-12-01 20:25
+8|0|Turkish|B1|10|Tuesday Wednesday|True|0|0|2024-01-10 11:00|False|True|False|2023-12-01 20:25
+9|-1|English|B1|10|Tuesday Wednesday|True|5|10|2024-01-10 11:00|False|True|False|2023-12-01 20:25
+10|-1|English|B2|3|Wednesday|True|5|10|2024-01-10 11:00|False|True|False|2023-12-01 20:25
+11|-1|Greek|B2|5|Tuesday Wednesday|True|5|10|2024-02-10 11:00|False|True|False|2023-12-01 20:25
+12|-1|Polish|B2|4|Tuesday Wednesday|True|5|10|2023-12-10 11:00|False|True|False|2023-12-01 20:25
+13|-1|Persian|B2|2|Monday Wednesday|True|5|10|2023-11-11 11:00|False|True|False|2023-12-01 20:25
+14|-1|Indonesian|3|10|Tuesday|True|5|10|2023-09-20 11:00|False|True|False|2023-12-01 20:25
+15|-1|Danish|A1|2|Tuesday Friday|True|5|10|2023-09-30 11:00|False|True|False|2023-12-01 20:25
+16|-1|Polish|B1|4|Monday Tuesday Wednesday|True|5|10|2023-10-12 11:00|False|True|False|2023-12-01 20:25
+17|-1|Norwegian|1|10|Tuesday Wednesday|True|5|10|2023-10-11 11:00|False|True|False|2023-12-01 20:25
+18|-1|Danish|C2|6|Tuesday Wednesday|True|5|10|2023-08-10 11:00|False|True|False|2023-12-01 20:25
+19|-1|Greek|A2|7|Monday|True|5|10|2023-01-13 11:00|False|True|False|2023-12-01 20:25
+20|4|French|A2|4|Monday|True|0|10|2024-05-22 19:00|False|True|False|2023-12-01 20:25
+21|5|Greek|B1|4|Tuesday|True|0|10|2024-05-10 15:00|False|True|False|2023-12-01 20:25
+22|6|Bulgarian|C2|4|Friday|True|0|10|2024-12-12 11:00|True|True|False|2023-12-01 20:25
+23|4|French|A2|4|Monday|True|1|10|2022-06-22 19:00|False|True|False|2022-01-01 20:25
+24|5|Greek|B1|4|Tuesday|True|1|10|2022-08-10 15:00|False|True|False|2022-01-01 20:25
+25|-1|Mandarin|B2|4|Friday|True|0|10|2024-12-25 08:00|False|True|False|2024-12-25 20:25
