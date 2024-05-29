@@ -28,7 +28,10 @@ namespace LangLang.BusinessLogic.UseCases
         {
             return _tutorRatings.Get(id);
         }
-
+        public List<TutorRating> Get(Tutor tutor)
+        {
+            return _tutorRatings.Get(tutor);
+        }
         public List<TutorRating> GetAll()
         {
             return _tutorRatings.GetAll();
@@ -70,14 +73,14 @@ namespace LangLang.BusinessLogic.UseCases
         }
         public double GetAverageRating(Tutor tutor)
         {
-            CourseService courseService = new();
-            List<double> ratings = new();
-            foreach (Course course in courseService.GetByTutor(tutor.Id))
-            {
-                ratings.Add(GetAverageTutorRating(course));
-            }
+            List<TutorRating> ratings = Get(tutor);
             if (ratings.Count == 0) return 0;
-            return ratings.Average();
+            int sum = 0;
+            foreach (TutorRating rating in ratings)
+            {
+                sum += rating.Rating;
+            }
+            return sum/ratings.Count;
         }
     }
 }

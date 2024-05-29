@@ -27,6 +27,15 @@ namespace LangLang.Repositories
         {
             return _tutorRatings.Values.ToList();
         }
+        public List<TutorRating> Get(Tutor tutor)
+        {
+            List<TutorRating> ratings = new();
+            foreach(TutorRating rating in GetAll())
+            {
+                if (rating.TutorId == tutor.Id) ratings.Add(rating);
+            }
+            return ratings;
+        }
 
         public void Add(TutorRating rating)
         {
