@@ -53,7 +53,7 @@ namespace LangLang.BusinessLogic.UseCases
                 tutorsAndRatings[tutor] = tutorRatingService.GetAverageRating(tutor);
             }
             //sort by grades
-            Dictionary<Tutor, double> sorted = tutorsAndRatings.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+            Dictionary<Tutor, double> sorted = tutorsAndRatings.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
             ExamSlotService examSlotService = new();
             foreach (Tutor tutor in sorted.Keys)
             {
@@ -75,10 +75,13 @@ namespace LangLang.BusinessLogic.UseCases
             foreach (Tutor tutor in tutors)
             {
                 course.TutorId = tutor.Id;
-                if (coursesService.CanCreateOrUpdate(course)) availableTutors.Add(tutor);
+                if (coursesService.CanCreateOrUpdate(course)) {
+                    Trace.WriteLine(tutor.Id);
+                    availableTutors.Add(tutor); }
             }
             //find least busy tutors
             List<Tutor> leastBusyTutors = WithLeastActiveCourses(availableTutors);
+            if(leastBusyTutors.Count == 0) return -1;
             //check who is rated the best
             return GetBestRankedTutor(leastBusyTutors);
         }
@@ -123,7 +126,7 @@ namespace LangLang.BusinessLogic.UseCases
             {
                 ratings[tutor] = tutorRatingService.GetAverageRating(tutor);
             }
-            Tutor bestRanked = ratings.Aggregate((x, y) => x.Value < y.Value ? x : y).Key;
+            Tutor bestRanked = ratings.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
             return bestRanked.Id;
         }
         
