@@ -18,7 +18,7 @@ namespace LangLang.WPF.ViewModels
         {
             get { return _email; }
             set
-            {
+                {
                 if (value != _email)
                 {
                     _email = value;

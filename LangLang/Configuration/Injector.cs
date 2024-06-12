@@ -2,11 +2,19 @@
 using System;
 using LangLang.Domain.RepositoryInterfaces;
 using LangLang.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LangLang.Composition
 {
     public class Injector
     {
+
+        private static ServiceProvider _serviceProvider;
+        public static void SetServiceProvider(ServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
         private static Dictionary<Type, object> _implementations = new Dictionary<Type, object>
         {
             { typeof(IStudentRepository), new StudentRepository() },
@@ -15,10 +23,10 @@ namespace LangLang.Composition
             { typeof(IEnrollmentRequestRepository), new EnrollmentRequestRepository() },
             { typeof(IWithdrawalRequestRepository), new WithdrawalRequestRepository() },
             { typeof(ITutorRatingRepository), new TutorRatingRepository() },
-            { typeof(IExamSlotRepository), new ExamSlotRepository() },
+            //{ typeof(IExamSlotRepository), new ExamSlotRepository() },
             { typeof(IExamApplicationRepository), new ExamApplicationRepository() },
             { typeof(IPenaltyPointRepository), new PenaltyPointRepository() },
-            { typeof(ICourseRepository), new CourseRepository() },
+            //{ typeof(ICourseRepository), new CourseRepository() },
             { typeof(IGradeRepository), new GradeRepository() },
             { typeof(IExamResultRepository), new ExamResultRepository() },
             { typeof(IEmailRepository), new EmailRepository() }
@@ -32,7 +40,10 @@ namespace LangLang.Composition
             {
                 return (T)_implementations[type];
             }
-
+            else
+            {
+                return _serviceProvider.GetRequiredService<T>();
+            }
             throw new ArgumentException($"No implementation found for type {type}");
         }
     }

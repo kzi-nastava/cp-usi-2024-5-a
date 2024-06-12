@@ -83,7 +83,7 @@ namespace LangLang.WPF.Views.TutorView.Tabs
             if (CoursesViewModel.SelectedCourse.ToCourse().CanChange())
             {
                 CourseService courseService = new();
-                courseService.Delete(CoursesViewModel.SelectedCourse.Id);
+                courseService.Delete(CoursesViewModel.SelectedCourse.ToCourse());
                 CoursesViewModel.Update();
                 MessageBox.Show("The course has been successfully deleted.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }

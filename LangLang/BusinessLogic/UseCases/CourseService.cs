@@ -41,10 +41,11 @@ namespace LangLang.BusinessLogic.UseCases
             return GetAll().Select(course => course.Language).Distinct().ToList();
         }
 
-        public void Delete(int id)
+        public void Delete(Course course)
         {
-            _courses.Delete(id);
+            _courses.Delete(course);
         }
+
         public void DeleteByTutor(Tutor tutor)
         {
             foreach (Course course in GetByTutor(tutor.Id))
@@ -60,7 +61,7 @@ namespace LangLang.BusinessLogic.UseCases
                     {
                         EnrollmentRequestService enrollmentRequestService = new();
                         enrollmentRequestService.Delete(course);
-                        Delete(course.Id);
+                        Delete(course);
                     }
                 }
                 else
