@@ -2,12 +2,9 @@
 using LangLang.Domain.RepositoryInterfaces;
 using LangLang.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Npgsql;
 using System;
-using System.IO;
 using System.Windows;
 
 namespace LangLang
@@ -35,6 +32,7 @@ namespace LangLang
                     services.AddTransient<ITimeSlotRepository, TimeSlotRepository>();
                     services.AddTransient<ICourseRepository, CourseRepository>();
                     services.AddTransient<IExamSlotRepository, ExamSlotRepository>();
+                    services.AddTransient<ISkillRepository, SkillRepository>();
                     
                 }).Build();
 

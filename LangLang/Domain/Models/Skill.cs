@@ -5,19 +5,17 @@ namespace LangLang.Domain.Models
 {
     public class Skill
     {
-        public List<string> Language { get; set; }
-        public List<LanguageLevel> Level { get; set; }
+        public int Id { get; set; } 
+        public string Language { get; set; }
+        public LanguageLevel Level { get; set; }
 
-        public Skill()
+        public Skill() {}
+
+        public Skill(int id, string language, LanguageLevel level)
         {
-            Language = new List<string>();
-            Level = new List<LanguageLevel>();
-        }
-        public Skill(List<string> language, List<LanguageLevel> level)
-        {
+            Id = id;
             Language = language;
             Level = level;
         }
-
     }
 }
