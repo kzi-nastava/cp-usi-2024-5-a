@@ -133,7 +133,8 @@ namespace LangLang.BusinessLogic.UseCases
             if (exam == null) return false;
 
             if (!((exam.TimeSlot.Time - DateTime.Now).TotalDays >= Constants.EXAM_MODIFY_PERIOD)) return false;
-            _exams.Delete(id);
+
+            _exams.Delete(exam);
             return true;
 
         }

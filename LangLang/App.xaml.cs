@@ -1,17 +1,68 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using LangLang.Composition;
+using LangLang.Domain.RepositoryInterfaces;
+using LangLang.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Npgsql;
+using System;
+using System.IO;
 using System.Windows;
 
 namespace LangLang
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        private readonly IHost _host;
+
+        public App()
+        {
+
+            DotNetEnv.Env.Load();
+
+            _host = Host.CreateDefaultBuilder().ConfigureServices((context, services) =>
+                {
+                    var host = Environment.GetEnvironmentVariable("HOST");
+                    var database = Environment.GetEnvironmentVariable("DATABASE");
+                    var username = Environment.GetEnvironmentVariable("USERNAME");
+                    var password = Environment.GetEnvironmentVariable("PASSWORD");
+
+                    var connectionString = $"Host={host};Database={database};Username={username};Password={password}";
+
+                    services.AddDbContext<DatabaseContext>(options =>
+                        options.UseNpgsql(connectionString));
+                    services.AddTransient<ITimeSlotRepository, TimeSlotRepository>();
+                    services.AddTransient<ICourseRepository, CourseRepository>();
+                    services.AddTransient<IExamSlotRepository, ExamSlotRepository>();
+                    
+                }).Build();
+
+            Injector.SetServiceProvider(_host.Services as ServiceProvider);
+            ApplyMigrations();
+        }
+
+        private void ApplyMigrations()
+        {
+            using (var scope = _host.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+                db.Database.Migrate();
+            }
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            _host.Start();
+            base.OnStartup(e);
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            _host.StopAsync().Wait();
+            base.OnExit(e);
+        }
+
     }
+
 }

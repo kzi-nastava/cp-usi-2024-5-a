@@ -5,12 +5,13 @@ namespace LangLang.Domain.Models
 {
     public class TimeSlot
     {
-        // NOTE: Adapt as needed during implementation
+        public int Id { get; set; }
         public double Duration { get; set; }
         public DateTime Time { get; set; }
 
         public TimeSlot(double duration, DateTime time)
-        {
+        {   
+
             Duration = duration;
             Time = time;
         }

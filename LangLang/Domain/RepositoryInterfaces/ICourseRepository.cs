@@ -9,8 +9,6 @@ namespace LangLang.Domain.RepositoryInterfaces
         public Course Get(int id);
         public void Add(Course course);
         public void Update(Course course);
-        public void Delete(int id);
-        public void Save();
-        public Dictionary<int, Course> Load();
+        public void Delete(Course course);
     }
 }
