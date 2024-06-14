@@ -1,5 +1,6 @@
 ﻿using LangLang.ConsoleApp.Attributes;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 
@@ -7,6 +8,7 @@ namespace LangLang.ConsoleApp.GenericStructures
 {
     public static class GenericForm
     {
+        private static bool isCourseOnline { get; set; }
         public static T CreateEntity<T>() where T : class, new()
         {
             T entity = new T();
@@ -15,6 +17,21 @@ namespace LangLang.ConsoleApp.GenericStructures
             foreach (var property in properties)
             {
                 if (!Attribute.IsDefined(property, typeof(AllowCreate))) continue;
+
+                if (Attribute.IsDefined(property, typeof(CourseDays)))
+                {
+                    List<DayOfWeek> days = inputDays();
+                    property.SetValue(entity, days);
+                    continue;
+                }
+
+                if (Attribute.IsDefined(property, typeof(CourseMaxStud)))
+                {
+                    if (isCourseOnline)
+                    {
+                        continue;
+                    }
+                }
 
                 var displayNameAttribute = property.GetCustomAttribute<DisplayNameAttribute>();
                 string displayName = displayNameAttribute != null ? displayNameAttribute.DisplayName : property.Name;
@@ -40,7 +57,11 @@ namespace LangLang.ConsoleApp.GenericStructures
         }
         private static bool CheckInput<T>(PropertyInfo property, string input, T entity) {
             Type pType = property.PropertyType;
-
+            bool courseOnline = false;
+            if(Attribute.IsDefined(property, typeof(CourseOnline)))
+            {
+                courseOnline = true;
+            }
             // Check if the property type is DateTime
             if (pType == typeof(DateTime))
             {
@@ -48,6 +69,11 @@ namespace LangLang.ConsoleApp.GenericStructures
                 // Attempt to parse the input as DateTime
                 if (DateTime.TryParseExact(input, format, null, System.Globalization.DateTimeStyles.None, out DateTime dateTimeValue))
                 {
+                    if (dateTimeValue <= DateTime.Now)
+                    {
+                        Console.WriteLine("The date and time are not in the future.");
+                        return false;
+                    }
                     property.SetValue(entity, dateTimeValue);
                     return true;
                 }
@@ -75,6 +101,7 @@ namespace LangLang.ConsoleApp.GenericStructures
             {
                 if (bool.TryParse(input, out bool boolValue))
                 {
+                    isCourseOnline = boolValue;
                     property.SetValue(entity, boolValue);
                     return true;
                 }
@@ -90,6 +117,7 @@ namespace LangLang.ConsoleApp.GenericStructures
                 }
                 Console.WriteLine($"Invalid input. Please enter a valid value for {property.Name} from the options: {string.Join(", ", Enum.GetNames(pType))}.");
                 return false;
+
             }
             else
             {
@@ -139,6 +167,57 @@ namespace LangLang.ConsoleApp.GenericStructures
             }
 
             return entity;
+        }
+        private static List<DayOfWeek> inputDays()
+        {
+            Console.WriteLine($"Input the number of days on which the course will be held (between 1 and 5):");
+            string input = Console.ReadLine();
+            while (true)
+            {
+                switch (input)
+                {
+                    case "1":
+                    case "2":
+                    case "3":
+                    case "4":
+                        return selectedDays(int.Parse(input));
+                    case "5":
+                        Console.WriteLine("You have selected all of the days");
+                        return new List<DayOfWeek> { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday };
+                    default:
+                        Console.WriteLine("Invalid choice try again.");
+                        break;
+                }
+            }
+        }
+        private static List<DayOfWeek> selectedDays(int num)
+        {
+            List<DayOfWeek> result = new List<DayOfWeek>();
+            while (num != 0)
+            {
+                num -= 1;
+                Console.WriteLine("Input day of the week:");
+                string input = Console.ReadLine();
+                while (true)
+                {
+                    bool success = Enum.TryParse<DayOfWeek>(input, true, out DayOfWeek day);
+                    if (success && result.Contains(day) == false)
+                    {
+                        result.Add(day);
+                        break;
+                    }
+                    if (success)
+                    {
+                        Console.WriteLine("You have already selected that day. Try again: ");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid input. Try again: ");
+                    }
+                    input = Console.ReadLine();
+                }
+            }
+            return result;
         }
     }
 }
