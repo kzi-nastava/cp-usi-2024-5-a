@@ -1,16 +1,13 @@
-﻿using LangLang.Configuration;
-using LangLang.Domain.Enums;
-using System;
+﻿using System;
 
 namespace LangLang.Domain.Models
 {
     public class ExamSlot
     {
         public int Id { get; set; }
-        public string Language { get; set; }
-        public LanguageLevel Level { get; set; }
+        public int LanguageId { get; set; }
         public int TutorId { get; set; }
-        public TimeSlot TimeSlot { get; set; }
+        public int TimeSlotId { get; set; }
         public int MaxStudents { get; set; }
         public int Applicants { get; set; }
         public bool Modifiable { get; set; }
@@ -18,13 +15,12 @@ namespace LangLang.Domain.Models
         public bool ExamineesNotified { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public ExamSlot(int id, string language, LanguageLevel level, TimeSlot timeSlot, int maxStudents, int tutorId, int applicants, bool modifiable, bool generatedResults, bool examineesNotified, DateTime createdAt)
+        public ExamSlot(int id, int languageId, int timeSlotId, int maxStudents, int tutorId, int applicants, bool modifiable, bool generatedResults, bool examineesNotified, DateTime createdAt)
         {
             Id = id;
-            Language = language;
-            Level = level;
+            LanguageId = languageId;
             TutorId = tutorId;
-            TimeSlot = timeSlot;
+            TimeSlotId = timeSlotId;
             MaxStudents = maxStudents;
             Applicants = applicants;
             Modifiable = modifiable;
@@ -35,19 +31,5 @@ namespace LangLang.Domain.Models
 
         public ExamSlot() { }
 
-        public bool ApplicationsVisible()
-        {
-            int daysLeft = (TimeSlot.Time - DateTime.Now).Days; // days left until exam
-            double timeLeft = (TimeSlot.GetEnd() - DateTime.Now).TotalMinutes; // time left until end of exam
-
-            if (daysLeft > 0 && daysLeft < Constants.PRE_START_VIEW_PERIOD) return true; // applications become visible when there are less than PRE_START_VIEW_PERIOD days left
-            else if (daysLeft == 0 && timeLeft > 0) return true; // on the exam day, applications are visible until the end of exam
-            return false;
-        }
-        public bool IsHeldInLastYear()
-        {
-            DateTime oneYearAgo = DateTime.Now.AddYears(-1);
-            return TimeSlot.Time > oneYearAgo;
-        }
     }
 }
