@@ -32,6 +32,38 @@ public static class GenericForm
                         break;
                     }
                     Console.WriteLine($"Invalid input. Please enter a valid DateTime for {property.Name}.");
+                    input = Console.ReadLine();
+                }
+            }
+            else if (property.PropertyType == typeof(string))
+            {
+                // Set the string value directly
+                property.SetValue(entity, input);
+            }
+            else if (property.PropertyType == typeof(int))
+            {
+                while (true)
+                {
+                    if (int.TryParse(input, out int intValue))
+                    {
+                        property.SetValue(entity, intValue);
+                        break;
+                    }
+                    Console.WriteLine($"Invalid input. Please enter a valid integer for {property.Name}.");
+                    input = Console.ReadLine();
+                }
+            }
+            else if (property.PropertyType == typeof(bool))
+            {
+                while (true)
+                {
+                    if (bool.TryParse(input, out bool boolValue))
+                    {
+                        property.SetValue(entity, boolValue);
+                        break;
+                    }
+                    Console.WriteLine($"Invalid input. Please enter 'true' or 'false' for {property.Name}.");
+                    input = Console.ReadLine();
                 }
             }
             else
