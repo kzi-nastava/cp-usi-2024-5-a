@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System;
 using System.Text.RegularExpressions;
-using System.Collections.Generic;
 using LangLang.Domain.Models;
 using LangLang.Domain.Enums;
 
@@ -21,10 +20,8 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
         private string password;
         private UserType role;
         private DateTime employmentDate;
-        private List<string> languages;
-        private List<LanguageLevel> levels;
-        private List<string> languagelevel;
 
+        public TutorViewModel() { }
 
         public TutorViewModel(TutorViewModel other)
         {
@@ -40,9 +37,6 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
             password = other.password;
             role = other.role;
             employmentDate = other.employmentDate;
-            languages = new List<string>(other.languages);
-            levels = new List<LanguageLevel>(other.levels);
-            languagelevel = new List<string>(other.languagelevel);
         }
 
         public string Name
@@ -195,60 +189,6 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
             }
         }
 
-        public List<string> Language
-        {
-            get
-            {
-                return languages;
-            }
-
-            set
-            {
-                if (languages != value)
-                {
-                    languages = value;
-                    OnPropertyChanged("Language");
-                }
-            }
-        }
-
-        public List<LanguageLevel> Level
-        {
-            get
-            {
-                return levels;
-            }
-
-            set
-            {
-                if (levels != value)
-                {
-                    levels = value;
-                    OnPropertyChanged("Level");
-                }
-            }
-        }
-
-        public List<string> LanguageLevel
-        {
-            get
-            {
-                languagelevel.Clear();
-                for (int i = 0; i < levels.Count; i++)
-                {
-                    languagelevel.Add(languages[i] + " " + levels[i].ToString());
-                }
-                return languagelevel;
-            }
-            set
-            {
-                if (languagelevel != null)
-                {
-                    languagelevel = value;
-                }
-            }
-        }
-
         // validations
         private readonly Regex _NumberRegex = new("^\\+?\\d+$");
         private readonly Regex _EmailRegex = new("^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$");
@@ -327,13 +267,6 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
 
         public string Error => null;
 
-        public TutorViewModel()
-        {
-            languages = new List<string>();
-            levels = new List<LanguageLevel>();
-            languagelevel = new List<string>();
-        }
-
         public TutorViewModel(Tutor tutor)
         {
             Id = tutor.Id;
@@ -346,14 +279,11 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
             Password = tutor.Profile.Password;
             role = tutor.Profile.Role;
             employmentDate = tutor.EmploymentDate;
-            languages = tutor.Skill.Language;
-            levels = tutor.Skill.Level;
-            languagelevel = new List<string>();
         }
 
         public Tutor ToTutor()
         {
-            return new Tutor(Id, name, lastName, gender, birthDate, phoneNumber, email, password, role, true, employmentDate, languages, levels);
+            return new Tutor(Id, name, lastName, gender, birthDate, phoneNumber, email, password, role, true, employmentDate);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

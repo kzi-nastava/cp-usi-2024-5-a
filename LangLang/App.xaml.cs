@@ -15,7 +15,7 @@ namespace LangLang
 
         public App()
         {
-
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             DotNetEnv.Env.Load();
 
             _host = Host.CreateDefaultBuilder().ConfigureServices((context, services) =>
@@ -34,6 +34,8 @@ namespace LangLang
                     services.AddTransient<IExamSlotRepository, ExamSlotRepository>();
                     services.AddTransient<ILanguageLevelRepository, LanguageLevelRepository>();
                     services.AddTransient<ICourseTimeSlotRepository, CourseTimeSlotRepository>();
+                    services.AddTransient<ITutorRepository, TutorRepository>();
+                    services.AddTransient<ITutorSkillRepository, TutorSkillRepository>();
                     
                 }).Build();
 

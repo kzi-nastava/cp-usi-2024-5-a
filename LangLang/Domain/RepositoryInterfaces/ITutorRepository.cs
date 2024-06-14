@@ -12,7 +12,5 @@ namespace LangLang.Domain.RepositoryInterfaces
         public void Add(Tutor tutor);
         public void Update(Tutor tutor);
         public void Deactivate(int id);
-        public void Save();
-        public Dictionary<int, Tutor> Load();
     }
 }
