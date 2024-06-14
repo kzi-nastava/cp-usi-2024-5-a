@@ -62,7 +62,7 @@ namespace LangLang.ConsoleApp.View.TutorView
         private void WorkWithCourses()
         {
             Console.WriteLine("Working with courses...");
-            // Add logic to work with courses
+            CoursesView coursesView = new(tutor);
         }
 
         private void WorkWithExamSlots()
