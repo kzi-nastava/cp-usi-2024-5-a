@@ -3,7 +3,7 @@
 namespace LangLang.ConsoleApp.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class AllowUpdate : Attribute
+    public class AllowCreate : Attribute
     {
     }
 }

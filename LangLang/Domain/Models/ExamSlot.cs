@@ -10,9 +10,11 @@ namespace LangLang.Domain.Models
     {
         public int Id { get; set; }
         [Show]
+        [AllowCreate]
         public string Language { get; set; }
         [Show]
         [DisplayName("Language level")]
+        [AllowCreate]
         public LanguageLevel Level { get; set; }
         [Show]
         [DisplayName("Tutor")]
@@ -20,10 +22,12 @@ namespace LangLang.Domain.Models
         [Show]
         [AllowUpdate]
         [DisplayName("Exam time")]
+        [AllowCreate]
         public TimeSlot TimeSlot { get; set; }
         [Show]
         [AllowUpdate]
         [DisplayName("Max Students")]
+        [AllowCreate]
         public int MaxStudents { get; set; }
         [Show]
         public int Applicants { get; set; }

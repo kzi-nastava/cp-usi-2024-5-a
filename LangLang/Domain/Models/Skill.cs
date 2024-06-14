@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
+using LangLang.ConsoleApp.Attributes;
 using LangLang.Domain.Enums;
 
 namespace LangLang.Domain.Models
 {
     public class Skill
     {
+        [Show]
         public List<string> Language { get; set; }
+        [Show]
         public List<LanguageLevel> Level { get; set; }
 
         public Skill()
