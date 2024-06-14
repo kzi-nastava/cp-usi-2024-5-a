@@ -12,11 +12,13 @@ namespace LangLang.Repositories
         public DbSet<Course> Course { get; set; }
         public DbSet<ExamSlot> ExamSlot { get; set; }
         public DbSet<LanguageLevel> LanguageLevel { get; set; }
+        public DbSet<CourseTimeSlot> CourseTimeSlot { get; set; }   
         public DbSet<TutorSkill> TutorSkill {  get; set; }
 
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             ConfigureTutorEntity(modelBuilder);
 
             modelBuilder.Entity<Tutor>().ToTable("Tutor");
@@ -24,6 +26,7 @@ namespace LangLang.Repositories
             modelBuilder.Entity<ExamSlot>().ToTable("ExamSlot");
             modelBuilder.Entity<TimeSlot>().ToTable("TimeSlot");
             modelBuilder.Entity<LanguageLevel>().ToTable("LanguageLevel");
+            modelBuilder.Entity<CourseTimeSlot>().ToTable("CourseTimeSlot");
             modelBuilder.Entity<TutorSkill>().ToTable("TutorSkill");
         }
 
@@ -45,7 +48,6 @@ namespace LangLang.Repositories
                     profile.Property(p => p.Role).HasColumnName("Role");
                     profile.Property(p => p.IsActive).HasColumnName("IsActive");
                 });
-
         }
     }
 }

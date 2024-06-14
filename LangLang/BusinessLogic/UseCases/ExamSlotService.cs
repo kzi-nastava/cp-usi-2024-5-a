@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using LangLang.Composition;
+using LangLang.Configuration;
+using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
-using LangLang.Composition;
-using LangLang.Domain.Enums;
-using LangLang.Configuration;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -29,9 +28,23 @@ namespace LangLang.BusinessLogic.UseCases
         {
             return _exams.Get(id);
         }
+
         public List<ExamSlot> GetAll()
         {
             return _exams.GetAll();
+        }
+
+        public void Update(ExamSlot exam)
+        {
+            _exams.Update(exam);
+        }
+
+        public void Add(ExamSlot exam)
+        {
+            if (!CanCreateExam(exam))
+                throw new Exception("It's not possible to create exam, try entering different data");
+            exam.Id = GenerateId();
+            _exams.Add(exam);
         }
 
         public List<ExamSlot> GetGraded()
@@ -51,21 +64,11 @@ namespace LangLang.BusinessLogic.UseCases
         // returns all graded exams for a specified language
         public List<ExamSlot> GetByLanguage(string language)
         {
-            var exams = GetAll().Where(exam => exam.Language.Equals(language, StringComparison.OrdinalIgnoreCase)).ToList();
             var resultService = new ExamResultService();
+            var languageService = new LanguageLevelService();
 
-            return exams.Where(exam => !resultService.GetByExam(exam).All(result => result.Outcome != ExamOutcome.NotGraded && exam.ResultsGenerated)).ToList();
-        }
-
-        //function takes examslot and adds it to dictionary of examslots
-        //function saves changes and returns if adding was successful
-        public bool Add(ExamSlot exam)
-        {
-            if (!CanCreateExam(exam)) return false;
-            exam.Id = GenerateId();
-            _exams.Add(exam);
-            return true;
-
+            var exams = GetAll().Where(exam => languageService.Get(exam.LanguageId).Language.Equals(language, StringComparison.OrdinalIgnoreCase)).ToList();
+            return exams.Where(exam => resultService.GetByExam(exam).All(result => result.Outcome != ExamOutcome.NotGraded && exam.ResultsGenerated)).ToList();
         }
 
         public bool CanCreateExam(ExamSlot exam)
@@ -77,12 +80,12 @@ namespace LangLang.BusinessLogic.UseCases
         public bool CoursesAndExamOverlapp(ExamSlot exam, ref int busyClassrooms)
         {
             var courseService = new CourseService();
-            List<Course> courses = courseService.GetAll().ToList();
-            // Go through courses
-            foreach (Course course in courses)
+            var timeService = new TimeSlotService();
+
+            foreach (Course course in courseService.GetAll())
             {
                 //check for overlapping
-                if (course.OverlappsWith(exam.TimeSlot))
+                if (course.OverlappsWith(timeService.Get(exam.TimeSlotId)))
                 {
                     //tutor is busy (has class)
                     if (course.TutorId == exam.TutorId)
@@ -94,21 +97,22 @@ namespace LangLang.BusinessLogic.UseCases
                     //all classrooms are busy
                     if (busyClassrooms == 2)
                         return true;
-
                 }
             }
             return false;
         }
+
         // Checks for any overlaps between other exams and current exam, considering the availability of the exam's tutor and classrooms
         public bool ExamsOverlapp(ExamSlot exam, ref int busyClassrooms)
         {
-            // Go through all exams
+            var timeService = new TimeSlotService();
+
             foreach (ExamSlot currExam in GetAll())
             {
                 if (currExam.Id == exam.Id)
                     continue;
 
-                if (exam.TimeSlot.OverlappsWith(currExam.TimeSlot))
+                if (timeService.Get(exam.TimeSlotId).OverlappsWith(timeService.Get(currExam.TimeSlotId)))
                 {
                     //tutor is busy (has exam)
                     if (exam.TutorId == currExam.TutorId)
@@ -125,89 +129,103 @@ namespace LangLang.BusinessLogic.UseCases
             return false;
         }
 
-        //function takes id of examslot and removes examslot with that id
-        //function saves changes and returns if removing was successful
-        public bool Delete(int id)
+        public void Delete(int id)
         {
             ExamSlot exam = Get(id);
-            if (exam == null) return false;
 
-            if (!((exam.TimeSlot.Time - DateTime.Now).TotalDays >= Constants.EXAM_MODIFY_PERIOD)) return false;
+            var timeService = new TimeSlotService();
+            TimeSlot timeSlot = timeService.Get(exam.TimeSlotId);
 
+            if (!((timeSlot.Time - DateTime.Now).TotalDays >= Constants.EXAM_MODIFY_PERIOD))
+                throw new Exception("$Can't delete exam, there is less than {Constants.EXAM_MODIFY_PERIOD} days before exam.");
+            
             _exams.Delete(exam);
-            return true;
-
         }
-        //deletes future exams by given tutor
+
         public void DeleteByTutor(Tutor tutor)
         {
-            ExamApplicationService appsService = new();
-            List<ExamSlot> exams = GetExams(tutor);
-            foreach (ExamSlot exam in exams)
+            var applicationService = new ExamApplicationService();
+            var timeService = new TimeSlotService();
+            
+            foreach (ExamSlot exam in GetByTutor(tutor))
             {
-                if (exam.TimeSlot.Time > DateTime.Now)
+                var timeSlot = timeService.Get(exam.TimeSlotId);
+
+                if (timeSlot.Time > DateTime.Now)
                 {
-                    appsService.DeleteByExam(exam);
+                    applicationService.DeleteByExam(exam);
                     Delete(exam.Id);
                 }
             }
         }
-        public void AddStudent(ExamSlot exam)
+
+        public void IncrementApplicants(ExamSlot exam)
         {           
             exam.Applicants++;
             _exams.Update(exam);
         }
 
-        public void RemoveStudent(ExamSlot exam)
+        public void DecrementApplicants(ExamSlot exam)
         {
             exam.Applicants--;
             _exams.Update(exam);
         }
-        
-        public void Update(ExamSlot exam)
-        {
-            _exams.Update(exam);
-        }
 
+        public bool ApplicationsVisible(ExamSlot exam)
+        {
+            var timeSlotService = new TimeSlotService();
+            TimeSlot timeSlot = timeSlotService.Get(exam.Id);
+
+            int daysLeft = (timeSlot.Time - DateTime.Now).Days; // days left until exam
+            double timeLeft = (timeSlot.GetEnd() - DateTime.Now).TotalMinutes; // time left until end of exam
+
+            if (daysLeft > 0 && daysLeft < Constants.PRE_START_VIEW_PERIOD) return true; // applications become visible when there are less than PRE_START_VIEW_PERIOD days left
+            else if (daysLeft == 0 && timeLeft > 0) return true; // on the exam day, applications are visible until the end of exam
+            return false;
+        }
+        
         public bool CanBeUpdated(ExamSlot exam)
         {
-            return (exam.TimeSlot.Time - DateTime.Now).TotalDays >= Constants.EXAM_MODIFY_PERIOD;
+            var timeService = new TimeSlotService();
+            return (timeService.Get(exam.TimeSlotId).Time - DateTime.Now).TotalDays >= Constants.EXAM_MODIFY_PERIOD;
         }
 
-
-        // Method to get all exam slots by tutor ID
-        //function takes tutor id
-        public List<ExamSlot> GetExams(Tutor tutor)
+        public List<ExamSlot> GetByTutor(Tutor tutor)
         {
-            return _exams.GetExams(tutor);
+            return _exams.GetByTutor(tutor);
         }
 
-
-        // Method to check if an exam slot is available
-        // takes exam slot, returns true if it is availbale or false if it isn't available
         public bool IsAvailable(ExamSlot exam)
         {
-            if (HasPassed(exam))
-            {
+            if ( HasPassed(exam) || IsFullyBooked(exam) || IsLessThanMonthAway(exam) )
                 return false;
-            }
-
-            if (IsFullyBooked(exam))
-            {
-                return false;
-            }
-
-            if (IsLessThanMonthAway(exam))
-            {
-                return false;
-            }
-
             return true;
+        }
+
+        public List<ExamSlot> SearchByTutor(Tutor tutor, DateTime examDate, string language, Level? level)
+        {
+            return Search(GetByTutor(tutor), examDate, language, level);
+        }
+
+        public List<ExamSlot> SearchByStudent(Student student, DateTime examDate, string courseLanguage, Level? Level)
+        {
+            return Search(GetAvailableExams(student), examDate, courseLanguage, Level);
+        }
+
+        private List<ExamSlot> Search(List<ExamSlot> exams, DateTime examDate, string language, Level? level)
+        {
+            var languageService = new LanguageLevelService();
+            var timeService = new TimeSlotService();
+
+            return exams.Where(exam => (examDate == default || timeService.Get(exam.TimeSlotId).Time.Date == examDate.Date) &&
+            (language == "" || languageService.Get(exam.LanguageId).Language == language) &&
+            (level == null || languageService.Get(exam.LanguageId).Level == level)).ToList();
         }
 
         public bool HasPassed(ExamSlot exam)
         {
-            return exam.TimeSlot.Time < DateTime.Now;
+            var timeService = new TimeSlotService();
+            return timeService.Get(exam.TimeSlotId).Time < DateTime.Now;
         }
 
         public bool IsFullyBooked(ExamSlot exam)
@@ -215,49 +233,16 @@ namespace LangLang.BusinessLogic.UseCases
             return exam.MaxStudents == exam.Applicants;
         }
 
-        // Check if exam is less than 30 days away
         private bool IsLessThanMonthAway(ExamSlot exam)
         {
-            DateTime currentDate = DateTime.Now;
-
-            TimeSpan difference = exam.TimeSlot.Time - currentDate;
-
-            return difference.TotalDays < 30;
+            var timeService = new TimeSlotService();
+            return (timeService.Get(exam.TimeSlotId).Time - DateTime.Now).TotalDays < 30;
         }
-        // Method to search exam slots by tutor and criteria
-        public List<ExamSlot> SearchByTutor(Tutor tutor, DateTime examDate, string language, LanguageLevel? level)
+
+        public List<ExamSlot> GetExamsHeldInLastYear()
         {
-            List<ExamSlot> exams = _exams.GetAll();
-
-            exams = GetExams(tutor);
-
-            return Search(exams, examDate, language, level);
+            return GetAll().Where(exam => IsHeldInLastYear(exam)).ToList();
         }
-
-        private List<ExamSlot> Search(List<ExamSlot> exams, DateTime examDate, string language, LanguageLevel? level)
-        {
-            List<ExamSlot> filteredExams = exams.Where(exam =>
-                (examDate == default || exam.TimeSlot.Time.Date == examDate.Date) &&
-                (language == "" || exam.Language == language) &&
-                (level == null || exam.Level == level)
-            ).ToList();
-
-            return filteredExams;
-        }
-
-
-        public bool ApplicationsVisible(int id)
-        {
-            ExamSlot examSlot = Get(id);
-            return examSlot.ApplicationsVisible();
-        }
-
-        public List<ExamSlot> SearchByStudent(Student student, DateTime examDate, string courseLanguage, LanguageLevel? languageLevel)
-        {
-            List<ExamSlot> availableExamSlots = GetAvailableExams(student);
-            return Search(availableExamSlots, examDate, courseLanguage, languageLevel);
-        }
-
 
         public List<ExamSlot> GetAvailableExams(Student student)
         {
@@ -283,9 +268,11 @@ namespace LangLang.BusinessLogic.UseCases
         private bool HasPassedLowerLevel(List<ExamResult> results, ExamSlot exam)
         {
             var examService = new ExamSlotService();
+            var languageService = new LanguageLevelService();
+
             return results.Any(result => result.Outcome == ExamOutcome.Passed &&
-                               exam.Language == examService.Get(result.ExamSlotId).Language &&
-                               exam.Level < examService.Get(result.ExamSlotId).Level);
+                               languageService.Get(exam.LanguageId).Language == languageService.Get(examService.Get(result.ExamSlotId).LanguageId).Language &&
+                               languageService.Get(exam.LanguageId).Level < languageService.Get(examService.Get(result.ExamSlotId).LanguageId).Level);
         }
 
         private bool HasAttendedRequiredCourse(List<EnrollmentRequest> requests, ExamSlot exam)
@@ -297,16 +284,21 @@ namespace LangLang.BusinessLogic.UseCases
 
         private bool HasStudentAttendedCourse(Course course, ExamSlot examSlot)
         {
-            return course.Language == examSlot.Language &&
-               course.Level <= examSlot.Level &&
-               course.IsCompleted();
+            var languageService = new LanguageLevelService();
+            var examLanguage = languageService.Get(examSlot.LanguageId);
+            var courseLanguage = languageService.Get(course.LanguageLevelId);
+             
+            return courseLanguage.Language == examLanguage.Language &&
+               courseLanguage.Level <= examLanguage.Level && course.IsCompleted();
         }
 
-        public List<ExamSlot> GetExamsHeldInLastYear()
+        private bool IsHeldInLastYear(ExamSlot exam)
         {
-            return GetAll().Where(exam => exam.IsHeldInLastYear()).ToList();
-        }
+            var timeService = new TimeSlotService();
+            var timeSlot = timeService.Get(exam.TimeSlotId);
 
+            return timeSlot.Time > DateTime.Now.AddYears(-1);
+        }
 
     }
 }

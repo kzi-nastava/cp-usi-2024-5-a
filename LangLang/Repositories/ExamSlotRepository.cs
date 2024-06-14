@@ -1,6 +1,5 @@
 ﻿using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,45 +7,44 @@ namespace LangLang.Repositories
 {
     public class ExamSlotRepository : IExamSlotRepository
     {
-        private readonly DatabaseContext _databaseContext;
+        private readonly DatabaseContext _context;
 
         public ExamSlotRepository(DatabaseContext context)
         {
-            _databaseContext = context;
+            _context = context;
         }
 
         public ExamSlot? Get(int id)
         {
-            return _databaseContext.ExamSlot.Find(id);
+            return _context.ExamSlot.Find(id);
         }
 
         public List<ExamSlot> GetAll()
         {
-            return _databaseContext.ExamSlot.ToList();
+            return _context.ExamSlot.ToList();
         }
 
-        public List<ExamSlot> GetExams(Tutor tutor)
+        public List<ExamSlot> GetByTutor(Tutor tutor)
         {
-            return _databaseContext.ExamSlot.Where(es => es.TutorId == tutor.Id).ToList();
+            return _context.ExamSlot.Where(es => es.TutorId == tutor.Id).ToList();
         }
 
         public void Add(ExamSlot exam)
         {
-            _databaseContext.ExamSlot.Add(exam);
-            _databaseContext.SaveChanges();
-
+            _context.ExamSlot.Add(exam);
+            _context.SaveChanges();
         }
 
         public void Update(ExamSlot exam)
         {
-            _databaseContext.ExamSlot.Update(exam);
-            _databaseContext.SaveChanges();
+            _context.ExamSlot.Update(exam);
+            _context.SaveChanges();
         }
 
         public void Delete(ExamSlot exam)
         {
-            _databaseContext.ExamSlot.Remove(exam);
-            _databaseContext.SaveChanges();
+            _context.ExamSlot.Remove(exam);
+            _context.SaveChanges();
         }
     }
 }
