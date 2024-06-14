@@ -30,12 +30,12 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
 
         private void AddSkill_Click(object sender, RoutedEventArgs e)
         {
-            AddTutorViewModel.AddSkill(languageTB.Text, (LanguageLevel)levelCB.SelectedValue);
+            AddTutorViewModel.AddSkill(languageTB.Text, (Level)levelCB.SelectedValue);
         }
 
         private void PopulateComboBox()
         {
-            levelCB.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
+            levelCB.ItemsSource = Enum.GetValues(typeof(Level));
             genderCB.ItemsSource = Enum.GetValues(typeof(Gender));
         }
     }
