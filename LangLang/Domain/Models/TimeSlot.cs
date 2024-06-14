@@ -1,14 +1,20 @@
 ﻿using System;
+using System.ComponentModel;
 using LangLang.Configuration;
+using LangLang.ConsoleApp.Attributes;
 
 namespace LangLang.Domain.Models
 {
     public class TimeSlot
     {
         // NOTE: Adapt as needed during implementation
+        [Show]
+        [DisplayName("Duration")]
         public double Duration { get; set; }
+        [Show]
+        [DisplayName("Date and time")]
         public DateTime Time { get; set; }
-
+        public TimeSlot() { }
         public TimeSlot(double duration, DateTime time)
         {
             Duration = duration;
