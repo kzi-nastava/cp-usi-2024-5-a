@@ -1,17 +1,16 @@
-﻿using System.Collections.Generic;
-using LangLang.Domain.Enums;
+﻿using LangLang.Domain.Enums;
 
 namespace LangLang.Domain.Models
 {
-    public class Skill
+    public class LanguageLevel
     {
         public int Id { get; set; } 
         public string Language { get; set; }
-        public LanguageLevel Level { get; set; }
+        public Level Level { get; set; }
 
-        public Skill() {}
+        public LanguageLevel() {}
 
-        public Skill(int id, string language, LanguageLevel level)
+        public LanguageLevel(int id, string language, Level level)
         {
             Id = id;
             Language = language;
