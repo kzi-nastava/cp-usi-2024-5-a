@@ -57,7 +57,7 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
             MessageBox.Show("Tutor is successfully deleted");
 
         }
-        public void Search(DateTime employmentDate, string language, LanguageLevel? level)
+        public void Search(DateTime employmentDate, string language, Level? level)
         {
             var tutorService = new TutorService();
             TutorsForReview = tutorService.Search(employmentDate, language, level);

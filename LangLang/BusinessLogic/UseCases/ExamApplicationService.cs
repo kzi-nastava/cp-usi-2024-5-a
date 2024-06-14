@@ -39,7 +39,7 @@ namespace LangLang.BusinessLogic.UseCases
 
             var examService = new ExamSlotService();
             ExamSlot? exam = examService.Get(application.ExamSlotId);
-            examService.AddStudent(exam);
+            examService.IncrementApplicants(exam);
             _applications.Add(application);
             return application;
         }
@@ -52,7 +52,7 @@ namespace LangLang.BusinessLogic.UseCases
 
             var examService = new ExamSlotService();
             ExamSlot? exam = examService.Get(application.ExamSlotId);
-            examService.RemoveStudent(exam);
+            examService.DecrementApplicants(exam);
             _applications.Delete(application.Id);
             return application;
         }
@@ -104,7 +104,9 @@ namespace LangLang.BusinessLogic.UseCases
         }
         private bool CanBeCanceled(ExamSlot exam)
         {
-            return exam.TimeSlot.Time.Date - DateTime.Now.Date > TimeSpan.FromDays(Constants.EXAM_CANCELATION_PERIOD);
+            var timeService = new TimeSlotService();
+            var timeSlot = timeService.Get(exam.TimeSlotId);
+            return timeSlot.Time.Date - DateTime.Now.Date > TimeSpan.FromDays(Constants.EXAM_CANCELATION_PERIOD);
         }
 
         public bool HasApplied(Student student, ExamSlot exam)

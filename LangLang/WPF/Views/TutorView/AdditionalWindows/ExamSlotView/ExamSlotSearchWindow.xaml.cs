@@ -31,9 +31,9 @@ namespace LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView
         private void SearchExam_Click(object sender, RoutedEventArgs e)
         {
             string? language = languageExamtb.Text;
-            LanguageLevel? level = null;
+            Level? level = null;
             if (levelExamcb.SelectedValue != null)
-                level = (LanguageLevel)levelExamcb.SelectedValue;
+                level = (Level)levelExamcb.SelectedValue;
             DateTime examDate = examdatePicker.SelectedDate ?? default;
 
             ExamsSearchVM.SearchExams(ExamsSearchVM.loggedIn, examDate, language, level);

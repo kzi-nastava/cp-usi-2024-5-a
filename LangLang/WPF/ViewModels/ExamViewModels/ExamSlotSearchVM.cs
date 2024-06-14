@@ -20,7 +20,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
             examSlotsForReview = new List<ExamSlot>();
             this.loggedIn = loggedIn;
             ExamSlotService examsService = new();
-            examSlotsForReview = examsService.GetExams(loggedIn);
+            examSlotsForReview = examsService.GetByTutor(loggedIn);
 
             foreach (ExamSlot exam in examSlotsForReview)
             {
@@ -38,7 +38,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
                 ExamSlots.Add(new ExamSlotViewModel(exam));
             }
         }
-        public void SearchExams(Tutor loggedIn,DateTime examDate,string language,LanguageLevel? level)
+        public void SearchExams(Tutor loggedIn, DateTime examDate, string language, Level? level)
         {
             ExamSlotService examsService = new();
             examSlotsForReview = examsService.SearchByTutor(loggedIn, examDate, language, level);
@@ -49,7 +49,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
         public void ClearExams()
         {
             ExamSlotService examsService = new();
-            examSlotsForReview = examsService.GetExams(loggedIn);
+            examSlotsForReview = examsService.GetByTutor(loggedIn);
             SetDataForView();
         }
     }

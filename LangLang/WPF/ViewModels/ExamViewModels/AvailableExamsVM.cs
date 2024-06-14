@@ -70,7 +70,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
             }
 
         }
-        public void SearchExams(Student loggedIn, DateTime examDate, string language, LanguageLevel? level)
+        public void SearchExams(Student loggedIn, DateTime examDate, string language, Level? level)
         {
             ExamSlotService examsService = new();
             ExamsForReview = examsService.SearchByStudent(loggedIn, examDate, language, level);

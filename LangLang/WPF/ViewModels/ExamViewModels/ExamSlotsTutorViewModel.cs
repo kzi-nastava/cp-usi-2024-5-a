@@ -26,7 +26,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
             ExamSlots.Clear();
             ExamSlotService examSlotService = new();
 
-            foreach (ExamSlot exam in examSlotService.GetExams(LoggedIn))
+            foreach (ExamSlot exam in examSlotService.GetByTutor(LoggedIn))
             {
                 ExamSlots.Add(new ExamSlotViewModel(exam));
             }
@@ -47,7 +47,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
         public void SeeApplications()
         {
             var examService = new ExamSlotService();
-            if (examService.ApplicationsVisible(SelectedExamSlot.Id) && SelectedExamSlot.Applicants != 0)
+            if (examService.ApplicationsVisible(SelectedExamSlot.ToExamSlot()) && SelectedExamSlot.Applicants != 0)
             {
                 ExamApplications applicationsWindow = new(SelectedExamSlot);
                 applicationsWindow.Show();
@@ -74,17 +74,16 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
         public void DeleteExam()
         {
             ExamSlotService examSlotService = new();
-            if (!examSlotService.Delete(SelectedExamSlot.Id))
-            {
-                MessageBox.Show($"Can't delete exam, there is less than {Constants.EXAM_MODIFY_PERIOD} days before exam.");
-            }
-            else
-            {
+            try {
+                examSlotService.Delete(SelectedExamSlot.Id);
                 MessageBox.Show("Exam slot successfully deleted.");
             }
-
+            catch (Exception e) {
+                MessageBox.Show(e.Message);
+            }
             SetDataForReview();
         }
+
         public bool IsExamSelected()
         {
             return SelectedExamSlot != null;

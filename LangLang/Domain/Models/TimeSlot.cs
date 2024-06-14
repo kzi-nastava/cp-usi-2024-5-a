@@ -14,19 +14,6 @@ namespace LangLang.Domain.Models
             Duration = duration;
             Time = time;
         }
-        // NOTE: Possibly redudant
-        //public TimeSlot(string duration, string time)
-        //{
-        //    try
-        //    {
-        //        Time = DateTime.ParseExact(time, Constants.DATE_TIME_FORMAT, null);
-        //    }
-        //    catch
-        //    {
-        //        throw new FormatException("Date is not in the correct format.");
-        //    }
-        //    Duration = double.Parse(duration);
-        //}
 
         public bool OverlappsWith(TimeSlot timeSlot)
         {

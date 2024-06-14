@@ -12,7 +12,7 @@ namespace LangLang.Domain.Models
         public int Id { get; set; }
         public int TutorId { get; set; }
         public string Language { get; set; }
-        public LanguageLevel Level { get; set; }
+        public Level Level { get; set; }
         public int NumberOfWeeks { get; set; }
         public List<DayOfWeek> Days { get; set; }
         public bool Online { get; set; }
@@ -27,7 +27,7 @@ namespace LangLang.Domain.Models
 
 
         // Constructors
-        public Course(int id, int tutorId, string language, LanguageLevel level, int numberOfWeeks, List<DayOfWeek> days,
+        public Course(int id, int tutorId, string language, Level level, int numberOfWeeks, List<DayOfWeek> days,
             bool online, int numberOfStudents, int maxStudents, DateTime startDateTime, bool createdByDirector, bool modifiable, bool gratitudeEmailSent, DateTime createdAt)
         {
             Id = id;

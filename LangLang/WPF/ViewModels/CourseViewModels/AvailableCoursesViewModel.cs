@@ -30,7 +30,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             CoursesForReview = courseService.GetAvailable(currentlyLoggedIn);
         }
 
-        public void Search(string language, LanguageLevel? level, DateTime courseStartDate, int duration, bool? online)
+        public void Search(string language, Level? level, DateTime courseStartDate, int duration, bool? online)
         {
             var courseService = new CourseService();
             CoursesForReview = courseService.SearchCoursesByStudent(currentlyLoggedIn, language, level, courseStartDate, duration, online);

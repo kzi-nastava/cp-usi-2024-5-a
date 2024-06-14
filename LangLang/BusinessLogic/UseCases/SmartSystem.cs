@@ -43,8 +43,11 @@ namespace LangLang.BusinessLogic.UseCases
 
         public static int GetTutorForExam(ExamSlot exam)
         {
-            TutorService tutorService = new();
-            List<Tutor> tutors = tutorService.GetBySkill(exam.Language, exam.Level);
+            var tutorService = new TutorService();
+            var languageService = new LanguageLevelService();
+            var language = languageService.Get(exam.LanguageId);
+
+            List<Tutor> tutors = tutorService.GetBySkill(language.Language, language.Level);
             if (tutors.Count == 0) return -1;
             TutorRatingService tutorRatingService = new();
             Dictionary<Tutor, double> tutorsAndRatings = new();
