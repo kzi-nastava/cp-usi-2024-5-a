@@ -74,5 +74,25 @@ namespace LangLang.WPF.Views.TutorView.Tabs
             ExamsTutorVM.EnterResults();
         }
 
+        private void FirstPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            ExamsTutorVM.GoToFirstPage();
+        }
+
+        private void PreviousPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            ExamsTutorVM.GoToPreviousPage();
+        }
+
+        private void NextPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            ExamsTutorVM.GoToNextPage();
+        }
+
+        private void LastPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            ExamsTutorVM.GoToLastPage();
+        }
+
     }
 }
