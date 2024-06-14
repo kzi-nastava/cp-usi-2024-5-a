@@ -1,4 +1,5 @@
 ﻿using LangLang.ConsoleApp.Attributes;
+using Syncfusion.Pdf.Graphics.Images.Decoder;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,8 +21,9 @@ public static class GenericForm
             Console.WriteLine($"Enter value for {displayName} ({property.PropertyType.Name}):");
             string input = Console.ReadLine();
 
+            Type pType = property.PropertyType;
             // Check if the property type is DateTime
-            if (property.PropertyType == typeof(DateTime))
+            if (pType == typeof(DateTime))
             {
                 while (true)
                 {
@@ -35,12 +37,12 @@ public static class GenericForm
                     input = Console.ReadLine();
                 }
             }
-            else if (property.PropertyType == typeof(string))
+            else if (pType  == typeof(string))
             {
                 // Set the string value directly
                 property.SetValue(entity, input);
             }
-            else if (property.PropertyType == typeof(int))
+            else if (pType == typeof(int))
             {
                 while (true)
                 {
@@ -53,7 +55,7 @@ public static class GenericForm
                     input = Console.ReadLine();
                 }
             }
-            else if (property.PropertyType == typeof(bool))
+            else if (pType == typeof(bool))
             {
                 while (true)
                 {
@@ -65,6 +67,14 @@ public static class GenericForm
                     Console.WriteLine($"Invalid input. Please enter 'true' or 'false' for {property.Name}.");
                     input = Console.ReadLine();
                 }
+            }
+            else if (pType.IsEnum)
+            {
+                if (Enum.TryParse(pType, input, true, out object enumValue))
+                {
+                    return (T)enumValue;
+                }
+                Console.WriteLine($"Invalid input. Please enter a valid value for {property.Name} from the options: {string.Join(", ", Enum.GetNames(type))}.");
             }
             else
             {
