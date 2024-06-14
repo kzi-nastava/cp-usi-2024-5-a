@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace LangLang.ConsoleApp.View.TutorView
+namespace LangLang.ConsoleApp.View.DirectorView
 {
     public class ExamsView
     {

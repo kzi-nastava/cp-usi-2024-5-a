@@ -1,4 +1,5 @@
-﻿using LangLang.Domain.Models;
+﻿using LangLang.ConsoleApp.GenericStructures;
+using LangLang.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

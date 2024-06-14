@@ -1,116 +1,118 @@
 ﻿using LangLang.ConsoleApp.Attributes;
-using Syncfusion.Pdf.Graphics.Images.Decoder;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 
-public static class GenericForm
+namespace LangLang.ConsoleApp.GenericStructures
 {
-    public static T CreateEntity<T>() where T : class, new()
+    public static class GenericForm
     {
-        T entity = new T();
-        PropertyInfo[] properties = typeof(T).GetProperties();
-
-        foreach (var property in properties)
+        public static T CreateEntity<T>() where T : class, new()
         {
-            if (!Attribute.IsDefined(property, typeof(Show))) continue;
+            T entity = new T();
+            PropertyInfo[] properties = typeof(T).GetProperties();
 
-            var displayNameAttribute = property.GetCustomAttribute<DisplayNameAttribute>();
-            string displayName = displayNameAttribute != null ? displayNameAttribute.DisplayName : property.Name;
-            Console.WriteLine($"Enter value for {displayName} ({property.PropertyType.Name}):");
-            string input = Console.ReadLine();
-
-            Type pType = property.PropertyType;
-            // Check if the property type is DateTime
-            if (pType == typeof(DateTime))
+            foreach (var property in properties)
             {
-                while (true)
+                if (!Attribute.IsDefined(property, typeof(Show))) continue;
+
+                var displayNameAttribute = property.GetCustomAttribute<DisplayNameAttribute>();
+                string displayName = displayNameAttribute != null ? displayNameAttribute.DisplayName : property.Name;
+                Console.WriteLine($"Enter value for {displayName} ({property.PropertyType.Name}):");
+                string input = Console.ReadLine();
+
+                Type pType = property.PropertyType;
+                // Check if the property type is DateTime
+                if (pType == typeof(DateTime))
                 {
-                    // Attempt to parse the input as DateTime
-                    if (DateTime.TryParse(input, out DateTime dateTimeValue))
+                    while (true)
                     {
-                        property.SetValue(entity, dateTimeValue);
-                        break;
+                        // Attempt to parse the input as DateTime
+                        if (DateTime.TryParse(input, out DateTime dateTimeValue))
+                        {
+                            property.SetValue(entity, dateTimeValue);
+                            break;
+                        }
+                        Console.WriteLine($"Invalid input. Please enter a valid DateTime for {property.Name}.");
+                        input = Console.ReadLine();
                     }
-                    Console.WriteLine($"Invalid input. Please enter a valid DateTime for {property.Name}.");
-                    input = Console.ReadLine();
                 }
-            }
-            else if (pType  == typeof(string))
-            {
-                // Set the string value directly
-                property.SetValue(entity, input);
-            }
-            else if (pType == typeof(int))
-            {
-                while (true)
+                else if (pType == typeof(string))
                 {
-                    if (int.TryParse(input, out int intValue))
+                    // Set the string value directly
+                    property.SetValue(entity, input);
+                }
+                else if (pType == typeof(int))
+                {
+                    while (true)
                     {
-                        property.SetValue(entity, intValue);
-                        break;
+                        if (int.TryParse(input, out int intValue))
+                        {
+                            property.SetValue(entity, intValue);
+                            break;
+                        }
+                        Console.WriteLine($"Invalid input. Please enter a valid integer for {property.Name}.");
+                        input = Console.ReadLine();
                     }
-                    Console.WriteLine($"Invalid input. Please enter a valid integer for {property.Name}.");
-                    input = Console.ReadLine();
                 }
-            }
-            else if (pType == typeof(bool))
-            {
-                while (true)
+                else if (pType == typeof(bool))
                 {
-                    if (bool.TryParse(input, out bool boolValue))
+                    while (true)
                     {
-                        property.SetValue(entity, boolValue);
-                        break;
+                        if (bool.TryParse(input, out bool boolValue))
+                        {
+                            property.SetValue(entity, boolValue);
+                            break;
+                        }
+                        Console.WriteLine($"Invalid input. Please enter 'true' or 'false' for {property.Name}.");
+                        input = Console.ReadLine();
                     }
-                    Console.WriteLine($"Invalid input. Please enter 'true' or 'false' for {property.Name}.");
-                    input = Console.ReadLine();
                 }
-            }
-            else if (pType.IsEnum)
-            {
-                if (Enum.TryParse(pType, input, true, out object enumValue))
+                else if (pType.IsEnum)
                 {
-                    return (T)enumValue;
+                    if (Enum.TryParse(pType, input, true, out object enumValue))
+                    {
+                        return (T)enumValue;
+                    }
+                    Console.WriteLine($"Invalid input. Please enter a valid value for {property.Name} from the options: {string.Join(", ", Enum.GetNames(pType))}.");
                 }
-                Console.WriteLine($"Invalid input. Please enter a valid value for {property.Name} from the options: {string.Join(", ", Enum.GetNames(type))}.");
-            }
-            else
-            {
-                object value = Convert.ChangeType(input, property.PropertyType);
-                property.SetValue(entity, value);
-            }
-        }
-
-        return entity;
-    }
-    public static T UpdateEntity<T>(T entity) where T : class, new()
-    {
-        PropertyInfo[] properties = typeof(T).GetProperties();
-
-        foreach (var property in properties)
-        {
-            if (Attribute.IsDefined(property, typeof(AllowUpdate)))
-            {
-                // Get the current value of the property
-                object currentValue = property.GetValue(entity);
-                Console.WriteLine($"Current value for {property.Name}: {currentValue}");
-
-                // Prompt the user to choose whether to update the property
-                Console.WriteLine($"Do you want to update {property.Name}? (Y/N)");
-                string choice = Console.ReadLine();
-
-                if (choice.ToUpper() == "Y")
+                else
                 {
-                    Console.WriteLine($"Enter new value for {property.Name} ({property.PropertyType.Name}):");
-                    string input = Console.ReadLine();
                     object value = Convert.ChangeType(input, property.PropertyType);
                     property.SetValue(entity, value);
                 }
             }
-        }
 
-        return entity;
+            return entity;
+        }
+        public static T UpdateEntity<T>(T entity) where T : class, new()
+        {
+            PropertyInfo[] properties = typeof(T).GetProperties();
+
+            foreach (var property in properties)
+            {
+                if (Attribute.IsDefined(property, typeof(AllowUpdate)))
+                {
+                    // Get the current value of the property
+                    object currentValue = property.GetValue(entity);
+                    Console.WriteLine($"Current value for {property.Name}: {currentValue}");
+
+                    // Prompt the user to choose whether to update the property
+                    Console.WriteLine($"Do you want to update {property.Name}? (Y/N)");
+                    string choice = Console.ReadLine();
+
+                    if (choice.ToUpper() == "Y")
+                    {
+                        Console.WriteLine($"Enter new value for {property.Name} ({property.PropertyType.Name}):");
+                        string input = Console.ReadLine();
+                        object value = Convert.ChangeType(input, property.PropertyType);
+                        property.SetValue(entity, value);
+                    }
+                }
+            }
+
+            return entity;
+        }
     }
 }
+

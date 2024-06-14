@@ -1,4 +1,5 @@
 ﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.ConsoleApp.View.TutorView;
 using LangLang.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -68,7 +69,6 @@ namespace LangLang.ConsoleApp.View.DirectorView
         private void WorkWithExamSlots()
         {
             Console.WriteLine("Working with exam slots...");
-            // Add logic to work with exam slots
         }
         private void WorkWithTutors()
         {

@@ -69,13 +69,11 @@ namespace LangLang.ConsoleApp.View.TutorView
         {
             Console.WriteLine("Working with exam slots...");
             ExamsView examsView = new(tutor);
-            // Add logic to work with exam slots
         }
 
         private void Logout()
         {
             Console.WriteLine("Logging out...");
-            // Add logic to perform logout actions
         }
     }
 }
