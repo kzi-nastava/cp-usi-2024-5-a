@@ -29,9 +29,9 @@ namespace LangLang.WPF.Views.TutorView.AdditionalWindows.CourseView
         private void SearchCourses(object sender, RoutedEventArgs e)
         {
             string? language = languagetb.Text;
-            LanguageLevel? level = null;
+            Level? level = null;
             if (levelCoursecb.SelectedValue != null)
-                level = (LanguageLevel)levelCoursecb.SelectedValue;
+                level = (Level)levelCoursecb.SelectedValue;
             DateTime courseStartDate = courseStartdp.SelectedDate ?? default;
             int duration = 0;
             int.TryParse(durationtb.Text, out duration);

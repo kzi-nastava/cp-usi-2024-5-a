@@ -25,10 +25,11 @@ namespace LangLang.BusinessLogic.UseCases
             return _language.GetAll();
         }
 
-        public void Add(LanguageLevel language)
+        public LanguageLevel Add(LanguageLevel language)
         {
             language.Id = GenerateId();
             _language.Add(language);
+            return language;
         }
 
         public LanguageLevel Get(int id)

@@ -6,9 +6,6 @@ using System.Windows.Controls;
 
 namespace LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView
 {
-    /// <summary>
-    /// Interaction logic for ExamSlotCreateWindow.xaml
-    /// </summary>
     public partial class ExamSlotCreateWindow : Window
     {
         public ExamSlotCreateVM ExamCreateVM { get; set; }
@@ -40,8 +37,6 @@ namespace LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView
                 ExamCreateVM.ExamSlot.Language = ExamCreateVM.SelectedCourse.Language;
                 levelTb.Text = ExamCreateVM.SelectedCourse.Level.ToString();
                 ExamCreateVM.ExamSlot.Level = ExamCreateVM.SelectedCourse.Level;
-                //ExamSlot.CourseId = SelectedCourse.Id;
-                //CoursesDataGrid.SelectedItem = null;
             }
         }
 

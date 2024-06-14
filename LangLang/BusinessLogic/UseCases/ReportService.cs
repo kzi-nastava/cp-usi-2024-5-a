@@ -219,7 +219,9 @@ namespace LangLang.BusinessLogic.UseCases
         private int GetNumberOfExams(string language)
         {
             var examService = new ExamSlotService();
-            var exams = examService.GetAll().Where(exam => exam.Language.Equals(language, StringComparison.OrdinalIgnoreCase)).ToList();
+            var languageService = new LanguageLevelService();
+
+            var exams = examService.GetAll().Where(exam => languageService.Get(exam.LanguageId).Language.Equals(language, StringComparison.OrdinalIgnoreCase)).ToList();
             return exams.Count(exam => exam.CreatedAt >= DateTime.Now.AddYears(-1) && exam.CreatedAt <= DateTime.Now);
         }
 
