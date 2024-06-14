@@ -1,7 +1,9 @@
 ﻿using LangLang.Configuration;
+using LangLang.ConsoleApp.Attributes;
 using LangLang.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace LangLang.Domain.Models
@@ -11,13 +13,30 @@ namespace LangLang.Domain.Models
         // Properties
         public int Id { get; set; }
         public int TutorId { get; set; }
+        [Show]
+        [AllowUpdate]
         public string Language { get; set; }
+        [Show]
+        [DisplayName("Language level")]
+        [AllowUpdate]
         public LanguageLevel Level { get; set; }
+        [Show]
+        [DisplayName("Weeks")]
+        [AllowUpdate]
         public int NumberOfWeeks { get; set; }
+        [Show]
+        [AllowUpdate]
         public List<DayOfWeek> Days { get; set; }
+        [Show]
+        [AllowUpdate]
         public bool Online { get; set; }
+        [Show]
         public int NumberOfStudents { get; set; }
+        [AllowUpdate]
         public int MaxStudents { get; set; }
+        [Show]
+        [DisplayName("Start Date and Class Time")]
+        [AllowUpdate]
         public DateTime StartDateTime { get; set; }
         public bool CreatedByDirector { get; set; }
         public List<TimeSlot> TimeSlots { get; set; }
