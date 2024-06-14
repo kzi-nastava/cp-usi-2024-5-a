@@ -32,7 +32,8 @@ namespace LangLang
                     services.AddTransient<ITimeSlotRepository, TimeSlotRepository>();
                     services.AddTransient<ICourseRepository, CourseRepository>();
                     services.AddTransient<IExamSlotRepository, ExamSlotRepository>();
-                    services.AddTransient<ISkillRepository, SkillRepository>();
+                    services.AddTransient<ILanguageLevelRepository, LanguageLevelRepository>();
+                    services.AddTransient<ICourseTimeSlotRepository, CourseTimeSlotRepository>();
                     
                 }).Build();
 

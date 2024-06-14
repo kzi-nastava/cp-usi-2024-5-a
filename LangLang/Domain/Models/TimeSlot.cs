@@ -1,5 +1,4 @@
 ﻿using System;
-using LangLang.Configuration;
 
 namespace LangLang.Domain.Models
 {
@@ -9,26 +8,25 @@ namespace LangLang.Domain.Models
         public double Duration { get; set; }
         public DateTime Time { get; set; }
 
-        public TimeSlot(double duration, DateTime time)
+        public TimeSlot(int id, double duration, DateTime time)
         {   
-
+            Id = id;
             Duration = duration;
             Time = time;
         }
-
-        public TimeSlot(string duration, string time)
-        {
-            try
-            {
-                Time = DateTime.ParseExact(time, Constants.DATE_TIME_FORMAT, null);
-            }
-            catch
-            {
-                throw new FormatException("Date is not in the correct format.");
-            }
-            Duration = double.Parse(duration);
-
-        }
+        // NOTE: Possibly redudant
+        //public TimeSlot(string duration, string time)
+        //{
+        //    try
+        //    {
+        //        Time = DateTime.ParseExact(time, Constants.DATE_TIME_FORMAT, null);
+        //    }
+        //    catch
+        //    {
+        //        throw new FormatException("Date is not in the correct format.");
+        //    }
+        //    Duration = double.Parse(duration);
+        //}
 
         public bool OverlappsWith(TimeSlot timeSlot)
         {
@@ -41,11 +39,6 @@ namespace LangLang.Domain.Models
         public bool IsInFuture()
         {
             return Time > DateTime.Now;
-        }
-
-        public string ToString()
-        {
-            return Duration.ToString() + '|' + Time.ToString(Constants.DATE_TIME_FORMAT);
         }
 
         public DateTime GetEnd()

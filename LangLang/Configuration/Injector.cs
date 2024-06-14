@@ -23,10 +23,8 @@ namespace LangLang.Composition
             { typeof(IEnrollmentRequestRepository), new EnrollmentRequestRepository() },
             { typeof(IWithdrawalRequestRepository), new WithdrawalRequestRepository() },
             { typeof(ITutorRatingRepository), new TutorRatingRepository() },
-            //{ typeof(IExamSlotRepository), new ExamSlotRepository() },
             { typeof(IExamApplicationRepository), new ExamApplicationRepository() },
             { typeof(IPenaltyPointRepository), new PenaltyPointRepository() },
-            //{ typeof(ICourseRepository), new CourseRepository() },
             { typeof(IGradeRepository), new GradeRepository() },
             { typeof(IExamResultRepository), new ExamResultRepository() },
             { typeof(IEmailRepository), new EmailRepository() }
