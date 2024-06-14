@@ -14,29 +14,39 @@ namespace LangLang.Domain.Models
         public int Id { get; set; }
         public int TutorId { get; set; }
         [Show]
+        [AllowCreate]
         [AllowUpdate]
         public string Language { get; set; }
         [Show]
         [DisplayName("Language level")]
         [AllowUpdate]
+        [AllowCreate]
         public LanguageLevel Level { get; set; }
         [Show]
         [DisplayName("Weeks")]
         [AllowUpdate]
+        [AllowCreate]
         public int NumberOfWeeks { get; set; }
         [Show]
         [AllowUpdate]
+        [AllowCreate]
+        [CourseDays]
         public List<DayOfWeek> Days { get; set; }
         [Show]
+        [AllowCreate]
         [AllowUpdate]
+        [CourseOnline]
         public bool Online { get; set; }
         [Show]
         public int NumberOfStudents { get; set; }
         [AllowUpdate]
+        [AllowCreate]
+        [CourseMaxStud]
         public int MaxStudents { get; set; }
         [Show]
         [DisplayName("Start Date and Class Time")]
         [AllowUpdate]
+        [AllowCreate]
         public DateTime StartDateTime { get; set; }
         public bool CreatedByDirector { get; set; }
         public List<TimeSlot> TimeSlots { get; set; }
@@ -77,7 +87,7 @@ namespace LangLang.Domain.Models
         }
 
         // this method generates all timeslots for a course based on number of weeks, days and start datetime
-        private void GenerateTimeSlots()
+        public void GenerateTimeSlots()
         {
             TimeSlots = new List<TimeSlot>();
             int skipToNextWeek = 0;
