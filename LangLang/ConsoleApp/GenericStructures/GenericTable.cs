@@ -13,7 +13,7 @@ public class GenericTable<T>
     private readonly PropertyInfo[] properties;
     private bool isRoot;
 
-    public GenericTable(T entity, bool root)
+    public GenericTable(bool root, T entity)
     {
         isRoot = isRoot;
         if (entity == null)
@@ -23,16 +23,17 @@ public class GenericTable<T>
         properties = typeof(T).GetProperties();
         this.isRoot = isRoot;
     }
-    public GenericTable(bool root)
+    public GenericTable()
     {
-        isRoot = root;
+        isRoot = false;
         entities =new List<T>();
         properties = typeof(T).GetProperties();
     }
     public GenericTable(IEnumerable<T> entities, bool root)
     {
         isRoot = root;
-        this.entities = entities.ToList();
+        this.entities = new();
+        if(entities != null) this.entities = entities.ToList();
         properties = typeof(T).GetProperties();
     }
 
@@ -67,7 +68,7 @@ public class GenericTable<T>
     private void DisplayNestedHeaders(PropertyInfo property)
     {
         Type nestedType = property.PropertyType;
-        var nestedTable = Activator.CreateInstance(typeof(GenericTable<>).MakeGenericType(nestedType), null);
+        var nestedTable = Activator.CreateInstance(typeof(GenericTable<>).MakeGenericType(nestedType), null, false);
         MethodInfo displayHeadersMethod = nestedTable.GetType().GetMethod("DisplayHeaders");
         displayHeadersMethod.Invoke(nestedTable, null);
     }
@@ -106,12 +107,10 @@ public class GenericTable<T>
             return;
         }
 
-        // Create instance of GenericTable<T> for nested property type
         var nestedType = property.PropertyType;
         var genericTableType = typeof(GenericTable<>).MakeGenericType(nestedType);
-        var nestedTable = Activator.CreateInstance(genericTableType, new object[] { value }, false);
+        var nestedTable = Activator.CreateInstance(genericTableType,new object[] { false,value });
 
-        // Invoke DisplayContent method on nested table
         var displayContentMethod = genericTableType.GetMethod("DisplayContent");
         if (displayContentMethod != null)
         {
@@ -121,18 +120,6 @@ public class GenericTable<T>
         {
             Console.WriteLine($"Method 'DisplayContent' not found on type {genericTableType.Name}.");
         }
-    }
-    private void DisplayTimeSlot(TimeSlot timeSlot)
-    {
-        Console.Write($"{timeSlot.Time.ToString("dd.MM.yyyy HH:mm"),-20} | ");
-
-    }
-    private void DisplayTutor(int id)
-    {
-        TutorService service = new();
-        Tutor tutor = service.Get(id);
-        Console.Write($"{tutor.Profile.Name,-20} | ");
-
     }
     public T SelectRow()
     {
