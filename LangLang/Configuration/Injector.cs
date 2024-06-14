@@ -18,7 +18,6 @@ namespace LangLang.Composition
         private static Dictionary<Type, object> _implementations = new Dictionary<Type, object>
         {
             { typeof(IStudentRepository), new StudentRepository() },
-            { typeof(ITutorRepository), new TutorRepository() },
             { typeof(IDirectorRepository), new DirectorRepository() },
             { typeof(IEnrollmentRequestRepository), new EnrollmentRequestRepository() },
             { typeof(IWithdrawalRequestRepository), new WithdrawalRequestRepository() },

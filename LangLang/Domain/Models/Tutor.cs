@@ -1,31 +1,34 @@
 ﻿using LangLang.Domain.Enums;
 using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LangLang.Domain.Models
 {
     public class Tutor : IProfileHolder
     {
-
+        private int _id;
         public Profile Profile { get; set; }
-
-        public Skill Skill { get; set; }
 
         public DateTime EmploymentDate { get; set; }
 
-        public int Id => Profile.Id;
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int Id
+        {
+            get => Profile.Id;
+            private set => _id = value;
+        }
 
-        public Tutor(int id, string name, string lastName, Gender gender, DateTime birthDate, string phoneNumber, string email, string password, UserType role, bool isActive, DateTime employmentDate, List<string> languages, List<LanguageLevel> levels)
+        public Tutor(int id, string name, string lastName, Gender gender, DateTime birthDate, string phoneNumber, string email, string password, UserType role, bool isActive, DateTime employmentDate)
         {
             Profile = new(id, name, lastName, gender, birthDate, phoneNumber, email, password, role, isActive);
             EmploymentDate = employmentDate;
-            Skill = new(languages, levels);
         }
 
         public Tutor()
         {
             Profile = new();
-            Skill = new();
         }
 
     }
