@@ -12,6 +12,7 @@ namespace LangLang.Domain.Models
     {
         // Properties
         public int Id { get; set; }
+        [Show]
         public int TutorId { get; set; }
         [Show]
         [AllowCreate]
