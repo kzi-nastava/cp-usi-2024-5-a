@@ -20,7 +20,7 @@ namespace LangLang.BusinessLogic.UseCases
             return tutorSkillRepository.GetAll();
         }
 
-        public TutorSkill TutorSkill(int id)
+        public TutorSkill Get(int id)
         {
             return tutorSkillRepository.Get(id);
         }

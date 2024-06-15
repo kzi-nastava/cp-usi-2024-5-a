@@ -5,7 +5,6 @@ using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace LangLang.BusinessLogic.UseCases
@@ -17,28 +16,27 @@ namespace LangLang.BusinessLogic.UseCases
         {
             _courses = Injector.CreateInstance<ICourseRepository>();
         }
-        private int GenerateId()
+
+        public List<Course> GetAll()
         {
-            var last = GetAll().LastOrDefault();
-            return last?.Id + 1 ?? 0;
+            return _courses.GetAll();
         }
+
         public Course Get(int id)
         {
             return _courses.Get(id);
         }
+
         public void Add(Course course)
         {
-            course.Id = GenerateId();
+            var courseTimeSlotService = new CourseTimeSlotService();
             _courses.Add(course);
+            courseTimeSlotService.GenerateSlots(course);
         }
+
         public void Update(Course course)
         {
             _courses.Update(course);
-        }
-
-        public List<string> GetLanguages()
-        {
-            return GetAll().Select(course => course.Language).Distinct().ToList();
         }
 
         public void Delete(Course course)
@@ -46,36 +44,37 @@ namespace LangLang.BusinessLogic.UseCases
             _courses.Delete(course);
         }
 
+        public List<string> GetLanguages()
+        {
+            var languageService = new LanguageLevelService();
+            return GetAll().Select(course => languageService.Get(course.LanguageLevelId).Language).Distinct().ToList();
+        }
+
         public void DeleteByTutor(Tutor tutor)
         {
             foreach (Course course in GetByTutor(tutor.Id))
             {
-                if (course.StartDateTime > DateTime.Now)
+                bool isFutureCourse = course.StartDateTime > DateTime.Now;
+                bool isCreatedByDirector = course.CreatedByDirector;
+
+                if (isFutureCourse && !isCreatedByDirector)
                 {
-                    if (course.CreatedByDirector)
-                    {
-                        course.TutorId = Constants.DELETED_TUTOR_ID;
-                        Update(course);
-                    }
-                    else
-                    {
                         EnrollmentRequestService enrollmentRequestService = new();
                         enrollmentRequestService.Delete(course);
                         Delete(course);
-                    }
-                }
-                else
-                {
+                } else {
                     course.TutorId = Constants.DELETED_TUTOR_ID;
                     Update(course);
                 }
             }
         }
+
         public bool IsCompleted(int id)
         {
             Course course = Get(id) ?? throw new ArgumentException("There is no course with given id");
             return course.IsCompleted();
         }
+
         public bool CanCreateOrUpdate(Course course)
         {
             int busyClassrooms = 0;
@@ -89,70 +88,71 @@ namespace LangLang.BusinessLogic.UseCases
             var examSlotService = new ExamSlotService();
             List<ExamSlot> examSlots = examSlotService.GetAll();
             // Go through exams
-            foreach (ExamSlot exam in examSlots)
-            {
-                //check for overlapping
-                if (course.OverlappsWith(exam.TimeSlot))
-                {
-                    //tutor is busy (has exam)
-                    if (course.TutorId == exam.TutorId && course.TutorId != Constants.DELETED_TUTOR_ID) return true;
+            //foreach (ExamSlot exam in examSlots)
+            //{
+            //    //check for overlapping
+            //    if (course.OverlappsWith(exam.TimeSlot))
+            //    {
+            //        //tutor is busy (has exam)
+            //        if (course.TutorId == exam.TutorId && course.TutorId != Constants.DELETED_TUTOR_ID) return true;
 
-                    if (!course.Online)
-                    {
-                        busyClassrooms++;
-                    }
+            //        if (!course.Online)
+            //        {
+            //            busyClassrooms++;
+            //        }
 
-                    //all classrooms are busy
-                    if (busyClassrooms == 2) return true;
-                }
-            }
+            //        //all classrooms are busy
+            //        if (busyClassrooms == 2) return true;
+            //    }
+            //}
             return false;
         }
+
         // Checks for any overlaps between other courses and current course,
         // considering the availability of the courses's tutor and classrooms
         public bool CoursesOverlapp(Course course, ref int busyClassrooms)
         {
-            foreach (Course currCourse in GetAll())
-            {
+            //foreach (Course currCourse in GetAll())
+            //{
                 // if this checks for updating course, then skip over the original course
-                if (currCourse.Id == course.Id) { continue; }
+                //if (currCourse.Id == course.Id) { continue; }
 
-                foreach (TimeSlot timeSlot in currCourse.TimeSlots)
-                {
-                    if (course.OverlappsWith(timeSlot))
-                    {
-                        // the tutor already has a course in one of the timeslots
-                        if (course.TutorId == currCourse.TutorId && course.TutorId != Constants.DELETED_TUTOR_ID) return true;
+                //foreach (TimeSlot timeSlot in currCourse.TimeSlot)
+                //{
+                //    if (course.OverlappsWith(timeSlot))
+                //    {
+                //        // the tutor already has a course in one of the timeslots
+                //        if (course.TutorId == currCourse.TutorId && course.TutorId != Constants.DELETED_TUTOR_ID) return true;
 
-                        //if the course or the currCourse is online continue,
-                        //because the classrooms do not matter
-                        if (course.Online || currCourse.Online) { continue; }
+                //        //if the course or the currCourse is online continue,
+                //        //because the classrooms do not matter
+                //        if (course.Online || currCourse.Online) { continue; }
 
-                        busyClassrooms++;
+                //        busyClassrooms++;
 
-                        //all classrooms are busy
-                        if (busyClassrooms == 2) return true;
-                        {
-                            return true;
-                        }
+                //        //all classrooms are busy
+                //        if (busyClassrooms == 2) return true;
+                //        {
+                //            return true;
+                //        }
 
-                    }
-                }
-            }
+                //    }
+                //}
+            //}
             return false;
         }
 
-        public void AddStudent(int courseId)
+        public void IncrementStudents(int courseId)
         {
-            Course course = Get(courseId);
-            course.NumberOfStudents += 1;
+            var course = Get(courseId);
+            course.NumberOfStudents++;
             Update(course);
         }
 
-        public void RemoveStudent(int courseId)
+        public void DecrementStudents(int courseId)
         {
-            Course course = Get(courseId);
-            course.NumberOfStudents -= 1;
+            var course = Get(courseId);
+            course.NumberOfStudents--;
             Update(course);
         }
 
@@ -173,81 +173,60 @@ namespace LangLang.BusinessLogic.UseCases
         public bool CanChange(int courseId)
         {
             Course course = Get(courseId);
-            DateTime oneWeekFromNow = DateTime.Now.AddDays(Constants.COURSE_MODIFY_PERIOD);
-            return course.StartDateTime >= oneWeekFromNow;
-        }
-
-        public List<Course> GetAll()
-        {
-            return _courses.GetAll();
+            return course.StartDateTime >= DateTime.Now.AddDays(Constants.COURSE_MODIFY_PERIOD);
         }
 
         public int NumActiveCourses(Tutor tutor)
         {
-            int active = 0;
-            List<Course> coursesByTutor = GetByTutor(tutor.Id);
-            foreach (Course course in coursesByTutor)
-            {
-                if (course.IsActive())
-                {
-                    active++;
-                }
-            }
-            return active;
+            return GetByTutor(tutor.Id).Count(course => course.IsActive());
         }
 
         public List<Course> GetByTutor(int tutorId)
         {
-            List<Course> coursesByTutor = new List<Course>();
-
-            foreach (Course course in GetAll())
-            {
-                if (course.TutorId == tutorId)
-                {
-                    coursesByTutor.Add(course);
-                }
-            }
-
-            return coursesByTutor;
+            return GetAll().Where(course => course.TutorId == tutorId).ToList();
         }
-        public List<Course> GetBySkills(Tutor tutor)
-        {
-            List<Course> skills = new List<Course>();
-            List<Course> courses = GetAll();
 
-            for (int i = 0; i < tutor.Skill.Language.Count; i++)
+    public List<Course> GetBySkills(Tutor tutor)
+        {
+            var tutorSkillService = new TutorSkillService();
+            var languageService = new LanguageLevelService();
+
+            var courses = new List<Course>();
+            var availableCourses = GetAll();
+            var tutorLanguage = tutorSkillService.GetByTutor(tutor.Id);
+
+            foreach (var course in availableCourses)
             {
-                foreach (Course course in courses)
+                var courseLanguage = languageService.Get(course.LanguageLevelId);
+                foreach (LanguageLevel language in tutorLanguage)
                 {
-                    if (course.Language == tutor.Skill.Language[i])
+                    if (courseLanguage.Language == language.Language && courseLanguage.Level == language.Level)
                     {
-                        if (course.Level == tutor.Skill.Level[i])
-                        {
-                            skills.Add(course);
-                            break;
-                        }
+                        courses.Add(course);
+                        break;
                     }
                 }
             }
-
-            return skills;
+            return courses;
         }
+
         public List<Course> GetAvailable(Student student)
         {
             var courseService = new CourseService();
             var enrollmentService = new EnrollmentRequestService();
+            var availableCourses = new List<Course>();
 
-            List<Course> availableCourses = new();
             foreach (Course course in courseService.GetAll())
             {
-                if (courseService.IsAvailable(course.Id))
-                {
-                    if (!enrollmentService.AlreadyExists(student, course))
-                        availableCourses.Add(course);
-                }
+                bool isAvailable = courseService.IsAvailable(course.Id);
+                bool alreadyExists = enrollmentService.AlreadyExists(student, course);
+
+                if (isAvailable && !alreadyExists)
+                    availableCourses.Add(course);
             }
             return availableCourses;
         }
+
         public List<Course> GetCompleted(Student student)
         {
             var enrollmentService = new EnrollmentRequestService();
@@ -262,35 +241,33 @@ namespace LangLang.BusinessLogic.UseCases
             }
             return courses;
         }
+
         private bool StudentAttendedUntilEnd(Course course, EnrollmentRequest request)
         {
             var withdrawalService = new WithdrawalRequestService();
             return course.IsCompleted() && request.Status == Status.Accepted
                     && !withdrawalService.HasAcceptedWithdrawal(request.Id);
         }
-        public List<Course> SearchCoursesByTutor(int tutorId, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
+
+        public List<Course> SearchCoursesByTutor(int tutorId, string language, Level? level, DateTime startDate, int duration, bool? online)
         {
-            List<Course> tutorsCourses = GetByTutor(tutorId);
-            return SearchCourses(tutorsCourses, language, level, startDate, duration, online);
+            return SearchCourses(GetByTutor(tutorId), language, level, startDate, duration, online);
         }
 
-        private List<Course> SearchCourses(List<Course> searchableCourses, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
+        public List<Course> SearchByStudent(Student student, string language, Level? level, DateTime startDate, int duration, bool? online)
         {
-            List<Course> filteredCourses = searchableCourses.Where(course =>
-            (language == "" || course.Language.Contains(language)) &&
-            (level == null || course.Level == level) &&
+            return SearchCourses(GetAvailable(student), language, level, startDate, duration, online);
+        }
+
+        private List<Course> SearchCourses(List<Course> courses, string language, Level? level, DateTime startDate, int duration, bool? online)
+        {
+            var languageService = new LanguageLevelService();
+            return courses.Where(course =>
+            (language == "" || languageService.Get(course.LanguageLevelId).Language == language) &&
+            (level == null || languageService.Get(course.LanguageLevelId).Level == level) &&
             (startDate == default || course.StartDateTime.Date == startDate.Date) &&
             (duration == 0 || course.NumberOfWeeks == duration) &&
             (online == false || course.Online == online)).ToList();
-
-            return filteredCourses;
-        }
-
-        public List<Course> SearchCoursesByStudent(Student student, string language, LanguageLevel? level, DateTime startDate, int duration, bool? online)
-        {
-            List<Course> availableCourses = GetAvailable(student);
-            List<Course> filteredCourses = SearchCourses(availableCourses, language, level, startDate, duration, online);
-            return filteredCourses;
         }
 
         public List<Course> GetCoursesHeldInLastYear()
@@ -319,32 +296,21 @@ namespace LangLang.BusinessLogic.UseCases
         {
             return GetStudentsAttended(course).Count;
         }
+
         public int NumStudentsPassed(Course course)
         {
-            List<Student> passed = new();
-
-            foreach(Student student in GetStudentsAttended(course))
-            {
-                if (HasStudentPassed(student, course))
-                {
-                    passed.Add(student);
-                }
-            }
-            return passed.Count;
-
+            return GetStudentsAttended(course).Count(student => HasStudentPassed(student, course));
         }
+
         public bool HasStudentPassed(Student student, Course course)
         {
-            ExamResultService resultsService = new();
-            List<ExamResult> results = new();
-            results = resultsService.GetByStudent(student);
+            var resultsService = new ExamResultService();
+            List<ExamResult> results = resultsService.GetByStudent(student);
 
             foreach (ExamResult result in results)
             {
                 if (resultsService.IsResultForCourse(result, course) && result.Outcome == ExamOutcome.Passed)
-                {
                     return true;
-                }
             }
             return false;
         }
@@ -354,5 +320,6 @@ namespace LangLang.BusinessLogic.UseCases
             var gradeService = new GradeService();
             return GetAll().Where(course => gradeService.IsGraded(course) && !course.GratitudeEmailSent).ToList();
         }
+
     }
 }

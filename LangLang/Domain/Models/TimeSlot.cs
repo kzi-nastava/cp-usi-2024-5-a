@@ -8,9 +8,8 @@ namespace LangLang.Domain.Models
         public double Duration { get; set; }
         public DateTime Time { get; set; }
 
-        public TimeSlot(int id, double duration, DateTime time)
+        public TimeSlot(double duration, DateTime time)
         {   
-            Id = id;
             Duration = duration;
             Time = time;
         }

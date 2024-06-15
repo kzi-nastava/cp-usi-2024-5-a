@@ -1,6 +1,8 @@
 ﻿using LangLang.Composition;
-using LangLang.Domain.RepositoryInterfaces;
+using LangLang.Configuration;
 using LangLang.Domain.Models;
+using LangLang.Domain.RepositoryInterfaces;
+using System;
 using System.Collections.Generic;
 
 namespace LangLang.BusinessLogic.UseCases
@@ -27,6 +29,25 @@ namespace LangLang.BusinessLogic.UseCases
         public CourseTimeSlot Get(int id)
         {
             return _repository.Get(id);
+        }
+
+        public void GenerateSlots(Course course)
+        {
+            var timeService = new TimeSlotService();
+            DateTime startDateTime = course.StartDateTime;
+            DayOfWeek startDayOfWeek = startDateTime.DayOfWeek;
+
+            for (int i = 0; i < course.NumberOfWeeks; ++i)
+            {
+                foreach (DayOfWeek day in course.Days)
+                {
+                    int skipToNextWeek = (day < startDayOfWeek) ? 7 : 0;
+                    DateTime classDate = startDateTime.AddDays(i * 7 + skipToNextWeek + (day - startDayOfWeek));
+
+                    var timeSlot = timeService.Add(new TimeSlot(Constants.SESSION_DURATION, classDate));
+                    Add(new CourseTimeSlot(course.Id, timeSlot.Id));
+                }
+            }
         }
 
     }
