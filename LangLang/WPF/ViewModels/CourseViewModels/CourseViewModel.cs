@@ -1,12 +1,11 @@
-﻿using System;
+﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.Configuration;
+using LangLang.Domain.Enums;
+using LangLang.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
-using LangLang.BusinessLogic.UseCases;
-using LangLang.Domain.Models;
-using LangLang.Domain.Enums;
-using System.Reflection.Metadata;
-using LangLang.Configuration;
 
 namespace LangLang.WPF.ViewModels.CourseViewModels
 {
@@ -27,7 +26,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
         public DateTime CreatedAt { get; set; }
 
         private string language;
-        private LanguageLevel level;
+        private Level level;
         private int numberOfWeeks;
         private bool online;
         private int maxStudents;
@@ -92,7 +91,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             }
         }
 
-        public LanguageLevel Level
+        public Level Level
         {
             get
             {

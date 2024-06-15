@@ -17,7 +17,7 @@ namespace LangLang.WPF.Views.StudentView.Tabs
             AvailableExamsVM = new(loggedIn,parentWindow);
             DataContext = AvailableExamsVM;
             Update();
-            levelExamcb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
+            levelExamcb.ItemsSource = Enum.GetValues(typeof(Level));
         }
 
         public void Update()
@@ -28,9 +28,9 @@ namespace LangLang.WPF.Views.StudentView.Tabs
         private void SearchExams(object sender, RoutedEventArgs e)
         {
             string? language = languageExamtb.Text;
-            LanguageLevel? level = null;
+            Level? level = null;
             if (levelExamcb.SelectedValue != null)
-                level = (LanguageLevel)levelExamcb.SelectedValue;
+                level = (Level)levelExamcb.SelectedValue;
             DateTime examDate = examdatePicker.SelectedDate ?? default;
             AvailableExamsVM.SearchExams(AvailableExamsVM.loggedIn, examDate, language, level);
             

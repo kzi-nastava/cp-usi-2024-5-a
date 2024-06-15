@@ -47,6 +47,7 @@ namespace LangLang.BusinessLogic.UseCases
             LanguageLevelService langLevelService = new();
             LanguageLevel skill = langLevelService.Get(exam.LanguageId);
             List<Tutor> tutors = tutorSkillService.GetBySkill(skill);
+          
             if (tutors.Count == 0) return -1;
             TutorRatingService tutorRatingService = new();
             Dictionary<Tutor, double> tutorsAndRatings = new();

@@ -19,7 +19,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModel
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Language { get; set; }
-        public LanguageLevel Level { get; set; }
+        public Level Level { get; set; }
         public DateTime ExamDateTime { get; set; }
 
 
@@ -31,9 +31,14 @@ namespace LangLang.WPF.ViewModels.ExamViewModel
         public ExamApplicationViewModel(ExamApplication application)
         {
             var examService = new ExamSlotService();
-            ExamSlot exam = examService.Get(application.ExamSlotId);
+            var timeService = new TimeSlotService();
             var studentService = new StudentService();
+            var languageService = new LanguageLevelService();
+
+            ExamSlot exam = examService.Get(application.ExamSlotId);
             Student student = studentService.Get(application.StudentId);
+            LanguageLevel language = languageService.Get(exam.LanguageId);
+
             Id = application.Id;
             ExamSlotId = application.ExamSlotId;
             StudentId = application.StudentId;
@@ -44,9 +49,9 @@ namespace LangLang.WPF.ViewModels.ExamViewModel
             Email = student.Profile.Email;
             PhoneNumber = student.Profile.PhoneNumber;
 
-            Language = exam.Language;
-            Level = exam.Level;
-            ExamDateTime = exam.TimeSlot.Time;
+            Language = language.Language;
+            Level = language.Level;
+            ExamDateTime = timeService.Get(exam.TimeSlotId).Time;
         }
 
     }

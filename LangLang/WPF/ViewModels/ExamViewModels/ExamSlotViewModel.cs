@@ -1,4 +1,5 @@
-﻿using LangLang.Configuration;
+﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.Configuration;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using System;
@@ -15,7 +16,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModel
 
         public int TutorId { get; set; }
         private string language;
-        private LanguageLevel level;
+        private Level level;
         private int maxStudents;
         private DateTime examDate;
         private string time;
@@ -37,7 +38,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModel
             }
         }
 
-        public LanguageLevel Level
+        public Level Level
         {
             get { return level; }
             set
@@ -161,13 +162,18 @@ namespace LangLang.WPF.ViewModels.ExamViewModel
 
         public ExamSlotViewModel(ExamSlot examSlot)
         {
+            var languageService = new LanguageLevelService();
+            var language = languageService.Get(examSlot.LanguageId);
+            var timeService = new TimeSlotService();
+            var time = timeService.Get(examSlot.TimeSlotId);
+
             Id = examSlot.Id;
             TutorId = examSlot.TutorId;
-            Language = examSlot.Language;
-            Level = examSlot.Level;
+            Language = language.Language;
+            Level = language.Level;
             MaxStudents = examSlot.MaxStudents.ToString();
-            ExamDate = examSlot.TimeSlot.Time;
-            Time = examSlot.TimeSlot.Time.ToString("HH:mm");
+            ExamDate = time.Time;
+            Time = time.Time.ToString("HH:mm");
             Applicants = examSlot.Applicants;
             Modifiable = examSlot.Modifiable;
             ResultsGenerated = examSlot.ResultsGenerated;
@@ -177,10 +183,16 @@ namespace LangLang.WPF.ViewModels.ExamViewModel
 
         public ExamSlot ToExamSlot()
         {
+            var timeService = new TimeSlotService();
             string[] timeParts = time.Split(':');
             int hour = int.Parse(timeParts[0]);
             int minute = int.Parse(timeParts[1]);
-            return new ExamSlot(Id, language, level, new TimeSlot(Constants.EXAM_DURATION, new DateTime(examDate.Year, examDate.Month, examDate.Day, hour, minute, 0)), maxStudents, TutorId, applicants, Modifiable, ResultsGenerated, ExamineesNotified, CreatedAt);
+            // TODO: remove id
+            var timeSlot = new TimeSlot(0,Constants.EXAM_DURATION, new DateTime(examDate.Year, examDate.Month, examDate.Day, hour, minute, 0));
+            timeSlot = timeService.Add(timeSlot);
+            var languageService = new LanguageLevelService();
+            var languageLevel = languageService.Add(new LanguageLevel(0, language, level));
+            return new ExamSlot(Id, languageLevel.Id, timeSlot.Id, maxStudents, TutorId, applicants, Modifiable, ResultsGenerated, ExamineesNotified, CreatedAt);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

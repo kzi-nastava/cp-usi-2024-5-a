@@ -80,6 +80,7 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
         {
             MessageBox.Show("Tutor is successfully deleted");
         }
+      
         public void Search(DateTime employmentDate)
         {
             var tutorService = new TutorService();

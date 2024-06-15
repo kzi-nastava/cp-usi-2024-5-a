@@ -46,7 +46,7 @@ namespace LangLang.WPF.Views.TutorView.AdditionalWindows.CourseView
 
         private void SetUpForm()
         {
-            languageLvlCb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
+            languageLvlCb.ItemsSource = Enum.GetValues(typeof(Level));
             classsroomCb.IsChecked = false;
             maxNumOfStudentsTb.IsEnabled = false;
             mon.IsChecked = false;

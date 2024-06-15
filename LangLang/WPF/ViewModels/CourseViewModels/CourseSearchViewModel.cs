@@ -40,7 +40,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             }
         }
 
-        public void Search(String language, LanguageLevel? level, DateTime courseStartDate, int duration, bool? online)
+        public void Search(String language, Level? level, DateTime courseStartDate, int duration, bool? online)
         {
             CourseService courseService = new();
             CoursesForReview = courseService.SearchCoursesByTutor(LoggedIn.Id, language, level, courseStartDate, duration, !online);

@@ -164,8 +164,11 @@ namespace LangLang.BusinessLogic.UseCases
 
         private string[] GetBodyReplacements(ExamResult result, ExamSlot exam)
         {
+            var languageService = new LanguageLevelService();
+            var language = languageService.Get(exam.LanguageId);
+
             return new string[] {
-            exam.Language,
+            language.Language,
             result.ReadingPoints.ToString(),
             result.WritingPoints.ToString(),
             result.ListeningPoints.ToString(),
@@ -176,11 +179,17 @@ namespace LangLang.BusinessLogic.UseCases
 
         private string[] GetSubjectReplacements(ExamSlot exam)
         {
+            var languageService = new LanguageLevelService();
+            var timeService = new TimeSlotService();
+
+            var language = languageService.Get(exam.LanguageId);
+            var timeSlot = timeService.Get(exam.TimeSlotId);
+
             return new string[]
              {
-                exam.TimeSlot.Time.ToString("dd.MM.yyyy"),
-                exam.Language,
-                exam.Level.ToString(),
+                timeSlot.Time.ToString("dd.MM.yyyy"),
+                language.Language,
+                language.Level.ToString()
              };
         }
 

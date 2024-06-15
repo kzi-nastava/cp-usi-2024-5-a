@@ -51,13 +51,14 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
                 }
                 else
                 {
-                    bool added = examSlotService.Add(ExamSlot.ToExamSlot());
-
-                    if (!added) MessageBox.Show("Choose another exam date or time.");
-                    else
-                    {
+                    try {
+                        examSlotService.Add(ExamSlot.ToExamSlot());
                         MessageBox.Show("Exam successfuly created.");
                         return true;
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show(e.Message);
                     }
                 }
             }

@@ -66,12 +66,14 @@ namespace LangLang.BusinessLogic.UseCases
         }
         public bool IsResultForCourse(ExamResult result,Course course)
         {
-            ExamSlotService examsService = new();
-            ExamSlot exam = examsService.Get(result.ExamSlotId);
-            if(exam.Language == course.Language && exam.Level == course.Level)
-            {
+            var examService = new ExamSlotService();
+            var languageService = new LanguageLevelService();
+
+            ExamSlot exam = examService.Get(result.ExamSlotId);
+            var examLanguage = languageService.Get(exam.LanguageId);
+
+            if (examLanguage.Language == course.Language && examLanguage.Level == course.Level)
                 return true;
-            }
             return false;
         }
     }

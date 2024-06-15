@@ -37,10 +37,11 @@ namespace LangLang.BusinessLogic.UseCases
             return _timeSlot.Get(id);
         }
 
-        public void Add(TimeSlot timeslot)
+        public TimeSlot Add(TimeSlot timeslot)
         {
             timeslot.Id = GenerateId();
             _timeSlot.Add(timeslot);
+            return timeslot;
         }
 
     }

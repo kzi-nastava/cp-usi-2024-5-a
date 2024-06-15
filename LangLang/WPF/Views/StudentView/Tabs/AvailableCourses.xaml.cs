@@ -39,9 +39,9 @@ namespace LangLang.WPF.Views.StudentView.Tabs
         private void SearchCourses(object sender, RoutedEventArgs e)
         {
             string? language = languagetb.Text;
-            LanguageLevel? level = null;
+            Level? level = null;
             if (levelCoursecb.SelectedValue != null)
-                level = (LanguageLevel)levelCoursecb.SelectedValue;
+                level = (Level)levelCoursecb.SelectedValue;
             DateTime courseStartDate = courseStartdp.SelectedDate ?? default;
             bool parsed = int.TryParse(durationtb.Text, out int duration);
             if (!parsed) duration = 0;
