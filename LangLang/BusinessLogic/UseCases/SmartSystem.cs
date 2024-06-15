@@ -43,8 +43,10 @@ namespace LangLang.BusinessLogic.UseCases
 
         public static int GetTutorForExam(ExamSlot exam)
         {
-            TutorService tutorService = new();
-            List<Tutor> tutors = tutorService.GetBySkill(exam.Language, exam.Level);
+            TutorSkillService tutorSkillService = new();
+            LanguageLevelService langLevelService = new();
+            LanguageLevel skill = langLevelService.Get(exam.LanguageId);
+            List<Tutor> tutors = tutorSkillService.GetBySkill(skill);
             if (tutors.Count == 0) return -1;
             TutorRatingService tutorRatingService = new();
             Dictionary<Tutor, double> tutorsAndRatings = new();
@@ -65,7 +67,10 @@ namespace LangLang.BusinessLogic.UseCases
         public static int MostSuitableTutor(Course course)
         {
             TutorService tutorService = new();
-            List<Tutor> tutors = tutorService.GetBySkill(course.Language, course.Level);
+            TutorSkillService tutorSkillService = new();
+            // TODO: implement once Course has attribut LanguageLevel not separate
+            List<Tutor> tutors = new();
+            //tutors = tutorService.GetBySkill(course.Language, course.Level);
             //there is no free tutors for given course
             if (tutors.Count == 0) return -1;
 

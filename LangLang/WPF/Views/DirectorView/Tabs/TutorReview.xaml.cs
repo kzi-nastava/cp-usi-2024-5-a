@@ -1,5 +1,4 @@
 ﻿using LangLang.Domain.Enums;
-using LangLang.WPF.ViewModels.ExamViewModels;
 using LangLang.WPF.ViewModels.TutorViewModels;
 using LangLang.WPF.Views.DirectorView.AdditionalWindows;
 using System;
@@ -20,7 +19,7 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
             TutorReviewViewModel = new();
             DataContext = TutorReviewViewModel;
             DisableButtons();
-            levelCB.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
+            levelCB.ItemsSource = Enum.GetValues(typeof(Level));
             Update();
         }
 
@@ -36,7 +35,7 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
             UpdateTutor window = new(tutor, this);
             window.Show();
         }
-            private void DeleteTutor_Click(object sender, RoutedEventArgs e)
+        private void DeleteTutor_Click(object sender, RoutedEventArgs e)
         {
             TutorReviewViewModel.DeleteTutor();
             _parent.Update();
@@ -44,12 +43,8 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-            string? language = languagetb.Text;
-            LanguageLevel? level = null;
-            if (levelCB.SelectedValue != null)
-                level = (LanguageLevel)levelCB.SelectedValue;
             DateTime employmentDate = datePickerEmployment.SelectedDate ?? default;
-            TutorReviewViewModel.Search(employmentDate, language, level);
+            TutorReviewViewModel.Search(employmentDate);
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
@@ -60,9 +55,15 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
         private void TutorsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (TutorReviewViewModel.SelectedTutor == null)
+            {
                 DisableButtons();
+                TutorReviewViewModel.ClearSkills();
+            }
             else
+            {
                 EnableButtons();
+                TutorReviewViewModel.SetSkillsForReview();
+            }
         }
 
         private void EnableButtons()
