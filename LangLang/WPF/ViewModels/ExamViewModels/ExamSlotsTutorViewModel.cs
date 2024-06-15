@@ -17,7 +17,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
     {
         private ObservableCollection<ExamSlotViewModel> pagedExams;
         private int currentPage;
-        private int pageSize = 1;
+        private int pageSize = 3;
         public List<ExamSlot> allExams { get; set; }
         public ExamSlotViewModel SelectedExamSlot { get; set; }
         public Tutor LoggedIn { get;set; }
