@@ -96,11 +96,14 @@ namespace LangLang.BusinessLogic.UseCases
         {
             PdfGrid grid = new();
             grid.Columns.Add(4);
+            var langLevelService = new LanguageLevelService();
+            
             foreach (var item in data)
             {
                 PdfGridRow row = grid.Rows.Add();
-                row.Cells[0].Value = item.Key.Item1.Language;
-                row.Cells[1].Value = item.Key.Item1.Level.ToString();
+                var langLevel = langLevelService.Get(item.Key.Item1.LanguageLevelId);
+                row.Cells[0].Value = langLevel.Language;
+                row.Cells[1].Value = langLevel.Level.ToString();
                 row.Cells[2].Value = item.Key.Item2.ToString();
                 row.Cells[3].Value = item.Value.ToString();
             }
@@ -112,10 +115,13 @@ namespace LangLang.BusinessLogic.UseCases
         {
             PdfGrid grid = new();
             grid.Columns.Add(2);
+            var langLevelService = new LanguageLevelService();
+
             foreach (var item in data)
             {
                 PdfGridRow row = grid.Rows.Add();
-                row.Cells[0].Value = item.Key.Language + " " + item.Key.Level.ToString();
+                var langLevel = langLevelService.Get(item.Key.LanguageLevelId);
+                row.Cells[0].Value = langLevel.Language + " " + langLevel.Level.ToString();
                 row.Cells[1].Value = item.Value.ToString();
             }
             return grid;

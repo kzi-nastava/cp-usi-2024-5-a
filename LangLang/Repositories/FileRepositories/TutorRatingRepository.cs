@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 
-namespace LangLang.Repositories
+namespace LangLang.Repositories.FileRepositories
 {
     public class TutorRatingRepository : ITutorRatingRepository
     {
@@ -30,7 +30,7 @@ namespace LangLang.Repositories
         public List<TutorRating> Get(Tutor tutor)
         {
             List<TutorRating> ratings = new();
-            foreach(TutorRating rating in GetAll())
+            foreach (TutorRating rating in GetAll())
             {
                 if (rating.TutorId == tutor.Id) ratings.Add(rating);
             }
@@ -59,15 +59,15 @@ namespace LangLang.Repositories
                     var parts = line.Split(Constants.DELIMITER);
 
                     int id = int.Parse(parts[0]);
-                    var rating = new TutorRating( id,
+                    var rating = new TutorRating(id,
                                         int.Parse(parts[1]),
                                         int.Parse(parts[2]),
                                         int.Parse(parts[3]),
                                         int.Parse(parts[4]));
 
-                        tutorRatings.Add(id, rating);
-                    }
+                    tutorRatings.Add(id, rating);
                 }
+            }
             return tutorRatings;
         }
 

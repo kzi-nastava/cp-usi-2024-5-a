@@ -18,7 +18,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             Course = new CourseViewModel();
         }
 
-        public bool CreatedCourse()
+        public bool CreatedCourse(int tutorId)
         {
             if (!Course.IsValid)
             {
@@ -27,6 +27,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             }
 
             Course.CreatedAt = DateTime.Now;
+            Course.TutorId = tutorId;
 
             var courseService = new CourseService();
             if (courseService.CanCreateOrUpdate(Course.ToCourse()))

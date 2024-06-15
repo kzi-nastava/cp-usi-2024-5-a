@@ -13,18 +13,20 @@ namespace LangLang.WPF.Views.TutorView.AdditionalWindows.CourseView
     {
         public CreateCoursePageViewModel CreateCourseViewModel { get; set; }
         private Courses _parent;
-        public CourseCreateWindow(Courses parent)
+        private int tutorId;
+        public CourseCreateWindow(Courses parent, int tutorId)
         {
             InitializeComponent();
             _parent = parent;
             CreateCourseViewModel = new();
             DataContext = CreateCourseViewModel;
             SetUpForm();
+            this.tutorId = tutorId;
         }
 
         private void CourseCreateBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (CreateCourseViewModel.CreatedCourse())
+            if (CreateCourseViewModel.CreatedCourse(tutorId))
             {
                 _parent.Update();
                 Close();

@@ -71,8 +71,9 @@ namespace LangLang.BusinessLogic.UseCases
 
             ExamSlot exam = examService.Get(result.ExamSlotId);
             var examLanguage = languageService.Get(exam.LanguageId);
+            var langLevel = languageService.Get(course.LanguageLevelId);
 
-            if (examLanguage.Language == course.Language && examLanguage.Level == course.Level)
+            if (examLanguage.Language == langLevel.Language && examLanguage.Level == langLevel.Level)
                 return true;
             return false;
         }

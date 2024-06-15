@@ -132,7 +132,8 @@ namespace LangLang.BusinessLogic.UseCases
 
         private bool IsCurrentCourseRequest(EnrollmentRequest request, Course course)
         {
-            if (request.Status != Status.Accepted || course.IsCompleted())
+            var courseService = new CourseService();
+            if (request.Status != Status.Accepted || courseService.IsCompleted(course.Id))
             {
                 return false;
             }

@@ -7,7 +7,7 @@ using System.IO;
 using LangLang.Configuration;
 using LangLang.Domain.Enums;
 
-namespace LangLang.Repositories
+namespace LangLang.Repositories.FileRepositories
 {
     public class ExamResultRepository : IExamResultRepository
     {

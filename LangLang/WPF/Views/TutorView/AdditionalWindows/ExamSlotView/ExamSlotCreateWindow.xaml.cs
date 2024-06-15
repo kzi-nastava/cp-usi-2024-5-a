@@ -30,14 +30,13 @@ namespace LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView
 
         private void CoursesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(ExamCreateVM.SelectedCourse!= null)
-            {
-                ExamCreateVM.SelectedCourse = (Course)CoursesDataGrid.SelectedItem;
-                languageTb.Text = ExamCreateVM.SelectedCourse.Language;
-                ExamCreateVM.ExamSlot.Language = ExamCreateVM.SelectedCourse.Language;
-                levelTb.Text = ExamCreateVM.SelectedCourse.Level.ToString();
-                ExamCreateVM.ExamSlot.Level = ExamCreateVM.SelectedCourse.Level;
-            }
+            if (ExamCreateVM.SelectedCourse == null) return;
+            
+            languageTb.Text = ExamCreateVM.SelectedCourse.Language;
+            ExamCreateVM.ExamSlot.Language = ExamCreateVM.SelectedCourse.Language;
+            levelTb.Text = ExamCreateVM.SelectedCourse.Level.ToString();
+            ExamCreateVM.ExamSlot.Level = ExamCreateVM.SelectedCourse.Level;
+            
         }
 
     }

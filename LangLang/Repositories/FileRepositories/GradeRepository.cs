@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace LangLang.Repositories
+namespace LangLang.Repositories.FileRepositories
 {
     public class GradeRepository : IGradeRepository
     {
@@ -37,7 +37,7 @@ namespace LangLang.Repositories
 
         public List<Grade> GetAll()
         {
-            return _grades.Values.ToList(); 
+            return _grades.Values.ToList();
         }
 
         public Dictionary<int, Grade> Load()

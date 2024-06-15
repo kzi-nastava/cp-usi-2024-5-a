@@ -187,12 +187,11 @@ namespace LangLang.WPF.ViewModels.ExamViewModel
             string[] timeParts = time.Split(':');
             int hour = int.Parse(timeParts[0]);
             int minute = int.Parse(timeParts[1]);
-            // TODO: remove id
-            var timeSlot = new TimeSlot(0,Constants.EXAM_DURATION, new DateTime(examDate.Year, examDate.Month, examDate.Day, hour, minute, 0));
+            var timeSlot = new TimeSlot(Constants.EXAM_DURATION, new DateTime(examDate.Year, examDate.Month, examDate.Day, hour, minute, 0));
             timeSlot = timeService.Add(timeSlot);
             var languageService = new LanguageLevelService();
-            var languageLevel = languageService.Add(new LanguageLevel(0, language, level));
-            return new ExamSlot(Id, languageLevel.Id, timeSlot.Id, maxStudents, TutorId, applicants, Modifiable, ResultsGenerated, ExamineesNotified, CreatedAt);
+            var languageLevelId = languageService.Add(new LanguageLevel(0, language, level));
+            return new ExamSlot(Id, languageLevelId, timeSlot.Id, maxStudents, TutorId, applicants, Modifiable, ResultsGenerated, ExamineesNotified, CreatedAt);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

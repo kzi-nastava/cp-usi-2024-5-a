@@ -24,6 +24,7 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
 
         public bool GratitudeEmailSent {  get; set; }
         public DateTime CreatedAt { get; set; }
+        public LanguageLevel langLevel {  get; set; }
 
         private string language;
         private Level level;
@@ -200,18 +201,15 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
 
         private string[] _validatedProperties = { "NotOnline", "MaxStudents", "StartDate", "Language", "Level", "NumberOfWeeks", "Time" };
 
-        // checks if all properties are valid
         public bool IsValid
         {
             get
             {
-
                 foreach (var property in _validatedProperties)
                 {
                     if (this[property] != "") return false;
                 }
 
-                //check whether at least one day is selected
                 for (int i = 0; i < 5; i++)
                 {
                     if (BooleanDays[i]) return true;
@@ -242,28 +240,52 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
             {
                 if (booleanDays[i]) { days.Add((DayOfWeek)(i + 1)); }
             }
-            return new Course(Id, TutorId, language, level, numberOfWeeks, days, online, NumberOfStudents, maxStudents, new DateTime(startDate.Year, startDate.Month, startDate.Day, hour, minute, 0), CreatedByDirector, Modifiable, GratitudeEmailSent, CreatedAt);
+            var langLevelService = new LanguageLevelService();
+            var langLevel = new LanguageLevel
+            {
+                Language = language,
+                Level = level
+            };
+            int langLevelId = langLevelService.Add(langLevel);
+            return new Course(Id, TutorId, langLevelId, numberOfWeeks, days, online, NumberOfStudents, maxStudents, 
+                            new DateTime(startDate.Year, startDate.Month, startDate.Day, hour, minute, 0), 
+                            CreatedByDirector, Modifiable, GratitudeEmailSent, CreatedAt);
         }
 
         public CourseViewModel(Course course)
         {
             Id = course.Id;
-            Language = course.Language;
-            Level = course.Level;
+            SetLanguageLevel(course);
+            SetCourseDetails(course);
+            SetTutorDetails(course);
+            SetCourseStatistics(course);
+        }
+
+        private void SetLanguageLevel(Course course)
+        {
+            var langLevelService = new LanguageLevelService();
+            var langLevel = langLevelService.Get(course.LanguageLevelId);
+            Language = langLevel.Language;
+            Level = langLevel.Level;
+        }
+
+        private void SetCourseDetails(Course course)
+        {
             NotOnline = !course.Online;
             CreatedByDirector = course.CreatedByDirector;
             TutorId = course.TutorId;
             NumberOfStudents = course.NumberOfStudents;
             StartDate = course.StartDateTime;
             Time = course.StartDateTime.ToString("HH:mm");
-
             NumberOfWeeks = course.NumberOfWeeks.ToString();
             MaxStudents = course.MaxStudents.ToString();
             Modifiable = course.Modifiable;
             SetDaysProperties(course.Days);
-            DaysUntilEnd = course.DaysUntilEnd().ToString() + " until the end of course.";
-           
-            if(course.TutorId == Constants.DELETED_TUTOR_ID)
+        }
+
+        private void SetTutorDetails(Course course)
+        {
+            if (course.TutorId == Constants.DELETED_TUTOR_ID)
             {
                 TutorFullName = "Deleted tutor";
             }
@@ -273,10 +295,18 @@ namespace LangLang.WPF.ViewModels.CourseViewModels
                 var tutor = tutorService.Get(course.TutorId);
                 TutorFullName = tutor.Profile.Name + " " + tutor.Profile.LastName;
             }
+        }
+
+        private void SetCourseStatistics(Course course)
+        {
+            var courseService = new CourseService();
+            DaysUntilEnd = courseService.DaysUntilEnd(course).ToString() + " until the end of course.";
+
             var gradeService = new GradeService();
             GradedStudentsCount = gradeService.CountGradedStudents(course);
             GratitudeEmailSent = course.GratitudeEmailSent;
         }
+
 
         private void SetDaysProperties(List<DayOfWeek> days)
         {

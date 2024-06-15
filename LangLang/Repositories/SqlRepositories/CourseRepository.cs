@@ -3,7 +3,7 @@ using LangLang.Domain.RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LangLang.Repositories
+namespace LangLang.Repositories.SqlRepositories
 {
     public class CourseRepository : ICourseRepository
     {
@@ -21,7 +21,7 @@ namespace LangLang.Repositories
 
         public List<Course> GetAll()
         {
-            return  _databaseContext.Course.ToList();    
+            return _databaseContext.Course.ToList();
         }
 
         public void Add(Course course)
@@ -38,9 +38,14 @@ namespace LangLang.Repositories
 
         public void Delete(Course course)
         {
-            _databaseContext.Course.Remove(course);
-            _databaseContext.SaveChanges();
+            var existingCourse = _databaseContext.Course.Find(course.Id);
+            if (existingCourse != null)
+            {
+                _databaseContext.Course.Remove(existingCourse);
+                _databaseContext.SaveChanges();
+            }
         }
+
 
     }
 }

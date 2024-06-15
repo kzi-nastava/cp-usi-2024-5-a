@@ -12,12 +12,12 @@ namespace LangLang
     public partial class TutorWindow : Window
     {
         public Tutor LoggedIn { get; set; }
-        public TutorWindow(Profile currentlyLoggedIn)
+        public TutorWindow(Tutor tutor)
         {
             InitializeComponent();
             DataContext = this;
             TutorService tutorService = new();
-            LoggedIn = tutorService.Get(currentlyLoggedIn.Id);
+            LoggedIn = tutorService.Get(tutor.Id);
             GenerateTabs();
         }
 

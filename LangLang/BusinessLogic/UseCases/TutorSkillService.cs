@@ -2,9 +2,7 @@
 using LangLang.Composition;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -22,7 +20,7 @@ namespace LangLang.BusinessLogic.UseCases
             return tutorSkillRepository.GetAll();
         }
 
-        public TutorSkill TutorSkill(int id)
+        public TutorSkill Get(int id)
         {
             return tutorSkillRepository.Get(id);
         }

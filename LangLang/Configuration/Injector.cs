@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using LangLang.Domain.RepositoryInterfaces;
-using LangLang.Repositories;
+using LangLang.Repositories.FileRepositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LangLang.Composition

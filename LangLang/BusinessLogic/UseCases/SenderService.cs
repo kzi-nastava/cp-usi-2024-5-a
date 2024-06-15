@@ -203,10 +203,13 @@ namespace LangLang.BusinessLogic.UseCases
 
         private string[] GetSubjectReplacements(Course course)
         {
+            var langugageService = new LanguageLevelService();
+            var language = langugageService.Get(course.LanguageLevelId);
             return new string[]
             {
-                course.Language,
-                course.Level.ToString()
+                language.Language,
+                language.Level.ToString(),
+                language.Level.ToString()
             };
         }
 

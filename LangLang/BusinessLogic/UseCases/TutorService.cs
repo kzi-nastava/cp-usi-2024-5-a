@@ -61,5 +61,10 @@ namespace LangLang.BusinessLogic.UseCases
              (tutor.Profile.IsActive == true)).ToList();
         }
 
+        public Tutor GetByEmail(string email)
+        {
+            return _tutors.GetByEmail(email);
+        }
+
     }
 }

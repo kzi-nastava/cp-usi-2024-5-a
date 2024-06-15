@@ -8,14 +8,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace LangLang.Repositories
+namespace LangLang.Repositories.FileRepositories
 {
     public class WithdrawalRequestRepository : IWithdrawalRequestRepository
     {
         private Dictionary<int, WithdrawalRequest> _withdrawalRequests;
         private const string _filePath = Constants.FILENAME_PREFIX + "withdrawalRequests.csv";
 
-        public WithdrawalRequestRepository() {
+        public WithdrawalRequestRepository()
+        {
             _withdrawalRequests = Load();
         }
 
@@ -76,7 +77,7 @@ namespace LangLang.Repositories
             List<WithdrawalRequest> courseRequests = new();
             var enrollmentReqService = new EnrollmentRequestService();
             List<EnrollmentRequest> allEnrollmentRequests = enrollmentReqService.GetAll();
-            
+
             foreach (WithdrawalRequest request in GetAll())
             {
                 EnrollmentRequest enrollmentRequest = allEnrollmentRequests[request.EnrollmentRequestId];
@@ -109,7 +110,7 @@ namespace LangLang.Repositories
 
             if (!File.Exists(_filePath)) return withdrawalRequests;
 
-            
+
             string[] lines = File.ReadAllLines(_filePath);
 
             foreach (string line in lines)
@@ -126,7 +127,8 @@ namespace LangLang.Repositories
                     requestSentAt = DateTime.ParseExact(parts[3], Constants.DATE_FORMAT, null);
                     requestReceivedAt = DateTime.ParseExact(parts[4], Constants.DATE_FORMAT, null);
 
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     throw new FormatException("Date is not in the correct format.");
                 }
@@ -135,7 +137,7 @@ namespace LangLang.Repositories
                 WithdrawalRequest withdrawalRequest = new WithdrawalRequest(id, enrollmentRequestId, reason, status, requestSentAt, requestReceivedAt);
 
                 withdrawalRequests.Add(withdrawalRequest.Id, withdrawalRequest);
-                    
+
             }
 
             return withdrawalRequests;

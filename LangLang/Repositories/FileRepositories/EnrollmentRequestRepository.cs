@@ -7,13 +7,14 @@ using System.IO;
 using System.Linq;
 using LangLang.Domain.Enums;
 
-namespace LangLang.Repositories
+namespace LangLang.Repositories.FileRepositories
 {
     public class EnrollmentRequestRepository : IEnrollmentRequestRepository
     {
         private Dictionary<int, EnrollmentRequest> _enrollmentRequests;
         private const string _filePath = Constants.FILENAME_PREFIX + "enrollmentRequests.csv";
-        public EnrollmentRequestRepository() {
+        public EnrollmentRequestRepository()
+        {
             _enrollmentRequests = Load();
         }
 
@@ -70,7 +71,7 @@ namespace LangLang.Repositories
             request.CancelRequest();
             Save();
         }
-        
+
         public void Pause(EnrollmentRequest request)
         {
             request.UpdateStatus(Status.Paused);
@@ -122,7 +123,7 @@ namespace LangLang.Repositories
                     requestSentAt = DateTime.ParseExact(values[4], Constants.DATE_FORMAT, null);
                     lastModifiedAt = DateTime.ParseExact(values[5], Constants.DATE_FORMAT, null);
                 }
-                catch (Exception) 
+                catch (Exception)
                 {
                     throw new FormatException("Date is not in correct format.");
                 }

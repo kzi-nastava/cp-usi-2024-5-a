@@ -84,20 +84,14 @@ namespace LangLang.BusinessLogic.UseCases
 
             foreach (Course course in courseService.GetAll())
             {
-                //check for overlapping
-                if (course.OverlappsWith(timeService.Get(exam.TimeSlotId)))
-                {
-                    //tutor is busy (has class)
-                    if (course.TutorId == exam.TutorId)
-                        return true;
+                var timeSlot = timeService.Get(exam.TimeSlotId);
+                if (!courseService.OverlappsWith(course, timeSlot)) continue;
+                
+                if (course.TutorId == exam.TutorId) return true;
 
-                    if (!course.Online)
-                        busyClassrooms++;
-
-                    //all classrooms are busy
-                    if (busyClassrooms == 2)
-                        return true;
-                }
+                if (!course.Online) busyClassrooms++;
+                if (busyClassrooms == 2) return true;
+                
             }
             return false;
         }
@@ -109,22 +103,15 @@ namespace LangLang.BusinessLogic.UseCases
 
             foreach (ExamSlot currExam in GetAll())
             {
-                if (currExam.Id == exam.Id)
-                    continue;
+                if (currExam.Id == exam.Id) continue;
 
-                if (timeService.Get(exam.TimeSlotId).OverlappsWith(timeService.Get(currExam.TimeSlotId)))
-                {
-                    //tutor is busy (has exam)
-                    if (exam.TutorId == currExam.TutorId)
-                        return true;
+                if (!timeService.Get(exam.TimeSlotId).OverlappsWith(timeService.Get(currExam.TimeSlotId))) continue;
+                
+                if (exam.TutorId == currExam.TutorId) return true;
 
-                    busyClassrooms++;
-
-                    //all classrooms are busy
-                    if (busyClassrooms == 2)
-                        return true;
-                }
-
+                busyClassrooms++;
+                if (busyClassrooms == 2) return true;
+                
             }
             return false;
         }
@@ -284,12 +271,13 @@ namespace LangLang.BusinessLogic.UseCases
 
         private bool HasStudentAttendedCourse(Course course, ExamSlot examSlot)
         {
+            var courseService = new CourseService();
             var languageService = new LanguageLevelService();
             var examLanguage = languageService.Get(examSlot.LanguageId);
             var courseLanguage = languageService.Get(course.LanguageLevelId);
              
             return courseLanguage.Language == examLanguage.Language &&
-               courseLanguage.Level <= examLanguage.Level && course.IsCompleted();
+               courseLanguage.Level <= examLanguage.Level && courseService.IsCompleted(course.Id);
         }
 
         private bool IsHeldInLastYear(ExamSlot exam)

@@ -67,22 +67,24 @@ namespace LangLang.BusinessLogic.UseCases
         }
         public static int MostSuitableTutor(Course course)
         {
-            TutorService tutorService = new();
-            TutorSkillService tutorSkillService = new();
+            var tutorService = new TutorService();
+            var languageService = new LanguageLevelService();
+            var courseService = new CourseService();
+            var tutorSkillService = new TutorSkillService();
+
             // TODO: implement once Course has attribut LanguageLevel not separate
             List<Tutor> tutors = new();
             //tutors = tutorService.GetBySkill(course.Language, course.Level);
+
             //there is no free tutors for given course
             if (tutors.Count == 0) return -1;
 
             //consider only tutors that are free in time of course
             List<Tutor> availableTutors = new();
-            CourseService coursesService = new();
             foreach (Tutor tutor in tutors)
             {
                 course.TutorId = tutor.Id;
-                if (coursesService.CanCreateOrUpdate(course)) {
-                    Trace.WriteLine(tutor.Id);
+                if (courseService.CanCreateOrUpdate(course)) {
                     availableTutors.Add(tutor); }
             }
             //find least busy tutors

@@ -3,13 +3,14 @@ using LangLang.Domain.RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LangLang.Repositories
+namespace LangLang.Repositories.SqlRepositories
 {
     public class TimeSlotRepository : ITimeSlotRepository
     {
         private readonly DatabaseContext _databaseContext;
 
-        public TimeSlotRepository(DatabaseContext context) { 
+        public TimeSlotRepository(DatabaseContext context)
+        {
             _databaseContext = context;
         }
 
