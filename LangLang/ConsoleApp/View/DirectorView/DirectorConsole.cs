@@ -1,5 +1,5 @@
 ﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.ConsoleApp.View.TutorView;
+using LangLang.ConsoleApp.View.DirectorView;
 using LangLang.Domain.Models;
 using System;
 using System.Collections.Generic;
