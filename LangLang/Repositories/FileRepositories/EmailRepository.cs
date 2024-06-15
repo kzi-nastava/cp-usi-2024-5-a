@@ -3,7 +3,7 @@ using LangLang.Domain.RepositoryInterfaces;
 using System.Collections.Generic;
 using System.IO;
 
-namespace LangLang.Repositories
+namespace LangLang.Repositories.FileRepositories
 {
     public class EmailRepository : IEmailRepository
     {
@@ -11,7 +11,8 @@ namespace LangLang.Repositories
         private Dictionary<string, string> _emails;
         private string _filePath = Constants.FILENAME_PREFIX + "/EmailTemplates";
 
-        public EmailRepository() {
+        public EmailRepository()
+        {
             Load();
         }
 

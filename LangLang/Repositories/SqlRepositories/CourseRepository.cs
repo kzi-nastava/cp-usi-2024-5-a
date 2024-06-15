@@ -1,10 +1,9 @@
 ﻿using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LangLang.Repositories
+namespace LangLang.Repositories.SqlRepositories
 {
     public class CourseRepository : ICourseRepository
     {
@@ -22,7 +21,7 @@ namespace LangLang.Repositories
 
         public List<Course> GetAll()
         {
-            return  _databaseContext.Course.ToList();    
+            return _databaseContext.Course.ToList();
         }
 
         public void Add(Course course)

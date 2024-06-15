@@ -3,7 +3,7 @@ using LangLang.Domain.RepositoryInterfaces;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LangLang.Repositories
+namespace LangLang.Repositories.SqlRepositories
 {
     public class CourseTimeSlotRepository : ICourseTimeSlotRepository
     {

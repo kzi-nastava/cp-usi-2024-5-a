@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace LangLang.Repositories
+namespace LangLang.Repositories.FileRepositories
 {
     public class PenaltyPointRepository : IPenaltyPointRepository
     {
@@ -99,7 +99,7 @@ namespace LangLang.Repositories
                 int tutorId = int.Parse(values[2]);
                 int courseId = int.Parse(values[3]);
                 DateTime date = DateTime.ParseExact(values[4], Constants.DATE_TIME_FORMAT, null);
-                PenaltyPoint point = new PenaltyPoint( id, studentId, tutorId, courseId, date);
+                PenaltyPoint point = new PenaltyPoint(id, studentId, tutorId, courseId, date);
                 points.Add(point.Id, point);
 
             }

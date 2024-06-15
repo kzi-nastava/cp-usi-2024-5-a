@@ -5,14 +5,15 @@ using System.Linq;
 using System.IO;
 using LangLang.Configuration;
 
-namespace LangLang.Repositories
+namespace LangLang.Repositories.FileRepositories
 {
     public class DirectorRepository : IDirectorRepository
     {
 
         private readonly Dictionary<int, Director> _directors;
         private string _filePath = Constants.FILENAME_PREFIX + "directors.csv";
-        public DirectorRepository() {
+        public DirectorRepository()
+        {
             _directors = Load();
         }
         public List<Director> GetAll()
@@ -24,8 +25,6 @@ namespace LangLang.Repositories
         {
             return _directors[id];
         }
-
-        // NOTE: The methods below are temporary until connecting to the database.
 
         public void Save()
         {

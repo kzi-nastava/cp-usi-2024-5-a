@@ -5,14 +5,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace LangLang.Repositories
+namespace LangLang.Repositories.FileRepositories
 {
     public class StudentRepository : IStudentRepository
     {
         private Dictionary<int, Student> _students;
         private const string _filePath = Constants.FILENAME_PREFIX + "students.csv";
 
-        public StudentRepository() {
+        public StudentRepository()
+        {
             Load();
         }
         public Student Get(int id)
@@ -22,7 +23,7 @@ namespace LangLang.Repositories
 
         public List<Student> GetAll()
         {
-            return _students.Values.ToList();           
+            return _students.Values.ToList();
         }
 
         public void Add(Student student)
@@ -79,13 +80,13 @@ namespace LangLang.Repositories
             _students = new Dictionary<int, Student>();
 
             if (!File.Exists(_filePath)) return;
-            
+
             var lines = File.ReadAllLines(_filePath);
             foreach (var line in lines)
             {
                 var tokens = line.Split(Constants.DELIMITER);
 
-                var profile = new Profile(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4], 
+                var profile = new Profile(tokens[0], tokens[1], tokens[2], tokens[3], tokens[4],
                                           tokens[5], tokens[6], tokens[7], tokens[8], tokens[9]);
                 var student = new Student(profile, tokens[10]);
                 _students.Add(student.Id, student);

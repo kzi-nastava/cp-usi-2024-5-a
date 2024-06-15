@@ -4,13 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LangLang.Repositories
+namespace LangLang.Repositories.SqlRepositories
 {
     public class TutorRepository : ITutorRepository
     {
-        private DatabaseContext _databaseContext {  get; set; }
+        private DatabaseContext _databaseContext { get; set; }
 
-        public TutorRepository(DatabaseContext context) {
+        public TutorRepository(DatabaseContext context)
+        {
             _databaseContext = context;
         }
 
@@ -53,7 +54,7 @@ namespace LangLang.Repositories
         {
             var existingTutor = _databaseContext.Tutor.Find(tutor.Id);
             if (existingTutor == null) return;
-       
+
             _databaseContext.Entry(existingTutor).State = EntityState.Detached;
             _databaseContext.Tutor.Update(tutor);
             _databaseContext.SaveChanges();

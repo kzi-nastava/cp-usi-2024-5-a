@@ -1,6 +1,7 @@
 ﻿using LangLang.Composition;
 using LangLang.Domain.RepositoryInterfaces;
 using LangLang.Repositories;
+using LangLang.Repositories.SqlRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

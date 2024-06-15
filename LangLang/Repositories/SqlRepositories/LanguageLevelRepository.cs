@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LangLang.Repositories
+namespace LangLang.Repositories.SqlRepositories
 {
     public class LanguageLevelRepository : ILanguageLevelRepository
     {
