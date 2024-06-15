@@ -32,20 +32,20 @@ namespace LangLang.Domain.Models
         [AllowUpdate]
         [AllowCreate]
         [CourseDays]
+        [DisplayName("Days")]
         public List<DayOfWeek> Days { get; set; }
         [Show]
         [AllowCreate]
         [AllowUpdate]
-        [CourseOnline]
         public bool Online { get; set; }
         [Show]
+        [DisplayName("Students")]
         public int NumberOfStudents { get; set; }
         [AllowUpdate]
         [AllowCreate]
-        [CourseMaxStud]
         public int MaxStudents { get; set; }
         [Show]
-        [DisplayName("Start Date and Class Time")]
+        [DisplayName("Start Date and Time")]
         [AllowUpdate]
         [AllowCreate]
         public DateTime StartDateTime { get; set; }
