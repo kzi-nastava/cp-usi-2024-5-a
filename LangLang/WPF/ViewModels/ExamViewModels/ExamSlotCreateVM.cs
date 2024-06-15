@@ -1,5 +1,6 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Models;
+using LangLang.WPF.ViewModels.CourseViewModels;
 using LangLang.WPF.ViewModels.ExamViewModel;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
     public class ExamSlotCreateVM
     {
         public List<Course> Skills { get; set; }
-        public Course SelectedCourse { get; set; }
+        public CourseViewModel SelectedCourse { get; set; }
         public ExamSlotViewModel ExamSlot { get; set; }
         public ExamSlotCreateVM(Tutor loggedIn)
         {

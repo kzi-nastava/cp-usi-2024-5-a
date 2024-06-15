@@ -11,37 +11,37 @@ namespace LangLang.BusinessLogic.UseCases
 {
     public class CourseService
     {
-        private ICourseRepository _courses;
+        private ICourseRepository _repository;
         public CourseService()
         {
-            _courses = Injector.CreateInstance<ICourseRepository>();
+            _repository = Injector.CreateInstance<ICourseRepository>();
         }
 
         public List<Course> GetAll()
         {
-            return _courses.GetAll();
+            return _repository.GetAll();
         }
 
         public Course Get(int id)
         {
-            return _courses.Get(id);
+            return _repository.Get(id);
         }
 
         public void Add(Course course)
         {
             var courseTimeSlotService = new CourseTimeSlotService();
-            _courses.Add(course);
+            _repository.Add(course);
             courseTimeSlotService.GenerateSlots(course);
         }
 
         public void Update(Course course)
         {
-            _courses.Update(course);
+            _repository.Update(course);
         }
 
         public void Delete(Course course)
         {
-            _courses.Delete(course);
+            _repository.Delete(course);
         }
 
         public List<string> GetLanguages()
@@ -69,10 +69,25 @@ namespace LangLang.BusinessLogic.UseCases
             }
         }
 
+        private List<TimeSlot> GetTimeSlots(Course course)
+        {
+            var courseTimeSlotService = new CourseTimeSlotService();
+            return courseTimeSlotService.GetSortedByEndTime(course);
+        }
+
         public bool IsCompleted(int id)
         {
             Course course = Get(id) ?? throw new ArgumentException("There is no course with given id");
-            return course.IsCompleted();
+
+            var timeSlots = GetTimeSlots(course);            
+            TimeSlot timeSlot = timeSlots[^1];
+            return DateTime.Now >= timeSlot.GetEnd();
+        }
+
+        public DateTime GetEnd(Course course)
+        {
+            var timeSlots = GetTimeSlots(course);
+            return timeSlots[^1].GetEnd();
         }
 
         public bool CanCreateOrUpdate(Course course)
@@ -81,66 +96,62 @@ namespace LangLang.BusinessLogic.UseCases
             return !ExamsAndCourseOverlapp(course, ref busyClassrooms) && !CoursesOverlapp(course, ref busyClassrooms);
         }
 
-        // Checks for any overlaps between exams and the course,
-        // considering the availability of the courses's tutor and classrooms
         public bool ExamsAndCourseOverlapp(Course course, ref int busyClassrooms)
         {
             var examSlotService = new ExamSlotService();
+            var timeSlotService = new TimeSlotService();
             List<ExamSlot> examSlots = examSlotService.GetAll();
-            // Go through exams
-            //foreach (ExamSlot exam in examSlots)
-            //{
-            //    //check for overlapping
-            //    if (course.OverlappsWith(exam.TimeSlot))
-            //    {
-            //        //tutor is busy (has exam)
-            //        if (course.TutorId == exam.TutorId && course.TutorId != Constants.DELETED_TUTOR_ID) return true;
 
-            //        if (!course.Online)
-            //        {
-            //            busyClassrooms++;
-            //        }
+            foreach (var exam in examSlots)
+            {
+                var timeSlot = timeSlotService.Get(exam.Id);
+                if (!OverlappsWith(course, timeSlot)) continue;
 
-            //        //all classrooms are busy
-            //        if (busyClassrooms == 2) return true;
-            //    }
-            //}
+                if (course.TutorId == exam.TutorId && course.TutorId != Constants.DELETED_TUTOR_ID) return true;
+
+                if (!course.Online) busyClassrooms++;
+                if (busyClassrooms == 2) return true;
+            }
+
             return false;
         }
 
-        // Checks for any overlaps between other courses and current course,
-        // considering the availability of the courses's tutor and classrooms
-        public bool CoursesOverlapp(Course course, ref int busyClassrooms)
+        public bool CoursesOverlapp(Course other, ref int busyClassrooms)
         {
-            //foreach (Course currCourse in GetAll())
-            //{
-                // if this checks for updating course, then skip over the original course
-                //if (currCourse.Id == course.Id) { continue; }
+            foreach (var course in GetAll())
+            {
+                if (course.Id == other.Id) continue;
+                var timeSLots = GetTimeSlots(other);
 
-                //foreach (TimeSlot timeSlot in currCourse.TimeSlot)
-                //{
-                //    if (course.OverlappsWith(timeSlot))
-                //    {
-                //        // the tutor already has a course in one of the timeslots
-                //        if (course.TutorId == currCourse.TutorId && course.TutorId != Constants.DELETED_TUTOR_ID) return true;
+                foreach (var timeSLot in timeSLots)
+                {
+                    if (!OverlappsWith(other, timeSLot)) continue;
+                    
+                    if (other.TutorId == course.TutorId && other.TutorId != Constants.DELETED_TUTOR_ID) return true;
+                    if (other.Online || course.Online) continue; 
 
-                //        //if the course or the currCourse is online continue,
-                //        //because the classrooms do not matter
-                //        if (course.Online || currCourse.Online) { continue; }
+                    busyClassrooms++;
+                    if (busyClassrooms == 2) return true;
+                }
 
-                //        busyClassrooms++;
-
-                //        //all classrooms are busy
-                //        if (busyClassrooms == 2) return true;
-                //        {
-                //            return true;
-                //        }
-
-                //    }
-                //}
-            //}
+            }
             return false;
         }
+
+        public bool OverlappsWith(Course course, TimeSlot timeSlot)
+        {
+            var courseTimeSlotSevice = new CourseTimeSlotService();
+            var timeSlots = courseTimeSlotSevice.GetByCourse(course);
+            foreach (TimeSlot time in timeSlots)
+            {
+                if (time.OverlappsWith(timeSlot))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         public void IncrementStudents(int courseId)
         {
@@ -178,22 +189,23 @@ namespace LangLang.BusinessLogic.UseCases
 
         public int NumActiveCourses(Tutor tutor)
         {
-            return GetByTutor(tutor.Id).Count(course => course.IsActive());
+            return GetByTutor(tutor.Id).Count(course => IsActive(course));
         }
 
         public List<Course> GetByTutor(int tutorId)
         {
-            return GetAll().Where(course => course.TutorId == tutorId).ToList();
+            var all = GetAll(); // TODO : DELETE THIS
+            return GetAll().Where(course => course.TutorId == tutorId).ToList() ?? new List<Course>();
         }
 
-    public List<Course> GetBySkills(Tutor tutor)
+        public List<Course> GetBySkills(Tutor tutor)
         {
             var tutorSkillService = new TutorSkillService();
             var languageService = new LanguageLevelService();
 
             var courses = new List<Course>();
             var availableCourses = GetAll();
-            var tutorLanguage = tutorSkillService.GetByTutor(tutor.Id);
+            var tutorLanguage = tutorSkillService.GetByTutor(tutor);
 
             foreach (var course in availableCourses)
             {
@@ -245,7 +257,7 @@ namespace LangLang.BusinessLogic.UseCases
         private bool StudentAttendedUntilEnd(Course course, EnrollmentRequest request)
         {
             var withdrawalService = new WithdrawalRequestService();
-            return course.IsCompleted() && request.Status == Status.Accepted
+            return IsCompleted(course.Id) && request.Status == Status.Accepted
                     && !withdrawalService.HasAcceptedWithdrawal(request.Id);
         }
 
@@ -272,7 +284,7 @@ namespace LangLang.BusinessLogic.UseCases
 
         public List<Course> GetCoursesHeldInLastYear()
         {
-            return GetAll().Where(course => course.IsHeldInLastYear()).ToList();
+            return GetAll().Where(course => IsHeldInLastYear(course)).ToList();
         }
 
         public List<Student> GetStudentsAttended(Course course)
@@ -319,6 +331,32 @@ namespace LangLang.BusinessLogic.UseCases
         {
             var gradeService = new GradeService();
             return GetAll().Where(course => gradeService.IsGraded(course) && !course.GratitudeEmailSent).ToList();
+        }
+
+        public int DaysUntilEnd(Course course)
+        {
+            var timeSlots = GetTimeSlots(course);
+            var endDate = timeSlots[^1].GetEnd();
+            return (endDate - DateTime.Now).Days;
+        }
+
+        public bool IsHeldInLastYear(Course course)
+        {
+            DateTime oneYearAgo = DateTime.Now.AddYears(-1);
+            return GetEnd(course) > oneYearAgo && GetEnd(course) <= DateTime.Now;
+        }
+
+        public bool IsActive(Course course)
+        {
+            if (course.StartDateTime <= DateTime.Now && GetEnd(course) >= DateTime.Now) return true;
+            return false;
+        }
+
+        public string ToPdfString(Course course)
+        {
+            var langLevelService = new LanguageLevelService();
+            var langLevel = langLevelService.Get(course.LanguageLevelId);
+            return $"{langLevel.Language} {langLevel.Level}";
         }
 
     }

@@ -82,7 +82,8 @@ namespace LangLang.WPF.ViewModels
             }
             else if (profile.Role == UserType.Tutor)
             {
-                TutorWindow tutorWindow = new(profile);
+                var tutorService = new TutorService();
+                TutorWindow tutorWindow = new(tutorService.GetByEmail(profile.Email));
                 tutorWindow.Show();
             }
             else if (profile.Role == UserType.Director)

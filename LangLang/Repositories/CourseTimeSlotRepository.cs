@@ -30,5 +30,17 @@ namespace LangLang.Repositories
             return _context.CourseTimeSlot.ToList();
         }
 
+        public List<TimeSlot> GetByCourse(Course course)
+        {
+            var timeSlots = _context.CourseTimeSlot
+                                    .Where(cts => cts.CourseId == course.Id)
+                                    .Join(_context.TimeSlot,
+                                          cts => cts.TimeSlotId,
+                                          ts => ts.Id,
+                                          (cts, ts) => ts)
+                                    .ToList();
+            return timeSlots;
+        }
+
     }
 }

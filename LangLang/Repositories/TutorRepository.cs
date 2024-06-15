@@ -39,6 +39,11 @@ namespace LangLang.Repositories
             return _databaseContext.Tutor.ToList();
         }
 
+        public Tutor GetByEmail(string email)
+        {
+            return _databaseContext.Tutor.FirstOrDefault(t => t.Profile.Email == email);
+        }
+
         public List<Tutor> GetActive()
         {
             return _databaseContext.Tutor.Where(tutor => tutor.Profile.IsActive == true).ToList();

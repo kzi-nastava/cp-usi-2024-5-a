@@ -4,6 +4,7 @@ using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -29,6 +30,17 @@ namespace LangLang.BusinessLogic.UseCases
         public CourseTimeSlot Get(int id)
         {
             return _repository.Get(id);
+        }
+
+        public List<TimeSlot> GetByCourse(Course course)
+        {
+            return _repository.GetByCourse(course);
+        }
+
+        public List<TimeSlot> GetSortedByEndTime(Course course)
+        {
+            var timeSlots = GetByCourse(course);
+            return timeSlots.OrderBy(ts => ts.GetEnd()).ToList();
         }
 
         public void GenerateSlots(Course course)

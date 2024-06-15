@@ -12,5 +12,6 @@ namespace LangLang.Domain.RepositoryInterfaces
         public int Add(Tutor tutor);
         public void Update(Tutor tutor);
         public void Deactivate(int id);
+        public Tutor GetByEmail(string email);
     }
 }

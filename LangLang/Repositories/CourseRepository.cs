@@ -1,5 +1,6 @@
 ﻿using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,9 +39,14 @@ namespace LangLang.Repositories
 
         public void Delete(Course course)
         {
-            _databaseContext.Course.Remove(course);
-            _databaseContext.SaveChanges();
+            var existingCourse = _databaseContext.Course.Find(course.Id);
+            if (existingCourse != null)
+            {
+                _databaseContext.Course.Remove(existingCourse);
+                _databaseContext.SaveChanges();
+            }
         }
+
 
     }
 }

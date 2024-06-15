@@ -1,7 +1,6 @@
-﻿using System;
-using LangLang.Configuration;
-using LangLang.Domain.Enums;
+﻿using LangLang.Configuration;
 using LangLang.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -104,7 +103,7 @@ namespace LangLang.BusinessLogic.UseCases
                 res[0] = NumStudentsAttended(course);
                 res[1] = NumStudentsPassed(course);
                 res[2] = CalculatePassingPercentage(course);
-                accomplishments.Add(course.ToPdfString(), res);
+                accomplishments.Add(courseService.ToPdfString(course), res);
             }
             return accomplishments;
         }
@@ -121,13 +120,12 @@ namespace LangLang.BusinessLogic.UseCases
                 avg.Add(gradeService.GetAverageKnowledgeGrade(course));
                 avg.Add(gradeService.GetAverageActivityGrade(course));
                 avg.Add(tutorRatingService.GetAverageTutorRating(course));
-                averages.Add(course.ToPdfString(), avg);
+                averages.Add(courseService.ToPdfString(course), avg);
             }
             return averages;
         }
 
 
-        // methods below for average penalty points
         public Dictionary<string, double> GetAveragePenaltyPoints()
         {
             var points = new Dictionary<string, double>();
@@ -143,15 +141,22 @@ namespace LangLang.BusinessLogic.UseCases
 
             var courseService = new CourseService();
             var penaltyPointService = new PenaltyPointService();
+            var langLevelService = new LanguageLevelService();
 
-            var courses = courseService.GetAll().Where(course => course.Language.Equals(language, StringComparison.OrdinalIgnoreCase));
+            var courses = new List<Course>();
+
+            foreach (var course in courseService.GetAll())
+            {
+                var langLevel = langLevelService.Get(course.LanguageLevelId);
+                if (langLevel.Language.Equals(language, StringComparison.OrdinalIgnoreCase)) courses.Add(course);
+            }
+
             foreach (Course course in courses)
                 points += penaltyPointService.GetByCourse(course).Count;
 
             return points;
         }
 
-        // methods below for average points
         public Dictionary<string, double> GetAveragePoints()
         {
             var courseService = new CourseService();
@@ -188,24 +193,32 @@ namespace LangLang.BusinessLogic.UseCases
             return total;
         }
 
-        // methods below - number of courses created in the past year
         public Dictionary<string, double> GetNumberOfCourses()
         {
             var courses = new Dictionary<string, double>();
             var courseService = new CourseService();
             foreach (string language in courseService.GetLanguages())
-                courses[language] = GetNumberOfCourses(language);
+                courses[language] = CountCourses(language);
             return courses;
         }
 
-        private int GetNumberOfCourses(string language)
+        private int CountCourses(string language)
         {
             var courseService = new CourseService();
-            var courses = courseService.GetAll().Where(exam => exam.CreatedAt >= DateTime.Now.AddYears(-1) && exam.CreatedAt <= DateTime.Now);
-            return courses.Count(course => course.Language.Equals(language, StringComparison.OrdinalIgnoreCase));
+            var langLevelService = new LanguageLevelService();
+
+            var courses = courseService.GetAll()
+                .Where(exam => exam.CreatedAt >= DateTime.Now.AddYears(-1) && exam.CreatedAt <= DateTime.Now);
+
+            var count = courses.Count(course =>
+            {
+                var langLevel = langLevelService.Get(course.LanguageLevelId);
+                return langLevel.Language.Equals(language, StringComparison.OrdinalIgnoreCase);
+            });
+
+            return count;
         }
 
-        // methods below - number of exams created in the past year
 
         public Dictionary<string, double> GetNumberOfExams()
         {
