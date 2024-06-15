@@ -4,6 +4,7 @@ using LangLang.ConsoleApp.GenericStructures;
 using LangLang.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -73,12 +74,14 @@ namespace LangLang.ConsoleApp.View.TutorView
         {
             Console.WriteLine("Creating new exam...");
             ExamSlot exam = GenericForm.CreateEntity<ExamSlot>();
+            
+            
             exam.CreatedAt = DateTime.Now;
             exam.TutorId = tutor.Profile.Id;
             exam.Modifiable = true;
 
             if (!IsValid(exam)) { 
-                Console.WriteLine("Exam slot can not be created. Not all fields are valid.");
+                Console.WriteLine("Exam slot can not be created. Tutor doesn't know given language on that level.");
                 return;
             }
 
@@ -86,38 +89,36 @@ namespace LangLang.ConsoleApp.View.TutorView
             bool added = service.Add(exam);
 
             if (!added) {
-                MessageBox.Show("Choose another exam date or time.");
+                Console.WriteLine("Choose another exam date or time.");
                 return; 
             }
 
             Console.WriteLine("Exam created successfully.");
             ReloadExams();
         }
-        //FIX THIS
         private bool IsValid(ExamSlot exam)
         {
+            if (tutor.HasLanguageLevel(exam.Language, exam.Level)) return true;
             return false;
         }
         public void UpdateExam()
         {
             Console.WriteLine("Updating exam...");
+
             var table = new GenericTable<ExamSlot>(exams, true);
             ExamSlot selected = table.SelectRow();
-            //no exam was selected
             if (selected == null) return;
 
-            //returns if selected exam can not be updated
             ExamSlotService service = new();
             if (!service.CanBeUpdated(selected))
             {
-                MessageBox.Show($"Can't update exam, there is less than {Constants.EXAM_MODIFY_PERIOD} days before exam or exam has passed.");
+                Console.WriteLine($"Can't update exam, there is less than {Constants.EXAM_MODIFY_PERIOD} days before exam or exam has passed.");
                 return;
             }
 
-            ExamSlot updated = selected;            
+            ExamSlot updated = selected;
             Console.WriteLine("Updating exam details:");
             updated = GenericForm.UpdateEntity<ExamSlot>(selected);
-
             if (!service.CanCreateExam(updated))
             {
                 Console.Write($"Exam can not be updated. You must choose another exams date or time.");
