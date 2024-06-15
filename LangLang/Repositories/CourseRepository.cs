@@ -1,4 +1,5 @@
-﻿using LangLang.Configuration;
+﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.Configuration;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
@@ -25,7 +26,10 @@ namespace LangLang.Repositories
         {
             return _courses.Values.ToList();    
         }
-
+        public List<Course> GetWithoutTutor()
+        {
+            return GetAll().Where(course => course.TutorId == Constants.DELETED_TUTOR_ID).ToList();
+        }
         public void Save()
         {
             using var writer = new StreamWriter(_filePath);

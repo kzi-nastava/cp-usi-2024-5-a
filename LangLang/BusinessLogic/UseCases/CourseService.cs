@@ -353,5 +353,9 @@ namespace LangLang.BusinessLogic.UseCases
             var gradeService = new GradeService();
             return GetAll().Where(course => gradeService.IsGraded(course) && !course.GratitudeEmailSent).ToList();
         }
+        public List<Course> GetWithoutTutor()
+        {
+            return _courses.GetWithoutTutor();
+        }
     }
 }
