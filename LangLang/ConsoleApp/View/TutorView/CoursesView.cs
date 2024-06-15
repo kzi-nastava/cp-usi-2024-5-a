@@ -99,7 +99,7 @@ namespace LangLang.ConsoleApp.View.TutorView
             Course updated = selected;
             Console.WriteLine("Updating course details:");
             updated = GenericForm.UpdateEntity<Course>(selected);
-
+            updated.GenerateTimeSlots();
             if (!service.CanCreateOrUpdate(updated))
             {
                 Console.Write($"Course can not be created. Try again with another date and class time.");
