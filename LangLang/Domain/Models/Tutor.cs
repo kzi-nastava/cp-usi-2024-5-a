@@ -1,16 +1,18 @@
-﻿using LangLang.Domain.Enums;
+﻿using LangLang.ConsoleApp.Attributes;
+using LangLang.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace LangLang.Domain.Models
 {
     public class Tutor : IProfileHolder
     {
-
+        [Show]
         public Profile Profile { get; set; }
 
         public Skill Skill { get; set; }
-
+        [Show]
         public DateTime EmploymentDate { get; set; }
 
         public int Id => Profile.Id;
