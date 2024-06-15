@@ -159,21 +159,19 @@ namespace LangLang.ConsoleApp.View.TutorView
         private bool ConfirmationMessage()
         {
             Console.WriteLine("Are you sure?");
-            Console.WriteLine("1. Yes");
-            Console.WriteLine("2. No");
-
-            Console.Write("Enter your choice (1/2): ");
-            string choice = Console.ReadLine();
+            
             while (true)
             {
+                Console.Write("Enter your choice (Y/N): ");
+                string choice = Console.ReadLine().Trim().ToUpper();
                 switch (choice)
                 {
-                    case "1":
+                    case "Y":
                         return true;
-                    case "2":
+                    case "N":
                         return false;
                     default:
-                        Console.WriteLine("Invalid choice try again.");
+                        Console.WriteLine("Invalid choice, try again.");
                         break;
                 }
             }
