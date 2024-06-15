@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using System.Windows;
 
 namespace LangLang.ConsoleApp.GenericStructures
 {
@@ -63,10 +64,10 @@ namespace LangLang.ConsoleApp.GenericStructures
                 courseOnline = true;
             }
             // Check if the property type is DateTime
+
             if (pType == typeof(DateTime))
             {
                 string format = "HH:mm dd.MM.yyyy";
-                // Attempt to parse the input as DateTime
                 if (DateTime.TryParseExact(input, format, null, System.Globalization.DateTimeStyles.None, out DateTime dateTimeValue))
                 {
                     if (dateTimeValue <= DateTime.Now)
@@ -83,7 +84,6 @@ namespace LangLang.ConsoleApp.GenericStructures
             }
             else if (pType == typeof(string))
             {
-                // Set the string value directly
                 property.SetValue(entity, input);
                 return true;
             }
@@ -118,6 +118,15 @@ namespace LangLang.ConsoleApp.GenericStructures
                 Console.WriteLine($"Invalid input. Please enter a valid value for {property.Name} from the options: {string.Join(", ", Enum.GetNames(pType))}.");
                 return false;
 
+            }else if (pType == typeof(double))
+            {
+                if (double.TryParse(input, out double doubleValue))
+                {
+                    property.SetValue(entity, doubleValue);
+                    return true;
+                }
+                Console.WriteLine($"Invalid input. Please enter a valid double for {property.Name}.");
+                return false;
             }
             else
             {
@@ -134,6 +143,7 @@ namespace LangLang.ConsoleApp.GenericStructures
                 }
             }
         }
+        
         public static object CreateEntityForType(Type type)
         {
             var method = typeof(GenericForm).GetMethod(nameof(CreateEntity), BindingFlags.Public | BindingFlags.Static);
@@ -148,20 +158,32 @@ namespace LangLang.ConsoleApp.GenericStructures
             {
                 if (Attribute.IsDefined(property, typeof(AllowUpdate)))
                 {
-                    // Get the current value of the property
                     object currentValue = property.GetValue(entity);
-                    Console.WriteLine($"Current value for {property.Name}: {currentValue}");
+                    var displayNameAttribute = property.GetCustomAttribute<DisplayNameAttribute>();
+                    string displayName = displayNameAttribute != null ? displayNameAttribute.DisplayName : property.Name;
 
-                    // Prompt the user to choose whether to update the property
-                    Console.WriteLine($"Do you want to update {property.Name}? (Y/N)");
+                    Console.WriteLine($"Current value for {displayName}: {currentValue}");
+
+                    Console.WriteLine($"Do you want to update {displayName}? (Y/N)");
                     string choice = Console.ReadLine();
 
                     if (choice.ToUpper() == "Y")
                     {
-                        Console.WriteLine($"Enter new value for {property.Name} ({property.PropertyType.Name}):");
-                        string input = Console.ReadLine();
-                        object value = Convert.ChangeType(input, property.PropertyType);
-                        property.SetValue(entity, value);
+                        Type pType = property.PropertyType;
+                        if (pType.IsClass && pType != typeof(string))
+                        {
+                            Console.WriteLine($"Creating a new instance for {property.Name}:");
+                            var nestedEntity = CreateEntityForType(pType);
+                            property.SetValue(entity, nestedEntity);
+                            continue;
+                        }
+                        bool success = false;
+                        while (!success)
+                        {
+                            Console.WriteLine($"Enter value for {displayName} ({property.PropertyType.Name}):");
+                            string valueInput = Console.ReadLine();
+                            success = CheckInput(property, valueInput, entity);
+                        }
                     }
                 }
             }
