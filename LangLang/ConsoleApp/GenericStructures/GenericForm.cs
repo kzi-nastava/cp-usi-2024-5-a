@@ -9,7 +9,6 @@ namespace LangLang.ConsoleApp.GenericStructures
 {
     public static class GenericForm
     {
-        private static bool isCourseOnline { get; set; }
         public static T CreateEntity<T>() where T : class, new()
         {
             T entity = new T();
@@ -24,14 +23,6 @@ namespace LangLang.ConsoleApp.GenericStructures
                     List<DayOfWeek> days = inputDays();
                     property.SetValue(entity, days);
                     continue;
-                }
-
-                if (Attribute.IsDefined(property, typeof(CourseMaxStud)))
-                {
-                    if (isCourseOnline)
-                    {
-                        continue;
-                    }
                 }
 
                 var displayNameAttribute = property.GetCustomAttribute<DisplayNameAttribute>();
@@ -58,11 +49,6 @@ namespace LangLang.ConsoleApp.GenericStructures
         }
         private static bool CheckInput<T>(PropertyInfo property, string input, T entity) {
             Type pType = property.PropertyType;
-            bool courseOnline = false;
-            if(Attribute.IsDefined(property, typeof(CourseOnline)))
-            {
-                courseOnline = true;
-            }
             // Check if the property type is DateTime
 
             if (pType == typeof(DateTime))
@@ -91,6 +77,11 @@ namespace LangLang.ConsoleApp.GenericStructures
             {
                 if (int.TryParse(input, out int intValue))
                 {
+                    if(intValue <= 0)
+                    {
+                        Console.WriteLine("The integer value must be greater than 0.");
+                        return false;
+                    }
                     property.SetValue(entity, intValue);
                     return true;
                 }
@@ -101,7 +92,6 @@ namespace LangLang.ConsoleApp.GenericStructures
             {
                 if (bool.TryParse(input, out bool boolValue))
                 {
-                    isCourseOnline = boolValue;
                     property.SetValue(entity, boolValue);
                     return true;
                 }
@@ -156,12 +146,16 @@ namespace LangLang.ConsoleApp.GenericStructures
 
             foreach (var property in properties)
             {
+                
                 if (Attribute.IsDefined(property, typeof(AllowUpdate)))
                 {
                     object currentValue = property.GetValue(entity);
                     var displayNameAttribute = property.GetCustomAttribute<DisplayNameAttribute>();
                     string displayName = displayNameAttribute != null ? displayNameAttribute.DisplayName : property.Name;
-
+                    if (Attribute.IsDefined(property, typeof(CourseDays)))
+                    {
+                        currentValue = string.Join(", ", (List<DayOfWeek>)currentValue);
+                    }
                     Console.WriteLine($"Current value for {displayName}: {currentValue}");
 
                     Console.WriteLine($"Do you want to update {displayName}? (Y/N)");
@@ -169,6 +163,12 @@ namespace LangLang.ConsoleApp.GenericStructures
 
                     if (choice.ToUpper() == "Y")
                     {
+                        if (Attribute.IsDefined(property, typeof(CourseDays)))
+                        {
+                            List<DayOfWeek> days = inputDays();
+                            property.SetValue(entity, days);
+                            continue;
+                        }
                         Type pType = property.PropertyType;
                         if (pType.IsClass && pType != typeof(string))
                         {
@@ -215,10 +215,9 @@ namespace LangLang.ConsoleApp.GenericStructures
         private static List<DayOfWeek> selectedDays(int num)
         {
             List<DayOfWeek> result = new List<DayOfWeek>();
-            while (num != 0)
+            for (int i = 1; i <= num; i++)
             {
-                num -= 1;
-                Console.WriteLine("Input day of the week:");
+                Console.WriteLine($"Input day {i}:");
                 string input = Console.ReadLine();
                 while (true)
                 {
