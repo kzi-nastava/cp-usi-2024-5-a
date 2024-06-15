@@ -63,7 +63,7 @@ namespace LangLang.ConsoleApp.View.DirectorView
         private void WorkWithCourses()
         {
             Console.WriteLine("Working with courses...");
-            // Add logic to work with courses
+            CoursesView coursesView = new(director);
         }
 
         private void WorkWithExamSlots()
