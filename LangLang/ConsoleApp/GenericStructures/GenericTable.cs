@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata.Ecma335;
 
 namespace LangLang.ConsoleApp.GenericStructures
 {
@@ -54,13 +55,25 @@ namespace LangLang.ConsoleApp.GenericStructures
                     var displayNameAttribute = property.GetCustomAttribute<DisplayNameAttribute>();
                     string displayName = displayNameAttribute != null ? displayNameAttribute.DisplayName : property.Name;
                     // Check if property type is a class and not string
-                    if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
+                    if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
+                    {
+                        var genericArgument = property.PropertyType.GetGenericArguments()[0];
+                        if (genericArgument.IsEnum) // Specifically check if the list is of enum type
+                        {
+                            Console.Write($"{displayName,-25} | ");
+                        }
+                        else
+                        {
+                            DisplayNestedHeaders(property);
+                        }
+                    }
+                    else if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
                     {
                         DisplayNestedHeaders(property);
                     }
                     else
                     {
-                        Console.Write($"{displayName,-20} | ");
+                        Console.Write($"{displayName,-25} | ");
                     }
                 }
             }
@@ -87,13 +100,25 @@ namespace LangLang.ConsoleApp.GenericStructures
                         var value = property.GetValue(entity);
 
                         // Check if property type is a class (and not string or other primitive)
-                        if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
+                        if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
+                        {
+                            var genericArgument = property.PropertyType.GetGenericArguments()[0];
+                            if (genericArgument.IsEnum) // Specifically check if the list is of enum type
+                            {
+                                Console.Write($"{string.Join(", ", (List<DayOfWeek>)value),-25} | ");
+                            }
+                            else
+                            {
+                                DisplayNestedHeaders(property);
+                            }
+                        }
+                        else if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
                         {
                             DisplayNestedContent(property, value);
                         }
                         else
                         {
-                            Console.Write($"{value,-20} | ");
+                            Console.Write($"{value,-25} | ");
                         }
                     }
                 }
@@ -105,7 +130,7 @@ namespace LangLang.ConsoleApp.GenericStructures
         {
             if (value == null)
             {
-                Console.Write($"{"null",-20} | "); // Handle null values
+                Console.Write($"{"null",-25} | "); // Handle null values
                 return;
             }
 
