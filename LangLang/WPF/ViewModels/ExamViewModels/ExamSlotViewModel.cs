@@ -1,7 +1,10 @@
 ﻿using LangLang.Configuration;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
+using LangLang.Interfaces;
+using LangLang.WPF.ViewModels.Validations;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 
@@ -24,6 +27,29 @@ namespace LangLang.WPF.ViewModels.ExamViewModel
         public bool ResultsGenerated { get; set; }
         public bool ExamineesNotified { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        //validation rules
+        private readonly List<IValidationRule<string>> maxStudentsRules;
+        private readonly List<IValidationRule<DateTime>> dateRules;
+        private readonly List<IValidationRule<string>> timeRules;
+
+        public ExamSlotViewModel()
+        {
+            maxStudentsRules = new List<IValidationRule<string>>
+            {
+                new RequiredFieldRule<string>("Max number of students is required."),
+                new PositiveNumberRule()
+            };
+            dateRules = new List<IValidationRule<DateTime>> {
+                    new RequiredFieldRule<DateTime>(),
+                    new FutureDateRule() 
+            };
+            timeRules = new List<IValidationRule<string>> { 
+                new RequiredFieldRule<string>("Time is required."),
+                new TimeFormatRule() 
+            };
+        }
+
         public string Language
         {
             get { return language; }
@@ -109,55 +135,54 @@ namespace LangLang.WPF.ViewModels.ExamViewModel
             }
         }
 
-        private readonly Regex _TimeRegex = new("^(?:[01]\\d|2[0-3]):(?:[0-5]\\d)$");
 
         public string this[string columnName]
         {
             get
             {
-
-                if (columnName == "MaxStudents")
+                string error = string.Empty;
+                switch (columnName)
                 {
-                    if (string.IsNullOrEmpty(MaxStudents)) return "Max number of students is required";
-                    if (!int.TryParse(MaxStudents, out int _maxStudents) || _maxStudents <= 0) return "Must input a positive integer for max number of students.";
-                    else return "";
+                    case nameof(MaxStudents):
+                        error = ValidateProperty(MaxStudents, maxStudentsRules);
+                        break;
+                    case nameof(ExamDate):
+                        error = ValidateProperty(ExamDate, dateRules);
+                        break;
+                    case nameof(Time):
+                        error = ValidateProperty(Time, timeRules);
+                        break;
                 }
-
-                if (columnName == "ExamDate")
-                {
-                    if (examDate <= DateTime.Now) return "Please enter a future date.";
-                    if (examDate == default) return "Exam date is required";
-                    else return "";
-                }
-
-                if (columnName == "Time")
-                {
-                    if (string.IsNullOrEmpty(Time)) return "Time is required";
-                    if (!_TimeRegex.Match(Time).Success) return "Time must be of format hh:mm .";
-                    else return "";
-                }
-                return "";
+                return error;
             }
         }
 
-        private readonly string[] _validatedProperties = { "MaxStudents", "ExamDate", "Time" };
+        private string ValidateProperty<T>(T value, List<IValidationRule<T>> rules)
+        {
+            foreach (var rule in rules)
+            {
+                if (!rule.Validate(value))
+                {
+                    return rule.ErrorMessage;
+                }
+            }
+            return string.Empty;
+        }
 
-        // checks if all properties are valid
+        private readonly string[] _validatedProperties = { nameof(MaxStudents), nameof(ExamDate), nameof(Time) };
+
         public bool IsValid
         {
             get
             {
                 foreach (var property in _validatedProperties)
                 {
-                    if (this[property] != "")
+                    if (this[property] != string.Empty)
                         return false;
                 }
-
                 return true;
             }
         }
-
-        public ExamSlotViewModel() { }
 
         public ExamSlotViewModel(ExamSlot examSlot)
         {
