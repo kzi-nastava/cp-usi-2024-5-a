@@ -9,7 +9,7 @@ namespace LangLang.Domain.RepositoryInterfaces
         public List<Tutor> GetAll();
         public List<Tutor> GetActive();
         public Tutor Get(int id);
-        public void Add(Tutor tutor);
+        public int Add(Tutor tutor);
         public void Update(Tutor tutor);
         public void Deactivate(int id);
     }

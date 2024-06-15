@@ -7,22 +7,15 @@ namespace LangLang.Domain.Models
 {
     public class Tutor : IProfileHolder
     {
-        private int _id;
         public Profile Profile { get; set; }
 
         public DateTime EmploymentDate { get; set; }
 
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id
-        {
-            get => Profile.Id;
-            private set => _id = value;
-        }
+        public int Id {  get; set; }
 
-        public Tutor(int id, string name, string lastName, Gender gender, DateTime birthDate, string phoneNumber, string email, string password, UserType role, bool isActive, DateTime employmentDate)
+        public Tutor(string name, string lastName, Gender gender, DateTime birthDate, string phoneNumber, string email, string password, UserType role, bool isActive, DateTime employmentDate)
         {
-            Profile = new(id, name, lastName, gender, birthDate, phoneNumber, email, password, role, isActive);
+            Profile = new(Id, name, lastName, gender, birthDate, phoneNumber, email, password, role, isActive);
             EmploymentDate = employmentDate;
         }
 

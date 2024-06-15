@@ -1,5 +1,6 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Enums;
+using LangLang.Domain.Models;
 using System.Windows;
 
 namespace LangLang.WPF.ViewModels.TutorViewModels
@@ -18,7 +19,8 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
             var tutorService = new TutorService();
             var ProfileService = new ProfileService();
 
-            if (ProfileService.EmailExists(Tutor.Email, Tutor.Id, UserType.Tutor))
+            Tutor tutor = tutorService.Get(Tutor.Id);
+            if (ProfileService.EmailExists(Tutor.Email, tutor.Profile.Id, UserType.Tutor))
                 MessageBox.Show(" Email already exists. Try with a different email address.");
 
             else if (!Tutor.IsValid)

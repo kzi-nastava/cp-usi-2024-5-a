@@ -2,7 +2,9 @@
 using LangLang.Composition;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -25,9 +27,9 @@ namespace LangLang.BusinessLogic.UseCases
             return tutorSkillRepository.Get(id);
         }
 
-        public void Add(TutorSkill tutorSkill)
+        public int Add(TutorSkill tutorSkill)
         {
-            tutorSkillRepository.Add(tutorSkill);
+            return tutorSkillRepository.Add(tutorSkill);
         }
 
         public void Delete(TutorSkill tutorSkill)
@@ -38,6 +40,16 @@ namespace LangLang.BusinessLogic.UseCases
         public List<Tutor> GetBySkill(LanguageLevel languageLevel)
         {
             return tutorSkillRepository.GetBySkill(languageLevel);
+        }
+
+        public List<LanguageLevel> GetByTutor(Tutor tutor)
+        {
+            return tutorSkillRepository.GetByTutor(tutor);
+        }
+
+        public bool AlreadyAdded(int tutorId, int skillId)
+        {
+            return tutorSkillRepository.AlreadyAdded(tutorId, skillId);
         }
     }
 }

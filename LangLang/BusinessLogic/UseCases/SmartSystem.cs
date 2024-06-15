@@ -43,11 +43,11 @@ namespace LangLang.BusinessLogic.UseCases
 
         public static int GetTutorForExam(ExamSlot exam)
         {
-            var tutorService = new TutorService();
-            var languageService = new LanguageLevelService();
-            var language = languageService.Get(exam.LanguageId);
-
-            List<Tutor> tutors = tutorService.GetBySkill(language.Language, language.Level);
+            TutorSkillService tutorSkillService = new();
+            LanguageLevelService langLevelService = new();
+            LanguageLevel skill = langLevelService.Get(exam.LanguageId);
+            List<Tutor> tutors = tutorSkillService.GetBySkill(skill);
+          
             if (tutors.Count == 0) return -1;
             TutorRatingService tutorRatingService = new();
             Dictionary<Tutor, double> tutorsAndRatings = new();
@@ -69,11 +69,13 @@ namespace LangLang.BusinessLogic.UseCases
         {
             var tutorService = new TutorService();
             var languageService = new LanguageLevelService();
-            var coursesService = new CourseService();
+            var courseService = new CourseService();
+            var tutorSkillService = new TutorSkillService();
 
-            LanguageLevel language = languageService.Get(course.LanguageLevelId);
+            // TODO: implement once Course has attribut LanguageLevel not separate
+            List<Tutor> tutors = new();
+            //tutors = tutorService.GetBySkill(course.Language, course.Level);
 
-            List<Tutor> tutors = tutorService.GetBySkill(language.Language, language.Level);
             //there is no free tutors for given course
             if (tutors.Count == 0) return -1;
 
@@ -82,7 +84,7 @@ namespace LangLang.BusinessLogic.UseCases
             foreach (Tutor tutor in tutors)
             {
                 course.TutorId = tutor.Id;
-                if (coursesService.CanCreateOrUpdate(course)) {
+                if (courseService.CanCreateOrUpdate(course)) {
                     availableTutors.Add(tutor); }
             }
             //find least busy tutors

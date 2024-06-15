@@ -20,6 +20,7 @@ namespace LangLang.Repositories
         {
             base.OnModelCreating(modelBuilder);
             ConfigureTutorEntity(modelBuilder);
+            ConfigureTutorSkillEntity(modelBuilder);
 
             modelBuilder.Entity<Tutor>().ToTable("Tutor");
             modelBuilder.Entity<Course>().ToTable("Course");
@@ -31,10 +32,7 @@ namespace LangLang.Repositories
         }
 
         private void ConfigureTutorEntity(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Tutor>()
-                .HasKey(t => t.Id);
-
+        { 
             modelBuilder.Entity<Tutor>()
                 .OwnsOne(t => t.Profile, profile =>
                 {
@@ -48,6 +46,24 @@ namespace LangLang.Repositories
                     profile.Property(p => p.Role).HasColumnName("Role");
                     profile.Property(p => p.IsActive).HasColumnName("IsActive");
                 });
+        }
+
+        private void ConfigureTutorSkillEntity(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TutorSkill>()
+                .HasKey(ts => ts.Id);
+
+            modelBuilder.Entity<TutorSkill>()
+                .HasOne<Tutor>()
+                .WithMany()
+                .HasForeignKey(ts => ts.TutorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<TutorSkill>()
+                .HasOne<LanguageLevel>()
+                .WithMany()
+                .HasForeignKey(ts => ts.LanguageLevelId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

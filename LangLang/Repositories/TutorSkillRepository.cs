@@ -1,8 +1,6 @@
 ﻿using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
-using System.CodeDom;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace LangLang.Repositories
@@ -10,10 +8,17 @@ namespace LangLang.Repositories
     internal class TutorSkillRepository : ITutorSkillRepository
     {
         private readonly DatabaseContext _databaseContext;
-        public void Add(TutorSkill skillTutor)
+
+        public TutorSkillRepository(DatabaseContext context)
+        {
+            _databaseContext = context;
+        }
+
+        public int Add(TutorSkill skillTutor)
         {
             _databaseContext.Add(skillTutor);
             _databaseContext.SaveChanges();
+            return skillTutor.Id;
         }
 
         public void Delete(TutorSkill skillTutor)
@@ -40,5 +45,19 @@ namespace LangLang.Repositories
                     where ll.Language == skill.Language && ll.Level == skill.Level
                     select t).Distinct().ToList();
         }
+
+        public List<LanguageLevel> GetByTutor(Tutor tutor)
+        {
+            return (from ts in _databaseContext.TutorSkill
+                    join ll in _databaseContext.LanguageLevel on ts.LanguageLevelId equals ll.Id
+                    where ts.TutorId == tutor.Id
+                    select ll).Distinct().ToList();
+        }
+
+        public bool AlreadyAdded(int tutorId, int skillId)
+        {
+            return _databaseContext.TutorSkill.Any(ts => ts.TutorId == tutorId && ts.LanguageLevelId == skillId);
+        }
+
     }
 }

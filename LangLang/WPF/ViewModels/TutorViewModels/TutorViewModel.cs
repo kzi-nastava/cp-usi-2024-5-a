@@ -283,8 +283,12 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
 
         public Tutor ToTutor()
         {
-            return new Tutor(Id, name, lastName, gender, birthDate, phoneNumber, email, password, role, true, employmentDate);
-        }
+            var tutor = new Tutor(name, lastName, gender, birthDate, phoneNumber, email, password, role, true, employmentDate)
+            {
+                Id = Id
+            };
+            return tutor;
+         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
