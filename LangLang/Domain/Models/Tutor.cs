@@ -27,6 +27,17 @@ namespace LangLang.Domain.Models
             Profile = new();
             Skill = new();
         }
+        public bool HasLanguageLevel(string language, LanguageLevel level)
+        {
+            for (int i = 0; i < Skill.Language.Count; i++)
+            {
+                if (Skill.Language[i].Equals(language, StringComparison.OrdinalIgnoreCase) && Skill.Level[i] == level)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
     }
 }
