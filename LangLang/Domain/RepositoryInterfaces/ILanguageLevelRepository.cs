@@ -6,7 +6,7 @@ namespace LangLang.Domain.RepositoryInterfaces
     public interface ILanguageLevelRepository
     {
         public List<LanguageLevel> GetAll();
-        public LanguageLevel Get(int id);
-        public void Add(LanguageLevel language);
+        public LanguageLevel? Get(int id);
+        public int Add(LanguageLevel language);
     }
 }

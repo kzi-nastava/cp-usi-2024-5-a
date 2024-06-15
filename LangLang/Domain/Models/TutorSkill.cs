@@ -15,5 +15,11 @@ namespace LangLang.Domain.Models
             TutorId = tutorId;
             LanguageLevelId = languageLevelId;
         }
+
+        public TutorSkill(int tutorId, int languageLevelId)
+        {
+            TutorId = tutorId;
+            LanguageLevelId = languageLevelId;
+        }
     }
 }

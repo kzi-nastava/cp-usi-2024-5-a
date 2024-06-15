@@ -1,7 +1,6 @@
 ﻿using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,19 +14,19 @@ namespace LangLang.Repositories
             _databaseContext = context;
         }
 
-        public void Add(Tutor tutor)
+        public int Add(Tutor tutor)
         {
             _databaseContext.Tutor.Add(tutor);
             _databaseContext.SaveChanges();
+            return tutor.Id;
         }
 
         public void Deactivate(int id)
         {
             Tutor tutor = Get(id);
             if (tutor == null) return;
-
-            _databaseContext.Tutor.Update(tutor);
-            _databaseContext.SaveChanges();
+            tutor.Profile.IsActive = false;
+            Update(tutor);
         }
 
         public Tutor Get(int id)
@@ -54,7 +53,5 @@ namespace LangLang.Repositories
             _databaseContext.Tutor.Update(tutor);
             _databaseContext.SaveChanges();
         }
-
-
     }
 }

@@ -6,9 +6,9 @@
         mc:Ignorable="d"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        xmlns:local="clr-namespace:LangLang.Domain.Enums"
+        xmlns:local="clr-namespace:LangLang.Domain.Enums" xmlns:languagelevelviewmodels="clr-namespace:LangLang.WPF.ViewModels.LanguageLevelViewModels" d:DataContext="{d:DesignInstance Type=languagelevelviewmodels:LanguageLevelViewModel}"
         Title="AddTutorWindow" Height="580" Width="800">
-    
+
     <!--validation-->
     <Window.Resources>
         <ControlTemplate x:Name="controltpl" x:Key="ValidationTemplate">
@@ -223,7 +223,6 @@
                     SelectedDate="{Binding Path = Tutor.BirthDate}"
                     Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                     Height="24" Margin="43,450,0,0" VerticalAlignment="Top" Width="310" Background="#FFFFDDDD"/>
-        <Button Content="Add tutor" HorizontalAlignment="Left" Height="32" Margin="217,488,0,0" VerticalAlignment="Top" Width="375" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="AddTutor_Click"/>
         <Label x:Name="genderlbl_Copy" Content="Gender" HorizontalAlignment="Left" Height="26" Margin="43,357,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.566,-1.929" FontFamily="Arial" FontWeight="Bold">
             <Label.RenderTransform>
                 <TransformGroup>
@@ -242,8 +241,12 @@
             </Label.Background>
         </Label>
 
-        <StackPanel HorizontalAlignment="Left" Height="452" Margin="386,9,0,0" VerticalAlignment="Top" Width="404">
-            <StackPanel Height="155" Width="356">
+        <Button Name="AddTutor" Content="Add tutor" HorizontalAlignment="Left" Height="35" Margin="56,492,0,0" VerticalAlignment="Top" Width="284" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="AddTutor_Click"/>
+
+        <Grid HorizontalAlignment="Left" Height="400" Margin="386,114,0,0" VerticalAlignment="Top" Width="404">
+
+            <!--table-->
+            <StackPanel Height="192" Width="356" Margin="10,29,38,179">
                 <!--label for language-->
                 <Label x:Name="languageLB" Content="Language" Height="24" Width="238" Margin="10,18,0,0"
                        FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.491,0.897" FontFamily="Arial" FontWeight="Bold">
@@ -265,8 +268,8 @@
                 </Label>
                 <!--text box for language-->
                 <TextBox x:Name="languageTB" Height="24" TextWrapping="Wrap" 
-                    Text="{Binding CurrentKey, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Margin="10,0,0,0" Width="236" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" RenderTransformOrigin="0.432,0.439" >
+                    Text="{Binding NewSkill.Language, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="10,0,0,0" Width="238" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" RenderTransformOrigin="0.432,0.439" >
                     <TextBox.OpacityMask>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="Black"/>
@@ -292,9 +295,8 @@
                         </LinearGradientBrush>
                     </Label.Background>
                 </Label>
-                <!--level combo box-->
-                <ComboBox x:Name="levelCB" HorizontalAlignment="Left" Height="24" Margin="67,0,0,0" Width="235"
-                           SelectedItem = "{Binding Path = CurrentValue}"
+                <ComboBox x:Name="levelCB" Height="24" Width="240" Margin="10,0,0,0"
+                           SelectedItem = "{Binding NewSkill.Level}"
                            Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
                     <ComboBox.Background>
                         <LinearGradientBrush EndPoint="0,1">
@@ -303,24 +305,25 @@
                         </LinearGradientBrush>
                     </ComboBox.Background>
                 </ComboBox>
+                <!--level combo box-->
             </StackPanel>
-            <!--table-->
+            <Button x:Name="addLL" Content="Add skill" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="AddSkill_Click" Margin="130,201,158,169"/>
             <DataGrid x:Name="LLDataGrid"
-                Width="250"
-                Height="121"
-                AutoGenerateColumns="False">
+                AutoGenerateColumns="False" Margin="38,258,38,29"
+                      CanUserAddRows="False"
+                      ItemsSource="{Binding AddedSkills, Mode=TwoWay}"
+                      >
+                <DataGrid.Resources>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </DataGrid.Resources>
                 <DataGrid.Columns>
-                    <DataGridTextColumn 
-                Header="Languages and levels for tutor" IsReadOnly="false" 
-                Binding="{Binding}" 
-                Foreground="Black" 
-                Width="250" />
+                    <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="*" />
+                    <DataGridTextColumn Header="Level" Binding="{Binding Level}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
-            <!--button add-->
-            <Button x:Name="addLL" Content="Add skill" HorizontalAlignment="Center" Height="33" Margin="0,25,0,0" Width="229" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="AddSkill_Click"/>
-            <!--button delete-->
-
-        </StackPanel>
+        </Grid>
+        <TextBlock x:Name="note" HorizontalAlignment="Left" Height="24" Margin="418,78,0,0" TextWrapping="Wrap" Text="skills cannot be added later if they are not included at this time" VerticalAlignment="Top" Width="340" FontStyle="Italic" Visibility="Hidden"/>
     </Grid>
 </Window>

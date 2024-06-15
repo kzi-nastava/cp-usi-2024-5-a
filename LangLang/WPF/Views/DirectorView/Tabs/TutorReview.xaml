@@ -88,9 +88,9 @@
                 VerticalAlignment="Top"
                 Width="400"
                 Height="173"
-                ItemsSource="{Binding SelectedTutor.LanguageLevel}"
+                CanUserAddRows="False"
+                ItemsSource="{Binding Skills}"
                 AutoGenerateColumns="False">
-
 
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -99,12 +99,10 @@
             </DataGrid.Resources>
 
             <DataGrid.Columns>
-                <DataGridTextColumn 
-                Header="Languages and levels for tutor" 
-                Binding="{Binding}" 
-                Foreground="Black" 
-                Width="*" />
+                <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="*" />
+                <DataGridTextColumn Header="Level" Binding="{Binding Level}" Width="*" />
             </DataGrid.Columns>
+            
         </DataGrid>
         <!--end of table for LL-->
         <Button Content="Add tutor" HorizontalAlignment="Left" Height="32" Margin="550,582,0,0" VerticalAlignment="Top" Width="100" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black"  Click="AddTutor_Click"/>

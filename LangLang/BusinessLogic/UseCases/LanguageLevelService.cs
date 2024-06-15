@@ -2,7 +2,6 @@
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -14,22 +13,14 @@ namespace LangLang.BusinessLogic.UseCases
             _language = Injector.CreateInstance<ILanguageLevelRepository>();
         }
 
-        public int GenerateId()
-        {
-            var last = GetAll().LastOrDefault();
-            return last?.Id + 1 ?? 0;
-        }
-
         public List<LanguageLevel> GetAll()
         {
             return _language.GetAll();
         }
 
-        public LanguageLevel Add(LanguageLevel language)
+        public int Add(LanguageLevel language)
         {
-            language.Id = GenerateId();
-            _language.Add(language);
-            return language;
+            return _language.Add(language);
         }
 
         public LanguageLevel Get(int id)

@@ -4,7 +4,6 @@ using LangLang.Domain.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using LangLang.Domain.Enums;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -33,10 +32,10 @@ namespace LangLang.BusinessLogic.UseCases
             return _tutors.Get(id);
         }
 
-        public void Add(Tutor tutor)
+        public int Add(Tutor tutor)
         {
             tutor.Profile.Id = GenerateId();
-            _tutors.Add(tutor);
+            return _tutors.Add(tutor);
         }
 
         public void Update(Tutor tutor)
@@ -54,31 +53,11 @@ namespace LangLang.BusinessLogic.UseCases
             return _tutors.GetActive();
         }
 
-        public List<Tutor> GetBySkill(string language, LanguageLevel level)
-        {
-            List<Tutor> tutors = new();
-            foreach (Tutor tutor in GetActive())
-            {
-                for (int i = 0; i < tutor.Skill.Language.Count; i++)
-                {
-                    if (tutor.Skill.Language[i] == language && tutor.Skill.Level[i] == level)
-                    {
-                        tutors.Add(tutor);
-                        break;
-                    }
-                }
-            }
-            return tutors;
-        }
-
-        public List<Tutor> Search(DateTime date, string language, LanguageLevel? level)
+        public List<Tutor> Search(DateTime date)
         {
             List<Tutor> allTutors = GetAll();
-
             return allTutors.Where(tutor =>
             (date == default || tutor.EmploymentDate.Date == date.Date) &&
-             (language == "" || tutor.Skill.Language.Any(skill => skill.Contains(language))) &&
-             (level == null || tutor.Skill.Level.Any(skill => skill == level)) &&
              (tutor.Profile.IsActive == true)).ToList();
         }
 
