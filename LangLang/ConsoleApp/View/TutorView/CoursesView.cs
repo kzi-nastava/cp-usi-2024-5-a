@@ -67,12 +67,25 @@ namespace LangLang.ConsoleApp.View.TutorView
         {
             Console.WriteLine("Creating new course...");
             Course course = GenericForm.CreateEntity<Course>();
+
+            // make sure that days are unique and sorted
+            course.Days = course.Days.Distinct().ToList();
+            var daysArray = course.Days.ToArray();
+            Array.Sort(daysArray);
+            course.Days = daysArray.ToList();
+
             course.CreatedAt = DateTime.Now;
             course.TutorId = tutor.Profile.Id;
             course.Modifiable = true;
+
+            if (!IsValid(course))
+            {
+                Console.WriteLine("Course can not be created. Tutor doesn't know given language on that level or the start date is not in the future.");
+                return;
+            }
+
             course.GenerateTimeSlots();
             CourseService service = new();
-
             if (!service.CanCreateOrUpdate(course))
             {
                 Console.WriteLine("Course can not be created. Try again with another date and class time.");
@@ -81,6 +94,13 @@ namespace LangLang.ConsoleApp.View.TutorView
             service.Add(course);
             Console.WriteLine("Course created successfully.");
             ReloadCourses();
+        }
+        private bool IsValid(Course course)
+        {
+            TutorService tutorService = new();
+            Tutor tutor = tutorService.Get(course.TutorId);
+            if (tutor.HasLanguageLevel(course.Language, course.Level) && DateTime.Now < course.StartDateTime) return true;
+            return false;
         }
         public void UpdateCourse()
         {
@@ -92,13 +112,20 @@ namespace LangLang.ConsoleApp.View.TutorView
 
             if (!selected.CanChange())
             {
-                MessageBox.Show($"Can't update course, there is less than {Constants.COURSE_MODIFY_PERIOD} days before course or it has already started.");
+                Console.WriteLine($"Can't update course, there is less than {Constants.COURSE_MODIFY_PERIOD} days before course or it has already started.");
                 return;
             }
             CourseService service = new();
             Course updated = selected;
             Console.WriteLine("Updating course details:");
             updated = GenericForm.UpdateEntity<Course>(selected);
+
+            if (!IsValid(updated))
+            {
+                Console.WriteLine("Course can not be updated. Tutor doesn't know given language on that level or the start date is not in the future.");
+                return;
+            }
+
             updated.GenerateTimeSlots();
             if (!service.CanCreateOrUpdate(updated))
             {
