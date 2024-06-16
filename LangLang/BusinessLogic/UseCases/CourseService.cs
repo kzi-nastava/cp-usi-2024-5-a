@@ -361,7 +361,7 @@ namespace LangLang.BusinessLogic.UseCases
 
         public List<Course> GetWithoutTutor()
         {
-            return _courses.GetWithoutTutor();
+            return _repository.GetWithoutTutor();
         }
     }
 }

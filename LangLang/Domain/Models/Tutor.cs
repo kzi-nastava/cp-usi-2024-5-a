@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 using System.ComponentModel;
+using LangLang.BusinessLogic.UseCases;
 
 namespace LangLang.Domain.Models
 {
@@ -15,9 +16,7 @@ namespace LangLang.Domain.Models
         [AllowCreate]
         [AllowUpdate]
         public Profile Profile { get; set; }
-        [AllowCreate]
-        [AllowUpdate]
-        public Skill Skill { get; set; }
+        
         [Show]
         public DateTime EmploymentDate { get; set; }
 
@@ -33,11 +32,13 @@ namespace LangLang.Domain.Models
         {
             Profile = new();
         }
-        public bool HasLanguageLevel(string language, LanguageLevel level)
+        public bool HasLanguageLevel(string language, Level level)
         {
-            for (int i = 0; i < Skill.Language.Count; i++)
+            TutorSkillService service = new();
+            List<LanguageLevel> skills = service.GetByTutor(this);
+            foreach (var skill in skills)
             {
-                if (Skill.Language[i].Equals(language, StringComparison.OrdinalIgnoreCase) && Skill.Level[i] == level)
+                if (skill.Language.Equals(language, StringComparison.OrdinalIgnoreCase) && skill.Level == level)
                 {
                     return true;
                 }
