@@ -67,14 +67,13 @@ namespace LangLang.BusinessLogic.UseCases
         }
         public static int MostSuitableTutor(Course course)
         {
-            var tutorService = new TutorService();
-            var languageService = new LanguageLevelService();
             var courseService = new CourseService();
             var tutorSkillService = new TutorSkillService();
+            var langLevelService = new LanguageLevelService();
 
-            // TODO: implement once Course has attribut LanguageLevel not separate
             List<Tutor> tutors = new();
-            //tutors = tutorService.GetBySkill(course.Language, course.Level);
+            LanguageLevel skill = langLevelService.Get(course.LanguageLevelId);
+            tutors = tutorSkillService.GetBySkill(skill);
 
             //there is no free tutors for given course
             if (tutors.Count == 0) return -1;

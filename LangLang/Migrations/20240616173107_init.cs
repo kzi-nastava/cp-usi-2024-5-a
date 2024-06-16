@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LangLang.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -89,12 +89,6 @@ namespace LangLang.Migrations
                         name: "FK_Course_LanguageLevel_LanguageLevelId",
                         column: x => x.LanguageLevelId,
                         principalTable: "LanguageLevel",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Course_Tutor_TutorId",
-                        column: x => x.TutorId,
-                        principalTable: "Tutor",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -196,11 +190,6 @@ namespace LangLang.Migrations
                 column: "LanguageLevelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Course_TutorId",
-                table: "Course",
-                column: "TutorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_CourseTimeSlot_CourseId",
                 table: "CourseTimeSlot",
                 column: "CourseId");
@@ -255,10 +244,10 @@ namespace LangLang.Migrations
                 name: "TimeSlot");
 
             migrationBuilder.DropTable(
-                name: "LanguageLevel");
+                name: "Tutor");
 
             migrationBuilder.DropTable(
-                name: "Tutor");
+                name: "LanguageLevel");
         }
     }
 }

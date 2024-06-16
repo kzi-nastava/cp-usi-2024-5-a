@@ -1,23 +1,8 @@
-﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.Domain.Enums;
-using LangLang.Domain.Models;
+﻿using LangLang.Domain.Enums;
 using LangLang.WPF.ViewModels.CourseViewModels;
-using LangLang.WPF.ViewModels.TutorViewModels;
 using LangLang.WPF.Views.DirectorView.Tabs;
-using LangLang.WPF.Views.TutorView.Tabs;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace LangLang.WPF.Views.DirectorView.AdditionalWindows
 {
@@ -58,7 +43,7 @@ namespace LangLang.WPF.Views.DirectorView.AdditionalWindows
 
         private void SetUpForm()
         {
-            languageLvlCb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
+            languageLvlCb.ItemsSource = Enum.GetValues(typeof(Level));
             classsroomCb.IsChecked = false;
             maxNumOfStudentsTb.IsEnabled = false;
             mon.IsChecked = false;
