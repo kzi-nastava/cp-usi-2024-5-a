@@ -1,12 +1,12 @@
 ﻿using LangLang.Configuration;
 using System;
 using System.Collections.Generic;
-using LangLang.ConsoleApp.Attributes;
 using LangLang.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using LangLang.Domain.Attributes;
 
 namespace LangLang.Domain.Models
 {
@@ -50,6 +50,7 @@ namespace LangLang.Domain.Models
         public bool Modifiable { get; set; }
         public bool GratitudeEmailSent { get; set; }
         public DateTime CreatedAt { get; set; }
+        public List<TimeSlot> TimeSlots { get; set; }
 
         public Course(int id, int tutorId, int languageLevelId, int numberOfWeeks, List<DayOfWeek> days,
             bool online, int numberOfStudents, int maxStudents, DateTime startDateTime, bool createdByDirector, 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using LangLang.Configuration;
-using LangLang.ConsoleApp.Attributes;
+using LangLang.Domain.Attributes;
 
 namespace LangLang.Domain.Models
 {
