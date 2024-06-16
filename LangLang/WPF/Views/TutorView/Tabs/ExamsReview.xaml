@@ -6,51 +6,52 @@
              xmlns:local="clr-namespace:LangLang.WPF.Views.TutorView.Tabs"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Margin="0,0,0,0"  Background="#FFFFFFFF">
+    <Grid Margin="0,0,0,0" Background="#FFFFFFFF">
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*" />
-            <RowDefinition Height="1*" />
+            <RowDefinition Height="Auto" />
+            <!-- Row for Label and Pagination Buttons -->
+            <RowDefinition Height="*" />
+            <!-- Row for DataGrid -->
+            <RowDefinition Height="Auto" />
+            <!-- Row for CRUD Buttons -->
         </Grid.RowDefinitions>
 
-        <!--label for exam slots table-->
-        <Label x:Name="examSlotsLbl" Content="Your Exam Slots" Grid.Row="0" HorizontalAlignment="Center" Height="24" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
-            <Label.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="1"/>
-                    <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
-                    <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
-                </LinearGradientBrush>
-            </Label.Background>
-        </Label>
+        <!-- Label and Pagination Buttons (Grid.Row="0") -->
+        <Grid Grid.Row="0" Margin="10,10,10,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <!-- Column for Label -->
+                <ColumnDefinition Width="*" />
+                <!-- Column for Pagination Buttons -->
+            </Grid.ColumnDefinitions>
 
-        <!--buttons for CRUD-->
-        <StackPanel HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Orientation="Vertical" >
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"  Orientation="Horizontal">
-                <Button Name="examSlotCreateWindowBtn" Content="Create exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black"  Click="ExamSlotCreateWindowBtn_Click" />
-                <Button Content="Delete exam" Name = "deleteExamBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotDeleteBtn_Click" />
-                <Button Content="Update exam" Name = "updateExamBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotUpdateWindowBtn_Click" />
-            </StackPanel>
-            <Button Content="Search exams" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotSearchBtn_Click" />
-            <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal" Width="289">
-                <Button Content="Exam applications" Name = "examApplicationBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ButtonSeeApplications_Click" Width="140" />
-                <Button Content="Enter results" Name = "enterResultsBtn"  Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ButtonEnterResults_Click" Width="129" />
-            </StackPanel>
-        </StackPanel>
+            <!-- Label for exam slots table -->
+            <Label x:Name="examSlotsLbl" Content="Your Exam Slots" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" FontStyle="Italic" Foreground="Black" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center" Grid.ColumnSpan="2" Height="23" Width="442">
+                <Label.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black" Offset="1"/>
+                        <GradientStop Color="#FFFFBDBD" Offset="0.889"/>
+                        <GradientStop Color="#FFFFF7F7" Offset="0.2"/>
+                    </LinearGradientBrush>
+                </Label.Background>
+            </Label>
 
-        <!--table for exam slots-->
-        <DataGrid Grid.Column="1" Margin="15,45,15,0" AutoGenerateColumns="False"
-x:Name="ExamSlotsDataGrid"
-ItemsSource="{Binding ExamSlots, UpdateSourceTrigger=PropertyChanged}"
-SelectedItem="{Binding SelectedExamSlot, UpdateSourceTrigger=PropertyChanged}"
-SelectionMode="Single" IsReadOnly="True" SelectionChanged="ExamSlotsDataGrid_SelectionChanged">
+            <!-- Pagination controls -->
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button Content="First" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="FirstPageButton_Click"/>
+                <Button Content="Previous" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="PreviousPageButton_Click"/>
+                <TextBlock Text="{Binding CurrentPage}" VerticalAlignment="Center" Margin="10,0"/>
+                <Button Content="Next" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="NextPageButton_Click"/>
+                <Button Content="Last" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="LastPageButton_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- DataGrid for exam slots (Grid.Row="1") -->
+        <DataGrid Grid.Row="1" Margin="15,10,15,0" AutoGenerateColumns="False"
+                  x:Name="ExamSlotsDataGrid"
+                  ItemsSource="{Binding PagedExams, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedExamSlot, UpdateSourceTrigger=PropertyChanged}"
+                  SelectionMode="Single" IsReadOnly="True" SelectionChanged="ExamSlotsDataGrid_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="*"/>
                 <DataGridTextColumn Header="Level" Binding="{Binding Level}" Width="*"/>
@@ -59,6 +60,19 @@ SelectionMode="Single" IsReadOnly="True" SelectionChanged="ExamSlotsDataGrid_Sel
                 <DataGridTextColumn Header="Date and time" Binding="{Binding ExamDate}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <!--end of exam slots table-->
+
+        <!-- StackPanel for CRUD Buttons (Grid.Row="2") -->
+        <StackPanel Grid.Row="2" HorizontalAlignment="Center" Orientation="Vertical" Margin="0,10">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                <Button Name="examSlotCreateWindowBtn" Content="Create exam" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black"  Click="ExamSlotCreateWindowBtn_Click" />
+                <Button Content="Delete exam" Name="deleteExamBtn" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotDeleteBtn_Click" />
+                <Button Content="Update exam" Name="updateExamBtn" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotUpdateWindowBtn_Click" />
+            </StackPanel>
+            <Button Content="Search exams" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ExamSlotSearchBtn_Click" />
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Width="289">
+                <Button Content="Exam applications" Name="examApplicationBtn" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ButtonSeeApplications_Click" Width="140" />
+                <Button Content="Enter results" Name="enterResultsBtn" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="ButtonEnterResults_Click" Width="129" />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </UserControl>

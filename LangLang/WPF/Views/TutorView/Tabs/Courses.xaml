@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <!--label for courses table-->
-        <Label x:Name="coursesLbl" Content="Your courses" Grid.Row="0" HorizontalAlignment="Center" Height="24" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center" Grid.Column="2">
+        <Label x:Name="coursesLbl" Content="Your courses" Grid.Row="0" HorizontalAlignment="Left" Height="24" Margin="81,13,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -30,7 +30,13 @@
                 </LinearGradientBrush>
             </Label.Background>
         </Label>
-
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Width="246" Margin="0,4,15,0">
+            <Button Content="First" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="FirstPageButton_Click"/>
+            <Button Content="Previous" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="PreviousPageButton_Click"/>
+            <TextBlock Text="{Binding CurrentPage}" VerticalAlignment="Center" Margin="10,0"/>
+            <Button Content="Next" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="NextPageButton_Click"/>
+            <Button Content="Last" Padding="5" Height="33" Margin="5" BorderBrush="White" Background="#FFFFDBDB" Foreground="#FF514141" FontFamily="Segoe UI Black" Click="LastPageButton_Click"/>
+        </StackPanel>
         <!--buttons for CRUD-->
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Grid.Row="1" >
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
@@ -47,7 +53,7 @@
         </StackPanel>
 
         <!--table for courses-->
-        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Margin="15,45,15,0" ItemsSource="{Binding Courses, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="CoursesTable_SelectionChanged" Grid.ColumnSpan="3" Grid.RowSpan="1">
+        <DataGrid  EnableRowVirtualization="False" CanUserAddRows="False"  AutoGenerateColumns="False" x:Name="coursesTable" Margin="15,45,15,0" ItemsSource="{Binding PagedCourses, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="CoursesTable_SelectionChanged" Grid.ColumnSpan="3" Grid.RowSpan="1">
             <DataGrid.Columns>
                 <DataGridTextColumn IsReadOnly="True" Header="Language" Binding="{Binding Language}"/>
                 <DataGridTextColumn IsReadOnly="True" Header="Level" Binding="{Binding Level}"/>

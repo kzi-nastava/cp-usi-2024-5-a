@@ -6,29 +6,105 @@ using LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.ComponentModel;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace LangLang.WPF.ViewModels.ExamViewModels
 {
-    public class ExamSlotsTutorViewModel
+    public class ExamSlotsTutorViewModel: INotifyPropertyChanged
     {
-        public ObservableCollection<ExamSlotViewModel> ExamSlots { get; set; }
+        private ObservableCollection<ExamSlotViewModel> pagedExams;
+        private int currentPage;
+        private int pageSize = 3;
+        public List<ExamSlot> allExams { get; set; }
         public ExamSlotViewModel SelectedExamSlot { get; set; }
         public Tutor LoggedIn { get;set; }
+
+        public ObservableCollection<ExamSlotViewModel> PagedExams
+        {
+            get => pagedExams;
+            set
+            {
+                pagedExams = value;
+                OnPropertyChanged(nameof(PagedExams));
+            }
+        }
+
+        public int CurrentPage
+        {
+            get => currentPage;
+            set
+            {
+                currentPage = value;
+                OnPropertyChanged(nameof(currentPage));
+                LoadPageData();
+            }
+        }
+
+        
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public ExamSlotsTutorViewModel(Tutor LoggedIn)
         {
             this.LoggedIn = LoggedIn;
-            ExamSlots = new ObservableCollection<ExamSlotViewModel>();
+            pagedExams = new ObservableCollection<ExamSlotViewModel>();
+            allExams = new List<ExamSlot>();
+            currentPage = 1;
             SetDataForReview();
         }
         public void SetDataForReview()
         {
-            ExamSlots.Clear();
-            ExamSlotService examSlotService = new();
+            allExams = LoadAllExams();
+            LoadPageData();
+        }
 
-            foreach (ExamSlot exam in examSlotService.GetExams(LoggedIn))
+        private void LoadPageData()
+        {
+            PagedExams.Clear();
+            var pagedData = allExams.Skip((currentPage - 1) * pageSize).Take(pageSize);
+            foreach (var exam in pagedData)
             {
-                ExamSlots.Add(new ExamSlotViewModel(exam));
+                PagedExams.Add(new ExamSlotViewModel(exam));
             }
+        }
+        private List<ExamSlot> LoadAllExams()
+        {
+            ExamSlotService examSlotService = new();
+            return examSlotService.GetExams(LoggedIn);
+
+        }
+
+        public void GoToFirstPage()
+        {
+            CurrentPage = 1;
+        }
+
+        public void GoToPreviousPage()
+        {
+            if (CurrentPage > 1)
+            {
+                CurrentPage--;
+            }
+        }
+
+        public void GoToNextPage()
+        {
+            if (CurrentPage < (allExams.Count + pageSize - 1) / pageSize)
+            {
+                CurrentPage++;
+            }
+        }
+
+        public void GoToLastPage()
+        {
+            CurrentPage = (allExams.Count + pageSize - 1) / pageSize;
         }
 
         public void EnterResults()
