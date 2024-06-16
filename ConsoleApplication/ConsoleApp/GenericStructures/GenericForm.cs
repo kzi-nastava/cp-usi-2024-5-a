@@ -83,6 +83,12 @@ namespace ConsoleApplication.ConsoleApp.GenericStructures
             var genericMethod = method.MakeGenericMethod(type);
             return genericMethod.Invoke(null, null);
         }
+        public static object UpdateEntityForType(Type type, object entity)
+        {
+            var method = typeof(GenericForm).GetMethod(nameof(UpdateEntity), BindingFlags.Public | BindingFlags.Static);
+            var genericMethod = method.MakeGenericMethod(type);
+            return genericMethod.Invoke(null, new object[] { entity });
+        }
         public static T UpdateEntity<T>(T entity) where T : class, new()
         {
             PropertyInfo[] properties = typeof(T).GetProperties();
@@ -104,8 +110,10 @@ namespace ConsoleApplication.ConsoleApp.GenericStructures
                     }
                     else if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
                     {
-                        PropertyInfo[] properties2 = (property.PropertyType).GetProperties();
-                        currentValue = string.Join(", ", properties2.Cast<object>());
+                        Console.WriteLine($"Updating {property.Name}:");
+                        var nestedEntity = UpdateEntityForType(property.PropertyType, currentValue);
+                        property.SetValue(entity, nestedEntity);
+                        continue;
                     }
                     Console.WriteLine($"Current value for {displayName}: {currentValue}");
 
