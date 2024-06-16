@@ -41,8 +41,7 @@
         <DataGrid Grid.Column="1" Margin="15,45,15,0" AutoGenerateColumns="False"
 x:Name="ExamSlotsDataGrid"
 ItemsSource="{Binding ExamSlots, UpdateSourceTrigger=PropertyChanged}"
-SelectedItem="{Binding SelectedExamSlot, UpdateSourceTrigger=PropertyChanged}"
-SelectionMode="Single" IsReadOnly="True" SelectionChanged="ExamSlotsDataGrid_SelectionChanged">
+SelectionMode="Single" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="*"/>
                 <DataGridTextColumn Header="Level" Binding="{Binding Level}" Width="*"/>

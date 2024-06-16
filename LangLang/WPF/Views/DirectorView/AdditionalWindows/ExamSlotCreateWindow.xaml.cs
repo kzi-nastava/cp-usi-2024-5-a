@@ -18,6 +18,8 @@ namespace LangLang.WPF.Views.DirectorView.AdditionalWindows
         }
         private void examSlotCreateBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (languageTb.Text == "") return;
+
             if (ExamCreateVM.CreateExam())
             {
                 _parent.Update();
