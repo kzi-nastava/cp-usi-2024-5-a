@@ -63,8 +63,8 @@ namespace ConsoleApplication.ConsoleApp.View.DirectorView
         {
             Console.WriteLine("Creating new exam...");
             ExamSlot exam = GenericForm.CreateEntity<ExamSlot>();
-            
-            if (!exam.TimeSlot.IsInFuture())
+            TimeSlotService timeSlotService = new();
+            if (!timeSlotService.Get(exam.TimeSlotId).IsInFuture())
             {
                 Console.WriteLine("Exam cannot be created because the date is not in the future.");
                 return;
