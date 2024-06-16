@@ -1,5 +1,7 @@
-﻿using LangLang.Domain.Models;
+﻿using LangLang.Configuration;
+using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
+using LangLang.WPF.Views.TutorView.Tabs;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,6 +54,19 @@ namespace LangLang.Repositories.SqlRepositories
                 _databaseContext.Course.Remove(existingCourse);
                 _databaseContext.SaveChanges();
             }
+        }
+        public List<Course> GetWithoutTutor()
+        {
+            List<Course> courses = GetAll();
+            List<Course> res = new();
+            foreach ( var course in courses)
+            {
+                if(course.TutorId == Constants.DELETED_TUTOR_ID)
+                {
+                    res.Add(course);
+                }
+            }
+            return res;
         }
 
 

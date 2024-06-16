@@ -139,14 +139,14 @@ namespace LangLang.ConsoleApp.View.TutorView
             if (confirmed)
             {
                 ExamSlotService service = new();
-                if (!service.Delete(selected.Id))
-                {
-                    Console.Write($"Can't delete exam, there is less than {Constants.EXAM_MODIFY_PERIOD} days before exam.");
-                }
-                else
-                {
+                try{
+                    service.Delete(selected.Id);
                     Console.Write("Exam successfully deleted.");
                 }
+                catch {
+                    Console.Write($"Can't delete exam, there is less than {Constants.EXAM_MODIFY_PERIOD} days before exam.");
+                }
+                
             }
 
         }
