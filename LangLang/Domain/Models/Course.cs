@@ -40,8 +40,6 @@ namespace LangLang.Domain.Models
         [AllowCreate]
         [AllowUpdate]
         public bool Online { get; set; }
-        [Show]
-        [DisplayName("Students")]
         public int NumberOfStudents { get; set; }
         [AllowUpdate]
         [AllowCreate]

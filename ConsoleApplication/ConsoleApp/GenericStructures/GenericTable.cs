@@ -53,7 +53,7 @@ namespace ConsoleApplication.ConsoleApp.GenericStructures
             if (isRoot)
             {
                 LogIn.PrintSeparatorLine();
-                ; Console.Write($"{"Row",-5} | ");
+                Console.Write($"{"Row",-5} | ");
             }
             foreach (var property in properties)
             {
@@ -80,8 +80,8 @@ namespace ConsoleApplication.ConsoleApp.GenericStructures
                 }
             }
             if (isRoot) {
-                LogIn.PrintSeparatorLine();
                 Console.WriteLine();
+                LogIn.PrintSeparatorLine();
             }
         }
 
@@ -108,7 +108,6 @@ namespace ConsoleApplication.ConsoleApp.GenericStructures
                         if (referenceAttribute != null)
                         {
                             DisplayReference(entity, property, referenceAttribute.ReferencedType);
-                            Console.WriteLine($"{property.Name} is a reference to {referenceAttribute.ReferencedType.Name}");
                         }
                         else if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
                         {
@@ -140,8 +139,11 @@ namespace ConsoleApplication.ConsoleApp.GenericStructures
                         }
                     }
                 }
-                if (isRoot) Console.WriteLine();
-                
+                if (isRoot)
+                { 
+                    Console.WriteLine();
+                    LogIn.PrintSeparatorLine();
+                }
             }
         }
 
