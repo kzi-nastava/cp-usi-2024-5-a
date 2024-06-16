@@ -99,18 +99,8 @@ namespace LangLang.Repositories
                 .HasKey(c => c.Id);
 
             modelBuilder.Entity<Course>()
-                .Property(c => c.TutorId)
-                .HasColumnName("TutorId");
-
-            modelBuilder.Entity<Course>()
                 .Property(c => c.LanguageLevelId)
                 .HasColumnName("LanguageLevelId");
-
-            modelBuilder.Entity<Course>()
-                .HasOne<Tutor>()
-                .WithMany()
-                .HasForeignKey(c => c.TutorId)
-                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Course>()
                 .HasOne<LanguageLevel>()

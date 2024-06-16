@@ -66,14 +66,11 @@ namespace LangLang.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("TutorId")
-                        .HasColumnType("integer")
-                        .HasColumnName("TutorId");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LanguageLevelId");
-
-                    b.HasIndex("TutorId");
 
                     b.ToTable("Course", (string)null);
                 });
@@ -232,12 +229,6 @@ namespace LangLang.Migrations
                     b.HasOne("LangLang.Domain.Models.LanguageLevel", null)
                         .WithMany()
                         .HasForeignKey("LanguageLevelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LangLang.Domain.Models.Tutor", null)
-                        .WithMany()
-                        .HasForeignKey("TutorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
