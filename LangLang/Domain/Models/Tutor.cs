@@ -9,8 +9,11 @@ namespace LangLang.Domain.Models
     public class Tutor : IProfileHolder
     {
         [Show]
+        [AllowCreate]
+        [AllowUpdate]
         public Profile Profile { get; set; }
-
+        [AllowCreate]
+        [AllowUpdate]
         public Skill Skill { get; set; }
         [Show]
         public DateTime EmploymentDate { get; set; }
