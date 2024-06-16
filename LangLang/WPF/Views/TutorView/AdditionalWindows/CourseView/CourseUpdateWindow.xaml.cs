@@ -21,7 +21,7 @@ namespace LangLang.WPF.Views.TutorView.AdditionalWindows.CourseView
             CourseUpdateVM = new(course);
             DataContext = CourseUpdateVM;
 
-            languageLvlCb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
+            languageLvlCb.ItemsSource = Enum.GetValues(typeof(Level));
         }
 
         private void CourseUpdateBtn_Click(object sender, RoutedEventArgs e)
