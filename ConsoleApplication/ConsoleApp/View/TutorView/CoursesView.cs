@@ -1,16 +1,10 @@
 
-using LangLang.ConsoleApp.GenericStructures;
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Configuration;
 using LangLang.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+using ConsoleApplication.ConsoleApp.GenericStructures;
 
-namespace LangLang.ConsoleApp.View.TutorView
+namespace ConsoleApplication.ConsoleApp.View.TutorView
 {
     public class CoursesView
     {

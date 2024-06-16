@@ -1,7 +1,7 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
-using LangLang.WPF.ViewModels.RequestsViewModels;
+using LangLang.WPF.ViewModels.RequestViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

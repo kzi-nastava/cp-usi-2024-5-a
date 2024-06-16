@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Text.RegularExpressions;
 
 
-namespace LangLang.WPF.ViewModels.ExamViewModel
+namespace LangLang.WPF.ViewModels.ExamViewModels
 {
     public class ExamSlotViewModel : INotifyPropertyChanged, IDataErrorInfo
     {

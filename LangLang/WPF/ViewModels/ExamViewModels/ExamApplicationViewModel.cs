@@ -3,7 +3,7 @@ using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using System;
 
-namespace LangLang.WPF.ViewModels.ExamViewModel
+namespace LangLang.WPF.ViewModels.ExamViewModels
 {
     public class ExamApplicationViewModel
     {

@@ -1,5 +1,5 @@
 ﻿using LangLang.Domain.Models;
-using LangLang.WPF.ViewModels.RequestsViewModel;
+using LangLang.WPF.ViewModels.RequestViewModels;
 using LangLang.WPF.Views.StudentView;
 using System.Windows;
 using System.Windows.Controls;

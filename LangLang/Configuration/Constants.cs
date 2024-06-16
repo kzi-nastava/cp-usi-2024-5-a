@@ -1,6 +1,6 @@
 ﻿namespace LangLang.Configuration
 {
-    static class Constants
+    public static class Constants
     {
         public const string REDUCER_FILE_NAME = @"../../../../LangLang/Data/reducer.csv";
 

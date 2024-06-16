@@ -5,7 +5,7 @@ using LangLang.Domain.Models;
 using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Enums;
 
-namespace LangLang.WPF.ViewModels.RequestsViewModels
+namespace LangLang.WPF.ViewModels.RequestViewModels
 {
     public class WithdrawalReqPageViewModel
     {

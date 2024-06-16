@@ -1,5 +1,4 @@
-﻿using LangLang.WPF.ViewModels.ExamViewModel;
-using LangLang.WPF.ViewModels.ExamViewModels;
+﻿using LangLang.WPF.ViewModels.ExamViewModels;
 using System.Windows;
 using System.Windows.Controls;
 

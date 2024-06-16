@@ -1,13 +1,12 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Models;
-using LangLang.WPF.ViewModels.RequestsViewModels;
 using LangLang.WPF.Views.StudentView;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 
-namespace LangLang.WPF.ViewModels.RequestsViewModel
+namespace LangLang.WPF.ViewModels.RequestViewModels
 {
     public class EnrollmentRequestsViewModel
     {

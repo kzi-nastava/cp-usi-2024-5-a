@@ -1,5 +1,4 @@
 
-using LangLang.ConsoleApp.GenericStructures;
 using LangLang.BusinessLogic.UseCases;
 using LangLang.Configuration;
 using LangLang.Domain.Models;
@@ -9,8 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using ConsoleApplication.ConsoleApp.GenericStructures;
 
-namespace LangLang.ConsoleApp.View.DirectorView
+namespace ConsoleApplication.ConsoleApp.View.DirectorView
 {
     public class CoursesView
     {

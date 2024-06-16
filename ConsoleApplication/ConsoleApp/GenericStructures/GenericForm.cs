@@ -1,4 +1,4 @@
-﻿using LangLang.ConsoleApp.Attributes;
+﻿using LangLang.Domain.Attributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Documents;
 
-namespace LangLang.ConsoleApp.GenericStructures
+namespace ConsoleApplication.ConsoleApp.GenericStructures
 {
     public static class GenericForm
     {

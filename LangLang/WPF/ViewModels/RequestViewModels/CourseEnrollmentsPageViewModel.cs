@@ -2,7 +2,6 @@
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.CourseViewModels;
-using LangLang.WPF.ViewModels.RequestsViewModels;
 using LangLang.WPF.Views.TutorView.AdditionalWindows.CourseView;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

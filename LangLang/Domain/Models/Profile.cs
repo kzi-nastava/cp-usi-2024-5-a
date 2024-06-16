@@ -1,6 +1,6 @@
 ﻿using System;
 using LangLang.Configuration;
-using LangLang.ConsoleApp.Attributes;
+using LangLang.Domain.Attributes;
 using LangLang.Domain.Enums;
 
 namespace LangLang.Domain.Models

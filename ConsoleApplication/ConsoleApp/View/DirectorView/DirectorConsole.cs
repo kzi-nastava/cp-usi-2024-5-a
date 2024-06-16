@@ -6,16 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LangLang.ConsoleApp.View.TutorView
+namespace ConsoleApplication.ConsoleApp.View.DirectorView
 {
-    public class TutorConsole
+    public class DirectorConsole
     {
-        public Tutor tutor { get; set; }
+        Director director { get; set; }
 
-        public TutorConsole(Profile tutorProfile)
+        public DirectorConsole(Profile directorProfile)
         {
-            TutorService tutorService = new();
-            tutor = tutorService.Get(tutorProfile.Id);
+            DirectorService directorService = new();
+            director = directorService.Get(directorProfile.Id);
             Run();
         }
         public void Run()
@@ -24,8 +24,6 @@ namespace LangLang.ConsoleApp.View.TutorView
 
             while (loggedIn)
             {
-                Console.WriteLine("-----------------------------------------------------------------------");
-
                 DisplayMenu();
                 string choice = Console.ReadLine();
 
@@ -38,6 +36,9 @@ namespace LangLang.ConsoleApp.View.TutorView
                         WorkWithExamSlots();
                         break;
                     case "3":
+                        WorkWithTutors();
+                        break;
+                    case "4":
                         Logout();
                         loggedIn = false;
                         break;
@@ -45,35 +46,39 @@ namespace LangLang.ConsoleApp.View.TutorView
                         Console.WriteLine("Invalid choice. Please try again.");
                         break;
                 }
-                Console.WriteLine("-----------------------------------------------------------------------");
-
             }
         }
 
         private void DisplayMenu()
         {
-            Console.WriteLine("Tutor Console Menu");
+            Console.WriteLine("Director Console Menu");
             Console.WriteLine("1. Work with courses");
             Console.WriteLine("2. Work with exam slots");
-            Console.WriteLine("3. Log out");
+            Console.WriteLine("3. Work with tutors");
+            Console.WriteLine("4. Log out");
             Console.Write("Enter your choice: ");
         }
 
         private void WorkWithCourses()
         {
             Console.WriteLine("Working with courses...");
-            CoursesView coursesView = new(tutor);
+            CoursesView coursesView = new(director);
         }
 
         private void WorkWithExamSlots()
         {
             Console.WriteLine("Working with exam slots...");
-            ExamsView examsView = new(tutor);
+            ExamsView examsView = new();
         }
-
+        private void WorkWithTutors()
+        {
+            Console.WriteLine("Working with tutors...");
+            TutorsView tutorsView = new();
+        }
         private void Logout()
         {
             Console.WriteLine("Logging out...");
+            // Add logic to perform logout actions
         }
     }
 }

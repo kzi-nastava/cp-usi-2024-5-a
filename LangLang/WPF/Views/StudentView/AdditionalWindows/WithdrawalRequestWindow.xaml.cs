@@ -1,4 +1,4 @@
-﻿using LangLang.WPF.ViewModels.RequestsViewModels;
+﻿using LangLang.WPF.ViewModels.RequestViewModels;
 using System.Windows;
 
 namespace LangLang.WPF.Views.StudentView.AdditionalWindows

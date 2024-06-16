@@ -3,7 +3,7 @@ using System;
 using LangLang.Domain.RepositoryInterfaces;
 using LangLang.Repositories;
 
-namespace LangLang.Composition
+namespace LangLang.Configuration
 {
     public class Injector
     {

@@ -1,5 +1,4 @@
-﻿using LangLang.Composition;
-using LangLang.Configuration;
+﻿using LangLang.Configuration;
 using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
 using System;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LangLang.ConsoleApp.Attributes
+namespace LangLang.Domain.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class Show : Attribute

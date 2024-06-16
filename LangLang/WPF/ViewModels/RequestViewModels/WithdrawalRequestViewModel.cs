@@ -3,7 +3,7 @@ using LangLang.Domain.Models;
 using LangLang.Domain.Enums;
 using System;
 
-namespace LangLang.WPF.ViewModels.RequestsViewModels
+namespace LangLang.WPF.ViewModels.RequestViewModels
 {
     public class WithdrawalRequestViewModel
     {

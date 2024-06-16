@@ -1,13 +1,9 @@
-﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.ConsoleApp.GenericStructures;
+﻿using ConsoleApplication.ConsoleApp.GenericStructures;
+using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace LangLang.ConsoleApp.View.DirectorView
+
+namespace ConsoleApplication.ConsoleApp.View.DirectorView
 {
     public class TutorsView
     {
@@ -86,7 +82,7 @@ namespace LangLang.ConsoleApp.View.DirectorView
                 return;
             }
             tutor.EmploymentDate = DateTime.Now;
-            tutor.Profile.Role = Domain.Enums.UserType.Tutor;
+            tutor.Profile.Role = LangLang.Domain.Enums.UserType.Tutor;
 
             TutorService service = new();
             service.Add(tutor);

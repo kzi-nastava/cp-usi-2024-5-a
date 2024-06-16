@@ -3,7 +3,7 @@ using LangLang.Domain.Models;
 using System.Collections.Generic;
 using LangLang.Domain.RepositoryInterfaces;
 using System.Linq;
-using LangLang.Composition;
+using LangLang.Configuration;
 
 namespace LangLang.BusinessLogic.UseCases
 {

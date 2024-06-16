@@ -1,5 +1,4 @@
 ﻿using LangLang.Domain.Models;
-using LangLang.WPF.ViewModels.ExamViewModel;
 using System.Collections.ObjectModel;
 using LangLang.BusinessLogic.UseCases;
 using System.Windows;
