@@ -23,6 +23,7 @@ namespace LangLang.Repositories
             ConfigureTutorSkillEntity(modelBuilder);
             ConfigureCourseEntity(modelBuilder);
             ConfigureCourseTimeSlotEntity(modelBuilder);
+            ConfigureExamSlotEntity(modelBuilder);
 
             modelBuilder.Entity<Tutor>().ToTable("Tutor");
             modelBuilder.Entity<Course>().ToTable("Course");
@@ -48,6 +49,30 @@ namespace LangLang.Repositories
                     profile.Property(p => p.Role).HasColumnName("Role");
                     profile.Property(p => p.IsActive).HasColumnName("IsActive");
                 });
+        }
+
+        private void ConfigureExamSlotEntity(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ExamSlot>()
+            .HasKey(es => es.Id);
+
+            modelBuilder.Entity<ExamSlot>()
+                .HasOne<LanguageLevel>()
+                .WithMany()
+                .HasForeignKey(es => es.LanguageId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ExamSlot>()
+                .HasOne<Tutor>()
+                .WithMany()
+                .HasForeignKey(es => es.TutorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ExamSlot>()
+                .HasOne<TimeSlot>()
+                .WithMany()
+                .HasForeignKey(es => es.TimeSlotId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         private void ConfigureTutorSkillEntity(ModelBuilder modelBuilder)
