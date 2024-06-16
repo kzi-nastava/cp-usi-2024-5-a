@@ -1,4 +1,4 @@
-﻿using ConsoleApplication.ConsoleApp.Attributes;
+﻿using LangLang.Domain.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

@@ -86,15 +86,18 @@ namespace ConsoleApplication.ConsoleApp.View.TutorView
             }
 
             ExamSlotService service = new();
-            bool added = service.Add(exam);
-
-            if (!added) {
-                Console.WriteLine("Choose another exam date or time.");
-                return; 
+            try
+            {
+                service.Add(exam);
+                Console.WriteLine("Exam created successfully.");
+                ReloadExams();
             }
-
-            Console.WriteLine("Exam created successfully.");
-            ReloadExams();
+            catch
+            {
+                Console.WriteLine("Choose another exam date or time.");
+                return;
+            }
+            
         }
         private bool IsValid(ExamSlot exam)
         {
@@ -141,14 +144,17 @@ namespace ConsoleApplication.ConsoleApp.View.TutorView
             if (confirmed)
             {
                 ExamSlotService service = new();
-                if (!service.Delete(selected.Id))
+                try {
+                    service.Delete(selected.Id);
+                    Console.Write("Exam successfully deleted.");
+
+                }
+                catch
                 {
                     Console.Write($"Can't delete exam, there is less than {Constants.EXAM_MODIFY_PERIOD} days before exam.");
+
                 }
-                else
-                {
-                    Console.Write("Exam successfully deleted.");
-                }
+                
             }
 
         }
@@ -156,7 +162,7 @@ namespace ConsoleApplication.ConsoleApp.View.TutorView
         private void ReloadExams()
         {
             ExamSlotService service = new();
-            exams = service.GetExams(tutor);
+            exams = service.GetByTutor(tutor);
         }
         private bool ConfirmationMessage()
         {

@@ -68,7 +68,7 @@ namespace ConsoleApplication.ConsoleApp.View.DirectorView
             {
                 Console.WriteLine("Exam cannot be created because the date is not in the future.");
                 return;
-            }
+            }*/
 
             exam.CreatedAt = DateTime.Now;
             exam.TutorId = SmartSystem.GetTutorForExam(exam);
@@ -79,15 +79,19 @@ namespace ConsoleApplication.ConsoleApp.View.DirectorView
                 return;
             }
             ExamSlotService service = new();
-            bool added = service.Add(exam);
 
-            if (!added) {
-                Console.WriteLine("Choose another exam date or time.");
-                return; 
+            try
+            {
+                service.Add(exam);
+                Console.WriteLine("Exam created successfully.");
+                ReloadExams();
             }
-
-            Console.WriteLine("Exam created successfully.");
-            ReloadExams();
+            catch
+            {
+                Console.WriteLine("Choose another exam date or time.");
+                return;
+            }
+            
         }
 
         private void ReloadExams()
