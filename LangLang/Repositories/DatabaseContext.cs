@@ -21,6 +21,8 @@ namespace LangLang.Repositories
             base.OnModelCreating(modelBuilder);
             ConfigureTutorEntity(modelBuilder);
             ConfigureTutorSkillEntity(modelBuilder);
+            ConfigureCourseEntity(modelBuilder);
+            ConfigureCourseTimeSlotEntity(modelBuilder);
 
             modelBuilder.Entity<Tutor>().ToTable("Tutor");
             modelBuilder.Entity<Course>().ToTable("Course");
@@ -63,6 +65,58 @@ namespace LangLang.Repositories
                 .HasOne<LanguageLevel>()
                 .WithMany()
                 .HasForeignKey(ts => ts.LanguageLevelId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+
+        private void ConfigureCourseEntity(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Course>()
+                .HasKey(c => c.Id);
+
+            modelBuilder.Entity<Course>()
+                .Property(c => c.TutorId)
+                .HasColumnName("TutorId");
+
+            modelBuilder.Entity<Course>()
+                .Property(c => c.LanguageLevelId)
+                .HasColumnName("LanguageLevelId");
+
+            modelBuilder.Entity<Course>()
+                .HasOne<Tutor>()
+                .WithMany()
+                .HasForeignKey(c => c.TutorId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Course>()
+                .HasOne<LanguageLevel>()
+                .WithMany()
+                .HasForeignKey(c => c.LanguageLevelId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+
+        private void ConfigureCourseTimeSlotEntity(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CourseTimeSlot>()
+            .HasKey(cts => cts.Id);
+
+            modelBuilder.Entity<CourseTimeSlot>()
+                .Property(cts => cts.CourseId)
+                .HasColumnName("CourseId");
+
+            modelBuilder.Entity<CourseTimeSlot>()
+                .Property(cts => cts.TimeSlotId)
+                .HasColumnName("TimeSlotId");
+
+            modelBuilder.Entity<CourseTimeSlot>()
+                .HasOne<Course>()
+                .WithMany()
+                .HasForeignKey(cts => cts.CourseId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CourseTimeSlot>()
+                .HasOne<TimeSlot>()
+                .WithMany()
+                .HasForeignKey(cts => cts.TimeSlotId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

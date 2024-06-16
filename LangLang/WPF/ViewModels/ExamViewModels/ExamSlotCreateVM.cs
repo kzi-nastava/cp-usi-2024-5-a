@@ -4,34 +4,49 @@ using LangLang.WPF.ViewModels.CourseViewModels;
 using LangLang.WPF.ViewModels.ExamViewModel;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace LangLang.WPF.ViewModels.ExamViewModels
 {
     public class ExamSlotCreateVM
     {
-        public List<Course> Skills { get; set; }
+        public ObservableCollection<CourseViewModel> Courses { get; set; }
+        private List<Course> courses {  get; set; }
         public CourseViewModel SelectedCourse { get; set; }
         public ExamSlotViewModel ExamSlot { get; set; }
+        private Tutor loggedId {  get; set; }
+        private CourseService courseService {  get; set; }
         public ExamSlotCreateVM(Tutor loggedIn)
         {
-            CourseService courseService = new();
             ExamSlot = new ExamSlotViewModel();
-            if (loggedIn == null)
+            Courses = new();
+            this.loggedId = loggedIn;
+            courseService = new CourseService();
+            ExamSlot.ExamDate = DateTime.Now;
+            ExamSlot.Modifiable = true;
+            Update();
+        }
+
+        public void Update()
+        {
+            Courses.Clear();
+            if (loggedId == null)
             {
-                Skills = courseService.GetAll();
+                courses = courseService.GetAll();
                 ExamSlot.TutorId = -1;
             }
             else
             {
-                Skills = courseService.GetBySkills(loggedIn);
-                ExamSlot.TutorId = loggedIn.Id;
+                courses = courseService.GetBySkills(loggedId);
+                ExamSlot.TutorId = loggedId.Id;
             }
-            SelectedCourse = null;
-            ExamSlot.ExamDate = DateTime.Now;
-            ExamSlot.Modifiable = true;
-
+            foreach (var course in courses)
+            {
+                Courses.Add(new CourseViewModel(course));
+            }
         }
+
         public bool CreateExam()
         {
             ExamSlot.CreatedAt = DateTime.Now;
@@ -41,7 +56,12 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
                 if (SelectedCourse == null) MessageBox.Show("Must select language and level.");
                 else if(ExamSlot.TutorId == -1)
                 {
-                    ExamSlot.TutorId = SmartSystem.GetTutorForExam(ExamSlot.ToExamSlot());
+                    if (loggedId == null)
+                    {
+                        ExamSlot.TutorId = SmartSystem.GetTutorForExam(ExamSlot.ToExamSlot());
+                    }
+                    else ExamSlot.TutorId = loggedId.Id;
+
                     if(ExamSlot.TutorId != -1)
                     {
                         examSlotService.Add(ExamSlot.ToExamSlot());

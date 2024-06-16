@@ -24,7 +24,7 @@ namespace LangLang.WPF.Views.TutorView.Tabs
         }
         private void ExamSlotCreateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExamSlotCreateWindow createWindow = new(ExamsTutorVM.LoggedIn,this);
+            ExamSlotCreateWindow createWindow = new(ExamsTutorVM.LoggedIn, this);
             createWindow.Show();
         }
         private void ExamSlotUpdateWindowBtn_Click(object sender, RoutedEventArgs e)

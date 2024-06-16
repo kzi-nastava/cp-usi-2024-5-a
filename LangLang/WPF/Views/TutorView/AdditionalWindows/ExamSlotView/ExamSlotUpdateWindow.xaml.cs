@@ -5,23 +5,18 @@ using System.Windows;
 
 namespace LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView   
 {
-    /// <summary>
-    /// Interaction logic for ExamSlotUpdateWindow.xaml
-    /// </summary>
     public partial class ExamSlotUpdateWindow : Window
     {
         public ExamSlotUpdateVM ExamUpdateVM { get; set; }
         private ExamsReview _parent;
         public ExamSlotUpdateWindow(int selectedExamId, Tutor loggedIn, ExamsReview parent)
-        {
-            
-            
+        {   
             InitializeComponent();
             _parent = parent;
             ExamUpdateVM = new ExamSlotUpdateVM(selectedExamId, loggedIn);
             DataContext = ExamUpdateVM;
-            
         }
+
         private void examSlotUpdateBtn_Click(object sender, RoutedEventArgs e)
         {
             if (ExamUpdateVM.UpdateExam())
@@ -29,9 +24,6 @@ namespace LangLang.WPF.Views.TutorView.AdditionalWindows.ExamSlotView
                 _parent.Update();
                 Close();
             }
-
         }
-
-        
     }
 }
