@@ -1,12 +1,10 @@
-﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.ConsoleApp.Attributes;
-using LangLang.Domain.Models;
+﻿using LangLang.ConsoleApp.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Metadata.Ecma335;
+using System.Windows.Documents;
 
 namespace LangLang.ConsoleApp.GenericStructures
 {
@@ -16,9 +14,8 @@ namespace LangLang.ConsoleApp.GenericStructures
         private readonly PropertyInfo[] properties;
         private bool isRoot;
 
-        public GenericTable(bool root, T entity)
+        public GenericTable(T entity, bool isRoot)
         {
-            isRoot = isRoot;
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
 
@@ -26,17 +23,18 @@ namespace LangLang.ConsoleApp.GenericStructures
             properties = typeof(T).GetProperties();
             this.isRoot = isRoot;
         }
+
         public GenericTable()
         {
             isRoot = false;
             entities = new List<T>();
             properties = typeof(T).GetProperties();
         }
-        public GenericTable(IEnumerable<T> entities, bool root)
+
+        public GenericTable(IEnumerable<T> entities, bool isRoot)
         {
-            isRoot = root;
-            this.entities = new();
-            if (entities != null) this.entities = entities.ToList();
+            this.isRoot = isRoot;
+            this.entities = entities?.ToList() ?? new List<T>();
             properties = typeof(T).GetProperties();
         }
 
@@ -45,6 +43,7 @@ namespace LangLang.ConsoleApp.GenericStructures
             DisplayHeaders();
             DisplayContent();
         }
+
         public void DisplayHeaders()
         {
             if (isRoot) Console.Write($"{"Row",-5} | ");
@@ -54,25 +53,20 @@ namespace LangLang.ConsoleApp.GenericStructures
                 {
                     var displayNameAttribute = property.GetCustomAttribute<DisplayNameAttribute>();
                     string displayName = displayNameAttribute != null ? displayNameAttribute.DisplayName : property.Name;
-                    // Check if property type is a class and not string
+
                     if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
                     {
-                        var genericArgument = property.PropertyType.GetGenericArguments()[0];
-                        if (genericArgument.IsEnum) // Specifically check if the list is of enum type
-                        {
-                            Console.Write($"{displayName,-25} | ");
-                        }
-                        else
-                        {
-                            DisplayNestedHeaders(property);
-                        }
+                        // If it's a list, just print the display name
+                        Console.Write($"{displayName,-25} | ");
                     }
                     else if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
                     {
+                        // For nested classes
                         DisplayNestedHeaders(property);
                     }
                     else
                     {
+                        // For simple properties
                         Console.Write($"{displayName,-25} | ");
                     }
                 }
@@ -83,10 +77,11 @@ namespace LangLang.ConsoleApp.GenericStructures
         private void DisplayNestedHeaders(PropertyInfo property)
         {
             Type nestedType = property.PropertyType;
-            var nestedTable = Activator.CreateInstance(typeof(GenericTable<>).MakeGenericType(nestedType), null, false);
+            var nestedTable = Activator.CreateInstance(typeof(GenericTable<>).MakeGenericType(nestedType), false);
             MethodInfo displayHeadersMethod = nestedTable.GetType().GetMethod("DisplayHeaders");
-            displayHeadersMethod.Invoke(nestedTable, null);
+            displayHeadersMethod?.Invoke(nestedTable, null);
         }
+
         public void DisplayContent()
         {
             int rowNumber = 1;
@@ -99,25 +94,32 @@ namespace LangLang.ConsoleApp.GenericStructures
                     {
                         var value = property.GetValue(entity);
 
-                        // Check if property type is a class (and not string or other primitive)
                         if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
                         {
-                            var genericArgument = property.PropertyType.GetGenericArguments()[0];
-                            if (genericArgument.IsEnum) // Specifically check if the list is of enum type
+                            var listType = value.GetType().GetGenericArguments()[0];
+                            if (listType.IsEnum || listType == typeof(string))
                             {
-                                Console.Write($"{string.Join(", ", (List<DayOfWeek>)value),-25} | ");
+                                // Display enum list directly
+                                var list = (System.Collections.IList)value;
+                                string enumValues = string.Join(", ", list.Cast<object>());
+                                Console.Write($"{enumValues,-25} | ");
+                                continue;
                             }
-                            else
+                            var nestedList = (System.Collections.IList)value;
+                            foreach (var item in nestedList)
                             {
-                                DisplayNestedHeaders(property);
+                                DisplayNestedContent(property, item);
                             }
+
                         }
                         else if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
                         {
+                            // Handle nested class
                             DisplayNestedContent(property, value);
                         }
                         else
                         {
+                            // Handle simple property
                             Console.Write($"{value,-25} | ");
                         }
                     }
@@ -130,29 +132,65 @@ namespace LangLang.ConsoleApp.GenericStructures
         {
             if (value == null)
             {
-                Console.Write($"{"null",-25} | "); // Handle null values
+                Console.Write($"{"null",-25} | ");
                 return;
             }
 
-            var nestedType = property.PropertyType;
-            var genericTableType = typeof(GenericTable<>).MakeGenericType(nestedType);
-            var nestedTable = Activator.CreateInstance(genericTableType, new object[] { false, value });
+            var nestedType = value.GetType();
 
-            var displayContentMethod = genericTableType.GetMethod("DisplayContent");
-            if (displayContentMethod != null)
+            try
             {
-                displayContentMethod.Invoke(nestedTable, null);
+                if (nestedType.IsGenericType && nestedType.GetGenericTypeDefinition() == typeof(List<>))
+                {
+                    // Handle nested list
+                    var listType = nestedType.GetGenericArguments()[0];
+                    var list = (System.Collections.IList)value;
+
+                    if (listType.IsEnum)
+                    {
+                        // Print enums directly from list
+                        Console.Write($"{string.Join(", ", list.Cast<object>())}, ");
+                    }
+                    else
+                    {
+                        foreach (var item in list)
+                        {
+                            DisplayNestedContent(property, item);
+                        }
+                    }
+                }
+                else if (nestedType.IsEnum)
+                {
+                    // Print enum directly
+                    Console.Write($"{value,-25} | ");
+                }
+                else
+                {
+                    // Handle nested object
+                    var genericTableType = typeof(GenericTable<>).MakeGenericType(nestedType);
+                    var nestedTable = Activator.CreateInstance(genericTableType, new object[] { value, false });
+                    var displayContentMethod = genericTableType.GetMethod("DisplayContent");
+
+                    if (displayContentMethod != null)
+                    {
+                        displayContentMethod.Invoke(nestedTable, null);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Method 'DisplayContent' not found on type {genericTableType.Name}.");
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Console.WriteLine($"Method 'DisplayContent' not found on type {genericTableType.Name}.");
+                Console.WriteLine($"An error occurred: {ex.Message}");
             }
         }
+
         public T SelectRow()
         {
             Console.WriteLine("Select row (index starting from 1):");
-            int index;
-            if (!int.TryParse(Console.ReadLine(), out index) || index < 1 || index > entities.Count)
+            if (!int.TryParse(Console.ReadLine(), out int index) || index < 1 || index > entities.Count)
             {
                 Console.WriteLine("Invalid selection.");
                 return default;
@@ -160,5 +198,4 @@ namespace LangLang.ConsoleApp.GenericStructures
             return entities[index - 1];
         }
     }
-
 }
