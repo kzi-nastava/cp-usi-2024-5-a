@@ -63,7 +63,7 @@ namespace LangLang.WPF.Views.TutorView.Tabs
 
         private void CourseUpdateWindowBtn_Click(object sender, RoutedEventArgs e)
         {
-            CoursesViewModel.Update();
+            CoursesViewModel.UpdateCourse();
         }
 
         private void CourseDeleteBtn_Click(object sender, RoutedEventArgs e)
