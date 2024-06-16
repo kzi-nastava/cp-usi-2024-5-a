@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ConsoleApplication.ConsoleApp.View.DirectorView
+namespace ConsoleApp1.ConsoleApp.View.DirectorView
 {
     public class ExamsView
     {
@@ -63,7 +63,7 @@ namespace ConsoleApplication.ConsoleApp.View.DirectorView
         {
             Console.WriteLine("Creating new exam...");
             ExamSlot exam = GenericForm.CreateEntity<ExamSlot>();
-            
+
             if (!exam.TimeSlot.IsInFuture())
             {
                 Console.WriteLine("Exam cannot be created because the date is not in the future.");
@@ -73,7 +73,7 @@ namespace ConsoleApplication.ConsoleApp.View.DirectorView
             exam.CreatedAt = DateTime.Now;
             exam.TutorId = SmartSystem.GetTutorForExam(exam);
             exam.Modifiable = true;
-            if(exam.TutorId == -1)
+            if (exam.TutorId == -1)
             {
                 Console.WriteLine("There are no suitable tutors for inserted exam parameters.");
                 return;
@@ -81,9 +81,10 @@ namespace ConsoleApplication.ConsoleApp.View.DirectorView
             ExamSlotService service = new();
             bool added = service.Add(exam);
 
-            if (!added) {
+            if (!added)
+            {
                 Console.WriteLine("Choose another exam date or time.");
-                return; 
+                return;
             }
 
             Console.WriteLine("Exam created successfully.");

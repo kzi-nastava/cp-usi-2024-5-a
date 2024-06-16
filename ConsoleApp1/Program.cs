@@ -5,10 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ConsoleApplication.ConsoleApp;
-using ConsoleApplication.ConsoleApp.View;
+using ConsoleApp1.ConsoleApp;
+using ConsoleApp1.ConsoleApp.View;
 
-namespace ConsoleApplication
+namespace ConsoleApp1
 {
     public class Program
     {

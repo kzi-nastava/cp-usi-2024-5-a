@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApplication.ConsoleApp.View.DirectorView
+namespace ConsoleApp1.ConsoleApp.View.DirectorView
 {
     public class DirectorConsole
     {

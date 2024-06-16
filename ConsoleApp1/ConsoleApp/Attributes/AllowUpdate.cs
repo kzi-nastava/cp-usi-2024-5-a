@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsoleApplication.ConsoleApp.Attributes
+namespace ConsoleApp1.ConsoleApp.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class AllowUpdate : Attribute

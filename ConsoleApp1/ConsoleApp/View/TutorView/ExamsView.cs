@@ -11,12 +11,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ConsoleApplication.ConsoleApp.View.TutorView
+namespace ConsoleApp1.ConsoleApp.View.TutorView
 {
     public class ExamsView
     {
         private List<ExamSlot> exams { get; set; }
-        private Tutor tutor {  get; set; }
+        private Tutor tutor { get; set; }
         public ExamsView(Tutor loggedIn)
         {
             tutor = loggedIn;
@@ -74,13 +74,14 @@ namespace ConsoleApplication.ConsoleApp.View.TutorView
         {
             Console.WriteLine("Creating new exam...");
             ExamSlot exam = GenericForm.CreateEntity<ExamSlot>();
-            
-            
+
+
             exam.CreatedAt = DateTime.Now;
             exam.TutorId = tutor.Profile.Id;
             exam.Modifiable = true;
 
-            if (!IsValid(exam)) { 
+            if (!IsValid(exam))
+            {
                 Console.WriteLine("Exam slot can not be created. Tutor doesn't know given language on that level.");
                 return;
             }
@@ -88,9 +89,10 @@ namespace ConsoleApplication.ConsoleApp.View.TutorView
             ExamSlotService service = new();
             bool added = service.Add(exam);
 
-            if (!added) {
+            if (!added)
+            {
                 Console.WriteLine("Choose another exam date or time.");
-                return; 
+                return;
             }
 
             Console.WriteLine("Exam created successfully.");
@@ -118,7 +120,7 @@ namespace ConsoleApplication.ConsoleApp.View.TutorView
 
             ExamSlot updated = selected;
             Console.WriteLine("Updating exam details:");
-            updated = GenericForm.UpdateEntity<ExamSlot>(selected);
+            updated = GenericForm.UpdateEntity(selected);
             if (!service.CanCreateExam(updated))
             {
                 Console.Write($"Exam can not be updated. You must choose another exams date or time.");
@@ -159,7 +161,7 @@ namespace ConsoleApplication.ConsoleApp.View.TutorView
         private bool ConfirmationMessage()
         {
             Console.WriteLine("Are you sure?");
-            
+
             while (true)
             {
                 Console.Write("Enter your choice (Y/N): ");
@@ -175,7 +177,7 @@ namespace ConsoleApplication.ConsoleApp.View.TutorView
                         break;
                 }
             }
-            
+
         }
     }
 }

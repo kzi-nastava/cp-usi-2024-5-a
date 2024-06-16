@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Documents;
 
-namespace ConsoleApplication.ConsoleApp.GenericStructures
+namespace ConsoleApp1.ConsoleApp.GenericStructures
 {
     public class GenericTable<T>
     {

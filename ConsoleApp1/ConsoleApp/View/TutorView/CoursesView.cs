@@ -1,6 +1,6 @@
 
 using LangLang.ConsoleApp.GenericStructures;
-﻿using LangLang.BusinessLogic.UseCases;
+using LangLang.BusinessLogic.UseCases;
 using LangLang.Configuration;
 using LangLang.Domain.Models;
 using System;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace ConsoleApplication.ConsoleApp.View.TutorView
+namespace ConsoleApp1.ConsoleApp.View.TutorView
 {
     public class CoursesView
     {
@@ -118,7 +118,7 @@ namespace ConsoleApplication.ConsoleApp.View.TutorView
             CourseService service = new();
             Course updated = selected;
             Console.WriteLine("Updating course details:");
-            updated = GenericForm.UpdateEntity<Course>(selected);
+            updated = GenericForm.UpdateEntity(selected);
 
             if (!IsValid(updated))
             {

@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Documents;
 
-namespace ConsoleApplication.ConsoleApp.GenericStructures
+namespace ConsoleApp1.ConsoleApp.GenericStructures
 {
     public static class GenericForm
     {
@@ -66,7 +66,7 @@ namespace ConsoleApplication.ConsoleApp.GenericStructures
                 {
                     Console.WriteLine($"Enter value for {displayName} ({property.PropertyType.Name}):");
                     string input = Console.ReadLine();
-                    if(TryParseInput(property.PropertyType, input, out object value))
+                    if (TryParseInput(property.PropertyType, input, out object value))
                     {
                         property.SetValue(entity, value);
                         break;
@@ -76,7 +76,7 @@ namespace ConsoleApplication.ConsoleApp.GenericStructures
 
             return entity;
         }
-        
+
         public static object CreateEntityForType(Type type)
         {
             var method = typeof(GenericForm).GetMethod(nameof(CreateEntity), BindingFlags.Public | BindingFlags.Static);
@@ -89,22 +89,22 @@ namespace ConsoleApplication.ConsoleApp.GenericStructures
 
             foreach (var property in properties)
             {
-                
+
                 if (Attribute.IsDefined(property, typeof(AllowUpdate)))
                 {
                     object currentValue = property.GetValue(entity);
                     var displayNameAttribute = property.GetCustomAttribute<DisplayNameAttribute>();
                     string displayName = displayNameAttribute != null ? displayNameAttribute.DisplayName : property.Name;
-                    
+
                     if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
                     {
-                        var list = (System.Collections.IList)currentValue;
+                        var list = (IList)currentValue;
                         string enumValues = string.Join(", ", list.Cast<object>());
                         currentValue = enumValues;
                     }
                     else if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
                     {
-                        PropertyInfo[] properties2 = (property.PropertyType).GetProperties();
+                        PropertyInfo[] properties2 = property.PropertyType.GetProperties();
                         currentValue = string.Join(", ", properties2.Cast<object>());
                     }
                     Console.WriteLine($"Current value for {displayName}: {currentValue}");

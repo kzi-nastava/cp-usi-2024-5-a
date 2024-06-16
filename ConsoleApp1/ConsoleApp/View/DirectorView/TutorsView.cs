@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApplication.ConsoleApp.View.DirectorView
+namespace ConsoleApp1.ConsoleApp.View.DirectorView
 {
     public class TutorsView
     {
@@ -96,7 +96,7 @@ namespace ConsoleApplication.ConsoleApp.View.DirectorView
         }
         private bool IsValid(Tutor tutor)
         {
-            if(tutor.Skill.Language.Count != tutor.Skill.Level.Count || tutor.Profile.BirthDate >= DateTime.Now)
+            if (tutor.Skill.Language.Count != tutor.Skill.Level.Count || tutor.Profile.BirthDate >= DateTime.Now)
             {
                 return false;
             }
@@ -112,7 +112,7 @@ namespace ConsoleApplication.ConsoleApp.View.DirectorView
 
             Tutor updated = selected;
             Console.WriteLine("Updating tutor details:");
-            updated = GenericForm.UpdateEntity<Tutor>(selected);
+            updated = GenericForm.UpdateEntity(selected);
 
             if (!IsValid(updated))
             {

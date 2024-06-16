@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApplication.ConsoleApp.View.TutorView
+namespace ConsoleApp1.ConsoleApp.View.TutorView
 {
     public class TutorConsole
     {

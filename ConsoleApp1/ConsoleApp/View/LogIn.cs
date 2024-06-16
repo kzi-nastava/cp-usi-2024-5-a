@@ -6,7 +6,7 @@ using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApplication.ConsoleApp.View
+namespace ConsoleApp1.ConsoleApp.View
 {
     public class LogIn
     {
