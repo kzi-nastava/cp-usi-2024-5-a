@@ -359,5 +359,9 @@ namespace LangLang.BusinessLogic.UseCases
             return $"{langLevel.Language} {langLevel.Level}";
         }
 
+        public List<Course> GetWithoutTutor()
+        {
+            return _courses.GetWithoutTutor();
+        }
     }
 }

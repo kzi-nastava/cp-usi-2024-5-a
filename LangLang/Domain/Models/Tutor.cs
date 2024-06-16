@@ -1,14 +1,24 @@
-﻿using LangLang.Domain.Enums;
+﻿using LangLang.ConsoleApp.Attributes;
+using LangLang.Domain.Enums;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace LangLang.Domain.Models
 {
     public class Tutor : IProfileHolder
     {
-        public Profile Profile { get; set; }
 
+        [Show]
+        [AllowCreate]
+        [AllowUpdate]
+        public Profile Profile { get; set; }
+        [AllowCreate]
+        [AllowUpdate]
+        public Skill Skill { get; set; }
+        [Show]
         public DateTime EmploymentDate { get; set; }
 
         public int Id {  get; set; }
@@ -22,6 +32,17 @@ namespace LangLang.Domain.Models
         public Tutor()
         {
             Profile = new();
+        }
+        public bool HasLanguageLevel(string language, LanguageLevel level)
+        {
+            for (int i = 0; i < Skill.Language.Count; i++)
+            {
+                if (Skill.Language[i].Equals(language, StringComparison.OrdinalIgnoreCase) && Skill.Level[i] == level)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
     }
