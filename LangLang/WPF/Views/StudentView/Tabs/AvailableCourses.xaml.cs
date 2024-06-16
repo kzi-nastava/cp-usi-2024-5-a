@@ -20,7 +20,7 @@ namespace LangLang.WPF.Views.StudentView.Tabs
             this.parentWindow = parentWindow;
             
             SetDataForReview();
-            levelCoursecb.ItemsSource = Enum.GetValues(typeof(LanguageLevel));
+            levelCoursecb.ItemsSource = Enum.GetValues(typeof(Level));
             AdjustButton();
         }
 

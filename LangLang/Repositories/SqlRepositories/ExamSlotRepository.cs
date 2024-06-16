@@ -1,5 +1,6 @@
 ﻿using LangLang.Domain.Models;
 using LangLang.Domain.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -37,6 +38,11 @@ namespace LangLang.Repositories.SqlRepositories
 
         public void Update(ExamSlot exam)
         {
+            var existingExam = _context.ExamSlot.Find(exam.Id);
+            if (existingExam != null)
+            {
+                _context.Entry(existingExam).State = EntityState.Detached;
+            }
             _context.ExamSlot.Update(exam);
             _context.SaveChanges();
         }
