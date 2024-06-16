@@ -69,11 +69,12 @@ namespace LangLang.ConsoleApp.View.DirectorView
         private void WorkWithExamSlots()
         {
             Console.WriteLine("Working with exam slots...");
+            ExamsView examsView = new();
         }
         private void WorkWithTutors()
         {
             Console.WriteLine("Working with tutors...");
-            // Add logic to work with tutors
+            TutorsView tutorsView = new();
         }
         private void Logout()
         {
