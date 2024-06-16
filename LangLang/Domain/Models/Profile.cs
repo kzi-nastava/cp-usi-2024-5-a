@@ -1,5 +1,6 @@
 ﻿using System;
 using LangLang.Configuration;
+using LangLang.ConsoleApp.Attributes;
 using LangLang.Domain.Enums;
 
 namespace LangLang.Domain.Models
@@ -14,12 +15,32 @@ namespace LangLang.Domain.Models
     public class Profile
     {
         public int Id { get; set; }
+        [Show]
+        [AllowCreate]
+        [AllowUpdate]
         public string Name { get; set; }
+        [Show]
+        [AllowCreate]
+        [AllowUpdate]
         public string LastName { get; set; }
+        [Show]
+        [AllowCreate]
+        [AllowUpdate]
         public Gender Gender { get; set; }
+        [Show]
+        [AllowCreate]
+        [AllowUpdate]
         public DateTime BirthDate { get; set; }
+        [Show]
+        [AllowCreate]
+        [AllowUpdate]
         public string PhoneNumber { get; set; }
+        [Show]
+        [AllowCreate]
+        [AllowUpdate]
         public string Email { get; set; }
+        [AllowCreate]
+        [AllowUpdate]
         public string Password { get; set; }
         public UserType Role { get; set; }
         public bool IsActive { get; set; }

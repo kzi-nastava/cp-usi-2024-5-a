@@ -1,13 +1,23 @@
 ﻿using System;
+using System.ComponentModel;
+using LangLang.Configuration;
+using LangLang.ConsoleApp.Attributes;
 
 namespace LangLang.Domain.Models
 {
     public class TimeSlot
     {
         public int Id { get; set; }
+        // NOTE: Adapt as needed during implementation
+        [Show]
+        [DisplayName("Duration")]
+        [AllowCreate]
         public double Duration { get; set; }
+        [Show]
+        [DisplayName("Date and time")]
+        [AllowCreate]
         public DateTime Time { get; set; }
-
+        public TimeSlot() { }
         public TimeSlot(double duration, DateTime time)
         {   
             Duration = duration;

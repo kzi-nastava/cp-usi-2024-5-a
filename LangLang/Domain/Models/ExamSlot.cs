@@ -1,14 +1,32 @@
 ﻿using System;
+﻿using LangLang.Configuration;
+using LangLang.ConsoleApp.Attributes;
+using LangLang.Domain.Enums;
+using System;
+using System.ComponentModel;
 
 namespace LangLang.Domain.Models
 {
     public class ExamSlot
     {
         public int Id { get; set; }
+        [Show]
+        [AllowCreate]
         public int LanguageId { get; set; }
+        [Show]
+        [DisplayName("Tutor")]
         public int TutorId { get; set; }
+        [Show]
+        [AllowUpdate]
+        [DisplayName("Exam time")]
+        [AllowCreate]
         public int TimeSlotId { get; set; }
+        [Show]
+        [AllowUpdate]
+        [DisplayName("Max Students")]
+        [AllowCreate]
         public int MaxStudents { get; set; }
+        [Show]
         public int Applicants { get; set; }
         public bool Modifiable { get; set; }
         public bool ResultsGenerated { get; set; }
