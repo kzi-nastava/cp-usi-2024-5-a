@@ -1,13 +1,14 @@
-﻿using System;
+﻿using ConsoleApplication.ConsoleApp.View;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LangLang.ConsoleApp;
-using LangLang.ConsoleApp.View;
+using ConsoleApplication.ConsoleApp;
+using ConsoleApplication.ConsoleApp.View;
 
-namespace LangLang
+namespace ConsoleApplication
 {
     public class Program
     {

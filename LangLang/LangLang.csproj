@@ -5,7 +5,7 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <StartupObject>LangLang.Program</StartupObject>
+    <StartupObject>LangLang.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
