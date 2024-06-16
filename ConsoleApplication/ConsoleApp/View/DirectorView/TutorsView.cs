@@ -72,7 +72,7 @@ namespace ConsoleApplication.ConsoleApp.View.DirectorView
             var table = new GenericTable<Tutor>(tutors, true);
             Tutor selected = table.SelectRow();
             if (selected == null) return;
-            var tableSkills = new GenericTable<Skill>(selected.Skill, true);
+            var tableSkills = new GenericTable<LanguageLevel>(selected.Skill, true);
             tableSkills.DisplayTable();
         }
         public void AddTutor()
@@ -82,11 +82,11 @@ namespace ConsoleApplication.ConsoleApp.View.DirectorView
 
             if (!IsValid(tutor))
             {
-                Console.WriteLine("Tutor cannot be created because their birthdate is not in the past or the number of languages and respective levels do not match.");
+                Console.WriteLine("Tutor cannot be created because their birthdate is not in the past.");
                 return;
             }
             tutor.EmploymentDate = DateTime.Now;
-            tutor.Profile.Role = Domain.Enums.UserType.Tutor;
+            tutor.Profile.Role = LangLang.Domain.Enums.UserType.Tutor;
 
             TutorService service = new();
             service.Add(tutor);
@@ -96,7 +96,7 @@ namespace ConsoleApplication.ConsoleApp.View.DirectorView
         }
         private bool IsValid(Tutor tutor)
         {
-            if(tutor.Skill.Language.Count != tutor.Skill.Level.Count || tutor.Profile.BirthDate >= DateTime.Now)
+            if(tutor.Profile.BirthDate >= DateTime.Now)
             {
                 return false;
             }

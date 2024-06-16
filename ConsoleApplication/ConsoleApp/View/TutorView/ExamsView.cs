@@ -98,7 +98,8 @@ namespace ConsoleApplication.ConsoleApp.View.TutorView
         }
         private bool IsValid(ExamSlot exam)
         {
-            if (tutor.HasLanguageLevel(exam.Language, exam.Level)) return true;
+            LanguageLevelService languageLevelService = new();
+            if (tutor.HasLanguageLevel(languageLevelService.Get(exam.LanguageId))) return true;
             return false;
         }
         public void UpdateExam()

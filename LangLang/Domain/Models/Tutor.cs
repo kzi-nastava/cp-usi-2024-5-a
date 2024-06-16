@@ -16,7 +16,6 @@ namespace LangLang.Domain.Models
         [AllowCreate]
         [AllowUpdate]
         public Profile Profile { get; set; }
-        
         [Show]
         public DateTime EmploymentDate { get; set; }
 
