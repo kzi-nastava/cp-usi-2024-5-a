@@ -1,5 +1,6 @@
 ﻿
 using LangLang.BusinessLogic.UseCases;
+using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.LanguageLevelViewModels;
 using System;
@@ -81,10 +82,10 @@ namespace LangLang.WPF.ViewModels.TutorViewModels
             MessageBox.Show("Tutor is successfully deleted");
         }
       
-        public void Search(DateTime employmentDate)
+        public void Search(DateTime employmentDate, string? language, Level? level)
         {
             var tutorService = new TutorService();
-            TutorsForReview = tutorService.Search(employmentDate);
+            TutorsForReview = tutorService.Search(employmentDate, language, level);
             Update();
         }
 

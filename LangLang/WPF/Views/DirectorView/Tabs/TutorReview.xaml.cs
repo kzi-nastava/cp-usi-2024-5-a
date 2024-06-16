@@ -1,4 +1,5 @@
 ﻿using LangLang.Domain.Enums;
+using LangLang.Domain.Models;
 using LangLang.WPF.ViewModels.TutorViewModels;
 using LangLang.WPF.Views.DirectorView.AdditionalWindows;
 using System;
@@ -44,11 +45,17 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             DateTime employmentDate = datePickerEmployment.SelectedDate ?? default;
-            TutorReviewViewModel.Search(employmentDate);
+            string? language = languagetb.Text;
+            Level? level = null;
+            if (levelCB.SelectedValue != null)
+                level = (Level)levelCB.SelectedValue;
+            TutorReviewViewModel.Search(employmentDate, language, level);
         }
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
+            levelCB.SelectedItem = null;
+            TutorReviewViewModel.SetDataForReview();
             TutorReviewViewModel.Update();
         }
 

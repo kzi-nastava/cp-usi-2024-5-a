@@ -4,6 +4,7 @@ using LangLang.Domain.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using LangLang.Domain.Enums;
 
 namespace LangLang.BusinessLogic.UseCases
 {
@@ -53,12 +54,28 @@ namespace LangLang.BusinessLogic.UseCases
             return _tutors.GetActive();
         }
 
-        public List<Tutor> Search(DateTime date)
+        public List<Tutor> Search(DateTime date, string? language, Level? level)
         {
+            var tutorSkillService = new TutorSkillService();
             List<Tutor> allTutors = GetAll();
+
             return allTutors.Where(tutor =>
-            (date == default || tutor.EmploymentDate.Date == date.Date) &&
-             (tutor.Profile.IsActive == true)).ToList();
+            {
+                bool dateMatches = date == default || tutor.EmploymentDate.Date == date.Date;
+
+                bool isActive = tutor.Profile.IsActive == true;
+
+                bool languageAndLevelMatch = true;
+                if (!string.IsNullOrEmpty(language) || level.HasValue)
+                {
+                    List<LanguageLevel> tutorSkills = tutorSkillService.GetByTutor(tutor);
+                    languageAndLevelMatch = tutorSkills.Any(skill =>
+                        (string.IsNullOrEmpty(language) || skill.Language.Contains(language, StringComparison.OrdinalIgnoreCase)) &&
+                        (!level.HasValue || skill.Level.ToString().Contains(level.Value.ToString(), StringComparison.OrdinalIgnoreCase)));
+                }
+
+                return dateMatches && isActive && languageAndLevelMatch;
+            }).ToList();
         }
 
         public Tutor GetByEmail(string email)
