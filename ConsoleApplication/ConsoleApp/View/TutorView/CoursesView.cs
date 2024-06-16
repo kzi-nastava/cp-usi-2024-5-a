@@ -100,7 +100,8 @@ namespace ConsoleApplication.ConsoleApp.View.TutorView
             TutorService tutorService = new();
             Tutor tutor = tutorService.Get(course.TutorId);
             LanguageLevelService languageLevelService = new();
-            if (tutor.HasLanguageLevel(languageLevelService.Get(course.LanguageLevelId)) && DateTime.Now < course.StartDateTime) return true;
+            LanguageLevel ll = languageLevelService.Get(course.LanguageLevelId);
+            if (tutor.HasLanguageLevel(ll.Language, ll.Level) && DateTime.Now < course.StartDateTime) return true;
             return false;
         }
         public void UpdateCourse()
