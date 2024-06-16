@@ -154,7 +154,7 @@ namespace ConsoleApplication.ConsoleApp.View.TutorView
                 else
                 {
                     CourseService service = new();
-                    service.Delete(selected.Id);
+                    service.Delete(service.Get(selected.Id));
                     Console.Write("Course successfully deleted.");
                 }
             }
