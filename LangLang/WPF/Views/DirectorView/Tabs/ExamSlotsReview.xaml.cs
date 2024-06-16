@@ -5,9 +5,6 @@ using System.Windows.Controls;
 
 namespace LangLang.WPF.Views.DirectorView.Tabs
 {
-    /// <summary>
-    /// Interaction logic for ExamSlotsReview.xaml
-    /// </summary>
     public partial class ExamSlotsReview : UserControl
     {
         public ExamSlotsDirectorViewModel ExamsVM { get; set; }
@@ -27,9 +24,6 @@ namespace LangLang.WPF.Views.DirectorView.Tabs
         {
             ExamSlotCreateWindow createWindow = new(this);
             createWindow.Show();
-        }
-        private void ExamSlotsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
         }
     }
 }

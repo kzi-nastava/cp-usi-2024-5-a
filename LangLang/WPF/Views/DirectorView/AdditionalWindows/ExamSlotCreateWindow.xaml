@@ -26,14 +26,6 @@
 
         <!--label for courses table-->
         <Label x:Name="courseLbl" Content="Select course" HorizontalAlignment="Center" Height="24" Margin="0,10,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" HorizontalContentAlignment="Center">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="0"/>
-                </TransformGroup>
-            </Label.RenderTransform>
             <Label.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black" Offset="1"/>
@@ -43,26 +35,13 @@
             </Label.Background>
         </Label>
 
-        <!-- Content for the left column -->
-        <Border Grid.Column="0">
-            <!-- Your content here -->
-            <!-- Example: <TextBlock Text="Left Column Content" /> -->
-
-        </Border>
-
-        <!-- Content for the right column -->
         <Border Grid.Column="1">
-            <!-- Your content here -->
-            <!-- Paste the provided XAML code snippet here -->
 
             <Grid Margin="10,10,10,0" Height="440" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="91*"/>
                     <ColumnDefinition Width="36*"/>
                 </Grid.ColumnDefinitions>
-                <!-- Your provided XAML code snippet goes here -->
-                <!-- Make sure to adjust the margins, if necessary -->
-                <!--title registation-->
                 <TextBlock x:Name="schoolNametb" Height="34" Margin="70,10,0,0" TextWrapping="Wrap" Text="Create exam slot" VerticalAlignment="Top" Width="240" FontFamily="Gill Sans Ultra Bold" Padding="8,0,0,0" HorizontalAlignment="Left" Foreground="#FF302A2A" FontSize="18" RenderTransformOrigin="0.5,0.5" FlowDirection="RightToLeft" TextAlignment="Center" Grid.ColumnSpan="2">
                     <TextBlock.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" MappingMode="RelativeToBoundingBox" SpreadMethod="Repeat" Opacity="0.99">
@@ -128,7 +107,7 @@
                     </Label.Background>
                 </Label>
                 <TextBox x:Name="languageTb" HorizontalAlignment="Left" IsReadOnly="True" Height="24" Margin="35,152,0,0" TextWrapping="Wrap" 
- Text="{Binding ExamSlot.Language, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+ Text="{Binding Path=ExamSlot.Language, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
  VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3"
  BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.ColumnSpan="2" >
                     <TextBox.OpacityMask>
@@ -160,7 +139,7 @@
 
 
                 <TextBox x:Name="levelTb" HorizontalAlignment="Left" Height="24" IsReadOnly="True" Margin="35,217,0,0" TextWrapping="Wrap" 
- Text="{Binding ExamSlot.Level, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" 
+ Text="{Binding Path=ExamSlot.Level, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" 
  VerticalAlignment="Top" Width="310" VerticalContentAlignment="Center" Background="#FFFFF3F3" BorderBrush="#FF724879" FontFamily="Bahnschrift Light" SelectionTextBrush="#FFF3B0B0" SelectionBrush="#FFFFEBEB" Grid.ColumnSpan="2" >
                     <TextBox.OpacityMask>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -169,11 +148,6 @@
                         </LinearGradientBrush>
                     </TextBox.OpacityMask>
                 </TextBox>
-
-
-                <!--label and box for password-->
-
-
 
                 <!--label and datepicker for birth-->
                 <Label x:Name="examDateLbl" Content="Exam Date" HorizontalAlignment="Left" Height="26" Margin="35,257,0,0" VerticalAlignment="Top" Width="310" FontStyle="Italic" Foreground="Black" RenderTransformOrigin="0.5,0.5" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2">
@@ -231,7 +205,7 @@
         </Border>
         <DataGrid Grid.Column="0" Margin="15,45,15,50"  AutoGenerateColumns="False"
                   x:Name="CoursesDataGrid"
-                  ItemsSource="{Binding Skills, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding Courses, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding SelectedCourse, UpdateSourceTrigger=PropertyChanged}"
                   SelectionMode="Single" IsReadOnly="True" SelectionChanged="CoursesDataGrid_SelectionChanged">
             <DataGrid.Columns>

@@ -53,8 +53,7 @@ namespace LangLang.WPF.ViewModels.ExamViewModels
             ExamSlotService examSlotService = new();
             if (ExamSlot.IsValid)
             {
-                if (SelectedCourse == null) MessageBox.Show("Must select language and level.");
-                else if(ExamSlot.TutorId == -1)
+                if(ExamSlot.TutorId == -1)
                 {
                     if (loggedId == null)
                     {
