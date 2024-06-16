@@ -1,6 +1,6 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Configuration;
-using LangLang.ConsoleApp.GenericStructures;
+using ConsoleApplication.ConsoleApp.GenericStructures;
 using LangLang.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace LangLang.ConsoleApp.View.TutorView
+namespace ConsoleApplication.ConsoleApp.View.TutorView
 {
     public class ExamsView
     {

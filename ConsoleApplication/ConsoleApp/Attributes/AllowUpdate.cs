@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace LangLang.ConsoleApp.Attributes
+namespace ConsoleApplication.ConsoleApp.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class Show : Attribute
+    public class AllowUpdate : Attribute
     {
     }
 }

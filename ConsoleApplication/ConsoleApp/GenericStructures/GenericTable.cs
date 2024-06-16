@@ -1,12 +1,11 @@
-﻿using LangLang.ConsoleApp.Attributes;
+﻿using ConsoleApplication.ConsoleApp.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using System.Windows.Documents;
 
-namespace LangLang.ConsoleApp.GenericStructures
+namespace ConsoleApplication.ConsoleApp.GenericStructures
 {
     public class GenericTable<T>
     {

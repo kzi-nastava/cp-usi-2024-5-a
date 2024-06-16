@@ -1,5 +1,5 @@
 ﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.ConsoleApp.View.DirectorView;
+using ConsoleApplication.ConsoleApp.View.DirectorView;
 using LangLang.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LangLang.ConsoleApp.View.DirectorView
+namespace ConsoleApplication.ConsoleApp.View.DirectorView
 {
     public class DirectorConsole
     {

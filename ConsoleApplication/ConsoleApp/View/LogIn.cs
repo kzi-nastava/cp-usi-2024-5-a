@@ -1,10 +1,8 @@
 ﻿using LangLang.BusinessLogic.UseCases;
-using LangLang.ConsoleApp.View.DirectorView;
-using LangLang.ConsoleApp.View.TutorView;
+using ConsoleApplication.ConsoleApp.View.DirectorView;
+using ConsoleApplication.ConsoleApp.View.TutorView;
 using LangLang.Domain.Enums;
 using LangLang.Domain.Models;
-using LangLang.WPF.Views.DirectorView;
-using LangLang.WPF.Views.StudentView;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +10,7 @@ using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LangLang.ConsoleApp.View
+namespace ConsoleApplication.ConsoleApp.View
 {
     public class LogIn
     {
