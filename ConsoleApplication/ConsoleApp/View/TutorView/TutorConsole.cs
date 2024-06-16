@@ -24,7 +24,7 @@ namespace ConsoleApplication.ConsoleApp.View.TutorView
 
             while (loggedIn)
             {
-                Console.WriteLine("-----------------------------------------------------------------------");
+                LogIn.PrintSeparatorLine();
 
                 DisplayMenu();
                 string choice = Console.ReadLine();
@@ -45,8 +45,7 @@ namespace ConsoleApplication.ConsoleApp.View.TutorView
                         Console.WriteLine("Invalid choice. Please try again.");
                         break;
                 }
-                Console.WriteLine("-----------------------------------------------------------------------");
-
+                LogIn.PrintSeparatorLine();
             }
         }
 

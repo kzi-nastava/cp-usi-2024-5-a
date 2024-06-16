@@ -21,7 +21,6 @@ namespace ConsoleApplication.ConsoleApp.View.TutorView
             bool inExams = true;
             while (inExams)
             {
-                Console.WriteLine("-----------------------------------------------------------------------");
                 ReloadExams();
                 DisplayExams();
 
@@ -53,7 +52,6 @@ namespace ConsoleApplication.ConsoleApp.View.TutorView
                 }
 
                 Console.WriteLine();
-                Console.WriteLine("-----------------------------------------------------------------------");
 
             }
         }

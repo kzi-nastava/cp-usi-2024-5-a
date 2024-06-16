@@ -27,7 +27,6 @@ namespace ConsoleApplication.ConsoleApp.View.DirectorView
             bool inCourses = true;
             while (inCourses)
             {
-                Console.WriteLine("-----------------------------------------------------------------------");
                 ReloadCourses();
                 DisplayCourses();
 
@@ -55,7 +54,6 @@ namespace ConsoleApplication.ConsoleApp.View.DirectorView
                 }
 
                 Console.WriteLine();
-                Console.WriteLine("-----------------------------------------------------------------------");
 
             }
         }

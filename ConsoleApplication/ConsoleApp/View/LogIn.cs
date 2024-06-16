@@ -19,7 +19,7 @@ namespace ConsoleApplication.ConsoleApp.View
                 Console.Clear();
 
                 Console.WriteLine("Login Form");
-                Console.WriteLine("----------");
+                PrintSeparatorLine();
 
                 Console.Write("Username: ");
                 string username = Console.ReadLine();
@@ -41,6 +41,12 @@ namespace ConsoleApplication.ConsoleApp.View
                     Console.ReadKey();
                 }
             }
+        }
+        public static void PrintSeparatorLine()
+        {
+            int width = Console.WindowWidth;
+            string separator = new string('-', 210);
+            Console.WriteLine(separator);
         }
         private static string ReadPassword()
         {

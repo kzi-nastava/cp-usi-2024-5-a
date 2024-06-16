@@ -18,7 +18,6 @@ namespace ConsoleApplication.ConsoleApp.View.DirectorView
             bool inExams = true;
             while (inExams)
             {
-                Console.WriteLine("-----------------------------------------------------------------------");
                 ReloadTutors();
                 DisplayTutors();
 
@@ -54,7 +53,6 @@ namespace ConsoleApplication.ConsoleApp.View.DirectorView
                 }
 
                 Console.WriteLine();
-                Console.WriteLine("-----------------------------------------------------------------------");
 
             }
         }

@@ -1,4 +1,5 @@
-﻿using LangLang.Domain.Attributes;
+﻿using ConsoleApplication.ConsoleApp.View;
+using LangLang.Domain.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -46,7 +47,11 @@ namespace ConsoleApplication.ConsoleApp.GenericStructures
 
         public void DisplayHeaders()
         {
-            if (isRoot) Console.Write($"{"Row",-5} | ");
+            if (isRoot)
+            {
+                LogIn.PrintSeparatorLine();
+                ; Console.Write($"{"Row",-5} | ");
+            }
             foreach (var property in properties)
             {
                 if (Attribute.IsDefined(property, typeof(Show)))
@@ -71,7 +76,10 @@ namespace ConsoleApplication.ConsoleApp.GenericStructures
                     }
                 }
             }
-            if (isRoot) Console.WriteLine();
+            if (isRoot) {
+                LogIn.PrintSeparatorLine();
+                Console.WriteLine();
+            }
         }
 
         private void DisplayNestedHeaders(PropertyInfo property)
@@ -124,7 +132,8 @@ namespace ConsoleApplication.ConsoleApp.GenericStructures
                         }
                     }
                 }
-                if (isRoot) Console.WriteLine();
+                if (isRoot) LogIn.PrintSeparatorLine();
+                
             }
         }
 
