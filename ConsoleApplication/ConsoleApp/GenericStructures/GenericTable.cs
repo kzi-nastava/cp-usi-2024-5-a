@@ -1,5 +1,8 @@
 ﻿using ConsoleApplication.ConsoleApp.View;
+using LangLang.BusinessLogic.UseCases;
+using LangLang.Configuration;
 using LangLang.Domain.Attributes;
+using LangLang.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -101,8 +104,13 @@ namespace ConsoleApplication.ConsoleApp.GenericStructures
                     if (Attribute.IsDefined(property, typeof(Show)))
                     {
                         var value = property.GetValue(entity);
-
-                        if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
+                        var referenceAttribute = property.GetCustomAttribute<ReferenceAttribute>();
+                        if (referenceAttribute != null)
+                        {
+                            DisplayReference(entity, property, referenceAttribute.ReferencedType);
+                            Console.WriteLine($"{property.Name} is a reference to {referenceAttribute.ReferencedType.Name}");
+                        }
+                        else if (property.PropertyType.IsGenericType && property.PropertyType.GetGenericTypeDefinition() == typeof(List<>))
                         {
                             var listType = value.GetType().GetGenericArguments()[0];
                             if (listType.IsEnum || listType == typeof(string))
@@ -195,7 +203,22 @@ namespace ConsoleApplication.ConsoleApp.GenericStructures
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
         }
+        public void DisplayReference(object entity, PropertyInfo property, Type type)
+        {
+            if (type == typeof(Tutor))
+            {
+                TutorService service = new TutorService();
+                int tutorId = (int)property.GetValue(entity); // Get the value of the property
+                if(tutorId == Constants.DELETED_TUTOR_ID)
+                {
+                    Console.Write($"{"nema",-25} | ");
+                    return;
 
+                }
+                Tutor tutor = service.Get(tutorId);
+                Console.Write($"{tutor.Profile.Name,-25} | ");
+            }
+        }
         public T SelectRow()
         {
             Console.WriteLine("Select row (index starting from 1):");

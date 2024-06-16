@@ -18,6 +18,7 @@ namespace LangLang.Domain.Models
         public LanguageLevel Level { get; set; }
         [Show]
         [DisplayName("Tutor")]
+        [Reference(typeof(Tutor))]
         public int TutorId { get; set; }
         [Show]
         [AllowUpdate]

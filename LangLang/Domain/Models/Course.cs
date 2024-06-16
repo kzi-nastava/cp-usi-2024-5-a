@@ -13,6 +13,8 @@ namespace LangLang.Domain.Models
         // Properties
         public int Id { get; set; }
         [Show]
+        [DisplayName("Tutor")]
+        [Reference(typeof(Tutor))]
         public int TutorId { get; set; }
         [Show]
         [AllowCreate]
