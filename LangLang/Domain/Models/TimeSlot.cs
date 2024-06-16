@@ -11,10 +11,12 @@ namespace LangLang.Domain.Models
         [Show]
         [DisplayName("Duration")]
         [AllowCreate]
+        [AllowUpdate]
         public double Duration { get; set; }
         [Show]
         [DisplayName("Date and time")]
         [AllowCreate]
+        [AllowUpdate]
         public DateTime Time { get; set; }
         public TimeSlot() { }
         public TimeSlot(double duration, DateTime time)
