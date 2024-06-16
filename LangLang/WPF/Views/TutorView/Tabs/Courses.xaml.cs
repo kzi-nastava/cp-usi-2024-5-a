@@ -21,7 +21,13 @@ namespace LangLang.WPF.Views.TutorView.Tabs
             CoursesViewModel = new(loggedIn);
             DataContext = CoursesViewModel;
             DisableButtons();
-            CoursesViewModel.Update();
+            
+            Update();
+        }
+
+        public void Update()
+        {
+            CoursesViewModel.SetDataForReview();
         }
 
         private void CoursesTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -84,7 +90,7 @@ namespace LangLang.WPF.Views.TutorView.Tabs
             {
                 CourseService courseService = new();
                 courseService.Delete(CoursesViewModel.SelectedCourse.Id);
-                CoursesViewModel.Update();
+                Update();
                 MessageBox.Show("The course has been successfully deleted.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
@@ -131,9 +137,24 @@ namespace LangLang.WPF.Views.TutorView.Tabs
                 MessageBox.Show("The enrollments for this course have already been confirmed. No further changes are allowed.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
-        public void Update()
+        private void FirstPageButton_Click(object sender, RoutedEventArgs e)
         {
-            CoursesViewModel.Update();
+            CoursesViewModel.GoToFirstPage();
+        }
+
+        private void PreviousPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            CoursesViewModel.GoToPreviousPage();
+        }
+
+        private void NextPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            CoursesViewModel.GoToNextPage();
+        }
+
+        private void LastPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            CoursesViewModel.GoToLastPage();
         }
     }
 }
