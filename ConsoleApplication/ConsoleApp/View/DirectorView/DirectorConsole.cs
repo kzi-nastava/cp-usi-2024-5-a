@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace ConsoleApplication.ConsoleApp.View.DirectorView
 {
-    public class DirectorConsole
+    public class DirectorConsole : IConsoleView
     {
         Director director { get; set; }
 
-        public DirectorConsole(Profile directorProfile)
+        public void DisplayOutput(Profile user)
         {
             DirectorService directorService = new();
-            director = directorService.Get(directorProfile.Id);
+            director = directorService.Get(user.Id);
             Run();
         }
         public void Run()

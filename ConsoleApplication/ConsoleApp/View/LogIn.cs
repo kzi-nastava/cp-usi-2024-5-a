@@ -32,7 +32,8 @@ namespace ConsoleApplication.ConsoleApp.View
                 {
                     Console.WriteLine("\nLogin successful!");
                     isAuthenticated = true;
-                    OpenAppropriateConsole(profile);
+                    IConsoleView console = ConsoleViewFactory.GetConsoleView(profile);
+                    console.DisplayOutput(profile);
                 }
                 else
                 {
@@ -83,17 +84,6 @@ namespace ConsoleApplication.ConsoleApp.View
             catch (AuthenticationException ex)
             {
                 return null;
-            }
-        }
-        private void OpenAppropriateConsole(Profile profile)
-        {
-            if (profile.Role == UserType.Tutor)
-            {
-                TutorConsole tutorConsole = new(profile);
-            }
-            else if (profile.Role == UserType.Director)
-            {
-                DirectorConsole directorConsole = new(profile);
             }
         }
     }

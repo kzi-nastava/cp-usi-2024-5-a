@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace ConsoleApplication.ConsoleApp.View.TutorView
 {
-    public class TutorConsole
+    public class TutorConsole : IConsoleView
     {
         public Tutor tutor { get; set; }
 
-        public TutorConsole(Profile tutorProfile)
+        public void DisplayOutput(Profile user)
         {
             TutorService tutorService = new();
-            tutor = tutorService.Get(tutorProfile.Id);
+            tutor = tutorService.Get(user.Id);
             Run();
         }
         public void Run()
