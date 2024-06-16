@@ -132,7 +132,7 @@ namespace ConsoleApplication.ConsoleApp.GenericStructures
                         }
                     }
                 }
-                if (isRoot) LogIn.PrintSeparatorLine();
+                if (isRoot) Console.WriteLine();
                 
             }
         }

@@ -1,6 +1,5 @@
 ﻿using LangLang.BusinessLogic.UseCases;
 using LangLang.Domain.Models;
-using LangLang.WPF.ViewModels.ExamViewModel;
 using LangLang.WPF.Views.TutorView.Tabs;
 using System;
 using System.Collections.Generic;
