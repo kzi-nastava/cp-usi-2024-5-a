@@ -63,6 +63,13 @@ namespace LangLang.ConsoleApp.View.DirectorView
         {
             Console.WriteLine("Creating new exam...");
             ExamSlot exam = GenericForm.CreateEntity<ExamSlot>();
+            
+            if (!exam.TimeSlot.IsInFuture())
+            {
+                Console.WriteLine("Exam cannot be created because the date is not in the future.");
+                return;
+            }
+
             exam.CreatedAt = DateTime.Now;
             exam.TutorId = SmartSystem.GetTutorForExam(exam);
             exam.Modifiable = true;
