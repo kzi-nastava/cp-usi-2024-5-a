@@ -74,7 +74,7 @@ namespace ConsoleApplication.ConsoleApp.View.DirectorView
             Tutor selected = table.SelectRow();
             if (selected == null) return;
             //var tableSkills = new GenericTable<LanguageLevel>(selected.Skill, true);
-            tableSkills.DisplayTable();
+            //tableSkills.DisplayTable();
         }
         public void AddTutor()
         {
